@@ -12,6 +12,7 @@
 		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
 		763C0A302C7B125C006BC4E7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2F2C7B125C006BC4E7 /* Base */; };
 		763C0A382C7B17AE006BC4E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A372C7B17AE006BC4E7 /* README.md */; };
+		763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A392C7B180A006BC4E7 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		763C0A2F2C7B125C006BC4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		763C0A312C7B125C006BC4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		763C0A372C7B17AE006BC4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		763C0A392C7B180A006BC4E7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			isa = PBXGroup;
 			children = (
 				763C0A372C7B17AE006BC4E7 /* README.md */,
+				763C0A392C7B180A006BC4E7 /* .gitignore */,
 				763C0A222C7B125B006BC4E7 /* Duriso */,
 				763C0A212C7B125B006BC4E7 /* Products */,
 			);
@@ -122,6 +125,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
