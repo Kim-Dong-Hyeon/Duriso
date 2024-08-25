@@ -295,6 +295,7 @@
 				DEVELOPMENT_TEAM = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -324,6 +325,7 @@
 				DEVELOPMENT_TEAM = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
