@@ -4,5 +4,12 @@
 <dict>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSansKR-Regular.ttf</string>
+		<string>NotoSansKR-Bold.ttf</string>
+		<string>NotoSansKR-Light.ttf</string>
+		<string>HSSaemaul.ttf</string>
+	</array>
 </dict>
 </plist>

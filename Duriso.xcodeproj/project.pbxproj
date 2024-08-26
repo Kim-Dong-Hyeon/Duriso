@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
-		7622D0382C7C158500B1AEB2 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
 		7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */; };
 		7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03E2C7C178400B1AEB2 /* FirebaseStorage */; };
-		7622D0412C7C199C00B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */; };
 		7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */; };
 		7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */; };
 		7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */; };
@@ -42,13 +40,18 @@
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
 		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
+		D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D61B611A2C7C259200C5E69D /* Secrets.xcconfig */; };
+		D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */; };
+		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
+		D61B61232C7C399900C5E69D /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */; };
+		D61B61252C7C39A800C5E69D /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */; };
+		D61B61272C7C39B300C5E69D /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */; };
+		D61B61292C7C39CB00C5E69D /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
-		7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
-		7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewController.swift; sourceTree = "<group>"; };
 		7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +76,13 @@
 		763C0A312C7B125C006BC4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		763C0A372C7B17AE006BC4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		763C0A392C7B180A006BC4E7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D61B611A2C7C259200C5E69D /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = ../Downloads/Secrets.xcconfig; sourceTree = "<group>"; };
+		D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
+		D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
+		D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
+		D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
+		D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = ../../../../Downloads/HSSaemaul.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */,
+				D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 		7622D0692C7C211800B1AEB2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				D61B61212C7C396900C5E69D /* FontAssets */,
 				763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */,
 			);
 			path = Assets;
@@ -279,7 +291,7 @@
 		763C0A172C7B125B006BC4E7 = {
 			isa = PBXGroup;
 			children = (
-				7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */,
+				D61B611A2C7C259200C5E69D /* Secrets.xcconfig */,
 				763C0A372C7B17AE006BC4E7 /* README.md */,
 				763C0A392C7B180A006BC4E7 /* .gitignore */,
 				7622D0332C7C045300B1AEB2 /* CodeConvention.md */,
@@ -287,7 +299,9 @@
 				763C0A222C7B125B006BC4E7 /* Duriso */,
 				763C0A212C7B125B006BC4E7 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 			usesTabs = 0;
 		};
 		763C0A212C7B125B006BC4E7 /* Products */ = {
@@ -309,9 +323,20 @@
 				7622D0692C7C211800B1AEB2 /* Assets */,
 				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A312C7B125C006BC4E7 /* Info.plist */,
-				7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */,
+				D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */,
 			);
 			path = Duriso;
+			sourceTree = "<group>";
+		};
+		D61B61212C7C396900C5E69D /* FontAssets */ = {
+			isa = PBXGroup;
+			children = (
+				D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */,
+				D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */,
+				D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */,
+				D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */,
+			);
+			path = FontAssets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -391,11 +416,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7622D0382C7C158500B1AEB2 /* Secrets.xcconfig in Resources */,
-				7622D0412C7C199C00B1AEB2 /* GoogleService-Info.plist in Resources */,
+				D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */,
+				D61B61272C7C39B300C5E69D /* NotoSansKR-Light.ttf in Resources */,
+				D61B61252C7C39A800C5E69D /* NotoSansKR-Regular.ttf in Resources */,
+				D61B61232C7C399900C5E69D /* NotoSansKR-Bold.ttf in Resources */,
+				D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
+				D61B61292C7C39CB00C5E69D /* HSSaemaul.ttf in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
@@ -422,6 +451,7 @@
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
 				7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */,
+				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
