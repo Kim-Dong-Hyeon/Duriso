@@ -14,8 +14,24 @@
 		7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */; };
 		7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03E2C7C178400B1AEB2 /* FirebaseStorage */; };
 		7622D0412C7C199C00B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */; };
+		7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */; };
+		7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */; };
+		7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */; };
+		7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */; };
+		7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */; };
+		7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */; };
+		7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */; };
+		7622D05C2C7C1F9500B1AEB2 /* GuidelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D05B2C7C1F9500B1AEB2 /* GuidelineViewModel.swift */; };
+		7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */; };
+		7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */; };
+		7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */; };
+		7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */; };
+		7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0712C7C21A900B1AEB2 /* OnlineMapModel.swift */; };
+		7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */; };
+		7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0752C7C21C700B1AEB2 /* BoardModel.swift */; };
+		7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */; };
+		7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */; };
 		763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
-		763C0A282C7B125B006BC4E7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A272C7B125B006BC4E7 /* ViewController.swift */; };
 		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
 		763C0A302C7B125C006BC4E7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2F2C7B125C006BC4E7 /* Base */; };
 		763C0A382C7B17AE006BC4E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A372C7B17AE006BC4E7 /* README.md */; };
@@ -33,9 +49,25 @@
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewController.swift; sourceTree = "<group>"; };
+		7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewController.swift; sourceTree = "<group>"; };
+		7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewModel.swift; sourceTree = "<group>"; };
+		7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
+		7622D05B2C7C1F9500B1AEB2 /* GuidelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewModel.swift; sourceTree = "<group>"; };
+		7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapViewController.swift; sourceTree = "<group>"; };
+		7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapViewModel.swift; sourceTree = "<group>"; };
+		7622D0712C7C21A900B1AEB2 /* OnlineMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapModel.swift; sourceTree = "<group>"; };
+		7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapModel.swift; sourceTree = "<group>"; };
+		7622D0752C7C21C700B1AEB2 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
+		7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineModel.swift; sourceTree = "<group>"; };
+		7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
 		763C0A202C7B125B006BC4E7 /* Duriso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duriso.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763C0A232C7B125B006BC4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		763C0A272C7B125B006BC4E7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		763C0A2F2C7B125C006BC4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		763C0A312C7B125C006BC4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +95,187 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7622D0422C7C1C6000B1AEB2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0632C7C203C00B1AEB2 /* OnlineMap */,
+				7622D0672C7C20E400B1AEB2 /* OfflineMap */,
+				7622D0622C7C203600B1AEB2 /* Board */,
+				7622D0612C7C203000B1AEB2 /* Guideline */,
+				7622D0602C7C202800B1AEB2 /* MyPage */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7622D0432C7C1C7600B1AEB2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */,
+				7622D0472C7C1D7A00B1AEB2 /* OnlineMap */,
+				7622D0642C7C20A300B1AEB2 /* OfflineMap */,
+				7622D0482C7C1D8C00B1AEB2 /* Board */,
+				7622D04C2C7C1E6900B1AEB2 /* Guideline */,
+				7622D0492C7C1D9F00B1AEB2 /* MyPage */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7622D0442C7C1C7B00B1AEB2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0532C7C1F5900B1AEB2 /* OnlineMap */,
+				7622D06E2C7C217B00B1AEB2 /* OfflineMap */,
+				7622D0542C7C1F5E00B1AEB2 /* Board */,
+				7622D0552C7C1F6300B1AEB2 /* Guideline */,
+				7622D0562C7C1F6900B1AEB2 /* MyPage */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7622D0472C7C1D7A00B1AEB2 /* OnlineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */,
+			);
+			path = OnlineMap;
+			sourceTree = "<group>";
+		};
+		7622D0482C7C1D8C00B1AEB2 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		7622D0492C7C1D9F00B1AEB2 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		7622D04C2C7C1E6900B1AEB2 /* Guideline */ = {
+			isa = PBXGroup;
+			children = (
+				7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */,
+			);
+			path = Guideline;
+			sourceTree = "<group>";
+		};
+		7622D0532C7C1F5900B1AEB2 /* OnlineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */,
+			);
+			path = OnlineMap;
+			sourceTree = "<group>";
+		};
+		7622D0542C7C1F5E00B1AEB2 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		7622D0552C7C1F6300B1AEB2 /* Guideline */ = {
+			isa = PBXGroup;
+			children = (
+				7622D05B2C7C1F9500B1AEB2 /* GuidelineViewModel.swift */,
+			);
+			path = Guideline;
+			sourceTree = "<group>";
+		};
+		7622D0562C7C1F6900B1AEB2 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		7622D05F2C7C1FA800B1AEB2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				763C0A232C7B125B006BC4E7 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7622D0602C7C202800B1AEB2 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		7622D0612C7C203000B1AEB2 /* Guideline */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */,
+			);
+			path = Guideline;
+			sourceTree = "<group>";
+		};
+		7622D0622C7C203600B1AEB2 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0752C7C21C700B1AEB2 /* BoardModel.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		7622D0632C7C203C00B1AEB2 /* OnlineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0712C7C21A900B1AEB2 /* OnlineMapModel.swift */,
+			);
+			path = OnlineMap;
+			sourceTree = "<group>";
+		};
+		7622D0642C7C20A300B1AEB2 /* OfflineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */,
+			);
+			path = OfflineMap;
+			sourceTree = "<group>";
+		};
+		7622D0672C7C20E400B1AEB2 /* OfflineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */,
+			);
+			path = OfflineMap;
+			sourceTree = "<group>";
+		};
+		7622D0682C7C20F100B1AEB2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7622D0692C7C211800B1AEB2 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		7622D06E2C7C217B00B1AEB2 /* OfflineMap */ = {
+			isa = PBXGroup;
+			children = (
+				7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */,
+			);
+			path = OfflineMap;
+			sourceTree = "<group>";
+		};
 		763C0A172C7B125B006BC4E7 = {
 			isa = PBXGroup;
 			children = (
@@ -88,9 +301,12 @@
 		763C0A222C7B125B006BC4E7 /* Duriso */ = {
 			isa = PBXGroup;
 			children = (
-				763C0A232C7B125B006BC4E7 /* AppDelegate.swift */,
-				763C0A272C7B125B006BC4E7 /* ViewController.swift */,
-				763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */,
+				7622D05F2C7C1FA800B1AEB2 /* App */,
+				7622D0422C7C1C6000B1AEB2 /* Model */,
+				7622D0432C7C1C7600B1AEB2 /* View */,
+				7622D0442C7C1C7B00B1AEB2 /* ViewModel */,
+				7622D0682C7C20F100B1AEB2 /* Extensions */,
+				7622D0692C7C211800B1AEB2 /* Assets */,
 				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A312C7B125C006BC4E7 /* Info.plist */,
 				7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */,
@@ -193,8 +409,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				763C0A282C7B125B006BC4E7 /* ViewController.swift in Sources */,
+				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
+				7622D05C2C7C1F9500B1AEB2 /* GuidelineViewModel.swift in Sources */,
+				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
 				763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */,
+				7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */,
+				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
+				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
+				7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */,
+				7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */,
+				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
+				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
+				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
+				7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */,
+				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
+				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
+				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
+				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
+				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
