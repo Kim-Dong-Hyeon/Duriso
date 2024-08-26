@@ -10,6 +10,10 @@
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D0382C7C158500B1AEB2 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */; };
+		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
+		7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */; };
+		7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03E2C7C178400B1AEB2 /* FirebaseStorage */; };
+		7622D0412C7C199C00B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */; };
 		763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
 		763C0A282C7B125B006BC4E7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A272C7B125B006BC4E7 /* ViewController.swift */; };
 		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
@@ -28,6 +32,7 @@
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0372C7C158500B1AEB2 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		763C0A202C7B125B006BC4E7 /* Duriso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duriso.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763C0A232C7B125B006BC4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		763C0A272C7B125B006BC4E7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,9 +50,12 @@
 			files = (
 				763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */,
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
+				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */,
+				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
+				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +93,7 @@
 				763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */,
 				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A312C7B125C006BC4E7 /* Info.plist */,
+				7622D0402C7C199C00B1AEB2 /* GoogleService-Info.plist */,
 			);
 			path = Duriso;
 			sourceTree = "<group>";
@@ -112,6 +121,9 @@
 				763C0A442C7B1AFB006BC4E7 /* Alamofire */,
 				763C0A472C7B1B30006BC4E7 /* Kingfisher */,
 				763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */,
+				7622D03A2C7C178400B1AEB2 /* FirebaseAuth */,
+				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
+				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -147,6 +159,7 @@
 				763C0A432C7B1AFB006BC4E7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
+				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -163,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7622D0382C7C158500B1AEB2 /* Secrets.xcconfig in Resources */,
+				7622D0412C7C199C00B1AEB2 /* GoogleService-Info.plist in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
@@ -401,6 +415,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.1.0;
+			};
+		};
 		763C0A3B2C7B1A2F006BC4E7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -444,6 +466,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7622D03A2C7C178400B1AEB2 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		7622D03E2C7C178400B1AEB2 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		763C0A3C2C7B1A2F006BC4E7 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 763C0A3B2C7B1A2F006BC4E7 /* XCRemoteSwiftPackageReference "SnapKit" */;
