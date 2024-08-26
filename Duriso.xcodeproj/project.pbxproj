@@ -43,10 +43,6 @@
 		D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D61B611A2C7C259200C5E69D /* Secrets.xcconfig */; };
 		D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
-		D61B61232C7C399900C5E69D /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */; };
-		D61B61252C7C39A800C5E69D /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */; };
-		D61B61272C7C39B300C5E69D /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */; };
-		D61B61292C7C39CB00C5E69D /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,10 +75,10 @@
 		D61B611A2C7C259200C5E69D /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = ../Downloads/Secrets.xcconfig; sourceTree = "<group>"; };
 		D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
-		D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
-		D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
-		D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "../../../../Downloads/Noto_Sans_KR/static/NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
-		D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = ../../../../Downloads/HSSaemaul.ttf; sourceTree = "<group>"; };
+		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
+		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
+		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.ttf"; sourceTree = "<group>"; };
+		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HSSaemaul.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,10 +327,10 @@
 		D61B61212C7C396900C5E69D /* FontAssets */ = {
 			isa = PBXGroup;
 			children = (
-				D61B61282C7C39CB00C5E69D /* HSSaemaul.ttf */,
-				D61B61262C7C39B200C5E69D /* NotoSansKR-Light.ttf */,
-				D61B61242C7C39A800C5E69D /* NotoSansKR-Regular.ttf */,
-				D61B61222C7C399900C5E69D /* NotoSansKR-Bold.ttf */,
+				D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */,
+				D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */,
+				D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */,
+				D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */,
 			);
 			path = FontAssets;
 			sourceTree = "<group>";
@@ -417,14 +413,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */,
-				D61B61272C7C39B300C5E69D /* NotoSansKR-Light.ttf in Resources */,
-				D61B61252C7C39A800C5E69D /* NotoSansKR-Regular.ttf in Resources */,
-				D61B61232C7C399900C5E69D /* NotoSansKR-Bold.ttf in Resources */,
 				D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
-				D61B61292C7C39CB00C5E69D /* HSSaemaul.ttf in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
