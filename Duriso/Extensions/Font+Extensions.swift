@@ -18,24 +18,24 @@ struct Font {
 }
 
 struct CustomFont {
-  static let Display: Font = Font(name: "ChangwonDangamAsac", size: 28.0)
+  static let Display: Font = Font(name: "NotoSansKR-Bold", size: 28.0)
   
-  static let Head: Font = Font(name: "ChangwonDangamAsac", size: 24.0)
-  static let Head2: Font = Font(name: "ChangwonDangamAsac", size: 20.0)
-  static let Head3: Font = Font(name: "ChangwonDangamAsac", size: 16.0)
-  static let Head4: Font = Font(name: "ChangwonDangamAsac", size: 12.0)
+  static let Head: Font = Font(name: "NotoSansKR-Bold", size: 24.0)
+  static let Head2: Font = Font(name: "NotoSansKR-Bold", size: 20.0)
+  static let Head3: Font = Font(name: "NotoSansKR-Bold", size: 16.0)
+  static let Head4: Font = Font(name: "NotoSansKR-Bold", size: 12.0)
   
-  static let Body: Font = Font(name: "Peoplefirst Neat&Loud TTF", size: 20.0)
-  static let Body2: Font = Font(name: "Peoplefirst Neat&Loud TTF", size: 16.0)
-  static let Body3: Font = Font(name: "Peoplefirst Neat&Loud TTF", size: 12.0)
+  static let Body: Font = Font(name: "NotoSansKR-Regular", size: 20.0)
+  static let Body2: Font = Font(name: "NotoSansKR-Regular", size: 16.0)
+  static let Body3: Font = Font(name: "NotoSansKR-Regular", size: 12.0)
   
-  static let sub: Font = Font(name: "LINESeedSansKR-Bold", size: 16.0)
-  static let sub2: Font = Font(name: "LINESeedSansKR-Bold", size: 12.0)
+  static let sub: Font = Font(name: "NotoSansKR-Light", size: 16.0)
+  static let sub2: Font = Font(name: "NotoSansKR-Light", size: 12.0)
   
-  static let Deco: Font = Font(name: "HSSaemaul", size: 28.0)
-  static let Deco2: Font = Font(name: "HSSaemaul", size: 24.0)
-  static let Deco3: Font = Font(name: "HSSaemaul", size: 20.0)
-  static let Deco4: Font = Font(name: "HSSaemaul", size: 16.0)
+  static let Deco: Font = Font(name: "HSSaemaul", size: 32.0)
+  static let Deco2: Font = Font(name: "HSSaemaul", size: 28.0)
+  static let Deco3: Font = Font(name: "HSSaemaul", size: 24.0)
+  static let Deco4: Font = Font(name: "HSSaemaul", size: 20.0)
   
   static func allFonts() -> [(font: UIFont?, name: String, size: CGFloat)] {
     return [
