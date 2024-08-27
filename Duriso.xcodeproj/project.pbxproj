@@ -38,6 +38,12 @@
 		7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0752C7C21C700B1AEB2 /* BoardModel.swift */; };
 		7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */; };
 		7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */; };
+		7622D07E2C7C5CCE00B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D07D2C7C5CCE00B1AEB2 /* GoogleService-Info.plist */; };
+		7622D0802C7C5CD800B1AEB2 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */; };
+		7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
+		7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */; };
+		7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
+		7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
 		763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
 		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
 		763C0A302C7B125C006BC4E7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2F2C7B125C006BC4E7 /* Base */; };
@@ -81,6 +87,8 @@
 		7622D0752C7C21C700B1AEB2 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
 		7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineModel.swift; sourceTree = "<group>"; };
 		7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
+		7622D07D2C7C5CCE00B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Duriso/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = Duriso/Secrets.xcconfig; sourceTree = SOURCE_ROOT; };
 		763C0A202C7B125B006BC4E7 /* Duriso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duriso.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763C0A232C7B125B006BC4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -304,7 +312,6 @@
 		763C0A172C7B125B006BC4E7 = {
 			isa = PBXGroup;
 			children = (
-				14960A202C7C5B6B00E706C9 /* Secrets.xcconfig */,
 				763C0A372C7B17AE006BC4E7 /* README.md */,
 				763C0A392C7B180A006BC4E7 /* .gitignore */,
 				7622D0332C7C045300B1AEB2 /* CodeConvention.md */,
@@ -336,7 +343,8 @@
 				7622D0692C7C211800B1AEB2 /* Assets */,
 				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A312C7B125C006BC4E7 /* Info.plist */,
-				14960A222C7C5B7300E706C9 /* GoogleService-Info.plist */,
+				7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */,
+				7622D07D2C7C5CCE00B1AEB2 /* GoogleService-Info.plist */,
 			);
 			path = Duriso;
 			sourceTree = "<group>";
@@ -429,12 +437,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D61FFE962C7C6C55007C1819 /* HSSaemaul.ttf in Resources */,
-				D61FFE972C7C6C55007C1819 /* NotoSansKR-Bold.ttf in Resources */,
-				D61FFE982C7C6C55007C1819 /* NotoSansKR-Light.ttf in Resources */,
-				D61FFE992C7C6C55007C1819 /* NotoSansKR-Regular.ttf in Resources */,
-				D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */,
-				D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */,
+				7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */,
+				7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */,
+				7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */,
+				7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */,
+				7622D0802C7C5CD800B1AEB2 /* Secrets.xcconfig in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
@@ -611,6 +618,7 @@
 		};
 		763C0A352C7B125C006BC4E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -641,6 +649,7 @@
 		};
 		763C0A362C7B125C006BC4E7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
