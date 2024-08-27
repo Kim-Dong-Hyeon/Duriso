@@ -5,7 +5,7 @@
 //  Created by 이주희 on 8/26/24.
 //
 
-import KakaoMapsSDK
+
 import UIKit
 import SnapKit
 import RxSwift
@@ -27,6 +27,7 @@ class OnlineMapViewController: UIViewController {
     view.layer.shadowOffset = CGSize(width: 0, height: 4)
     view.layer.shadowOpacity = 0.15
     view.layer.shadowColor = UIColor.CBlack.cgColor
+    view.layer.shadowRadius = 8
     view.layer.masksToBounds = false
     return view
   }()
@@ -34,14 +35,14 @@ class OnlineMapViewController: UIViewController {
   private let addressLabel: UILabel = {
     let label = UILabel()
     label.text = "00시 00구 00동"
-    label.font = CustomFont.Body2.font()
+    label.font = CustomFont.Head3.font()
     return label
   }()
   
   private let buttonStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.alignment = .center
-    stackView.distribution = .fill
+    stackView.distribution = .fillProportionally
     stackView.axis = .horizontal
     stackView.spacing = 8
     return stackView
@@ -62,16 +63,14 @@ class OnlineMapViewController: UIViewController {
     title: "대피소",
     symbolName: "figure.run",
     baseColor: .CLightBlue,
-    selectedColor: .CGreen,
-    initiallySelected: false
+    selectedColor: .CGreen
   )
   
   private lazy var defibrillatorButton: UIButton = createButton(
     title: "제세동기",
     symbolName: "bolt.heart.fill",
     baseColor: .CLightBlue,
-    selectedColor: .CRed,
-    initiallySelected: false
+    selectedColor: .CRed
   )
   
   //  private lazy var gasMaskButton: UIButton = createButton(
@@ -86,8 +85,7 @@ class OnlineMapViewController: UIViewController {
     title: "긴급제보",
     symbolName: "megaphone.fill",
     baseColor: .CLightBlue,
-    selectedColor: .CBlue,
-    initiallySelected: false
+    selectedColor: .CBlue
   )
   
   
@@ -97,7 +95,7 @@ class OnlineMapViewController: UIViewController {
     view.backgroundColor = .white
     setupViews()
     setupConstraints()
-    
+    setupButtonBindings()
   }
   
   func setupViews() {
@@ -147,82 +145,86 @@ class OnlineMapViewController: UIViewController {
     
   }
   
-  // 공통 UIButton 설정 함수
-  private func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor, initiallySelected: Bool = true) -> UIButton {
-      let button = UIButton(type: .system)
-      
-      var config = UIButton.Configuration.plain()
-      config.title = title
-      config.image = UIImage(systemName: symbolName)
-      config.imagePadding = 4
-      config.baseForegroundColor = .white
-      config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-      
-      button.configuration = config
-      button.titleLabel?.font = CustomFont.Head3.font()
-      button.layer.cornerRadius = 17
-      button.sizeToFit()
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) -> UIButton {
     
-      button.isSelected = true
-      button.backgroundColor = selectedColor
-      
-      // 버튼 클릭 시 이벤트 처리
+    let button = UIButton(type: .custom)
+    button.setImage(UIImage(systemName: symbolName), for: .normal)
+    button.tintColor = .CWhite
+    button.setTitle(title, for: .normal)
+    button.titleLabel?.font = CustomFont.Body3.font()
+    button.setTitleColor(.CWhite, for: .normal)
+    button.backgroundColor = selectedColor
     
-    // 초기버튼 컬러버튼
-    // 버튼 클릭시 해당버튼만 컬러 나머지 버튼은 베이스 컬러
-    // 클릭되어있는 버튼을 다시 클릭하면 전체 버튼 컬러버튼
-    // 클릭되어있지 않은 버튼 클릭시 클릭된 버튼만 컬러버튼 나머지 버튼은 베이스 컬러
-      button.rx.tap
-          .scan(button.isSelected) { lastState, _ in
-              !lastState // 버튼의 선택 상태를 반전
-          }
-          .subscribe(onNext: { [weak self] isSelected in
-              guard let self = self else { return }
-
-              if isSelected {
-                  // 버튼이 선택된 상태에서 다시 클릭하면 모든 버튼을 고유의 selectedColor로 설정
-                  self.resetAllButtonsToOriginalColor()
-              } else {
-                  // 버튼을 클릭하면 해당 버튼만 selectedColor로 유지하고 나머지는 baseColor로 설정
-                  self.setAllButtonsToBaseColor(except: button)
-                  button.backgroundColor = selectedColor
-              }
-
-              // 현재 버튼의 선택 상태를 업데이트
-              button.isSelected = isSelected
-          })
-          .disposed(by: disposeBag)
-      
-      return button
+    button.isSelected = false
+    button.layer.cornerRadius = 17
+    
+    button.layer.shadowColor = UIColor.black.cgColor
+    button.layer.shadowOffset = CGSize(width: 0, height: 4)
+    button.layer.shadowRadius = 4
+    button.layer.shadowOpacity = 0.2
+    button.layer.masksToBounds = false
+    
+    button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+    
+    button.isSelected = false
+    return button
   }
-
-  private func setAllButtonsToBaseColor(except selectedButton: UIButton) {
-      // 모든 버튼을 기본 색상으로 설정하지만 선택된 버튼은 제외
-      if selectedButton != shelterButton {
-          resetButton(shelterButton, toBaseColor: .CLightBlue)
+  
+  private func setupButtonBindings() {
+    bindButtonTap(button: shelterButton, selectedColor: .CGreen)
+    bindButtonTap(button: defibrillatorButton, selectedColor: .CRed)
+    bindButtonTap(button: emergencyReportButton, selectedColor: .CBlue)
+  }
+  
+  private func bindButtonTap(button: UIButton, selectedColor: UIColor) {
+    button.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        if self.areAllButtonsSelected() {
+          self.resetButtonsExcept(button)
+          button.isSelected = true
+          button.backgroundColor = selectedColor
+        } else if button.isSelected {
+          self.selectAllButtons()
+        } else {
+          self.resetButtonsExcept(button)
+          button.isSelected = true
+          button.backgroundColor = selectedColor
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func areAllButtonsSelected() -> Bool {
+    return shelterButton.isSelected && defibrillatorButton.isSelected && emergencyReportButton.isSelected
+  }
+  
+  private func resetButtonsExcept(_ selectedButton: UIButton) {
+    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
+    for button in buttons {
+      if button != selectedButton {
+        button.isSelected = false
+        button.backgroundColor = .CLightBlue
       }
-      if selectedButton != defibrillatorButton {
-          resetButton(defibrillatorButton, toBaseColor: .CLightBlue)
-      }
-      if selectedButton != emergencyReportButton {
-          resetButton(emergencyReportButton, toBaseColor: .CLightBlue)
-      }
+    }
   }
-
-  private func resetAllButtonsToOriginalColor() {
-      resetButton(shelterButton, toColor: .CGreen)
-      resetButton(defibrillatorButton, toColor: .CRed)
-      resetButton(emergencyReportButton, toColor: .CBlue)
-  }
-
-  private func resetButton(_ button: UIButton, toBaseColor baseColor: UIColor) {
-      button.isSelected = false
-      button.backgroundColor = baseColor
-  }
-
-  private func resetButton(_ button: UIButton, toColor color: UIColor) {
+  
+  private func selectAllButtons() {
+    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
+    for button in buttons {
       button.isSelected = true
-      button.backgroundColor = color
+      switch button {
+      case shelterButton:
+        button.backgroundColor = .CGreen
+      case defibrillatorButton:
+        button.backgroundColor = .CRed
+      case emergencyReportButton:
+        button.backgroundColor = .CBlue
+      default:
+        break
+      }
+    }
   }
 }
 
