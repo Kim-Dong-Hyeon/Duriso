@@ -43,6 +43,10 @@
 		D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D61B611A2C7C259200C5E69D /* Secrets.xcconfig */; };
 		D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
+		D61FFE962C7C6C55007C1819 /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
+		D61FFE972C7C6C55007C1819 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */; };
+		D61FFE982C7C6C55007C1819 /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
+		D61FFE992C7C6C55007C1819 /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -412,6 +416,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D61FFE962C7C6C55007C1819 /* HSSaemaul.ttf in Resources */,
+				D61FFE972C7C6C55007C1819 /* NotoSansKR-Bold.ttf in Resources */,
+				D61FFE982C7C6C55007C1819 /* NotoSansKR-Light.ttf in Resources */,
+				D61FFE992C7C6C55007C1819 /* NotoSansKR-Regular.ttf in Resources */,
 				D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */,
 				D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
