@@ -17,3 +17,7 @@ class OfflineMapViewController: UIViewController {
 
 }
 
+@available(iOS 17.0, *)
+#Preview {
+  OfflineMapViewController()
+}
