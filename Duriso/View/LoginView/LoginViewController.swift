@@ -90,7 +90,7 @@ class LoginViewController: UIViewController {
       passWordLabel,
       passWordTextField,
       kakaoLoginButton,
-     appleLoginButton,
+      appleLoginButton,
       idLoginButton,
       signUpButton
     ].forEach { view.addSubview($0) }

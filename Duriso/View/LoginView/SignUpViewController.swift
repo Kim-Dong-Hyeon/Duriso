@@ -117,7 +117,7 @@ class SignUpViewController: UIViewController {
       nickNameLabel,
       nickNameTextField,
       passWordLabel,
-     passWordTextField, 
+      passWordTextField, 
       checkPassWordLabel,
       checkPassWordTextField,
       saveButton
