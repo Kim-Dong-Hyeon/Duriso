@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14960A212C7C5B6B00E706C9 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 14960A202C7C5B6B00E706C9 /* Secrets.xcconfig */; };
+		14960A232C7C5B7300E706C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14960A222C7C5B7300E706C9 /* GoogleService-Info.plist */; };
+		14960A242C7C6C6400E706C9 /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
+		14960A252C7C6C6400E706C9 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */; };
+		14960A262C7C6C6400E706C9 /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
+		14960A272C7C6C6400E706C9 /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
+		14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */; };
+		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
+		14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -40,8 +49,6 @@
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
 		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
-		D61B611B2C7C259200C5E69D /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D61B611A2C7C259200C5E69D /* Secrets.xcconfig */; };
-		D61B611D2C7C25AE00C5E69D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D61FFE962C7C6C55007C1819 /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
 		D61FFE972C7C6C55007C1819 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */; };
@@ -50,6 +57,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14960A202C7C5B6B00E706C9 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = ../Desktop/Secrets.xcconfig; sourceTree = "<group>"; };
+		14960A222C7C5B7300E706C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineCollectionViewCell.swift; sourceTree = "<group>"; };
+		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
+		14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewCell.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -76,8 +88,6 @@
 		763C0A312C7B125C006BC4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		763C0A372C7B17AE006BC4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		763C0A392C7B180A006BC4E7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D61B611A2C7C259200C5E69D /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = ../Downloads/Secrets.xcconfig; sourceTree = "<group>"; };
-		D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.ttf"; sourceTree = "<group>"; };
@@ -170,6 +180,9 @@
 			isa = PBXGroup;
 			children = (
 				7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */,
+				14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */,
+				14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */,
+				14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */,
 			);
 			path = Guideline;
 			sourceTree = "<group>";
@@ -291,7 +304,7 @@
 		763C0A172C7B125B006BC4E7 = {
 			isa = PBXGroup;
 			children = (
-				D61B611A2C7C259200C5E69D /* Secrets.xcconfig */,
+				14960A202C7C5B6B00E706C9 /* Secrets.xcconfig */,
 				763C0A372C7B17AE006BC4E7 /* README.md */,
 				763C0A392C7B180A006BC4E7 /* .gitignore */,
 				7622D0332C7C045300B1AEB2 /* CodeConvention.md */,
@@ -323,7 +336,7 @@
 				7622D0692C7C211800B1AEB2 /* Assets */,
 				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A312C7B125C006BC4E7 /* Info.plist */,
-				D61B611C2C7C25AE00C5E69D /* GoogleService-Info.plist */,
+				14960A222C7C5B7300E706C9 /* GoogleService-Info.plist */,
 			);
 			path = Duriso;
 			sourceTree = "<group>";
@@ -441,12 +454,14 @@
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
 				7622D05C2C7C1F9500B1AEB2 /* GuidelineViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
+				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
 				763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */,
 				7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */,
 				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */,
 				7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */,
+				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
@@ -455,6 +470,7 @@
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
+				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
 				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
 			);
