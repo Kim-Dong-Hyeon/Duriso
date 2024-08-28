@@ -50,16 +50,18 @@
 		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
-		E2792E092C7C5CBD00AD6C0E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E082C7C5CBD00AD6C0E /* LoginViewController.swift */; };
-		E2792E0A2C7C6C9400AD6C0E /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
-		E2792E0B2C7C6C9400AD6C0E /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */; };
-		E2792E0C2C7C6C9400AD6C0E /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
-		E2792E0D2C7C6C9400AD6C0E /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
-		E2792E102C7DD04400AD6C0E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E0F2C7DD04400AD6C0E /* SignUpViewController.swift */; };
-		E2792E122C7DEB6900AD6C0E /* SetNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E112C7DEB6900AD6C0E /* SetNickNameViewController.swift */; };
-		E2792E142C7DF4A900AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E132C7DF4A900AD6C0E /* ModifyInformationViewController.swift */; };
-		E2792E162C7F03EA00AD6C0E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E2792E152C7F03EA00AD6C0E /* Secrets.xcconfig */; };
-		E2792E1A2C7F41A500AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E192C7F41A500AD6C0E /* MyPageTableViewCell.swift */; };
+		E2792E092C7C5CBD00AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2792E102C7DD04400AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2792E122C7DEB6900AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2792E142C7DF4A900AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2792E162C7F03EA00AD6C0E /* (null) in Resources */ = {isa = PBXBuildFile; };
+		E2792E1A2C7F41A500AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
+		E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */; };
+		E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */; };
+		E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */; };
+		E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E202C7F4BAB00AD6C0E /* SignUpViewController.swift */; };
+		E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E212C7F4BAB00AD6C0E /* SetNickNameViewController.swift */; };
+		E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +101,12 @@
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
+		E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
+		E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
+		E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E2792E202C7F4BAB00AD6C0E /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		E2792E212C7F4BAB00AD6C0E /* SetNickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetNickNameViewController.swift; sourceTree = "<group>"; };
+		E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,9 +187,9 @@
 		7622D0492C7C1D9F00B1AEB2 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */,
+				E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */,
 				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
-				E2792E192C7F41A500AD6C0E /* MyPageTableViewCell.swift */,
-				E2792E132C7DF4A900AD6C0E /* ModifyInformationViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -365,9 +373,9 @@
 		E2792E072C7C5C9200AD6C0E /* LoginView */ = {
 			isa = PBXGroup;
 			children = (
-				E2792E082C7C5CBD00AD6C0E /* LoginViewController.swift */,
-				E2792E0F2C7DD04400AD6C0E /* SignUpViewController.swift */,
-				E2792E112C7DEB6900AD6C0E /* SetNickNameViewController.swift */,
+				E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */,
+				E2792E212C7F4BAB00AD6C0E /* SetNickNameViewController.swift */,
+				E2792E202C7F4BAB00AD6C0E /* SignUpViewController.swift */,
 			);
 			path = LoginView;
 			sourceTree = "<group>";
@@ -375,6 +383,7 @@
 		E2792E0E2C7DB06B00AD6C0E /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -465,7 +474,7 @@
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
-				E2792E162C7F03EA00AD6C0E /* Secrets.xcconfig in Resources */,
+				E2792E162C7F03EA00AD6C0E /* (null) in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
@@ -480,7 +489,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
-				E2792E102C7DD04400AD6C0E /* SignUpViewController.swift in Sources */,
+				E2792E102C7DD04400AD6C0E /* (null) in Sources */,
+				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D05C2C7C1F9500B1AEB2 /* GuidelineViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
 				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
@@ -489,16 +499,21 @@
 				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */,
-				E2792E092C7C5CBD00AD6C0E /* LoginViewController.swift in Sources */,
-				E2792E1A2C7F41A500AD6C0E /* MyPageTableViewCell.swift in Sources */,
+				E2792E092C7C5CBD00AD6C0E /* (null) in Sources */,
+				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
+				E2792E1A2C7F41A500AD6C0E /* (null) in Sources */,
 				7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
+				E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */,
 				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
+				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
+				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
+				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
 				7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */,
-				E2792E122C7DEB6900AD6C0E /* SetNickNameViewController.swift in Sources */,
-				E2792E142C7DF4A900AD6C0E /* ModifyInformationViewController.swift in Sources */,
+				E2792E122C7DEB6900AD6C0E /* (null) in Sources */,
+				E2792E142C7DF4A900AD6C0E /* (null) in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
