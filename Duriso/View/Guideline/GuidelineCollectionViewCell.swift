@@ -7,45 +7,39 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class GuidelineCollectionViewCell: UICollectionViewCell {
   
   static let guidelineCollectionId = "guidelineCollectionViewCell"
   
-  private let label: UILabel = {
-    let label = UILabel()
-    label.numberOfLines = 0
-    return label
+  
+  // 나중에 웹뷰로 바꾸어 넣을예정 (공부중)
+  private let youtubeVideo: WKWebView = {
+    let web = WKWebView()
+    return web
   }()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    contentView.backgroundColor = generateRandomColor()
-    contentView.addSubview(label)
-    
-    label.snp.makeConstraints {
-      $0.top.equalToSuperview().offset(10)
-      $0.bottom.equalToSuperview().offset(-10)
-      $0.leading.equalToSuperview().offset(10)
-      $0.trailing.equalToSuperview().offset(-10)
-    }
+    youtubeLayout()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func configure(with text: String) {
-    label.text = text
+  private func youtubeLayout() {
+    contentView.addSubview(youtubeVideo)
+    
+    youtubeVideo.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
   }
   
-  private func generateRandomColor() -> UIColor {
-    return UIColor(
-      red: CGFloat(drand48()),
-      green: CGFloat(drand48()),
-      blue: CGFloat(drand48()),
-      alpha: 1.0
-    )
-  }
+  func configure(with url: URL) {
+          let request = URLRequest(url: url)
+          youtubeVideo.load(request)
+      }
+  
 }
