@@ -13,11 +13,7 @@ import RxCocoa
 class OnlineMapViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  
-  private let kakaoMapView: UIView = {
-    let view = UIView()
-    return view
-  }()
+  private let onlineMapViewController = OnlineMapView()
   
   private let addressView: UIView = {
     let view = UIView()
@@ -44,7 +40,7 @@ class OnlineMapViewController: UIViewController {
     stackView.distribution = .fillProportionally
     stackView.axis = .horizontal
     stackView.spacing = 8
-    return stackView
+    return stackView 
   }()
   
   private let currentLocationButton: UIButton = {
@@ -58,14 +54,14 @@ class OnlineMapViewController: UIViewController {
     return button
   }()
   
-  private let shelterButton: UIButton = createButton(
+  private lazy var shelterButton: UIButton = createButton(
     title: "대피소",
     symbolName: "figure.run",
     baseColor: .CLightBlue,
     selectedColor: .CGreen
   )
   
-  private let defibrillatorButton: UIButton = createButton(
+  private lazy var defibrillatorButton: UIButton = createButton(
     title: "제세동기",
     symbolName: "bolt.heart.fill",
     baseColor: .CLightBlue,
@@ -80,7 +76,7 @@ class OnlineMapViewController: UIViewController {
   //initiallySelected: false
   //  )
   
-  private let emergencyReportButton: UIButton = createButton(
+  private lazy var emergencyReportButton: UIButton = createButton(
     title: "긴급제보",
     symbolName: "megaphone.fill",
     baseColor: .CLightBlue,
@@ -96,8 +92,12 @@ class OnlineMapViewController: UIViewController {
   }
   
   func setupViews() {
+    
+    addChild(onlineMapViewController)
+    view.addSubview(onlineMapViewController.view)
+    onlineMapViewController.didMove(toParent: self)
+    
     [
-      kakaoMapView,
       addressView,
       currentLocationButton,
       buttonStackView,
@@ -116,8 +116,8 @@ class OnlineMapViewController: UIViewController {
   }
   
   func setupConstraints() {
-    kakaoMapView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
+    onlineMapViewController.view.snp.makeConstraints {
+        $0.edges.equalToSuperview()
     }
     
     addressView.snp.makeConstraints {

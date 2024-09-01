@@ -50,6 +50,7 @@
 		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
+		D6FBE7D32C84204F003D7A1D /* OnlineMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */; };
 		E2792E092C7C5CBD00AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
 		E2792E102C7DD04400AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
 		E2792E122C7DEB6900AD6C0E /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -101,6 +102,7 @@
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
+		D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapView.swift; sourceTree = "<group>"; };
 		E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */,
+				D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -514,6 +517,7 @@
 				7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */,
 				E2792E122C7DEB6900AD6C0E /* (null) in Sources */,
 				E2792E142C7DF4A900AD6C0E /* (null) in Sources */,
+				D6FBE7D32C84204F003D7A1D /* OnlineMapView.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
@@ -540,6 +544,7 @@
 /* Begin XCBuildConfiguration section */
 		763C0A322C7B125C006BC4E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -603,6 +608,7 @@
 		};
 		763C0A332C7B125C006BC4E7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7622D07F2C7C5CD800B1AEB2 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -663,9 +669,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -682,6 +690,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -694,9 +704,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -713,6 +725,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
