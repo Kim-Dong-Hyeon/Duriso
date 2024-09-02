@@ -37,45 +37,24 @@ class MyPageTableViewCell: UITableViewCell {
     }
   }
   
-  func configure(for row: Int) {
-    switch row {
-    case 0:
-      textLabel?.text = "푸시알림"
-      textLabel?.font = CustomFont.Body2.font()
+  func configure(with item: MyPageModel) {
+    // 타이틀 설정
+    textLabel?.text = item.title
+    
+    // 셀 유형에 따라 UI 설정
+    switch item.type {
+    case .toggle:
       let toggleSwitch = UISwitch()
       accessoryView = toggleSwitch
-    case 1:
-      textLabel?.text = "공지사항"
-      textLabel?.font = CustomFont.Body2.font()
+      accessoryType = .none
+      versionLabel.isHidden = true
+    case .disclosure:
       accessoryType = .disclosureIndicator
-    case 2:
-      textLabel?.text = "법적고지"
-      textLabel?.font = CustomFont.Body2.font()
-      accessoryType = .disclosureIndicator
-    case 3:
-      textLabel?.text = "오프라인 정보 다운로드"
-      textLabel?.font = CustomFont.Body2.font()
-      accessoryType = .disclosureIndicator
-    case 4:
-      textLabel?.text = "버전 정보"
-      textLabel?.font = CustomFont.Body2.font()
+      versionLabel.isHidden = true
+    case .version(let version):
+      accessoryType = .none
+      versionLabel.text = version
       versionLabel.isHidden = false
-    case 5:
-      textLabel?.text = "로그아웃"
-      textLabel?.font = CustomFont.Body2.font()
-      accessoryType = .disclosureIndicator
-    case 6:
-      textLabel?.text = "회원탈퇴"
-      textLabel?.font = CustomFont.Body2.font()
-      accessoryType = .disclosureIndicator
-    default:
-      textLabel?.text = "기타 항목"
-      textLabel?.font = CustomFont.Body2.font()
-      accessoryType = .disclosureIndicator
     }
-  }
-  
-  func setVersionText(_ text: String) {
-    versionLabel.text = text
   }
 }

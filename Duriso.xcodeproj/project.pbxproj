@@ -62,6 +62,7 @@
 		E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E202C7F4BAB00AD6C0E /* SignUpViewController.swift */; };
 		E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E212C7F4BAB00AD6C0E /* SetNickNameViewController.swift */; };
 		E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */; };
+		E2DAB85B2C85EA2A0037BCA2 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,7 @@
 		E2792E202C7F4BAB00AD6C0E /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E2792E212C7F4BAB00AD6C0E /* SetNickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetNickNameViewController.swift; sourceTree = "<group>"; };
 		E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 				E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */,
 				E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */,
 				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
+				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */,
 				E2792E092C7C5CBD00AD6C0E /* (null) in Sources */,
+				E2DAB85B2C85EA2A0037BCA2 /* NoticeViewController.swift in Sources */,
 				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
 				E2792E1A2C7F41A500AD6C0E /* (null) in Sources */,
 				7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */,
@@ -663,9 +667,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -682,6 +689,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -694,9 +703,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -713,6 +725,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = adhoc_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

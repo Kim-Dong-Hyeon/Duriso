@@ -7,9 +7,15 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class MyPageViewController: UIViewController {
   let viewModel = MyPageViewModel()
+  let disposeBag = DisposeBag()
+  
+  let noticeViewController = NoticeViewController()
+  
   
   private let profileImage: UIImageView = {
     let imageView = UIImageView()
@@ -39,7 +45,7 @@ class MyPageViewController: UIViewController {
   
   private let myPageTableView: UITableView = {
     let tableView = UITableView()
-    tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell") // Register the custom cell
+    tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
     tableView.isScrollEnabled = false
     return tableView
   }()
@@ -58,11 +64,10 @@ class MyPageViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     configureUI()
+    bindViewModel()
   }
   
   private func configureUI() {
-    myPageTableView.delegate = self
-    myPageTableView.dataSource = self
     
     [
       profileImage,
@@ -72,59 +77,99 @@ class MyPageViewController: UIViewController {
       infoLabel
     ].forEach { view.addSubview($0) }
     
+    myPageTableView.delegate = self
+    
+    
     profileImage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.width.height.equalTo(80)
     }
     
     nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
       $0.leading.equalTo(profileImage.snp.trailing).offset(40)
     }
     
     profileButton.snp.makeConstraints {
-      $0.top.equalTo(profileImage.snp.bottom).offset(32)
+      $0.top.equalTo(profileImage.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
     myPageTableView.snp.makeConstraints {
-      $0.top.equalTo(profileButton.snp.bottom).offset(32)
+      $0.top.equalTo(profileButton.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.bottom.equalTo(infoLabel.snp.top).offset(-16)
     }
     
     infoLabel.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+      $0.top.equalTo(myPageTableView.snp.bottom).offset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+    }
+  }
+  private func bindViewModel() {
+    viewModel.items
+      .bind(
+        to: myPageTableView.rx.items(
+          cellIdentifier: "MyPageCell",
+          cellType: MyPageTableViewCell.self)
+      ) { row, item, cell in
+        cell.configure(with: item)
+        cell.selectionStyle = item.selected ? .default : .none
+      }
+      .disposed(by: disposeBag)
+    
+    myPageTableView.rx.modelSelected(MyPageModel.self)
+      .flatMap { [weak self] item -> Observable<Void> in
+        guard let self = self else { return .empty() }
+        
+        switch item.title {
+        case "로그아웃":
+          return self.handleLogout()
+        case "공지사항":
+          noticeViewController.title = item.title
+          navigationController?.pushViewController(noticeViewController, animated: true)
+          return .just(())
+        default:
+          return .empty()
+        }
+      }
+      .subscribe()
+      .disposed(by: disposeBag)
+  }
+  
+  // 로그아웃 처리 메서드
+  private func handleLogout() -> Observable<Void> {
+    return Observable.create { observer in
+      let alert = UIAlertController(
+        title: "로그아웃",
+        message: "정말로 로그아웃 하시겠습니까?",
+        preferredStyle: .alert
+      )
+      
+      let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+        observer.onNext(())
+        observer.onCompleted()
+      }
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+        observer.onCompleted()
+      }
+      alert.addAction(logoutAction)
+      alert.addAction(cancelAction)
+      
+      self.present(alert, animated: true, completion: nil)
+      return Disposables.create()
     }
   }
 }
 
-extension MyPageViewController: UITableViewDataSource, UITableViewDelegate {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 7
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = myPageTableView.dequeueReusableCell(withIdentifier: "MyPageCell", for: indexPath) as! MyPageTableViewCell
-    viewModel.configureCell(cell, for: indexPath.row)
-    if indexPath.row == 0 || indexPath.row == 4 {
-      cell.selectionStyle = .none
-    } else {
-      cell.selectionStyle = .default
-    }
-    return cell
-  }
+extension MyPageViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 48
-  }
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    viewModel.handleCellSelection(for: indexPath.row, viewController: self)
   }
 }
