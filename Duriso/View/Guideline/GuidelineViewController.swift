@@ -14,7 +14,21 @@ import Kingfisher
 class GuidelineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-
+  private let tableViewModel = GuidelineTableViewModel()
+  
+  
+  // 나중에 ViewModel로 바꿔넣을 예정
+  private let videos = BehaviorRelay<[GuidelineModel]>(value: [
+    GuidelineModel(title: "국민행동요령", url: URL(string: "https://www.youtube.com/watch?v=DxAQi6wyeeY")!),
+    GuidelineModel(title: "지진 및 해일피해", url: URL(string: "https://www.youtube.com/watch?v=7IAg2V7P89w")!),
+    GuidelineModel(title: "핵공격", url: URL(string: "https://www.youtube.com/watch?v=wiGGYdKHtT0")!),
+    GuidelineModel(title: "화재발생", url: URL(string: "https://www.youtube.com/watch?v=W6Zr5yo5gls")!),
+    GuidelineModel(title: "집중호우", url: URL(string: "https://www.youtube.com/watch?v=3ZXF4TAB9lc")!),
+    GuidelineModel(title: "태풍", url: URL(string: "https://www.youtube.com/watch?v=F5vugtauQT8")!),
+    GuidelineModel(title: "강풍", url: URL(string: "https://www.youtube.com/watch?v=M9YwbMXiWQI")!),
+    GuidelineModel(title: "산사태", url: URL(string: "https://www.youtube.com/watch?v=XTwjVTq64a0")!),
+    GuidelineModel(title: "폭염", url: URL(string: "https://www.youtube.com/watch?v=yXQeLH2QAAs")!)
+  ])
   
   private let urgentMessage: UILabel = {
     let label = UILabel()
@@ -79,6 +93,7 @@ class GuidelineViewController: UIViewController {
   
   private lazy var atrickTableView: UITableView = {
     let tableView = UITableView()
+    tableView.register(GuidelineTableViewCell.self, forCellReuseIdentifier: GuidelineTableViewCell.guidelineTableId)
     return tableView
   }()
   
@@ -87,9 +102,31 @@ class GuidelineViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     guidelineLayout()
+    bindCollectionView()
+    bindTableView()
   }
   
- 
+  private func bindCollectionView() {
+    videos
+      .bind(to: atrickcollectionView.rx.items(cellIdentifier: GuidelineCollectionViewCell.guidelineCollectionId, cellType: GuidelineCollectionViewCell.self)) { index, model, cell in
+        cell.configure(with: model.url)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindTableView() {
+    tableViewModel.items.bind(to: atrickTableView.rx.items(cellIdentifier: GuidelineTableViewCell.guidelineTableId, cellType: GuidelineTableViewCell.self)) { row, product, cell in
+      cell.configure(with: product.title, imageName: product.imageName)
+    }.disposed(by: disposeBag)
+    
+    atrickTableView.rx.modelSelected(Product.self).bind { product in
+      print(product.title)
+    }.disposed(by: disposeBag)
+    
+    tableViewModel.fetchItem()
+  }
+  
+  
   
   private func guidelineLayout() {
     urgentMessageContainer.addSubview(urgentMessageContainerLabel)
