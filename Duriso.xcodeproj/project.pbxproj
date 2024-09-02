@@ -11,6 +11,9 @@
 		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
 		14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */; };
 		14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A322C80207400E706C9 /* GuidelineTableViewModel.swift */; };
+		149A050D2C807BC300CE74B4 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A050C2C807BC300CE74B4 /* BoardCollectionViewCell.swift */; };
+		149A050F2C81B28E00CE74B4 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A050E2C81B28E00CE74B4 /* BoardTableViewCell.swift */; };
+		149A05112C855DF300CE74B4 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A05102C855DF300CE74B4 /* ReportViewController.swift */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -57,6 +60,9 @@
 		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
 		14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewCell.swift; sourceTree = "<group>"; };
 		14960A322C80207400E706C9 /* GuidelineTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewModel.swift; sourceTree = "<group>"; };
+		149A050C2C807BC300CE74B4 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
+		149A050E2C81B28E00CE74B4 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
+		149A05102C855DF300CE74B4 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -160,6 +166,9 @@
 			isa = PBXGroup;
 			children = (
 				7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */,
+				149A050C2C807BC300CE74B4 /* BoardCollectionViewCell.swift */,
+				149A050E2C81B28E00CE74B4 /* BoardTableViewCell.swift */,
+				149A05102C855DF300CE74B4 /* ReportViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -465,10 +474,13 @@
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
+				149A05112C855DF300CE74B4 /* ReportViewController.swift in Sources */,
 				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
 				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
+				149A050F2C81B28E00CE74B4 /* BoardTableViewCell.swift in Sources */,
+				149A050D2C807BC300CE74B4 /* BoardCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,9 +623,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -630,6 +645,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -642,9 +659,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4LTNHNC3S6;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Duriso/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "두리소";
@@ -661,6 +681,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
