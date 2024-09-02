@@ -19,7 +19,7 @@
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
 		7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */; };
 		7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03E2C7C178400B1AEB2 /* FirebaseStorage */; };
-		7622D0462C7C1CDC00B1AEB2 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */; };
+		7622D0462C7C1CDC00B1AEB2 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */; };
 		7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */; };
 		7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */; };
 		7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */; };
@@ -54,6 +54,10 @@
 		7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7676228B2C85E6710075B09E /* Secrets.xcconfig */; };
 		7648A3162C843627000357D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648A3152C843627000357D0 /* SceneDelegate.swift */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
+		767622832C85C8610075B09E /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622822C85C8610075B09E /* OfflineViewController.swift */; };
+		767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflineViewModel.swift */; };
+		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
+		7676228A2C85CDB50075B09E /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 767622892C85CDB50075B09E /* Then */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */; };
 		E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */; };
@@ -73,7 +77,7 @@
 		149A05102C855DF300CE74B4 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
-		7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewController.swift; sourceTree = "<group>"; };
 		7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +105,9 @@
 		7676228B2C85E6710075B09E /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = Duriso/Secrets.xcconfig; sourceTree = SOURCE_ROOT; };
 		7648A3152C843627000357D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		767622802C85AE740075B09E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		767622822C85C8610075B09E /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
+		767622842C85CA790075B09E /* OfflineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewModel.swift; sourceTree = "<group>"; };
+		767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
@@ -124,6 +131,7 @@
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
+				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
@@ -149,7 +157,7 @@
 		7622D0432C7C1C7600B1AEB2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7622D0452C7C1CDC00B1AEB2 /* MainTabBarController.swift */,
+				7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */,
 				7622D0472C7C1D7A00B1AEB2 /* OnlineMap */,
 				7622D0642C7C20A300B1AEB2 /* OfflineMap */,
 				7622D0482C7C1D8C00B1AEB2 /* Board */,
@@ -163,6 +171,7 @@
 		7622D0442C7C1C7B00B1AEB2 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */,
 				7622D0532C7C1F5900B1AEB2 /* OnlineMap */,
 				7622D06E2C7C217B00B1AEB2 /* OfflineMap */,
 				7622D0542C7C1F5E00B1AEB2 /* Board */,
@@ -289,6 +298,7 @@
 		7622D0642C7C20A300B1AEB2 /* OfflineMap */ = {
 			isa = PBXGroup;
 			children = (
+				767622822C85C8610075B09E /* OfflineViewController.swift */,
 				7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */,
 			);
 			path = OfflineMap;
@@ -323,6 +333,7 @@
 		7622D06E2C7C217B00B1AEB2 /* OfflineMap */ = {
 			isa = PBXGroup;
 			children = (
+				767622842C85CA790075B09E /* OfflineViewModel.swift */,
 				7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */,
 			);
 			path = OfflineMap;
@@ -433,6 +444,7 @@
 				7622D03A2C7C178400B1AEB2 /* FirebaseAuth */,
 				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
+				767622892C85CDB50075B09E /* Then */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -469,6 +481,7 @@
 				763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -528,8 +541,10 @@
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
 				7622D0722C7C21A900B1AEB2 /* OnlineMapModel.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
+				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
+				767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				149A05112C855DF300CE74B4 /* ReportViewController.swift in Sources */,
@@ -825,6 +840,14 @@
 				minimumVersion = 2.10.5;
 			};
 		};
+		767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -872,6 +895,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
 			productName = "KakaoMapsSDK-SPM";
+		};
+		767622892C85CDB50075B09E /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
