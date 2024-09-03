@@ -11,10 +11,11 @@ import RxSwift
 import RxCocoa
 
 class MyPageViewController: UIViewController {
-  let viewModel = MyPageViewModel()
-  let disposeBag = DisposeBag()
+  private let viewModel = MyPageViewModel()
+  private let disposeBag = DisposeBag()
   
   let noticeViewController = NoticeViewController()
+  let legalNoticeViewController = LegalNoticeViewController()
   
   
   private let profileImage: UIImageView = {
@@ -81,7 +82,7 @@ class MyPageViewController: UIViewController {
     
     
     profileImage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.width.height.equalTo(80)
     }
@@ -92,14 +93,14 @@ class MyPageViewController: UIViewController {
     }
     
     profileButton.snp.makeConstraints {
-      $0.top.equalTo(profileImage.snp.bottom).offset(24)
+      $0.top.equalTo(profileImage.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
     myPageTableView.snp.makeConstraints {
-      $0.top.equalTo(profileButton.snp.bottom).offset(24)
+      $0.top.equalTo(profileButton.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.bottom.equalTo(infoLabel.snp.top).offset(-16)
@@ -133,6 +134,10 @@ class MyPageViewController: UIViewController {
         case "공지사항":
           noticeViewController.title = item.title
           navigationController?.pushViewController(noticeViewController, animated: true)
+          return .just(())
+        case "법적고지":
+          legalNoticeViewController.title = item.title
+          navigationController?.pushViewController(legalNoticeViewController, animated: true)
           return .just(())
         default:
           return .empty()
@@ -170,6 +175,6 @@ class MyPageViewController: UIViewController {
 extension MyPageViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 48
+    return 56
   }
 }
