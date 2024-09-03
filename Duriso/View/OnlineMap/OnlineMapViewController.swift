@@ -6,9 +6,10 @@
 //
 
 import UIKit
-import SnapKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
+import SnapKit
 
 class OnlineMapViewController: UIViewController {
   
@@ -40,7 +41,7 @@ class OnlineMapViewController: UIViewController {
     stackView.distribution = .fillProportionally
     stackView.axis = .horizontal
     stackView.spacing = 8
-    return stackView 
+    return stackView
   }()
   
   private let currentLocationButton: UIButton = {
@@ -103,13 +104,13 @@ class OnlineMapViewController: UIViewController {
       buttonStackView,
       writingButton
     ].forEach { view.addSubview($0) }
-   
+    
     [
       shelterButton,
       defibrillatorButton, /*gasMaskButton,*/
       emergencyReportButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
-   
+    
     [
       addressLabel
     ].forEach { addressView.addSubview($0) }
@@ -117,7 +118,7 @@ class OnlineMapViewController: UIViewController {
   
   func setupConstraints() {
     onlineMapViewController.view.snp.makeConstraints {
-        $0.edges.equalToSuperview()
+      $0.edges.equalToSuperview()
     }
     
     addressView.snp.makeConstraints {
@@ -161,7 +162,7 @@ class OnlineMapViewController: UIViewController {
     
   }
   
-  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) 
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
   -> UIButton {
     
     let button = UIButton(type: .custom)
