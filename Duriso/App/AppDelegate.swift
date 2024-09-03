@@ -6,11 +6,12 @@
 //
 
 import UIKit
+
 import FirebaseCore
+import KakaoMapsSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
 
   /// 어플리케이션이 실행될 때 딱 한번 실행되는 메소드
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -18,6 +19,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     FirebaseApp.configure()
     
+
+    if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_API_KEY"] as? String {
+      print("Using Kakao App Key: \(kakaoAppKey)")
+      SDKInitializer.InitSDK(appKey: kakaoAppKey)
+    } else {
+      print("Error: Kakao App Key is missing in Info.plist or xcconfig")
+    }
+    return true
+  }
+
     // 네트워크 모니터링 시작
     NetworkMonitor.shared.startMonitoring()
     
@@ -43,7 +54,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 애플리케이션이 실행 중이 아닌 동안 세션이 삭제된 경우, 이 메서드는 application:didFinishLaunchingWithOptions 직후에 호출됩니다.
     // 이 메서드를 사용하면 폐기된 씬과 관련된 모든 리소스가 반환되지 않으므로 해제할 수 있습니다.
   }
-
-
 }
 
