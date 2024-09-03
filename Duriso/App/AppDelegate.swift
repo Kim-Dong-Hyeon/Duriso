@@ -19,15 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     FirebaseApp.configure()
     
-
-    if let kakaoAppKey = Bundle.main.infoDictionary?["KAKAO_API_KEY"] as? String {
-      print("Using Kakao App Key: \(kakaoAppKey)")
-      SDKInitializer.InitSDK(appKey: kakaoAppKey)
+    if let kakaoMapApiKey = Bundle.main.infoDictionary?["KAKAO_MAP_API_KEY"] as? String {
+      print("Using Kakao App Key: \(kakaoMapApiKey)")
+      SDKInitializer.InitSDK(appKey: kakaoMapApiKey)
     } else {
       print("Error: Kakao App Key is missing in Info.plist or xcconfig")
     }
-    return true
-  }
 
     // 네트워크 모니터링 시작
     NetworkMonitor.shared.startMonitoring()
