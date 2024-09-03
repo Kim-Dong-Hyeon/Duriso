@@ -94,7 +94,6 @@
 		7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineModel.swift; sourceTree = "<group>"; };
 		7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
 		7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Duriso/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		7622D08B2C80475B00B1AEB2 /* Duriso.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Duriso.entitlements; sourceTree = "<group>"; };
 		763C0A202C7B125B006BC4E7 /* Duriso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duriso.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763C0A232C7B125B006BC4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -365,7 +364,6 @@
 		763C0A222C7B125B006BC4E7 /* Duriso */ = {
 			isa = PBXGroup;
 			children = (
-				7622D08B2C80475B00B1AEB2 /* Duriso.entitlements */,
 				7622D05F2C7C1FA800B1AEB2 /* App */,
 				7676227F2C85AE500075B09E /* Common */,
 				7622D0422C7C1C6000B1AEB2 /* Model */,
@@ -696,7 +694,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Duriso/Duriso.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -721,9 +718,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -735,9 +729,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Duriso/Duriso.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -759,10 +752,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = adhoc_Duriso;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
