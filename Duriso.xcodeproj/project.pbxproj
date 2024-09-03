@@ -60,7 +60,7 @@
 		768F50952C86B89B00A92ED6 /* Shelter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0712C7C21A900B1AEB2 /* Shelter.swift */; };
 		D613FE482C869244000FA3F5 /* ShelterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE472C869244000FA3F5 /* ShelterData.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
-		D6FBE7D32C84204F003D7A1D /* OnlineMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */; };
+		D6FBE7D32C84204F003D7A1D /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */; };
 		E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */; };
 		E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */; };
 		E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */; };
@@ -115,7 +115,7 @@
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
-		D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapView.swift; sourceTree = "<group>"; };
+		D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
 		E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */,
-				D6FBE7D22C84204F003D7A1D /* OnlineMapView.swift */,
+				D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -545,7 +545,7 @@
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
-				D6FBE7D32C84204F003D7A1D /* OnlineMapView.swift in Sources */,
+				D6FBE7D32C84204F003D7A1D /* KakaoMapViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,

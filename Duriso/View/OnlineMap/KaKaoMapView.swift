@@ -9,7 +9,7 @@ import UIKit
 
 import KakaoMapsSDK
 
-class OnlineMapView: UIViewController, MapControllerDelegate {
+class KaKaoMapViewController: UIViewController, MapControllerDelegate {
   
   var mapContainer: KMViewContainer?
   var mapController: KMController?

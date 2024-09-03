@@ -14,7 +14,7 @@ import SnapKit
 class OnlineMapViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  private let onlineMapViewController = OnlineMapView()
+  private let onlineMapViewController = KakaoMapViewController()
   
   private let addressView: UIView = {
     let view = UIView()
