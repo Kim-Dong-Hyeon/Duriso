@@ -64,6 +64,8 @@
 		E20C3A642C873AC500AD5AA4 /* 위치기반 서비스 이용약관.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* 위치기반 서비스 이용약관.txt */; };
 		E20C3A662C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A652C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift */; };
 		E20C3A762C874A3600AD5AA4 /* 개인정보 처리방침.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A752C874A3600AD5AA4 /* 개인정보 처리방침.txt */; };
+		E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */; };
+		E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */; };
 		E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */; };
 		E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */; };
 		E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */; };
@@ -127,6 +129,8 @@
 		E20C3A612C873AC500AD5AA4 /* 위치기반 서비스 이용약관.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "위치기반 서비스 이용약관.txt"; sourceTree = "<group>"; };
 		E20C3A652C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeDetailViewController.swift; sourceTree = "<group>"; };
 		E20C3A752C874A3600AD5AA4 /* 개인정보 처리방침.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "개인정보 처리방침.txt"; sourceTree = "<group>"; };
+		E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
+		E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -224,8 +228,10 @@
 			children = (
 				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
 				E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */,
-				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
 				E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */,
+				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
+				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
+				E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */,
 				E2DAB85D2C86380D0037BCA2 /* LegalNoticeViewController.swift */,
 				E2DAB85F2C863A520037BCA2 /* LegalNoticeTableViewCell.swift */,
 				E20C3A652C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift */,
@@ -594,6 +600,8 @@
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
 				149A05112C855DF300CE74B4 /* ReportViewController.swift in Sources */,
 				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
+				E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */,
+				E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */,
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
 				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
