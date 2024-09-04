@@ -9,14 +9,14 @@ import UIKit
 
 class GuidelineFlowLayout: UICollectionViewFlowLayout {
   
-  let activeDistance: CGFloat = 200 //줌 효과가 발생하는 거리
-  let zoomFactor: CGFloat = 0.3 // 30프로만큼 줌을 확대한다
+  let activeDistance: CGFloat = 100 //줌 효과가 발생하는 거리
+  let zoomFactor: CGFloat = 0.5 // 30프로만큼 줌을 확대한다
   
   override init() {
     super.init()
     scrollDirection = .horizontal
-    minimumLineSpacing = 20
-    itemSize = CGSize(width: 200, height: 100)
+    minimumLineSpacing = 10
+    itemSize = CGSize(width: 220, height: 120)
   }
   
   required init?(coder: NSCoder) {
