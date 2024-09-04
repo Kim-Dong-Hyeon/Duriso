@@ -13,8 +13,8 @@ class MyPageViewModel {
   let items: Observable<[MyPageModel]>
   
   init() {
-    let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as?
-    String ?? "Unknown" //앱의 버전을 앱의 설정파일에서 불러옴 (빌드나 배포에 따라 버전 정보가 자동 업데이트)
+    let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    //앱의 버전을 앱의 설정파일에서 불러옴 (빌드나 배포에 따라 버전 정보가 자동 업데이트)
     
     items = Observable.just([
       MyPageModel(title: "푸시알림", type: .toggle, selected: false),

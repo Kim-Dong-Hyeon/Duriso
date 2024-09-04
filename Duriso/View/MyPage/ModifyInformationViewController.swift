@@ -76,7 +76,7 @@ class ModifyInformationViewController: UIViewController {
       changePassWordLabel,
       passWordTextField,
       saveButton
-    ].forEach { view.addSubview( $0 ) }
+    ].forEach { view.addSubview($0) }
     
     profileImage.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)

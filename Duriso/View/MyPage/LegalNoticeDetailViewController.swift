@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 class LegalNoticeDetailViewController: UIViewController {
   private let notice: LegalNotice
   
@@ -28,14 +30,20 @@ class LegalNoticeDetailViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     title = notice.title
+    
     configureUI()
     displayContent()
   }
   
   
   private func configureUI() {
-    view.addSubview(textView)
-    textView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+    [
+      textView
+    ].forEach { view.addSubview($0) }
+    
+    textView.snp.makeConstraints {
+      $0.edges.equalTo(view.safeAreaLayoutGuide)
+    }
   }
   
   private func displayContent() {

@@ -7,9 +7,9 @@
 
 import UIKit
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 class MyPageViewController: UIViewController {
   private let viewModel = MyPageViewModel()
@@ -55,12 +55,12 @@ class MyPageViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     configureUI()
     bindViewModel()
   }
   
   private func configureUI() {
-    
     [
       profileImage,
       nickNameLabel,

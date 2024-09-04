@@ -24,6 +24,8 @@ class NoticeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
+    ConfigureUI()
   }
   
   private func ConfigureUI() {
