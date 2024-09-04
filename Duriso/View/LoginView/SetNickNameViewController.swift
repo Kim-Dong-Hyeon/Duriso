@@ -10,42 +10,34 @@ import SnapKit
 
 class SetNickNameViewController: UIViewController {
   
-  private let titleLabel: UILabel = {
-    let label = UILabel()
-    label.text = "환영합니다! \n닉네임 등록"
-    label.font = CustomFont.Head.font()
-    label.textColor = .CBlack
-    label.numberOfLines = 0
-    label.textAlignment = .left
-    return label
-  }()
+  private let titleLabel = UILabel().then {
+    $0.text = "환영합니다! \n닉네임 등록"
+    $0.font = CustomFont.Head.font()
+    $0.textColor = .CBlack
+    $0.numberOfLines = 0
+    $0.textAlignment = .left
+  }
   
-  private let nickNameLabel: UILabel = {
-    let label = UILabel()
-    label.text = "닉네임"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let nickNameLabel = UILabel().then {
+    $0.text = "닉네임"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let nickNameTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "닉네임을 입력하세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let nickNameTextField = UITextField().then {
+    $0.borderStyle = .roundedRect
+    $0.placeholder = "닉네임을 입력하세요"
+    $0.font = CustomFont.Body3.font()
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+  }
   
-  private let saveButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("저장", for: .normal)
-    button.backgroundColor = .CLightBlue
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.layer.cornerRadius = 10
-    return button
-  }()
+  private let saveButton = UIButton().then {
+    $0.setTitle("저장", for: .normal)
+    $0.backgroundColor = .CLightBlue
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.layer.cornerRadius = 10
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

@@ -13,11 +13,9 @@ class LegalNoticeViewController: UIViewController {
   private let viewModel = LegalNoticeViewModel()
   private let disposeBag = DisposeBag()
   
-  private let legalNoticeTableView: UITableView = {
-    let tableView = UITableView()
-    tableView.register(LegalNoticeTableViewCell.self, forCellReuseIdentifier: "LegalNoticeCell")
-    return tableView
-  }()
+  private let legalNoticeTableView = UITableView().then {
+    $0.register(LegalNoticeTableViewCell.self, forCellReuseIdentifier: "LegalNoticeCell")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,6 +32,7 @@ class LegalNoticeViewController: UIViewController {
   
   private func configureUI() {
     view.addSubview(legalNoticeTableView)
+    
     legalNoticeTableView.snp.makeConstraints {
       $0.edges.equalTo(view.safeAreaLayoutGuide)
     }

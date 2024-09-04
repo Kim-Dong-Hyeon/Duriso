@@ -10,12 +10,11 @@ import UIKit
 class LegalNoticeDetailViewController: UIViewController {
   private let notice: LegalNotice
   
-  private let textView: UITextView = {
-    let textView = UITextView()
-    textView.isEditable = false
-    return textView
-  }()
-  
+  private let textView = UITextView().then {
+    $0.font = CustomFont.Body3.font()
+    $0.isEditable = false
+  }
+
   init(notice: LegalNotice) {
     self.notice = notice
     super.init(nibName: nil, bundle: nil)

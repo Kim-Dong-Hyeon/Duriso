@@ -38,10 +38,8 @@ class MyPageTableViewCell: UITableViewCell {
   }
   
   func configure(with item: MyPageModel) {
-    // 타이틀 설정
     textLabel?.text = item.title
     
-    // 셀 유형에 따라 UI 설정
     switch item.type {
     case .toggle:
       let toggleSwitch = UISwitch()

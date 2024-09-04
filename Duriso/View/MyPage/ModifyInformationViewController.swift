@@ -10,68 +10,54 @@ import SnapKit
 
 class ModifyInformationViewController: UIViewController {
   
-  private let profileImage: UIImageView = {
-    let imageView = UIImageView()
-    imageView.backgroundColor = .lightGray
-    imageView.layer.cornerRadius = 80
-    imageView.clipsToBounds = true
-    return imageView
-  }()
+  private let profileImage = UIImageView().then {
+    $0.backgroundColor = .lightGray
+    $0.layer.cornerRadius = 80
+    $0.clipsToBounds = true
+  }
   
-  private let changeImageButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("사진 변경", for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.titleLabel?.textColor = .CWhite
-    button.backgroundColor = .CBlue
-    button.layer.cornerRadius = 10
-    return button
-  }()
+  private let changeImageButton = UIButton().then {
+    $0.setTitle("사진 변경", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.textColor = .CWhite
+    $0.backgroundColor = .CBlue
+    $0.layer.cornerRadius = 10
+  }
   
-  private let changeNickNameLabel: UILabel = {
-    let label = UILabel()
-    label.text = "닉네임 변경"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let changeNickNameLabel = UILabel().then {
+    $0.text = "닉네임 변경"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let nickNameTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "변경할 닉네임을 입력해주세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let nickNameTextField = UITextField().then {
+    $0.placeholder = "변경할 닉네임을 입력해주세요"
+    $0.font = CustomFont.Body3.font()
+    $0.borderStyle = .roundedRect
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+  }
   
-  private let changePassWordLabel: UILabel = {
-    let label = UILabel()
-    label.text = "비밀번호 변경"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let changePassWordLabel = UILabel().then {
+    $0.text = "비밀번호 변경"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let passWordTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "변경할 비밀번호를 입력해주세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let passWordTextField = UITextField().then {
+    $0.placeholder = "변경할 비밀번호를 입력해주세요"
+    $0.font = CustomFont.Body3.font()
+    $0.borderStyle = .roundedRect
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+  }
   
-  private let saveButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("저장", for: .normal)
-    button.backgroundColor = .CLightBlue
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.layer.cornerRadius = 10
-    return button
-  }()
+  private let saveButton = UIButton().then {
+    $0.setTitle("저장", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CLightBlue
+    $0.layer.cornerRadius = 10
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

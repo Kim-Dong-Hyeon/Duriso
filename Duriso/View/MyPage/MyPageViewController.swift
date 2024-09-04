@@ -18,48 +18,38 @@ class MyPageViewController: UIViewController {
   let legalNoticeViewController = LegalNoticeViewController()
   
   
-  private let profileImage: UIImageView = {
-    let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
-    imageView.layer.cornerRadius = 40
-    imageView.clipsToBounds = true
-    imageView.backgroundColor = .lightGray // 테스트용 배경색
-    return imageView
-  }()
+  private let profileImage = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+    $0.layer.cornerRadius = 40
+    $0.clipsToBounds = true
+    $0.backgroundColor = .lightGray // 테스트용 배경색
+  }
   
-  private let nickNameLabel: UILabel = {
-    let label = UILabel()
-    label.text = "조수환" // 테스트용 텍스트
-    label.textColor = .black
-    label.font = CustomFont.Body.font()
-    return label
-  }()
+  private let nickNameLabel = UILabel().then {
+    $0.text = "조수환" // 테스트용 텍스트
+    $0.font = CustomFont.Body.font()
+    $0.textColor = .CBlack
+  }
   
-  private let profileButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("내 정보", for: .normal)
-    button.backgroundColor = .CLightBlue
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.layer.cornerRadius = 10
-    return button
-  }()
+  private let profileButton = UIButton().then {
+    $0.setTitle("내 정보", for: .normal)
+    $0.backgroundColor = .CLightBlue
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.layer.cornerRadius = 10
+  }
   
-  private let myPageTableView: UITableView = {
-    let tableView = UITableView()
-    tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
-    tableView.isScrollEnabled = false
-    return tableView
-  }()
+  private let myPageTableView = UITableView().then {
+    $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
+    $0.isScrollEnabled = false
+  }
   
-  private let infoLabel: UILabel = {
-    let label = UILabel()
-    label.text = "두리소 \n관리자: 김신이조 \n사업자 번호: \n전화번호"   // 테스트용
-    label.font = CustomFont.Body3.font()
-    label.textColor = .lightGray
-    label.numberOfLines = 0
-    label.textAlignment = .left
-    return label
-  }()
+  private let infoLabel = UILabel().then {
+    $0.text = "두리소 \n관리자: 김신이조 \n사업자 번호: \n전화번호"   // 테스트용
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .lightGray
+    $0.numberOfLines = 0
+    $0.textAlignment = .left
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

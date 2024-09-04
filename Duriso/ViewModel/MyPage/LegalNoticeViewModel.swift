@@ -12,7 +12,6 @@ class LegalNoticeViewModel {
   var items: Observable<[LegalNotice]>
   
   init() {
-    // items를 나중에 설정하기 위해 초기화 후 다른 메서드를 호출
     self.items = Observable.just([])
     loadInitialData()
   }

@@ -9,68 +9,67 @@ import UIKit
 import SnapKit
 
 class LoginViewController: UIViewController {
-  let idLogin = UIImage(named: "idLogin")
-  let kakaoLogin = UIImage(named: "kakaoLogin")
-  let appleLogin = UIImage(named: "appleLogin")
   
-  private let titleLabel: UILabel = {
-    let label = UILabel()
-    label.text = "반갑습니다! \n로그인 및 가입하기"
-    label.font = CustomFont.Head.font()
-    label.textColor = .CBlack
-    label.numberOfLines = 0
-    label.textAlignment = .left
-    return label
-  }()
+  private let titleLabel = UILabel().then {
+    $0.text = "반갑습니다! \n로그인 및 가입하기"
+    $0.font = CustomFont.Head.font()
+    $0.textColor = .CBlack
+    $0.numberOfLines = 0
+    $0.textAlignment = .left
+  }
   
-  private let idLabel: UILabel = {
-    let label = UILabel()
-    label.text = "아이디"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let idLabel = UILabel().then {
+    $0.text = "아이디"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let idTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "아이디를 입력하세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let idTextField = UITextField().then {
+    $0.borderStyle = .roundedRect
+    $0.placeholder = "아이디를 입력하세요"
+    $0.font = CustomFont.Body3.font()
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+  }
   
-  private let passWordLabel: UILabel = {
-    let label = UILabel()
-    label.text = "비밀번호"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let passWordLabel = UILabel().then {
+    $0.text = "비밀번호"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let passWordTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "비밀번호를 입력하세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let passWordTextField = UITextField().then {
+    $0.borderStyle = .roundedRect
+    $0.placeholder = "비밀번호를 입력하세요"
+    $0.font = CustomFont.Body3.font()
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+  }
   
-  private let idLoginButton = UIButton()
-  private let kakaoLoginButton = UIButton()
-  private let appleLoginButton = UIButton()
+  private let idLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "idLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
   
-  private let signUpButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("회원가입", for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.backgroundColor = .CWhite
-    button.setTitleColor(.CBlack, for: .normal)
-    return button
-  }()
+  private let kakaoLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "kakaoLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
+  
+  private let appleLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "appleLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
+  
+  private let signUpButton = UIButton().then {
+    $0.setTitle("회원가입", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CWhite
+    $0.setTitleColor(.CBlack, for: .normal)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -79,9 +78,6 @@ class LoginViewController: UIViewController {
     configureUI()
   }
   private func configureUI() {
-    idLoginButton.setImage(idLogin, for: .normal)
-    kakaoLoginButton.setImage(kakaoLogin, for: .normal)
-    appleLoginButton.setImage(appleLogin, for: .normal)
     
     [
       titleLabel,
