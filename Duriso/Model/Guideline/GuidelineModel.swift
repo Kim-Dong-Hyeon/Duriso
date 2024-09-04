@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RxRelay
+
 
 struct GuidelineModel {
   let title: String
