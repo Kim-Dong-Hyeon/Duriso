@@ -12,24 +12,30 @@ class GuidelineTableViewCell: UITableViewCell {
   
   static let guidelineTableId = "GuidelineTableViewCell"
   
-  private let tableLabel: UILabel = {
-    let label = UILabel()
-    label.font = CustomFont.Body2.font()
-    return label
-  }()
+  private let tableLabel = UILabel().then {
+    $0.font = CustomFont.Body2.font()
+  }
   
-  private let tableImage: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = UIImage()
-    imageView.contentMode = .scaleAspectFit
-    return imageView
-  }()
+  private let tableImage = UIImageView().then {
+    $0.image = UIImage()
+    $0.contentMode = .scaleAspectFit
+  }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    GuidelineTableViewCellLayout()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func GuidelineTableViewCellLayout() {
     
-    contentView.addSubview(tableLabel)
-    contentView.addSubview(tableImage)
+    [
+      tableLabel,
+      tableImage
+    ].forEach { contentView.addSubview($0) }
     
     tableLabel.snp.makeConstraints {
       $0.leading.equalTo(contentView).offset(16)
@@ -43,13 +49,9 @@ class GuidelineTableViewCell: UITableViewCell {
     }
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   func configure(with title: String, imageName: String) {
-          tableLabel.text = title
-          tableImage.image = UIImage(systemName: imageName)
-      }
+    tableLabel.text = title
+    tableImage.image = UIImage(systemName: imageName)
+  }
   
 }

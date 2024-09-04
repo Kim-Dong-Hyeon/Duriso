@@ -11,6 +11,7 @@ public enum Environment {
   enum Keys {
     static let kakaoMapApiKey = "KAKAO_MAP_API_KEY"
     static let kakaoDevApiKey = "KAKAO_DEV_API_KEY"
+    static let newsApiKey = "NEWS_API_KEY"
   }
   
   private static let infoDictionary: [String: Any] = {
@@ -30,6 +31,13 @@ public enum Environment {
   static let kakaoDevApiKey: String = {
     guard let apiKey = Environment.infoDictionary[Keys.kakaoDevApiKey] as? String else {
       fatalError("KAKAO_DEV_API_KEY not set in Info.plist or xcconfig")
+    }
+    return apiKey
+  }()
+  
+  static let newsApiKey: String = {
+    guard let apiKey = Environment.infoDictionary[Keys.newsApiKey] as? String else {
+      fatalError("NEWS_API_KEY not set in Info.plist or xcconfig")
     }
     return apiKey
   }()

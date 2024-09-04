@@ -6,40 +6,59 @@
 //
 
 import UIKit
+
+import RxSwift
+import RxCocoa
 import SnapKit
-import WebKit
 
 class GuidelineCollectionViewCell: UICollectionViewCell {
   
   static let guidelineCollectionId = "guidelineCollectionViewCell"
   
-  
-  // 나중에 웹뷰로 바꾸어 넣을예정 (공부중)
-  private let youtubeVideo: WKWebView = {
-    let web = WKWebView()
-    return web
-  }()
+  private let thumbnailImageView = UIImageView()
+  var disposeBag = DisposeBag()
+  private let tapSubject = PublishSubject<URL>() // Rx 서브젝트
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    youtubeLayout()
+    guidelineCollectionViewCellLayout()
+    thumbnailTap()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func youtubeLayout() {
-    contentView.addSubview(youtubeVideo)
+  private func guidelineCollectionViewCellLayout() {
+    thumbnailImageView.contentMode = .scaleAspectFit
+    thumbnailImageView.clipsToBounds = true
+    thumbnailImageView.layer.cornerRadius = 13
+    contentView.addSubview(thumbnailImageView)
     
-    youtubeVideo.snp.makeConstraints {
+    thumbnailImageView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
   }
   
-  func configure(with url: URL) {
-          let request = URLRequest(url: url)
-          youtubeVideo.load(request)
-      }
+  private func thumbnailTap() {
+    let tapGesture = UITapGestureRecognizer()
+    self.addGestureRecognizer(tapGesture)
+    
+    tapGesture.rx.event
+      .map { [weak self] _ in self?.videoURL }
+      .compactMap { $0 }
+      .bind(to: tapSubject)
+      .disposed(by: disposeBag)
+  }
   
+  func configure(with item: VideoThumbnailItem) {
+    thumbnailImageView.image = UIImage(named: item.thumbnail.image)
+    self.videoURL = item.videoItem.url
+  }
+  
+  var tapObservable: Observable<URL> {
+    return tapSubject.asObserver()
+  }
+  
+  private var videoURL: URL?
 }
