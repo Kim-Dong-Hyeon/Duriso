@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
 
 class LegalNoticeViewController: UIViewController {
   private let viewModel = LegalNoticeViewModel()

@@ -14,7 +14,7 @@ class LegalNoticeDetailViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
     $0.isEditable = false
   }
-
+  
   init(notice: LegalNotice) {
     self.notice = notice
     super.init(nibName: nil, bundle: nil)

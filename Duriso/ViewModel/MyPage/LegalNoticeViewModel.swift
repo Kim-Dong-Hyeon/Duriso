@@ -5,8 +5,9 @@
 //  Created by t2023-m0102 on 9/3/24.
 //
 
-import RxSwift
 import Foundation
+
+import RxSwift
 
 class LegalNoticeViewModel {
   var items: Observable<[LegalNotice]>

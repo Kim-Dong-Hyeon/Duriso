@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 
 class NoticeDetailViewController: UIViewController {
@@ -40,9 +41,9 @@ class NoticeDetailViewController: UIViewController {
   
   private func ConfigureUI() {
     [
-    noticeTitleLabel,
-    dateLabel,
-    noticeDetailTextView
+      noticeTitleLabel,
+      dateLabel,
+      noticeDetailTextView
     ].forEach{ view.addSubview($0) }
     
     noticeTitleLabel.snp.makeConstraints {

@@ -6,9 +6,10 @@
 //
 
 import UIKit
+
 import SnapKit
-import RxSwift
 import RxCocoa
+import RxSwift
 
 class MyPageViewController: UIViewController {
   private let viewModel = MyPageViewModel()

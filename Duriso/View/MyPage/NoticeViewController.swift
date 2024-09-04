@@ -5,8 +5,8 @@
 //  Created by t2023-m0102 on 9/2/24.
 //
 
-import Foundation
 import UIKit
+
 import SnapKit
 
 class NoticeViewController: UIViewController {
@@ -27,10 +27,10 @@ class NoticeViewController: UIViewController {
   }
   
   private func ConfigureUI() {
-      [
+    [
       noticeTableView,
       noneNoticeLabel
-      ].forEach{ view.addSubview($0) }
+    ].forEach{ view.addSubview($0) }
     
     noticeTableView.snp.makeConstraints {
       $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -38,15 +38,15 @@ class NoticeViewController: UIViewController {
     
     
     // 테이블 뷰에 데이터가 있으면 라벨 가리고 테이블 뷰 표시/ 데이터가 없으면 테이블 뷰 가리고 라벨 표시
-//    func showData() {
-//      if data.isEmpty {
-//        noneNoticeLabel.isHidden = false
-//        noticeTableView.isHidden = true
-//      } esle {
-//        noneNoticeLabel.isHidden = true
-//        noticeTableView.isHidden = false
-//      }
-//    }
+    //    func showData() {
+    //      if data.isEmpty {
+    //        noneNoticeLabel.isHidden = false
+    //        noticeTableView.isHidden = true
+    //      } esle {
+    //        noneNoticeLabel.isHidden = true
+    //        noticeTableView.isHidden = false
+    //      }
+    //    }
   }
   
   

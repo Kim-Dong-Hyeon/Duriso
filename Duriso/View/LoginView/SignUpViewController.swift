@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 
 class SignUpViewController: UIViewController {
@@ -97,7 +98,7 @@ class SignUpViewController: UIViewController {
       nickNameLabel,
       nickNameTextField,
       passWordLabel,
-      passWordTextField, 
+      passWordTextField,
       checkPassWordLabel,
       checkPassWordTextField,
       saveButton
