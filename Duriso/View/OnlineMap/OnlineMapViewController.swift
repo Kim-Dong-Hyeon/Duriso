@@ -5,20 +5,16 @@
 //  Created by 이주희 on 8/26/24.
 //
 
-
 import UIKit
-import SnapKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
+import SnapKit
 
 class OnlineMapViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  
-  private let kakaoMapView: UIView = {
-    let view = UIView()
-    return view
-  }()
+  private let onlineMapViewController = KakaoMapViewController()
   
   private let addressView: UIView = {
     let view = UIView()
@@ -48,12 +44,12 @@ class OnlineMapViewController: UIViewController {
     return stackView
   }()
   
-  private lazy var currentLocationButton: UIButton = {
+  private let currentLocationButton: UIButton = {
     let button = UIButton()
     return button
   }()
   
-  private lazy var writingButton: UIButton = {
+  private let writingButton: UIButton = {
     let button = UIButton()
     button.setImage(UIImage(named: "writingButton"), for: .normal)
     return button
@@ -73,7 +69,7 @@ class OnlineMapViewController: UIViewController {
     selectedColor: .CRed
   )
   
-  //  private lazy var gasMaskButton: UIButton = createButton(
+  //  private let gasMaskButton: UIButton = createButton(
   //    title: "방독면",
   //    symbolName: "location.fill",
   //    baseColor: .CLightBlue,
@@ -88,8 +84,6 @@ class OnlineMapViewController: UIViewController {
     selectedColor: .CBlue
   )
   
-  
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
@@ -99,34 +93,57 @@ class OnlineMapViewController: UIViewController {
   }
   
   func setupViews() {
-    [kakaoMapView, addressView, currentLocationButton, buttonStackView, writingButton].forEach { view.addSubview($0) }
-    [shelterButton, defibrillatorButton, /*gasMaskButton,*/emergencyReportButton].forEach {buttonStackView.addArrangedSubview($0)}
-    [addressLabel].forEach { addressView.addSubview($0) }
+    
+    addChild(onlineMapViewController)
+    view.addSubview(onlineMapViewController.view)
+    onlineMapViewController.didMove(toParent: self)
+    
+    [
+      addressView,
+      currentLocationButton,
+      buttonStackView,
+      writingButton
+    ].forEach { view.addSubview($0) }
+    
+    [
+      shelterButton,
+      defibrillatorButton, /*gasMaskButton,*/
+      emergencyReportButton
+    ].forEach { buttonStackView.addArrangedSubview($0) }
+    
+    [
+      addressLabel
+    ].forEach { addressView.addSubview($0) }
   }
   
   func setupConstraints() {
-    kakaoMapView.snp.makeConstraints {
+    onlineMapViewController.view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+    
     addressView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalToSuperview().offset(80)
       $0.width.equalTo(180)
       $0.height.equalTo(40)
     }
+    
     addressLabel.snp.makeConstraints {
       $0.center.equalTo(addressView)
     }
+    
     writingButton.snp.makeConstraints{
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
       $0.width.height.equalTo(40)
     }
+    
     buttonStackView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(16)
       $0.bottom.equalToSuperview().offset(-96)
     }
+    
     shelterButton.snp.makeConstraints{
       $0.height.equalTo(34)
     }
@@ -145,7 +162,8 @@ class OnlineMapViewController: UIViewController {
     
   }
   
-  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) -> UIButton {
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
+  -> UIButton {
     
     let button = UIButton(type: .custom)
     button.setImage(UIImage(systemName: symbolName), for: .normal)
