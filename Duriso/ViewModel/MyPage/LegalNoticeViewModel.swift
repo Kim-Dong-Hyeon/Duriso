@@ -20,11 +20,11 @@ class LegalNoticeViewModel {
   private func loadInitialData() {
     let notices = [
       LegalNotice(title: "서비스 이용약관",
-                  content: loadContent(for: "서비스 이용약관") ?? " "),
+                  content: loadContent(for: "notice1") ?? " "),
       LegalNotice(title: "개인정보 처리방침",
-                  content: loadContent(for: "개인정보 처리방침") ?? " "),
+                  content: loadContent(for: "notice3") ?? " "),
       LegalNotice(title: "위치기반 서비스 이용약관",
-                  content: loadContent(for: "위치기반 서비스 이용약관") ?? " ")
+                  content: loadContent(for: "notice2") ?? " ")
     ]
     self.items = Observable.just(notices)
   }

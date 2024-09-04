@@ -37,15 +37,15 @@ struct YoutubeData { //썸네일과 유튜브를 묶음
   
   func fetchData() {
     let thumbnails = [
-      Thumbnail(title: "국민행동요령", image: "비상사태"),
-      Thumbnail(title: "지진", image: "지진"),
-      Thumbnail(title: "핵공격", image: "핵공격"),
-      Thumbnail(title: "화재", image: "화재"),
-      Thumbnail(title: "집중호우", image: "집중호우"),
-      Thumbnail(title: "태풍", image: "태풍"),
-      Thumbnail(title: "대설", image: "대설"),
-      Thumbnail(title: "산사태", image: "산사태"),
-      Thumbnail(title: "폭염", image: "폭염")
+      Thumbnail(title: "국민행동요령", image: "Alertcon"),
+      Thumbnail(title: "지진", image: "Earthquake"),
+      Thumbnail(title: "핵공격", image: "NuclearAttack"),
+      Thumbnail(title: "화재", image: "Fire"),
+      Thumbnail(title: "집중호우", image: "TorrentialRain"),
+      Thumbnail(title: "태풍", image: "Typhoon"),
+      Thumbnail(title: "대설", image: "Heavysnow"),
+      Thumbnail(title: "산사태", image: "Landslide"),
+      Thumbnail(title: "폭염", image: "HeatWave")
     ]
     
     let videoItems = [
