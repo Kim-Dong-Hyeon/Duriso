@@ -58,6 +58,7 @@
 		7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7676228B2C85E6710075B09E /* Secrets.xcconfig */; };
 		7676228E2C85F2190075B09E /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622822C85C8610075B09E /* OfflineViewController.swift */; };
 		768F50952C86B89B00A92ED6 /* Shelter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0712C7C21A900B1AEB2 /* Shelter.swift */; };
+		768F50972C881F9A00A92ED6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50962C881F9A00A92ED6 /* Environment.swift */; };
 		D613FE482C869244000FA3F5 /* ShelterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE472C869244000FA3F5 /* ShelterData.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D6FBE7D32C84204F003D7A1D /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */; };
@@ -109,6 +110,7 @@
 		767622842C85CA790075B09E /* OfflineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewModel.swift; sourceTree = "<group>"; };
 		767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 		7676228B2C85E6710075B09E /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = Duriso/Secrets.xcconfig; sourceTree = SOURCE_ROOT; };
+		768F50962C881F9A00A92ED6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		D613FE472C869244000FA3F5 /* ShelterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterData.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
@@ -389,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
+				768F50962C881F9A00A92ED6 /* Environment.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				149A05112C855DF300CE74B4 /* ReportViewController.swift in Sources */,
 				7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */,
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
+				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
 				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
 				149A050F2C81B28E00CE74B4 /* BoardTableViewCell.swift in Sources */,
