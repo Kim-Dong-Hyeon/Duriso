@@ -6,112 +6,91 @@
 //
 
 import UIKit
-import SnapKit
-import RxSwift
-import RxCocoa
+
 import Kingfisher
+import RxCocoa
+import RxSwift
+import SnapKit
 
 class GuidelineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let tableViewModel = GuidelineTableViewModel()
+  private let youtubeData = YoutubeData()
+  private let news = GuidelineViewModel()
   
+  private let urgentMessage = UILabel().then {
+    $0.text = "긴급재난문자"
+    $0.font = CustomFont.Head2.font()
+  }
   
-  // 나중에 ViewModel로 바꿔넣을 예정
-  private let videos = BehaviorRelay<[GuidelineModel]>(value: [
-    GuidelineModel(title: "국민행동요령", url: URL(string: "https://www.youtube.com/watch?v=DxAQi6wyeeY")!),
-    GuidelineModel(title: "지진 및 해일피해", url: URL(string: "https://www.youtube.com/watch?v=7IAg2V7P89w")!),
-    GuidelineModel(title: "핵공격", url: URL(string: "https://www.youtube.com/watch?v=wiGGYdKHtT0")!),
-    GuidelineModel(title: "화재발생", url: URL(string: "https://www.youtube.com/watch?v=W6Zr5yo5gls")!),
-    GuidelineModel(title: "집중호우", url: URL(string: "https://www.youtube.com/watch?v=3ZXF4TAB9lc")!),
-    GuidelineModel(title: "태풍", url: URL(string: "https://www.youtube.com/watch?v=F5vugtauQT8")!),
-    GuidelineModel(title: "강풍", url: URL(string: "https://www.youtube.com/watch?v=M9YwbMXiWQI")!),
-    GuidelineModel(title: "산사태", url: URL(string: "https://www.youtube.com/watch?v=XTwjVTq64a0")!),
-    GuidelineModel(title: "폭염", url: URL(string: "https://www.youtube.com/watch?v=yXQeLH2QAAs")!)
-  ])
+  private let urgentMessageContainer = UIView().then {
+    $0.isHidden = false
+    $0.alpha = 1.0
+    $0.backgroundColor = .lightGray
+    $0.layer.cornerRadius = 10
+  }
   
-  private let urgentMessage: UILabel = {
-    let label = UILabel()
-    label.text = "긴급재난문자"
-    label.font = CustomFont.Head2.font()
-    return label
-  }()
+  private let urgentMessageContainerLabel = UILabel().then {
+    $0.text = ""
+    $0.font = .systemFont(ofSize: 13)
+  }
   
-  private let urgentMessageContainer: UIView = {
-    let view = UIView()
-    view.isHidden = false
-    view.alpha = 1.0
-    view.backgroundColor = .lightGray
-    view.layer.cornerRadius = 10
-    return view
-  }()
+  private let disasterKitLabel = UILabel().then {
+    $0.text = "비상시 재난키트 활용법"
+    $0.font = CustomFont.Head2.font()
+  }
   
-  private let urgentMessageContainerLabel: UILabel = {
-    let label = UILabel()
-    label.text = "🚨[긴급] : "
-    label.font = CustomFont.Body2.font()
-    return label
-  }()
+  private let disasterKitButton = UIButton().then {
+    $0.setImage(UIImage.emergencykit, for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
   
-  private let disasterKitLabel: UILabel = {
-    let label = UILabel()
-    label.text = "비상시 재난키트 활용법"
-    label.font = CustomFont.Head2.font()
-    return label
-  }()
+  private let atrickcollectionView = UICollectionView(frame: .zero,collectionViewLayout: GuidelineFlowLayout()).then {
+    $0.isPagingEnabled = false
+    $0.backgroundColor = .color(named: "CWhite")
+    $0.showsHorizontalScrollIndicator = false
+    $0.register(GuidelineCollectionViewCell.self, forCellWithReuseIdentifier: GuidelineCollectionViewCell.guidelineCollectionId)
+  }
   
-  private let disasterKit: UIImageView = {
-    let imageView = UIImageView()
-    imageView.layer.cornerRadius = 10
-    imageView.clipsToBounds = true
-    imageView.contentMode = .scaleToFill
-    imageView.image = .emergencykit
-    return imageView
-  }()
+  private let atrickcollectionLabel = UILabel().then {
+    $0.text = "행동요령 영상시청"
+    $0.font = CustomFont.Head2.font()
+  }
   
-  private lazy var atrickcollectionView: UICollectionView = {
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: GuidelineFlowLayout())
-    collectionView.isPagingEnabled = false
-    collectionView.showsHorizontalScrollIndicator = false
-    collectionView.register(GuidelineCollectionViewCell.self, forCellWithReuseIdentifier: GuidelineCollectionViewCell.guidelineCollectionId)
-    return collectionView
-  }()
+  private let atrickTableLabel = UILabel().then {
+    $0.text = "재난시 행동요령"
+    $0.font = CustomFont.Head2.font()
+  }
   
-  private let atrickcollectionLabel: UILabel = {
-    let label = UILabel()
-    label.text = "행동요령 영상시청"
-    label.font = CustomFont.Head2.font()
-    return label
-  }()
-  
-  private let atrickTableLabel: UILabel = {
-    let label = UILabel()
-    label.text = "재난시 행동요령"
-    label.font = CustomFont.Head2.font()
-    return label
-  }()
-  
-  private lazy var atrickTableView: UITableView = {
-    let tableView = UITableView()
-    tableView.register(GuidelineTableViewCell.self, forCellReuseIdentifier: GuidelineTableViewCell.guidelineTableId)
-    return tableView
-  }()
+  private lazy var atrickTableView = UITableView().then {
+    $0.register(GuidelineTableViewCell.self, forCellReuseIdentifier: GuidelineTableViewCell.guidelineTableId)
+  }
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.title = "행동요령"
     guidelineLayout()
     bindCollectionView()
     bindTableView()
+    bindNews()
+    disasterKitButtonTap()
   }
   
   private func bindCollectionView() {
-    videos
-      .bind(to: atrickcollectionView.rx.items(cellIdentifier: GuidelineCollectionViewCell.guidelineCollectionId, cellType: GuidelineCollectionViewCell.self)) { index, model, cell in
-        cell.configure(with: model.url)
-      }
-      .disposed(by: disposeBag)
+    youtubeData.combinedData
+      .bind(to: atrickcollectionView.rx.items(cellIdentifier: GuidelineCollectionViewCell.guidelineCollectionId, cellType: GuidelineCollectionViewCell.self)) { index, item, cell in
+        cell.configure(with: item)
+        
+        cell.tapObservable
+          .subscribe(onNext: { url in
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+          }).disposed(by: cell.disposeBag)
+      }.disposed(by: disposeBag)
+    youtubeData.fetchData()
   }
   
   private func bindTableView() {
@@ -122,19 +101,47 @@ class GuidelineViewController: UIViewController {
     atrickTableView.rx.modelSelected(Product.self).bind { product in
       print(product.title)
     }.disposed(by: disposeBag)
-    
     tableViewModel.fetchItem()
   }
   
+  private func bindNews() {
+    news.fetchData()
+    
+    news.title
+      .bind(to: urgentMessageContainerLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    news.writerName
+      .subscribe(onNext: { writerName in
+        // 필요한 경우 추가 업데이트
+        print("Writer Name: \(writerName)")
+      })
+      .disposed(by: disposeBag)
+  }
   
+  private func disasterKitButtonTap() {
+    disasterKitButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        self?.navigationController?.pushViewController(GuidelineKitView(), animated: true)
+      }).disposed(by: disposeBag)
+  }
   
   private func guidelineLayout() {
     urgentMessageContainer.addSubview(urgentMessageContainerLabel)
     
-    [urgentMessage, urgentMessageContainer, disasterKitLabel, disasterKit, atrickcollectionLabel, atrickcollectionView, atrickTableLabel, atrickTableView].forEach { view.addSubview($0) }
+    [
+      urgentMessage,
+      urgentMessageContainer,
+      disasterKitLabel,
+      disasterKitButton,
+      atrickcollectionLabel,
+      atrickcollectionView,
+      atrickTableLabel,
+      atrickTableView
+    ].forEach { view.addSubview($0) }
     
     urgentMessage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
       $0.leading.equalTo(30)
     }
     
@@ -150,32 +157,32 @@ class GuidelineViewController: UIViewController {
       $0.leading.equalTo(10)
     }
     
-    disasterKitLabel.snp.makeConstraints {
-      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(24)
+    atrickcollectionLabel.snp.makeConstraints {
+      $0.top.equalTo(urgentMessageContainerLabel.snp.bottom).offset(24)
       $0.leading.equalTo(30)
     }
     
-    disasterKit.snp.makeConstraints {
+    atrickcollectionView.snp.makeConstraints {
+      $0.top.equalTo(atrickcollectionLabel.snp.bottom).offset(8)
+      $0.centerX.equalToSuperview()
+      $0.width.equalTo(400)
+      $0.height.equalTo(200)
+    }
+    
+    disasterKitLabel.snp.makeConstraints {
+      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(24)
+      $0.leading.equalTo(30)
+    }
+    
+    disasterKitButton.snp.makeConstraints {
       $0.top.equalTo(disasterKitLabel.snp.bottom).offset(8)
       $0.leading.equalTo(20)
       $0.width.equalTo(350)
       $0.height.equalTo(120)
     }
     
-    atrickcollectionLabel.snp.makeConstraints {
-      $0.top.equalTo(disasterKit.snp.bottom).offset(24)
-      $0.leading.equalTo(30)
-    }
-    
-    atrickcollectionView.snp.makeConstraints {
-      $0.top.equalTo(atrickcollectionLabel.snp.bottom).offset(8)
-      $0.leading.equalToSuperview().offset(20)
-      $0.width.equalTo(350)
-      $0.height.equalTo(100)
-    }
-    
     atrickTableLabel.snp.makeConstraints {
-      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(24)
+      $0.top.equalTo(disasterKitButton.snp.bottom).offset(24)
       $0.leading.equalTo(30)
     }
     
@@ -183,7 +190,8 @@ class GuidelineViewController: UIViewController {
       $0.top.equalTo(atrickTableLabel.snp.bottom).offset(8)
       $0.leading.equalToSuperview().offset(20)
       $0.width.equalTo(350)
-      $0.height.equalTo(100)
+      $0.height.equalTo(150)
     }
   }
 }
+
