@@ -6,88 +6,72 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
 import SnapKit
 
 class ReportViewController: UIViewController {
   
   private let boardViewController = BoardViewController()
   private let boardTableViewCell = BoardTableViewCell()
-  
-  private let categoryButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("카테고리", for: .normal)
-    button.setTitleColor(.black, for: .normal)
-    button.backgroundColor = .lightGray
-    button.layer.cornerRadius = 20
-    button.titleLabel?.font = CustomFont.Head4.font()
-    return button
-  }()
-  
-  private let titleName: UILabel = {
-    let label = UILabel()
-    label.text = "제목:"
-    label.font = CustomFont.Body2.font()
-    label.textColor = .black
-    return label
-  }()
-  
-  private let titleText: UITextField = {
-    let text = UITextField()
-    text.text = "제목을 입력해주세요"
-    return text
-  }()
-  
-  private let lineView: UIView = {
-    let view = UIView()
-    view.backgroundColor = .lightGray
-    return view
-  }()
-  
-  private let locationeName: UILabel = {
-    let label = UILabel()
-    label.text = "현재위치: "
-    label.font = CustomFont.Body2.font()
-    label.textColor = .black
-    return label
-  }()
-  
-  private let locationeName1: UILabel = {
-    let label = UILabel()
-    label.text = "사랑시 고백구 행복동"
-    label.font = CustomFont.Body2.font()
-    label.textColor = .black
-    return label
-  }()
-  
-  private let lineView1: UIView = {
-    let view = UIView()
-    view.backgroundColor = .lightGray
-    return view
-  }()
-  
-  private let userTextSet: UITextView = {
-    let text = UITextView()
-    text.text = "내용을 작성해주세요"
-    return text
-  }()
-  
-  private let pictureButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("사진추가", for: .normal)
-    button.setTitleColor(.black, for: .normal)
-    button.backgroundColor = .lightGray
-    button.layer.cornerRadius = 20
-    button.titleLabel?.font = CustomFont.Head4.font()
-    return button
-  }()
-  
   private let disposeBag = DisposeBag()
+  var onPostAdded: ((String, String) -> Void)?
+  
+  private let categoryButton = UIButton().then {
+    $0.setTitle("카테고리", for: .normal)
+    $0.setTitleColor(.black, for: .normal)
+    $0.backgroundColor = .lightGray
+    $0.layer.cornerRadius = 20
+    $0.titleLabel?.font = CustomFont.Head4.font()
+  }
+  
+  private let titleName = UILabel().then {
+    $0.text = "제목:"
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .black
+  }
+  
+  private let titleText = UITextField().then {
+    $0.text = "제목을 입력해주세요"
+  }
+  
+  private let lineView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
+  private let locationeName = UILabel().then {
+    $0.text = "현재위치: "
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .black
+  }
+  
+  private let locationeName1 = UILabel().then {
+    $0.text = "사랑시 고백구 행복동"
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .black
+  }
+  
+  private let lineView1 = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
+  
+  private let userTextSet = UITextView().then {
+    $0.text = "내용을 작성해주세요"
+  }
+  
+  private let pictureButton = UIButton().then {
+    $0.setTitle("사진추가", for: .normal)
+    $0.setTitleColor(.black, for: .normal)
+    $0.backgroundColor = .lightGray
+    $0.layer.cornerRadius = 20
+    $0.titleLabel?.font = CustomFont.Head4.font()
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     reportNavigationItem()
     reportViewLayOut()
   }
@@ -104,17 +88,18 @@ class ReportViewController: UIViewController {
     rightBarButtonItem.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        boardTableViewCell.titleLabel.text = self.titleText.text
-        var currentItems = boardViewController.tableItems.value
-        currentItems.append("새로운 항목 \(currentItems.count + 1)")
-        self.boardViewController.tableItems.accept(currentItems)
+        if let title = self.titleText.text, let content = self.userTextSet.text {
+          self.onPostAdded?(title, content)
+        }
         self.navigationController?.popViewController(animated: true)
-      }).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
     
     leftBarButtonItem.rx.tap
       .subscribe(onNext: { [weak self] in
         self?.navigationController?.popViewController(animated: true)
-      }).disposed(by: disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
   
   private func reportViewLayOut() {
@@ -185,7 +170,5 @@ class ReportViewController: UIViewController {
       $0.width.equalTo(80)
       $0.height.equalTo(40)
     }
-    
   }
-  
 }
