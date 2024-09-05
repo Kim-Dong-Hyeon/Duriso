@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Shelter {
+struct Shelter: PoiData {
   let id: String
   let name: String
+  let address: String
   let longitude: Double
   let latitude: Double
   let capacity: Int

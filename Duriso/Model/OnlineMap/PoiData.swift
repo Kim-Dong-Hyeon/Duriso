@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol PoiData {
+  var id: String { get }
+  var name: String { get }
+  var address: String { get }
+  var longitude: Double { get }
+  var latitude: Double { get }
+}

@@ -15,9 +15,9 @@ class ShelterData {
   // 더미 데이터를 생성하여 반환하는 메서드
   func setShelters() -> [Shelter] {
     return [
-      Shelter(id: "1", name: "Shelter A", longitude: 126.977969, latitude: 37.566535, capacity: 100),
-      Shelter(id: "2", name: "Shelter B", longitude: 126.9750, latitude: 37.5650, capacity: 50),
-      Shelter(id: "3", name: "Shelter C", longitude: 126.9740, latitude: 37.5640, capacity: 200),
+      Shelter(id: "1", name: "Shelter A", address: "00시 00구 00동 상세주소", longitude: 126.977969, latitude: 37.566535, capacity: 100),
+      Shelter(id: "2", name: "Shelter B", address: "00시 00구 00동 상세주소", longitude: 126.9750, latitude: 37.5650, capacity: 50),
+      Shelter(id: "3", name: "Shelter C", address: "00시 00구 00동 상세주소", longitude: 126.9740, latitude: 37.5640, capacity: 200),
       // 필요한 만큼 더미 데이터 추가
     ]
   }
