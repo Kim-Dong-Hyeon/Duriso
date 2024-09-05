@@ -1,13 +1,13 @@
 //
-//  Shelter.swift
+//  File.swift
 //  Duriso
 //
-//  Created by 김동현 on 8/26/24.
+//  Created by t2024-m0153 on 9/5/24.
 //
 
 import Foundation
 
-struct Shelter: PoiData {
+struct Notification: PoiData {
   let id: String
   let name: String
   let address: String
