@@ -23,18 +23,17 @@
 		7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */; };
 		7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03E2C7C178400B1AEB2 /* FirebaseStorage */; };
 		7622D0462C7C1CDC00B1AEB2 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */; };
-		7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */; };
+		7622D04B2C7C1DC200B1AEB2 /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04A2C7C1DC200B1AEB2 /* OnlineViewController.swift */; };
 		7622D04E2C7C1E7D00B1AEB2 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */; };
 		7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */; };
 		7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */; };
-		7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */; };
+		7622D0582C7C1F8000B1AEB2 /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0572C7C1F8000B1AEB2 /* PoiViewModel.swift */; };
 		7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */; };
 		7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */; };
 		7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */; };
 		7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */; };
 		7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */; };
 		7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */; };
-		7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0752C7C21C700B1AEB2 /* BoardModel.swift */; };
 		7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0772C7C21D100B1AEB2 /* GuidelineModel.swift */; };
 		7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */; };
 		7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */; };
@@ -42,7 +41,6 @@
 		7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
 		7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
 		7622D08A2C7EB32900B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */; };
-		763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
 		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
 		763C0A302C7B125C006BC4E7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2F2C7B125C006BC4E7 /* Base */; };
 		763C0A382C7B17AE006BC4E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A372C7B17AE006BC4E7 /* README.md */; };
@@ -53,7 +51,6 @@
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
 		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
-		7648A3162C843627000357D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648A3152C843627000357D0 /* SceneDelegate.swift */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
 		767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflineViewModel.swift */; };
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
@@ -63,6 +60,14 @@
 		768F50952C86B89B00A92ED6 /* Shelter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0712C7C21A900B1AEB2 /* Shelter.swift */; };
 		768F50972C881F9A00A92ED6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50962C881F9A00A92ED6 /* Environment.swift */; };
 		D613FE482C869244000FA3F5 /* ShelterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE472C869244000FA3F5 /* ShelterData.swift */; };
+		D613FE4C2C881A55000FA3F5 /* MapBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE4B2C881A55000FA3F5 /* MapBottomSheetViewController.swift */; };
+		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
+		D613FE512C8822AF000FA3F5 /* PaneltContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE502C8822AE000FA3F5 /* PaneltContentsViewController.swift */; };
+		D613FE532C885B57000FA3F5 /* Aed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE522C885B57000FA3F5 /* Aed.swift */; };
+		D613FE552C885B63000FA3F5 /* AedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE542C885B63000FA3F5 /* AedData.swift */; };
+		D613FE572C885F6D000FA3F5 /* PoiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613FE562C885F6D000FA3F5 /* PoiData.swift */; };
+		D61476582C89A02F0003B4C4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61476572C89A02F0003B4C4 /* Notification.swift */; };
+		D614765A2C89A0450003B4C4 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61476592C89A0450003B4C4 /* NotificationData.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D6FBE7D32C84204F003D7A1D /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
@@ -98,11 +103,11 @@
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
-		7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewController.swift; sourceTree = "<group>"; };
+		7622D04A2C7C1DC200B1AEB2 /* OnlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		7622D04D2C7C1E7D00B1AEB2 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		7622D04F2C7C1E8A00B1AEB2 /* GuidelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewController.swift; sourceTree = "<group>"; };
 		7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMapViewModel.swift; sourceTree = "<group>"; };
+		7622D0572C7C1F8000B1AEB2 /* PoiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoiViewModel.swift; sourceTree = "<group>"; };
 		7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +134,13 @@
 		7676228B2C85E6710075B09E /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = Duriso/Secrets.xcconfig; sourceTree = SOURCE_ROOT; };
 		768F50962C881F9A00A92ED6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		D613FE472C869244000FA3F5 /* ShelterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterData.swift; sourceTree = "<group>"; };
+		D613FE4B2C881A55000FA3F5 /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
+		D613FE502C8822AE000FA3F5 /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
+		D613FE522C885B57000FA3F5 /* Aed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aed.swift; sourceTree = "<group>"; };
+		D613FE542C885B63000FA3F5 /* AedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedData.swift; sourceTree = "<group>"; };
+		D613FE562C885F6D000FA3F5 /* PoiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoiData.swift; sourceTree = "<group>"; };
+		D61476572C89A02F0003B4C4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		D61476592C89A0450003B4C4 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
@@ -163,6 +175,7 @@
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
+				D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */,
@@ -226,8 +239,10 @@
 		7622D0472C7C1D7A00B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				7622D04A2C7C1DC200B1AEB2 /* OnlineMapViewController.swift */,
+				7622D04A2C7C1DC200B1AEB2 /* OnlineViewController.swift */,
 				D6FBE7D22C84204F003D7A1D /* KakaoMapViewController.swift */,
+				D613FE4B2C881A55000FA3F5 /* MapBottomSheetViewController.swift */,
+				D613FE502C8822AE000FA3F5 /* PaneltContentsViewController.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -274,7 +289,7 @@
 		7622D0532C7C1F5900B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				7622D0572C7C1F8000B1AEB2 /* OnlineMapViewModel.swift */,
+				7622D0572C7C1F8000B1AEB2 /* PoiViewModel.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -344,6 +359,11 @@
 			children = (
 				7622D0712C7C21A900B1AEB2 /* Shelter.swift */,
 				D613FE472C869244000FA3F5 /* ShelterData.swift */,
+				D613FE522C885B57000FA3F5 /* Aed.swift */,
+				D613FE542C885B63000FA3F5 /* AedData.swift */,
+				D61476572C89A02F0003B4C4 /* Notification.swift */,
+				D61476592C89A0450003B4C4 /* NotificationData.swift */,
+				D613FE562C885F6D000FA3F5 /* PoiData.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -510,6 +530,7 @@
 				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
+				D613FE4E2C882049000FA3F5 /* FloatingPanel */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -547,6 +568,7 @@
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
+				D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -593,17 +615,18 @@
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
+				D613FE512C8822AF000FA3F5 /* PaneltContentsViewController.swift in Sources */,
 				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
+				D613FE572C885F6D000FA3F5 /* PoiData.swift in Sources */,
+				D613FE552C885B63000FA3F5 /* AedData.swift in Sources */,
+				D613FE532C885B57000FA3F5 /* Aed.swift in Sources */,
 				E2DAB85E2C86380D0037BCA2 /* LegalNoticeViewController.swift in Sources */,
-				763C0A242C7B125B006BC4E7 /* AppDelegate.swift in Sources */,
-				7648A3162C843627000357D0 /* SceneDelegate.swift in Sources */,
-				7622D0762C7C21C700B1AEB2 /* BoardModel.swift in Sources */,
 				149EEFB52C8723610088FDB2 /* GuidelineViewModel.swift in Sources */,
 				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarViewController.swift in Sources */,
 				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
-				7622D04B2C7C1DC200B1AEB2 /* OnlineMapViewController.swift in Sources */,
+				7622D04B2C7C1DC200B1AEB2 /* OnlineViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
 				E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */,
@@ -618,6 +641,7 @@
 				D6FBE7D32C84204F003D7A1D /* KakaoMapViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
+				D613FE4C2C881A55000FA3F5 /* MapBottomSheetViewController.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */,
@@ -634,8 +658,10 @@
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
-				7622D0582C7C1F8000B1AEB2 /* OnlineMapViewModel.swift in Sources */,
+				7622D0582C7C1F8000B1AEB2 /* PoiViewModel.swift in Sources */,
+				D61476582C89A02F0003B4C4 /* Notification.swift in Sources */,
 				149A050F2C81B28E00CE74B4 /* BoardTableViewCell.swift in Sources */,
+				D614765A2C89A0450003B4C4 /* NotificationData.swift in Sources */,
 				149A050D2C807BC300CE74B4 /* BoardCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -925,6 +951,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scenee/FloatingPanel.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -977,6 +1011,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		D613FE4E2C882049000FA3F5 /* FloatingPanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

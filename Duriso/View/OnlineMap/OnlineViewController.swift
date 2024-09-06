@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class OnlineMapViewController: UIViewController {
+class OnlineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
@@ -247,4 +247,4 @@ class OnlineMapViewController: UIViewController {
 }
 
 @available(iOS 17.0, *)
-#Preview { OnlineMapViewController() }
+#Preview { OnlineViewController() }
