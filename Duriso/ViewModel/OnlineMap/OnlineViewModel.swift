@@ -92,19 +92,19 @@ class OnlineViewModel {
     }
   }
   
-func initializeButtonStates() {
-      let buttons = [
-          ButtonType.shelter: (buttonRelay: shelterButtonSelected, color: UIColor.CGreen),
-          ButtonType.defibrillator: (buttonRelay: defibrillatorButtonSelected, color: UIColor.CRed),
-          ButtonType.emergencyReport: (buttonRelay: emergencyReportButtonSelected, color: UIColor.CBlue)
-      ]
-      
-      for (type, (buttonRelay, color)) in buttons {
-          buttonRelay.accept(true) // 초기 상태는 선택되지 않은 상태
-          let button = getButton(for: type)
-          button?.isSelected = false
-          button?.backgroundColor = color // 색상 설정
-      }
+  func initializeButtonStates() {
+    let buttons = [
+      ButtonType.shelter: (buttonRelay: shelterButtonSelected, color: UIColor.CGreen),
+      ButtonType.defibrillator: (buttonRelay: defibrillatorButtonSelected, color: UIColor.CRed),
+      ButtonType.emergencyReport: (buttonRelay: emergencyReportButtonSelected, color: UIColor.CBlue)
+    ]
+    
+    for (type, (buttonRelay, color)) in buttons {
+      buttonRelay.accept(true) // 초기 상태는 선택되지 않은 상태
+      let button = getButton(for: type)
+      button?.isSelected = false
+      button?.backgroundColor = color // 색상 설정
+    }
   }
   
   private func getButton(for type: ButtonType) -> UIButton? {

@@ -202,12 +202,12 @@ class OnlineMapViewController: UIViewController {
   }
   
   private func presentMapBottomSheet() {
-      // MapBottomSheetViewController를 인스턴스화합니다
-      let bottomSheetVC = MapBottomSheetViewController()
-      
-      // FloatingPanelController와 함께 bottomSheetVC를 설정합니다
-      mapBottomSheetViewController = bottomSheetVC
-      present(mapBottomSheetViewController!, animated: true, completion: nil)
+    // MapBottomSheetViewController를 인스턴스화합니다
+    let bottomSheetVC = MapBottomSheetViewController()
+    
+    // FloatingPanelController와 함께 bottomSheetVC를 설정합니다
+    mapBottomSheetViewController = bottomSheetVC
+    present(mapBottomSheetViewController!, animated: true, completion: nil)
   }
   
   private func setupButtonBindings() {
