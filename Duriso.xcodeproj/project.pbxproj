@@ -51,7 +51,6 @@
 		763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A3F2C7B1AA7006BC4E7 /* RxCocoa */; };
 		763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A412C7B1AA7006BC4E7 /* RxSwift */; };
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
-		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
 		7648A3162C843627000357D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648A3152C843627000357D0 /* SceneDelegate.swift */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
@@ -184,7 +183,6 @@
 				D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
-				763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
@@ -532,7 +530,6 @@
 				763C0A3F2C7B1AA7006BC4E7 /* RxCocoa */,
 				763C0A412C7B1AA7006BC4E7 /* RxSwift */,
 				763C0A442C7B1AFB006BC4E7 /* Alamofire */,
-				763C0A472C7B1B30006BC4E7 /* Kingfisher */,
 				763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */,
 				7622D03A2C7C178400B1AEB2 /* FirebaseAuth */,
 				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
@@ -572,7 +569,6 @@
 				763C0A3B2C7B1A2F006BC4E7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				763C0A3E2C7B1AA7006BC4E7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				763C0A432C7B1AFB006BC4E7 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
@@ -944,14 +940,6 @@
 				minimumVersion = 5.9.1;
 			};
 		};
-		763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.12.0;
-			};
-		};
 		763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git";
@@ -1013,11 +1001,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 763C0A432C7B1AFB006BC4E7 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		763C0A472C7B1B30006BC4E7 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */ = {
 			isa = XCSwiftPackageProductDependency;
