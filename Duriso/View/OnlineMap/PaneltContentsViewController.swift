@@ -13,24 +13,37 @@ import Then
 class PaneltContentsViewController: UIViewController {
   
   internal let poiViewTitle = UILabel().then {
-    $0.text = "서울시청 무더위 대피소"
+    $0.text = "우리 동네 한줄 제보"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head2.font()
+    $0.font = CustomFont.Deco2.font()
   }
   
-  private let poiViewType = UILabel().then {
-    $0.text = "대피소 종류"
-    $0.textColor = .CBlack
-    $0.textAlignment = .left
-    $0.font = CustomFont.sub2.font()
+  private let megaphoneLabel = UIImageView().then {
+    $0.image = UIImage(systemName: "megaphone")
+    $0.tintColor = .CRed
+    $0.contentMode = .scaleAspectFit
   }
   
   private let poiViewAddress = UILabel().then {
-    $0.text = "서울특별시 00구 00동 00로 000"
+    $0.text = "서울특별시 00구 00동"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body2.font()
+  }
+  
+  private let postTime = UILabel().then {
+    $0.text = "00분전"
+    $0.textColor = .CBlack
+    $0.textAlignment = .center
+    $0.font = CustomFont.Body3.font()
+  }
+  
+  private let cancleButton = UIButton().then {
+    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
+    $0.tintColor = .black  // 아이콘 색상 설정
+    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
+    $0.addTarget(self, action: #selector(didTapcancelButton), for: .touchUpInside)
   }
   
   override func viewDidLoad() {
@@ -44,8 +57,10 @@ class PaneltContentsViewController: UIViewController {
   func setupView() {
     [
       poiViewTitle,
-      poiViewType,
-      poiViewAddress
+      megaphoneLabel,
+      poiViewAddress,
+      postTime,
+      cancleButton
     ].forEach { view.addSubview($0) }
   }
   
@@ -60,27 +75,30 @@ class PaneltContentsViewController: UIViewController {
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    poiViewType.snp.makeConstraints{
+    postTime.snp.makeConstraints {
       $0.centerY.equalTo(poiViewTitle.snp.centerY)
-      $0.leading.equalTo(poiViewTitle.snp.trailing).offset(24)
-
+      $0.leading.equalTo(poiViewAddress.snp.trailing).offset(8)
+    }
+    
+    megaphoneLabel.snp.makeConstraints{
+      $0.centerY.equalTo(poiViewTitle.snp.centerY)
+      $0.leading.equalTo(poiViewTitle.snp.trailing).offset(16)
+      $0.width.height.equalTo(32)
+    }
+    
+    cancleButton.snp.makeConstraints {
+      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.width.height.equalTo(32)
     }
   }
   
   func updatePoiData(with poiData: PoiData) {
     // 공통된 속성 업데이트
     poiViewTitle.text = poiData.id
-    
-    // 타입에 따라 적절한 추가 정보를 설정합니다.
-    if let shelter = poiData as? Shelter {
-      poiViewType.text = "Shelter - Capacity: \(shelter.capacity)"
-    } else if let aed = poiData as? Aed {
-      poiViewType.text = "AED - address: \(aed.address)"
-    } else if let notification = poiData as? Notification {
-      poiViewType.text = "Notification - address: \(notification.address)"
-    } else {
-      poiViewType.text = "Unknown Type"
-    }
+  }
+  
+  @objc func didTapcancelButton() {
+    dismiss(animated: true)
   }
 }
 

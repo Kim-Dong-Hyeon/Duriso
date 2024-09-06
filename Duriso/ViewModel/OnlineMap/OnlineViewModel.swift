@@ -28,8 +28,6 @@ class OnlineViewModel {
     initializeButtonStates()
   }
   
-  
-  
   private func bindButtonTap(button: UIButton, selectedColor: UIColor, buttonType: ButtonType) {
     button.rx.tap
       .subscribe(onNext: { [weak self] in
