@@ -129,7 +129,6 @@
 		768F50962C881F9A00A92ED6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		768F509E2C89DC0D00A92ED6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Duriso.entitlements; sourceTree = "<group>"; };
-		D61476592C89A0450003B4C4 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		768F50A72C8B530300A92ED6 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardViewController.swift; path = ../../../../../../Downloads/Duriso/Duriso/View/Board/BoardViewController.swift; sourceTree = "<group>"; };
 		768F50A82C8B530300A92ED6 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -144,10 +143,6 @@
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
 		D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
-		D614130F2C8B4F84007BA568 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
-		D61413102C8B4F85007BA568 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
-		D61413112C8B4F85007BA568 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
-		D61413122C8B4F85007BA568 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
@@ -424,7 +419,6 @@
 				7622D0352C7C049A00B1AEB2 /* CommitConvention.md */,
 				763C0A222C7B125B006BC4E7 /* Duriso */,
 				763C0A212C7B125B006BC4E7 /* Products */,
-				768F50A12C8B516F00A92ED6 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -468,17 +462,6 @@
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		768F50A12C8B516F00A92ED6 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				D614130F2C8B4F84007BA568 /* BoardCollectionViewCell.swift */,
-				D61413102C8B4F85007BA568 /* PostViewController.swift */,
-				D61413112C8B4F85007BA568 /* BoardViewController.swift */,
-				D61413122C8B4F85007BA568 /* BoardTableViewCell.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		D61B61212C7C396900C5E69D /* FontAssets */ = {
