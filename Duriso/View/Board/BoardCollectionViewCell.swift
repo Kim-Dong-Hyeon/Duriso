@@ -6,27 +6,26 @@
 //
 
 import UIKit
-
-import RxCocoa
 import RxSwift
+import RxCocoa
 import SnapKit
 
 class BoardCollectionViewCell: UICollectionViewCell {
   
   static let boardCell = "BoardCollectionViewCell"
   
-  private var disposeBag = DisposeBag()
-  
-  private let notificationButton = UIButton().then {
-    $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .lightGray
-    $0.layer.cornerRadius = 15
-    $0.titleLabel?.font = CustomFont.Deco4.font()
-    $0.titleLabel?.numberOfLines = 1
-    $0.titleLabel?.adjustsFontSizeToFitWidth = true
-    $0.titleLabel?.minimumScaleFactor = 0.5
-    $0.imageView?.contentMode = .scaleAspectFit
-  }
+  private let notificationButton: UIButton = {
+    let button = UIButton()
+    button.setTitleColor(.black, for: .normal)
+    button.backgroundColor = .lightGray
+    button.layer.cornerRadius = 15
+    button.titleLabel?.font = CustomFont.Deco4.font()
+    button.titleLabel?.numberOfLines = 1
+    button.titleLabel?.adjustsFontSizeToFitWidth = true
+    button.titleLabel?.minimumScaleFactor = 0.5
+    button.imageView?.contentMode = .scaleAspectFit
+    return button
+  }()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -47,6 +46,7 @@ class BoardCollectionViewCell: UICollectionViewCell {
   
   func configure(with model: SomeDataModel) {
     notificationButton.setTitle(model.name, for: .normal)
+    
     notificationButton.setImage(nil, for: .normal)
     
     if let image = model.image {
@@ -54,18 +54,5 @@ class BoardCollectionViewCell: UICollectionViewCell {
       notificationButton.setImage(tintedImage, for: .normal)
       notificationButton.tintColor = .red
     }
-  }
-  
-  func bindTapAction(onTap: @escaping () -> Void) {
-    notificationButton.rx.tap
-      .subscribe(onNext: {
-        onTap()  //버튼이 눌렸을때 실행할 동작
-      })
-      .disposed(by: disposeBag)
-  }
-  
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    disposeBag = DisposeBag()
   }
 }

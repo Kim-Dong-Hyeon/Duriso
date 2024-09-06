@@ -8,10 +8,8 @@
 import Foundation
 import UIKit
 
-struct Post {
-    let title: String
-    let content: String
-    let createdAt: Date
+struct TableViewModel {
+  let title: String
 }
 
 struct SomeDataModel {

@@ -16,44 +16,37 @@ class OnlineViewController: UIViewController {
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   
-  private let addressView: UIView = {
-    let view = UIView()
-    view.layer.cornerRadius = 20
-    view.backgroundColor = .CWhite
-    view.layer.shadowOffset = CGSize(width: 0, height: 4)
-    view.layer.shadowOpacity = 0.15
-    view.layer.shadowColor = UIColor.CBlack.cgColor
-    view.layer.shadowRadius = 8
-    view.layer.masksToBounds = false
-    return view
-  }()
+  private let addressView = UIView().then {
+    $0.backgroundColor = .CWhite
+    $0.layer.cornerRadius = 20
+    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
+    $0.layer.shadowOpacity = 0.15
+    $0.layer.shadowColor = UIColor.CBlack.cgColor
+    $0.layer.shadowRadius = 8
+    $0.layer.masksToBounds = false
+  }
   
-  private let addressLabel: UILabel = {
-    let label = UILabel()
-    label.text = "00시 00구 00동"
-    label.font = CustomFont.Head3.font()
-    return label
-  }()
+  private let addressLabel = UILabel().then {
+    $0.text = "00시 00구 00동"
+    $0.textColor = .CBlack
+    $0.textAlignment = .left
+    $0.font = CustomFont.Head3.font()
+  }
   
-  private let buttonStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.alignment = .center
-    stackView.distribution = .fillProportionally
-    stackView.axis = .horizontal
-    stackView.spacing = 8
-    return stackView
-  }()
+  private let buttonStackView = UIStackView().then {
+    $0.alignment = .center
+    $0.distribution = .fillProportionally
+    $0.axis = .horizontal
+    $0.spacing = 8
+  }
   
-  private let currentLocationButton: UIButton = {
-    let button = UIButton()
-    return button
-  }()
-  
-  private let writingButton: UIButton = {
-    let button = UIButton()
-    button.setImage(UIImage(named: "writingButton"), for: .normal)
-    return button
-  }()
+  private let currentLocationButton = UIButton().then {
+    $0.backgroundColor = .white
+  }
+
+  private let writingButton = UIButton().then {
+    $0.setImage(UIImage(named: "writingButton"), for: .normal)
+  }
   
   private lazy var shelterButton: UIButton = createButton(
     title: "대피소",

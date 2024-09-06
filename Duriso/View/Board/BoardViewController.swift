@@ -6,37 +6,44 @@
 //
 
 import UIKit
-
-import RxCocoa
 import RxSwift
+import RxCocoa
 import SnapKit
 
 class BoardViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  private let tableItems = BehaviorRelay<[Post]>(value: []) //
+  let tableItems = BehaviorRelay<[String]>(value: [])
   
-  private let notificationHeadLabel = UILabel().then {
-    $0.text = "우리동네 알리미"
-    $0.font = CustomFont.Deco.font()
-  }
+  private let notificationHeadLabel: UILabel = {
+    let label = UILabel()
+    label.text = "우리동네 알리미"
+    label.font = CustomFont.Deco.font()
+    return label
+  }()
   
-  private let notificationHeadImage = UIImageView().then {
-    $0.image = UIImage(systemName: "megaphone")
-    $0.tintColor = .red
-  }
+  private let notificationHeadImage: UIImageView = {
+    let image = UIImageView()
+    image.image = UIImage(systemName: "megaphone")
+    image.tintColor = .red
+    return image
+  }()
   
-  private let notificationLineView = UIView().then {
-    $0.backgroundColor = .lightGray
-  }
+  private let notificationLineView: UIView = {
+    let view = UIView()
+    view.backgroundColor = .lightGray
+    return view
+  }()
   
-  private let writingButton = UIButton().then {
-    $0.setTitle("+글쓰기", for: .normal)
-    $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .lightGray
-    $0.layer.cornerRadius = 15
-    $0.titleLabel?.font = CustomFont.Deco4.font()
-  }
+  private let writingButton: UIButton = {
+    let button = UIButton()
+    button.setTitle("+글쓰기", for: .normal)
+    button.setTitleColor(.black, for: .normal)
+    button.backgroundColor = .lightGray
+    button.layer.cornerRadius = 15
+    button.titleLabel?.font = CustomFont.Deco4.font()
+    return button
+  }()
   
   private let notificationCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -48,38 +55,29 @@ class BoardViewController: UIViewController {
     return collectionView
   }()
   
-  private let notificationLineView1 = UIView().then {
-    $0.backgroundColor = .lightGray
-  }
+  private let notificationLineView1: UIView = {
+    let view = UIView()
+    view.backgroundColor = .lightGray
+    return view
+  }()
   
-  private let notificationTableView = UITableView().then {
-    $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
-  }
+  private let notificationTableView: UITableView = {
+    let view = UITableView()
+    view.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
+    return view
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
-    
     setupLayout()
-    writingButtonTap()
     bindTableView()
-    bindCollectionView()
   }
   
-  private func bindCollectionView() {
-    let dataSource = Observable.just(SomeDataModel.Mocks.getDataSource())
-    
-    dataSource
-      .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { row, model, cell in
-        cell.configure(with: model)
-      }
-      .disposed(by: disposeBag)
-    
-    notificationCollectionView.rx.modelSelected(SomeDataModel.self)
-      .subscribe(onNext: { model in
-        print("Selected: \(model.name)")
-      })
-      .disposed(by: disposeBag)
+  override func viewWillAppear(_ animated: Bool) {
+    bindCollectionView()
+    writingButtonTap()
+    //    bindTableView()
   }
   
   private func writingButtonTap() {
@@ -92,22 +90,7 @@ class BoardViewController: UIViewController {
   
   private func reportNavigation() {
     let reportViewController = ReportViewController()
-    reportViewController.onPostAdded = { [weak self] title, content in
-      guard let self = self else { return }
-      let newPost = Post(title: title, content: content, createdAt: Date()) //새로운 게시글 생성
-      var currentItems = self.tableItems.value //테이블아이템의 벨류를 가져옴
-      currentItems.append(newPost) //어펜드로 새로운 게시글 추가
-      self.tableItems.accept(currentItems) // 게시글 생성 시간 계산하여 설정해줌
-    }
     self.navigationController?.pushViewController(reportViewController, animated: true)
-  }
-  
-  private func bindTableView() {
-    tableItems
-      .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
-        cell.configure(with: post) // 셀마다 게시글의 데이터를 설정해줌
-      }
-      .disposed(by: disposeBag)
   }
   
   private func setupLayout() {
@@ -164,5 +147,27 @@ class BoardViewController: UIViewController {
       $0.height.equalTo(30)
       $0.width.equalTo(80)
     }
+  }
+  
+  private func bindCollectionView() {
+    let dataSource = Observable.just(SomeDataModel.Mocks.getDataSource())
+    
+    dataSource
+      .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { row, model, cell in
+        cell.configure(with: model)
+      }
+      .disposed(by: disposeBag)
+    
+    notificationCollectionView.rx.modelSelected(SomeDataModel.self)
+      .subscribe(onNext: { model in
+        print("Selected: \(model.name)")
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindTableView() {
+    tableItems.bind(to: notificationTableView.rx.items(cellIdentifier: "cell")) { index, item, cell in
+      cell.textLabel?.text = item
+    }.disposed(by: disposeBag)
   }
 }

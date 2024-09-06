@@ -70,15 +70,14 @@ class PaneltContentsViewController: UIViewController {
   func updatePoiData(with poiData: PoiData) {
     // 공통된 속성 업데이트
     poiViewTitle.text = poiData.id
-    poiViewAddress.text = poiData.address
     
     // 타입에 따라 적절한 추가 정보를 설정합니다.
     if let shelter = poiData as? Shelter {
       poiViewType.text = "Shelter - Capacity: \(shelter.capacity)"
     } else if let aed = poiData as? Aed {
-      poiViewType.text = "AED - Capacity: \(aed.capacity)"
+      poiViewType.text = "AED - address: \(aed.address)"
     } else if let notification = poiData as? Notification {
-      poiViewType.text = "Notification - Capacity: \(notification.capacity)"
+      poiViewType.text = "Notification - address: \(notification.address)"
     } else {
       poiViewType.text = "Unknown Type"
     }
