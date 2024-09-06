@@ -133,6 +133,14 @@ class BoardViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  private func bindTableView() {
+    tableItems
+      .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
+        cell.configure(with: post) // 셀마다 게시글의 데이터를 설정해줌
+      }
+      .disposed(by: disposeBag)
+  }
+  
   private func setupLayout() {
     [
       notificationHeadLabel,
