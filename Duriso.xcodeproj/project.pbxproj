@@ -43,7 +43,6 @@
 		763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A3F2C7B1AA7006BC4E7 /* RxCocoa */; };
 		763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A412C7B1AA7006BC4E7 /* RxSwift */; };
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
-		763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A472C7B1B30006BC4E7 /* Kingfisher */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
 		767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflineViewModel.swift */; };
@@ -52,6 +51,7 @@
 		7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7676228B2C85E6710075B09E /* Secrets.xcconfig */; };
 		7676228E2C85F2190075B09E /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622822C85C8610075B09E /* OfflineViewController.swift */; };
 		768F50972C881F9A00A92ED6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50962C881F9A00A92ED6 /* Environment.swift */; };
+		768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F509E2C89DC0D00A92ED6 /* LocationManager.swift */; };
 		768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
 		768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648A3152C843627000357D0 /* SceneDelegate.swift */; };
 		768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0752C7C21C700B1AEB2 /* BoardModel.swift */; };
@@ -127,6 +127,9 @@
 		767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 		7676228B2C85E6710075B09E /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Secrets.xcconfig; path = Duriso/Secrets.xcconfig; sourceTree = SOURCE_ROOT; };
 		768F50962C881F9A00A92ED6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		768F509E2C89DC0D00A92ED6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Duriso.entitlements; sourceTree = "<group>"; };
+		D61476592C89A0450003B4C4 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		768F50A72C8B530300A92ED6 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardViewController.swift; path = ../../../../../../Downloads/Duriso/Duriso/View/Board/BoardViewController.swift; sourceTree = "<group>"; };
 		768F50A82C8B530300A92ED6 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -181,7 +184,6 @@
 				D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
-				763C0A482C7B1B30006BC4E7 /* Kingfisher in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
@@ -440,6 +442,7 @@
 		763C0A222C7B125B006BC4E7 /* Duriso */ = {
 			isa = PBXGroup;
 			children = (
+				768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */,
 				E20C3A5E2C873A8600AD5AA4 /* LegalNotice */,
 				149EEFB62C87246A0088FDB2 /* Network */,
 				7622D05F2C7C1FA800B1AEB2 /* App */,
@@ -460,6 +463,7 @@
 		7676227F2C85AE500075B09E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				768F509E2C89DC0D00A92ED6 /* LocationManager.swift */,
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 			);
@@ -537,7 +541,6 @@
 				763C0A3F2C7B1AA7006BC4E7 /* RxCocoa */,
 				763C0A412C7B1AA7006BC4E7 /* RxSwift */,
 				763C0A442C7B1AFB006BC4E7 /* Alamofire */,
-				763C0A472C7B1B30006BC4E7 /* Kingfisher */,
 				763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */,
 				7622D03A2C7C178400B1AEB2 /* FirebaseAuth */,
 				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
@@ -577,7 +580,6 @@
 				763C0A3B2C7B1A2F006BC4E7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				763C0A3E2C7B1AA7006BC4E7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				763C0A432C7B1AFB006BC4E7 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
@@ -663,6 +665,7 @@
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
+				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
 				149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */,
@@ -819,6 +822,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Duriso/Duriso.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -855,6 +859,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Duriso/Duriso.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -941,14 +946,6 @@
 				minimumVersion = 5.9.1;
 			};
 		};
-		763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.12.0;
-			};
-		};
 		763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git";
@@ -1010,11 +1007,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 763C0A432C7B1AFB006BC4E7 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		763C0A472C7B1B30006BC4E7 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 763C0A462C7B1B30006BC4E7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 		763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */ = {
 			isa = XCSwiftPackageProductDependency;
