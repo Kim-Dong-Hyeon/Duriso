@@ -9,86 +9,76 @@ import UIKit
 
 import RxCocoa
 import RxSwift
-import SnapKit
 
 class OnlineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  private let onlineMapViewController = KakaoMapViewController()
+  private let kakaoMap = KakaoMapViewController()
   private let onlineView = OnlineView()
-  
-  override func loadView() {
-    view = onlineView
-  }
+  private let viewModel = OnlineViewModel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupButtonBindings()
+    setupBindings()
+    setupMapView()
   }
   
-  private func setupButtonBindings() {
-    bindButtonTap(button: onlineView.shelterButton, selectedColor: .CGreen)
-    bindButtonTap(button: onlineView.defibrillatorButton, selectedColor: .CRed)
-    bindButtonTap(button: onlineView.emergencyReportButton, selectedColor: .CBlue)
+  private func setupMapView() {
+    // KakaoMapViewController를 자식으로 추가
+    addChild(kakaoMap)
+    view.addSubview(kakaoMap.view)
+    kakaoMap.didMove(toParent: self)
     
-    addChild(onlineMapViewController)
-    view.addSubview(onlineMapViewController.view)
-    onlineMapViewController.didMove(toParent: self)
+    // KakaoMapViewController의 뷰가 전체 화면을 차지하도록 제약 조건 설정
+    kakaoMap.view.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
     
-    onlineMapViewController.view.snp.makeConstraints {
+    // OnlineView를 현재 뷰 컨트롤러의 뷰에 추가
+    view.addSubview(onlineView)
+    
+    // OnlineView의 제약 조건 설정 (전체 화면을 차지하도록 설정)
+    onlineView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
   }
   
-  private func bindButtonTap(button: UIButton, selectedColor: UIColor) {
-    button.rx.tap
-      .subscribe(onNext: { [weak self] in
-        guard let self = self else { return }
-        
-        if self.areAllButtonsSelected() {
-          self.resetButtonsExcept(button)
-          button.isSelected = true
-          button.backgroundColor = selectedColor
-        } else if button.isSelected {
-          self.selectAllButtons()
-        } else {
-          self.resetButtonsExcept(button)
-          button.isSelected = true
-          button.backgroundColor = selectedColor
-        }
-      })
+  private func setupBindings() {
+    viewModel.setupButtonBindings(
+      shelterButton: onlineView.shelterButton,
+      defibrillatorButton: onlineView.defibrillatorButton,
+      emergencyReportButton: onlineView.emergencyReportButton
+    )
+    
+    viewModel.shelterButtonSelected
+      .bind(to: onlineView.shelterButton.rx.isSelected)
       .disposed(by: disposeBag)
-  }
-  
-  private func areAllButtonsSelected() -> Bool {
-    return onlineView.shelterButton.isSelected && onlineView.defibrillatorButton.isSelected && onlineView.emergencyReportButton.isSelected
-  }
-  
-  private func resetButtonsExcept(_ selectedButton: UIButton) {
-    let buttons = [onlineView.shelterButton, onlineView.defibrillatorButton, onlineView.emergencyReportButton]
-    for button in buttons {
-      if button != selectedButton {
-        button.isSelected = false
-        button.backgroundColor = .CLightBlue
-      }
+    
+    viewModel.defibrillatorButtonSelected
+      .bind(to: onlineView.defibrillatorButton.rx.isSelected)
+      .disposed(by: disposeBag)
+    
+    viewModel.emergencyReportButtonSelected
+      .bind(to: onlineView.emergencyReportButton.rx.isSelected)
+      .disposed(by: disposeBag)
+    
+    Observable.combineLatest(
+      viewModel.shelterButtonSelected,
+      viewModel.defibrillatorButtonSelected,
+      viewModel.emergencyReportButtonSelected
+    ).map { shelter, defibrillator, emergencyReport in
+      return (shelter, defibrillator, emergencyReport)
     }
+    .subscribe(onNext: { [weak self] shelter, defibrillator, emergencyReport in
+      self?.updateButtonColors(shelter: shelter, defibrillator: defibrillator, emergencyReport: emergencyReport)
+    })
+    .disposed(by: disposeBag)
   }
   
-  private func selectAllButtons() {
-    let buttons = [onlineView.shelterButton, onlineView.defibrillatorButton, onlineView.emergencyReportButton]
-    for button in buttons {
-      button.isSelected = true
-      switch button {
-      case onlineView.shelterButton:
-        button.backgroundColor = .CGreen
-      case onlineView.defibrillatorButton:
-        button.backgroundColor = .CRed
-      case onlineView.emergencyReportButton:
-        button.backgroundColor = .CBlue
-      default:
-        break
-      }
-    }
+  private func updateButtonColors(shelter: Bool, defibrillator: Bool, emergencyReport: Bool) {
+    onlineView.shelterButton.backgroundColor = shelter ? .CGreen : .CLightBlue
+    onlineView.defibrillatorButton.backgroundColor = defibrillator ? .CRed : .CLightBlue
+    onlineView.emergencyReportButton.backgroundColor = emergencyReport ? .CBlue : .CLightBlue
   }
 }
 

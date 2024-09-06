@@ -94,40 +94,43 @@ class OnlineView: UIView {
   }
   
   private func setupConstraints() {
-    addressView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview().offset(80)
-      $0.width.equalTo(180)
-      $0.height.equalTo(40)
-    }
-    
-    addressLabel.snp.makeConstraints {
-      $0.center.equalTo(addressView)
-    }
-    
-    writingButton.snp.makeConstraints{
-      $0.trailing.equalToSuperview().offset(-16)
-      $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
-      $0.width.height.equalTo(40)
-    }
-    
-    buttonStackView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().offset(-96)
-    }
-    
-    shelterButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
-    
-    defibrillatorButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
-    
-    emergencyReportButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
+      addressView.snp.makeConstraints {
+          $0.centerX.equalToSuperview()
+          $0.top.equalToSuperview().offset(80)
+          $0.width.equalTo(180)
+          $0.height.equalTo(40)
+      }
+      
+      addressLabel.snp.makeConstraints {
+          $0.center.equalTo(addressView)
+      }
+      
+      // Adjust writingButton constraints to place it in the top-right corner
+      writingButton.snp.makeConstraints {
+          $0.trailing.equalToSuperview().offset(-16)
+          $0.top.equalTo(addressView.snp.bottom).offset(16)
+          $0.width.height.equalTo(40)
+      }
+      
+      // Adjust buttonStackView to be at the bottom of the view with padding
+      buttonStackView.snp.makeConstraints {
+          $0.centerX.equalToSuperview()
+          $0.leading.trailing.equalToSuperview().inset(16)
+          $0.bottom.equalToSuperview().offset(-96)
+      }
+      
+      // Set consistent height for buttons in the stack view
+      shelterButton.snp.makeConstraints {
+          $0.height.equalTo(34)
+      }
+      
+      defibrillatorButton.snp.makeConstraints {
+          $0.height.equalTo(34)
+      }
+      
+      emergencyReportButton.snp.makeConstraints {
+          $0.height.equalTo(34)
+      }
   }
   
   private func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) -> UIButton {
