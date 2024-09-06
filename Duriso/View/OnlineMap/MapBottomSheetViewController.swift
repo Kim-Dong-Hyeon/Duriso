@@ -16,7 +16,7 @@ class MapBottomSheetViewController: UIViewController {
   
   var fpc: FloatingPanelController!  // FloatingPanelController의 인스턴스
   var panelContentsViewController: PaneltContentsViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupView()
@@ -61,13 +61,13 @@ extension FloatingPanelController {
 
 /// FloatingPanelControllerDelegate 채택 및 구현
 extension MapBottomSheetViewController: FloatingPanelControllerDelegate {
-    func floatingPanelDidChangePosition(_ fpc: FloatingPanelController) {
-        if fpc.state == .full {
-            // 패널이 풀스크린 모드일 때의 동작
-        } else {
-            // 패널이 다른 모드일 때의 동작
-        }
+  func floatingPanelDidChangePosition(_ fpc: FloatingPanelController) {
+    if fpc.state == .full {
+      // 패널이 풀스크린 모드일 때의 동작
+    } else {
+      // 패널이 다른 모드일 때의 동작
     }
+  }
 }
 
 @available(iOS 17.0, *)

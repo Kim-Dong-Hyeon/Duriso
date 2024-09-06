@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 struct Post {
-    let title: String
-    let content: String
-    let createdAt: Date
+  let title: String
+  let content: String
+  let createdAt: Date
 }
 
 struct SomeDataModel {

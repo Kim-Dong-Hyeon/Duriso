@@ -48,7 +48,7 @@ class MainTabBarViewController: UITabBarController {
   
   /// 탭바 아이템 설정
   private func setupTaps() {
-    let mapVC = UINavigationController(rootViewController: OnlineViewController())
+    let mapVC = UINavigationController(rootViewController: OnlineMapViewController())
     mapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "globe"), tag: 0)
     
     let boardVC = UINavigationController(rootViewController: BoardViewController())
