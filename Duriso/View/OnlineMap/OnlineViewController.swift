@@ -15,176 +15,29 @@ class OnlineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
+  private let onlineView = OnlineView()
   
-  private let addressView = UIView().then {
-    $0.backgroundColor = .CWhite
-    $0.layer.cornerRadius = 20
-    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
-    $0.layer.shadowOpacity = 0.15
-    $0.layer.shadowColor = UIColor.CBlack.cgColor
-    $0.layer.shadowRadius = 8
-    $0.layer.masksToBounds = false
+  override func loadView() {
+    view = onlineView
   }
-  
-  private let addressLabel = UILabel().then {
-    $0.text = "00시 00구 00동"
-    $0.textColor = .CBlack
-    $0.textAlignment = .left
-    $0.font = CustomFont.Head3.font()
-  }
-  
-  private let buttonStackView = UIStackView().then {
-    $0.alignment = .center
-    $0.distribution = .fillProportionally
-    $0.axis = .horizontal
-    $0.spacing = 8
-  }
-  
-  private let currentLocationButton = UIButton().then {
-    $0.backgroundColor = .white
-  }
-
-  private let writingButton = UIButton().then {
-    $0.setImage(UIImage(named: "writingButton"), for: .normal)
-  }
-  
-  private lazy var shelterButton: UIButton = createButton(
-    title: "대피소",
-    symbolName: "figure.run",
-    baseColor: .CLightBlue,
-    selectedColor: .CGreen
-  )
-  
-  private lazy var defibrillatorButton: UIButton = createButton(
-    title: "제세동기",
-    symbolName: "bolt.heart.fill",
-    baseColor: .CLightBlue,
-    selectedColor: .CRed
-  )
-  
-  //  private let gasMaskButton: UIButton = createButton(
-  //    title: "방독면",
-  //    symbolName: "location.fill",
-  //    baseColor: .CLightBlue,
-  //    selectedColor: .CYellow,
-  //initiallySelected: false
-  //  )
-  
-  private lazy var emergencyReportButton: UIButton = createButton(
-    title: "긴급제보",
-    symbolName: "megaphone.fill",
-    baseColor: .CLightBlue,
-    selectedColor: .CBlue
-  )
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .white
-    setupViews()
-    setupConstraints()
     setupButtonBindings()
   }
   
-  func setupViews() {
+  private func setupButtonBindings() {
+    bindButtonTap(button: onlineView.shelterButton, selectedColor: .CGreen)
+    bindButtonTap(button: onlineView.defibrillatorButton, selectedColor: .CRed)
+    bindButtonTap(button: onlineView.emergencyReportButton, selectedColor: .CBlue)
     
     addChild(onlineMapViewController)
     view.addSubview(onlineMapViewController.view)
     onlineMapViewController.didMove(toParent: self)
     
-    [
-      addressView,
-      currentLocationButton,
-      buttonStackView,
-      writingButton
-    ].forEach { view.addSubview($0) }
-    
-    [
-      shelterButton,
-      defibrillatorButton, /*gasMaskButton,*/
-      emergencyReportButton
-    ].forEach { buttonStackView.addArrangedSubview($0) }
-    
-    [
-      addressLabel
-    ].forEach { addressView.addSubview($0) }
-  }
-  
-  func setupConstraints() {
     onlineMapViewController.view.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
-    
-    addressView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview().offset(80)
-      $0.width.equalTo(180)
-      $0.height.equalTo(40)
-    }
-    
-    addressLabel.snp.makeConstraints {
-      $0.center.equalTo(addressView)
-    }
-    
-    writingButton.snp.makeConstraints{
-      $0.trailing.equalToSuperview().offset(-16)
-      $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
-      $0.width.height.equalTo(40)
-    }
-    
-    buttonStackView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().offset(-96)
-    }
-    
-    shelterButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
-    
-    defibrillatorButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
-    
-    //    gasMaskButton.snp.makeConstraints{
-    //      $0.height.equalTo(34)
-    //    }
-    
-    emergencyReportButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
-    
-  }
-  
-  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
-  -> UIButton {
-    
-    let button = UIButton(type: .custom)
-    button.setImage(UIImage(systemName: symbolName), for: .normal)
-    button.tintColor = .CWhite
-    button.setTitle(title, for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.setTitleColor(.CWhite, for: .normal)
-    button.backgroundColor = selectedColor
-    
-    button.isSelected = false
-    button.layer.cornerRadius = 17
-    
-    button.layer.shadowColor = UIColor.black.cgColor
-    button.layer.shadowOffset = CGSize(width: 0, height: 4)
-    button.layer.shadowRadius = 4
-    button.layer.shadowOpacity = 0.2
-    button.layer.masksToBounds = false
-    
-    button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-    
-    button.isSelected = false
-    return button
-  }
-  
-  private func setupButtonBindings() {
-    bindButtonTap(button: shelterButton, selectedColor: .CGreen)
-    bindButtonTap(button: defibrillatorButton, selectedColor: .CRed)
-    bindButtonTap(button: emergencyReportButton, selectedColor: .CBlue)
   }
   
   private func bindButtonTap(button: UIButton, selectedColor: UIColor) {
@@ -208,11 +61,11 @@ class OnlineViewController: UIViewController {
   }
   
   private func areAllButtonsSelected() -> Bool {
-    return shelterButton.isSelected && defibrillatorButton.isSelected && emergencyReportButton.isSelected
+    return onlineView.shelterButton.isSelected && onlineView.defibrillatorButton.isSelected && onlineView.emergencyReportButton.isSelected
   }
   
   private func resetButtonsExcept(_ selectedButton: UIButton) {
-    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
+    let buttons = [onlineView.shelterButton, onlineView.defibrillatorButton, onlineView.emergencyReportButton]
     for button in buttons {
       if button != selectedButton {
         button.isSelected = false
@@ -222,15 +75,15 @@ class OnlineViewController: UIViewController {
   }
   
   private func selectAllButtons() {
-    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
+    let buttons = [onlineView.shelterButton, onlineView.defibrillatorButton, onlineView.emergencyReportButton]
     for button in buttons {
       button.isSelected = true
       switch button {
-      case shelterButton:
+      case onlineView.shelterButton:
         button.backgroundColor = .CGreen
-      case defibrillatorButton:
+      case onlineView.defibrillatorButton:
         button.backgroundColor = .CRed
-      case emergencyReportButton:
+      case onlineView.emergencyReportButton:
         button.backgroundColor = .CBlue
       default:
         break
