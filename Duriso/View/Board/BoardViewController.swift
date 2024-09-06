@@ -6,44 +6,38 @@
 //
 
 import UIKit
-import RxSwift
+
 import RxCocoa
+import RxSwift
 import SnapKit
 
 class BoardViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  let tableItems = BehaviorRelay<[String]>(value: [])
+  private let tableItems = BehaviorRelay<[Post]>(value: [])
+  private let dataSource = SomeDataModel.Mocks.getDataSource()
   
-  private let notificationHeadLabel: UILabel = {
-    let label = UILabel()
-    label.text = "우리동네 알리미"
-    label.font = CustomFont.Deco.font()
-    return label
-  }()
+  private let notificationHeadLabel = UILabel().then {
+    $0.text = "우리동네 알리미"
+    $0.font = CustomFont.Deco.font()
+  }
   
-  private let notificationHeadImage: UIImageView = {
-    let image = UIImageView()
-    image.image = UIImage(systemName: "megaphone")
-    image.tintColor = .red
-    return image
-  }()
+  private let notificationHeadImage = UIImageView().then {
+    $0.image = UIImage(systemName: "megaphone")
+    $0.tintColor = .red
+  }
   
-  private let notificationLineView: UIView = {
-    let view = UIView()
-    view.backgroundColor = .lightGray
-    return view
-  }()
+  private let notificationLineView = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
   
-  private let writingButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("+글쓰기", for: .normal)
-    button.setTitleColor(.black, for: .normal)
-    button.backgroundColor = .lightGray
-    button.layer.cornerRadius = 15
-    button.titleLabel?.font = CustomFont.Deco4.font()
-    return button
-  }()
+  private let writingButton = UIButton().then {
+    $0.setTitle("+글쓰기", for: .normal)
+    $0.setTitleColor(.black, for: .normal)
+    $0.backgroundColor = .CLightBlue
+    $0.layer.cornerRadius = 15
+    $0.titleLabel?.font = CustomFont.Deco4.font()
+  }
   
   private let notificationCollectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -55,29 +49,60 @@ class BoardViewController: UIViewController {
     return collectionView
   }()
   
-  private let notificationLineView1: UIView = {
-    let view = UIView()
-    view.backgroundColor = .lightGray
-    return view
-  }()
+  private let notificationLineView1 = UIView().then {
+    $0.backgroundColor = .lightGray
+  }
   
-  private let notificationTableView: UITableView = {
-    let view = UITableView()
-    view.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
-    return view
-  }()
+  private let notificationTableView = UITableView().then {
+    $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     setupLayout()
+    writingButtonTap()
     bindTableView()
+    bindCollectionView()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    bindCollectionView()
-    writingButtonTap()
-    //    bindTableView()
+  private func bindCollectionView() {
+    Observable.just(dataSource)
+      .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { index, model, cell in
+        cell.configure(with: model)
+        
+        cell.bindTapAction {
+          print("\(model.name) 버튼이 눌렸습니다!")
+          self.handleButtonTap(for: model)
+        }
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func handleButtonTap(for model: SomeDataModel) {
+    switch model.type {
+    case .allPerson:
+      print("전체 버튼 눌림")
+    case .atipoff:
+      print("긴급제보 버튼 눌림")
+    case .typhoon:
+      print("태풍 버튼 눌림")
+    case .earthquake:
+      print("지진 버튼 눌림")
+    case .flood:
+      print("홍수 버튼 눌림")
+    case .tsunami:
+      print("쓰나미 버튼 눌림")
+    case .nuclear:
+      print("핵폭발 버튼 눌림")
+    case .fire:
+      print("산불 버튼 눌림")
+    case .alandslide:
+      print("산사태 버튼 눌림")
+    case .hot:
+      print("폭염 버튼 눌림")
+    }
   }
   
   private func writingButtonTap() {
@@ -89,8 +114,31 @@ class BoardViewController: UIViewController {
   }
   
   private func reportNavigation() {
-    let reportViewController = ReportViewController()
-    self.navigationController?.pushViewController(reportViewController, animated: true)
+    let postViewController = PostViewController()
+    postViewController.onPostAdded = { [weak self] title, content in
+      guard let self = self else { return }
+      let newPost = Post(title: title, content: content, createdAt: Date()) //새로운 게시글 생성
+      var currentItems = self.tableItems.value //테이블아이템의 벨류를 가져옴
+      currentItems.append(newPost) //어펜드로 새로운 게시글 추가
+      self.tableItems.accept(currentItems) // 게시글 생성 시간 계산하여 설정해줌
+    }
+    self.navigationController?.pushViewController(postViewController, animated: true)
+  }
+  
+  private func bindTableView() {
+    tableItems
+      .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
+        cell.configure(with: post) // 셀마다 게시글의 데이터를 설정해줌
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindTableView() {
+    tableItems
+      .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
+        cell.configure(with: post) // 셀마다 게시글의 데이터를 설정해줌
+      }
+      .disposed(by: disposeBag)
   }
   
   private func setupLayout() {
@@ -147,27 +195,5 @@ class BoardViewController: UIViewController {
       $0.height.equalTo(30)
       $0.width.equalTo(80)
     }
-  }
-  
-  private func bindCollectionView() {
-    let dataSource = Observable.just(SomeDataModel.Mocks.getDataSource())
-    
-    dataSource
-      .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { row, model, cell in
-        cell.configure(with: model)
-      }
-      .disposed(by: disposeBag)
-    
-    notificationCollectionView.rx.modelSelected(SomeDataModel.self)
-      .subscribe(onNext: { model in
-        print("Selected: \(model.name)")
-      })
-      .disposed(by: disposeBag)
-  }
-  
-  private func bindTableView() {
-    tableItems.bind(to: notificationTableView.rx.items(cellIdentifier: "cell")) { index, item, cell in
-      cell.textLabel?.text = item
-    }.disposed(by: disposeBag)
   }
 }
