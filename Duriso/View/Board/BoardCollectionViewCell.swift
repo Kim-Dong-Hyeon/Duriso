@@ -19,11 +19,12 @@ class BoardCollectionViewCell: UICollectionViewCell {
   
   private let notificationButton = UIButton().then {
     $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .lightGray
+    $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 15
     $0.titleLabel?.font = CustomFont.Deco4.font()
     $0.titleLabel?.numberOfLines = 1
     $0.titleLabel?.adjustsFontSizeToFitWidth = true
+    $0.isUserInteractionEnabled = true
     $0.titleLabel?.minimumScaleFactor = 0.5
     $0.imageView?.contentMode = .scaleAspectFit
   }
@@ -59,13 +60,8 @@ class BoardCollectionViewCell: UICollectionViewCell {
   func bindTapAction(onTap: @escaping () -> Void) {
     notificationButton.rx.tap
       .subscribe(onNext: {
-        onTap()  //버튼이 눌렸을때 실행할 동작
+        onTap()  //버튼이 눌렸을때
       })
       .disposed(by: disposeBag)
-  }
-  
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    disposeBag = DisposeBag()
   }
 }

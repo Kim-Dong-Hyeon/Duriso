@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class ReportViewController: UIViewController {
+class PostViewController: UIViewController {
   
   private let boardViewController = BoardViewController()
   private let boardTableViewCell = BoardTableViewCell()
@@ -21,7 +21,7 @@ class ReportViewController: UIViewController {
   private let categoryButton = UIButton().then {
     $0.setTitle("카테고리", for: .normal)
     $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .lightGray
+    $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
@@ -33,7 +33,8 @@ class ReportViewController: UIViewController {
   }
   
   private let titleText = UITextField().then {
-    $0.text = "제목을 입력해주세요"
+    $0.text = ""
+    $0.placeholder = "제목을 입력해주세요"
   }
   
   private let lineView = UIView().then {
@@ -58,12 +59,13 @@ class ReportViewController: UIViewController {
   
   private let userTextSet = UITextView().then {
     $0.text = "내용을 작성해주세요"
+    $0.textColor = .placeholderText
   }
   
   private let pictureButton = UIButton().then {
     $0.setTitle("사진추가", for: .normal)
     $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .lightGray
+    $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
@@ -74,6 +76,7 @@ class ReportViewController: UIViewController {
     
     reportNavigationItem()
     reportViewLayOut()
+    userTextSet.delegate = self
   }
   
   // 네비게이션
@@ -169,6 +172,22 @@ class ReportViewController: UIViewController {
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
+    }
+  }
+}
+
+extension PostViewController: UITextViewDelegate {
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    guard textView.textColor == .placeholderText else { return }
+    textView.textColor = .label
+    textView.text = nil
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    if textView.text.isEmpty {
+      textView.text = "텍스트 입력"
+      textView.textColor = .placeholderText
     }
   }
 }

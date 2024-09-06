@@ -85,7 +85,8 @@ class BoardTableViewCell: UITableViewCell {
     ].forEach { contentView.addSubview($0) }
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(contentVㅁntentView).offset(10)
+      $0.top.equalTo(contentView).offset(10)
+      $0.leading.equalTo(contentView).offset(10)
       $0.trailing.equalTo(reportButton.snp.leading).offset(-10)
     }
     
