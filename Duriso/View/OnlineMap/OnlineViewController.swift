@@ -11,62 +11,66 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class OnlineViewController: UIViewController {
+class OnlineMapViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
+  private let viewModel = OnlineViewModel()
+  private var mapBottomSheetViewController: MapBottomSheetViewController?
   
-  private let addressView: UIView = {
-    let view = UIView()
-    view.layer.cornerRadius = 20
-    view.backgroundColor = .CWhite
-    view.layer.shadowOffset = CGSize(width: 0, height: 4)
-    view.layer.shadowOpacity = 0.15
-    view.layer.shadowColor = UIColor.CBlack.cgColor
-    view.layer.shadowRadius = 8
-    view.layer.masksToBounds = false
-    return view
-  }()
+  let addressView = UIView().then {
+    $0.backgroundColor = .CWhite
+    $0.layer.cornerRadius = 20
+    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
+    $0.layer.shadowOpacity = 0.15
+    $0.layer.shadowColor = UIColor.CBlack.cgColor
+    $0.layer.shadowRadius = 8
+    $0.layer.masksToBounds = false
+  }
   
-  private let addressLabel: UILabel = {
-    let label = UILabel()
-    label.text = "00시 00구 00동"
-    label.font = CustomFont.Head3.font()
-    return label
-  }()
+  let addressLabel = UILabel().then {
+    $0.text = "00시 00구 00동"
+    $0.textColor = .CBlack
+    $0.textAlignment = .left
+    $0.font = CustomFont.Head3.font()
+  }
   
-  private let buttonStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.alignment = .center
-    stackView.distribution = .fillProportionally
-    stackView.axis = .horizontal
-    stackView.spacing = 8
-    return stackView
-  }()
+  let buttonStackView = UIStackView().then {
+    $0.alignment = .center
+    $0.distribution = .fillProportionally
+    $0.axis = .horizontal
+    $0.spacing = 8
+  }
   
-  private let currentLocationButton: UIButton = {
-    let button = UIButton()
-    return button
-  }()
+  let currentLocationButton = UIButton().then {
+    $0.setImage(UIImage(named: "locationButton"), for: .normal)
+    $0.addTarget(self, action: #selector(didTapcurrentLocationButton), for: .touchUpInside)
+  }
   
-  private let writingButton: UIButton = {
-    let button = UIButton()
-    button.setImage(UIImage(named: "writingButton"), for: .normal)
-    return button
-  }()
+  let writingButton = UIButton().then {
+    $0.setImage(UIImage(named: "writingButton"), for: .normal)
+    $0.addTarget(self, action: #selector(didTapWritingButton), for: .touchUpInside)
+  }
   
-  private lazy var shelterButton: UIButton = createButton(
+  lazy var shelterButton: UIButton = createButton(
     title: "대피소",
     symbolName: "figure.run",
     baseColor: .CLightBlue,
     selectedColor: .CGreen
   )
   
-  private lazy var defibrillatorButton: UIButton = createButton(
+  lazy var defibrillatorButton: UIButton = createButton(
     title: "제세동기",
     symbolName: "bolt.heart.fill",
     baseColor: .CLightBlue,
     selectedColor: .CRed
+  )
+  
+  lazy var emergencyReportButton: UIButton = createButton(
+    title: "긴급제보",
+    symbolName: "megaphone.fill",
+    baseColor: .CLightBlue,
+    selectedColor: .CBlue
   )
   
   //  private let gasMaskButton: UIButton = createButton(
@@ -77,12 +81,6 @@ class OnlineViewController: UIViewController {
   //initiallySelected: false
   //  )
   
-  private lazy var emergencyReportButton: UIButton = createButton(
-    title: "긴급제보",
-    symbolName: "megaphone.fill",
-    baseColor: .CLightBlue,
-    selectedColor: .CBlue
-  )
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -132,6 +130,11 @@ class OnlineViewController: UIViewController {
       $0.center.equalTo(addressView)
     }
     
+    currentLocationButton.snp.makeConstraints{
+      $0.trailing.equalToSuperview().offset(-16)
+      $0.bottom.equalTo(writingButton.snp.top).offset(-8)
+      $0.width.height.equalTo(40)
+    }
     writingButton.snp.makeConstraints{
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
@@ -152,15 +155,15 @@ class OnlineViewController: UIViewController {
       $0.height.equalTo(34)
     }
     
-    //    gasMaskButton.snp.makeConstraints{
-    //      $0.height.equalTo(34)
-    //    }
-    
     emergencyReportButton.snp.makeConstraints{
       $0.height.equalTo(34)
     }
-    
   }
+  
+  //    gasMaskButton.snp.makeConstraints{
+  //      $0.height.equalTo(34)
+  //    }
+  
   
   func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
   -> UIButton {
@@ -188,63 +191,49 @@ class OnlineViewController: UIViewController {
     return button
   }
   
+  @objc func didTapcurrentLocationButton() {
+    // Handle the writing button tap action here
+    print("Writing button tapped")
+  }
+  
+  @objc private func didTapWritingButton() {
+    presentMapBottomSheet()
+    print("Writing button tapped")
+  }
+  
+  private func presentMapBottomSheet() {
+    // MapBottomSheetViewController를 인스턴스화합니다
+    let bottomSheetVC = MapBottomSheetViewController()
+    
+    // FloatingPanelController와 함께 bottomSheetVC를 설정합니다
+    mapBottomSheetViewController = bottomSheetVC
+    present(mapBottomSheetViewController!, animated: true, completion: nil)
+  }
+  
   private func setupButtonBindings() {
-    bindButtonTap(button: shelterButton, selectedColor: .CGreen)
-    bindButtonTap(button: defibrillatorButton, selectedColor: .CRed)
-    bindButtonTap(button: emergencyReportButton, selectedColor: .CBlue)
-  }
-  
-  private func bindButtonTap(button: UIButton, selectedColor: UIColor) {
-    button.rx.tap
-      .subscribe(onNext: { [weak self] in
-        guard let self = self else { return }
-        
-        if self.areAllButtonsSelected() {
-          self.resetButtonsExcept(button)
-          button.isSelected = true
-          button.backgroundColor = selectedColor
-        } else if button.isSelected {
-          self.selectAllButtons()
-        } else {
-          self.resetButtonsExcept(button)
-          button.isSelected = true
-          button.backgroundColor = selectedColor
-        }
-      })
+    viewModel.setupButtonBindings(
+      shelterButton: shelterButton,
+      defibrillatorButton: defibrillatorButton,
+      emergencyReportButton: emergencyReportButton
+    )
+    
+    // Subscribe to button state changes and update UI
+    viewModel.shelterButtonSelected
+      .map { $0 ? UIColor.CGreen : UIColor.CLightBlue }
+      .bind(to: shelterButton.rx.backgroundColor)
       .disposed(by: disposeBag)
-  }
-  
-  private func areAllButtonsSelected() -> Bool {
-    return shelterButton.isSelected && defibrillatorButton.isSelected && emergencyReportButton.isSelected
-  }
-  
-  private func resetButtonsExcept(_ selectedButton: UIButton) {
-    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
-    for button in buttons {
-      if button != selectedButton {
-        button.isSelected = false
-        button.backgroundColor = .CLightBlue
-      }
-    }
-  }
-  
-  private func selectAllButtons() {
-    let buttons = [shelterButton, defibrillatorButton, emergencyReportButton]
-    for button in buttons {
-      button.isSelected = true
-      switch button {
-      case shelterButton:
-        button.backgroundColor = .CGreen
-      case defibrillatorButton:
-        button.backgroundColor = .CRed
-      case emergencyReportButton:
-        button.backgroundColor = .CBlue
-      default:
-        break
-      }
-    }
+    
+    viewModel.defibrillatorButtonSelected
+      .map { $0 ? UIColor.CRed : UIColor.CLightBlue }
+      .bind(to: defibrillatorButton.rx.backgroundColor)
+      .disposed(by: disposeBag)
+    
+    viewModel.emergencyReportButtonSelected
+      .map { $0 ? UIColor.CBlue : UIColor.CLightBlue }
+      .bind(to: emergencyReportButton.rx.backgroundColor)
+      .disposed(by: disposeBag)
   }
 }
 
 @available(iOS 17.0, *)
-#Preview { OnlineViewController() }
+#Preview { OnlineMapViewController() }
