@@ -14,7 +14,7 @@ import RxSwift
 class MapBottomSheetViewController: UIViewController {
   
   var fpc: FloatingPanelController!  // FloatingPanelController의 인스턴스
-  var panelContentsViewController: PaneltContentsViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
+  var panelContentsViewController: EmergencyReportViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -22,7 +22,7 @@ class MapBottomSheetViewController: UIViewController {
   }
   
   private func setupView() {
-    panelContentsViewController = PaneltContentsViewController() // 콘텐츠 뷰 컨트롤러 인스턴스화
+    panelContentsViewController = EmergencyReportViewController() // 콘텐츠 뷰 컨트롤러 인스턴스화
     
     fpc = FloatingPanelController()
     fpc.changePanelStyle()
