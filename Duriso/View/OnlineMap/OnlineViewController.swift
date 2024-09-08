@@ -10,13 +10,17 @@ import UIKit
 import RxCocoa
 import RxSwift
 import SnapKit
+import KakaoMapsSDK
 
 class OnlineMapViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
+  private let poiViewModel = PoiViewModel()
+  
   private var mapBottomSheetViewController: MapBottomSheetViewController?
+  var mapContainer: KMViewContainer?
   
   let addressView = UIView().then {
     $0.backgroundColor = .CWhite
@@ -42,7 +46,7 @@ class OnlineMapViewController: UIViewController {
     $0.spacing = 8
   }
   
-  let currentLocationButton = UIButton().then {
+  lazy var currentLocationButton = UIButton().then {
     $0.setImage(UIImage(named: "locationButton"), for: .normal)
     $0.addTarget(self, action: #selector(didTapcurrentLocationButton), for: .touchUpInside)
   }
@@ -59,7 +63,7 @@ class OnlineMapViewController: UIViewController {
     selectedColor: .CGreen
   )
   
-  lazy var defibrillatorButton: UIButton = createButton(
+  lazy var aedButton: UIButton = createButton(
     title: "제세동기",
     symbolName: "bolt.heart.fill",
     baseColor: .CLightBlue,
@@ -81,7 +85,6 @@ class OnlineMapViewController: UIViewController {
   //initiallySelected: false
   //  )
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
@@ -89,6 +92,7 @@ class OnlineMapViewController: UIViewController {
     setupConstraints()
     setupButtonBindings()
   }
+  
   
   func setupViews() {
     
@@ -105,7 +109,7 @@ class OnlineMapViewController: UIViewController {
     
     [
       shelterButton,
-      defibrillatorButton, /*gasMaskButton,*/
+      aedButton, /*gasMaskButton,*/
       emergencyReportButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
     
@@ -151,7 +155,7 @@ class OnlineMapViewController: UIViewController {
       $0.height.equalTo(34)
     }
     
-    defibrillatorButton.snp.makeConstraints{
+    aedButton.snp.makeConstraints{
       $0.height.equalTo(34)
     }
     
@@ -191,6 +195,40 @@ class OnlineMapViewController: UIViewController {
     return button
   }
   
+  
+  private func setupButtonBindings() {
+    
+    // Shelter 버튼
+    bindButtonTap(for: shelterButton) { [weak self] in
+      guard let self = self else { return }
+      self.viewModel.toggleShelterButton(mapController: self.onlineMapViewController.mapController!)
+    }
+    
+    // AED 버튼
+    bindButtonTap(for: aedButton) { [weak self] in
+      guard let self = self else { return }
+      self.viewModel.toggleAedButton(mapController: self.onlineMapViewController.mapController!)
+    }
+    
+    // Notification 버튼
+    bindButtonTap(for: emergencyReportButton) { [weak self] in
+      guard let self = self else { return }
+      self.viewModel.toggleEmergencyReportButton(mapController: self.onlineMapViewController.mapController!)
+    }
+  }
+  
+  /// 버튼의 tap 이벤트와 액션을 바인딩하는 함수
+  /// - Parameters:
+  ///   - button: Rx 이벤트를 바인딩할 UIButton
+  ///   - toggleAction: 버튼이 눌렸을 때 실행할 액션
+  private func bindButtonTap(for button: UIButton, toggleAction: @escaping () -> Void) {
+    button.rx.tap
+      .bind {
+        toggleAction()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   @objc func didTapcurrentLocationButton() {
     // Handle the writing button tap action here
     print("Writing button tapped")
@@ -201,7 +239,7 @@ class OnlineMapViewController: UIViewController {
     print("Writing button tapped")
   }
   
-  private func presentMapBottomSheet() {
+  func presentMapBottomSheet() {
     // MapBottomSheetViewController를 인스턴스화합니다
     let bottomSheetVC = MapBottomSheetViewController()
     
@@ -210,30 +248,8 @@ class OnlineMapViewController: UIViewController {
     present(mapBottomSheetViewController!, animated: true, completion: nil)
   }
   
-  private func setupButtonBindings() {
-    viewModel.setupButtonBindings(
-      shelterButton: shelterButton,
-      defibrillatorButton: defibrillatorButton,
-      emergencyReportButton: emergencyReportButton
-    )
-    
-    // Subscribe to button state changes and update UI
-    viewModel.shelterButtonSelected
-      .map { $0 ? UIColor.CGreen : UIColor.CLightBlue }
-      .bind(to: shelterButton.rx.backgroundColor)
-      .disposed(by: disposeBag)
-    
-    viewModel.defibrillatorButtonSelected
-      .map { $0 ? UIColor.CRed : UIColor.CLightBlue }
-      .bind(to: defibrillatorButton.rx.backgroundColor)
-      .disposed(by: disposeBag)
-    
-    viewModel.emergencyReportButtonSelected
-      .map { $0 ? UIColor.CBlue : UIColor.CLightBlue }
-      .bind(to: emergencyReportButton.rx.backgroundColor)
-      .disposed(by: disposeBag)
-  }
 }
+
 
 @available(iOS 17.0, *)
 #Preview { OnlineMapViewController() }

@@ -12,8 +12,8 @@ class AedData {
     
     func setAeds() -> [Aed] {
         return [
-            Aed(id: "1", name: "AED A", address: "서울시 종로구", longitude: 126.9901, latitude: 37.5703),
-            Aed(id: "2", name: "AED B", address: "서울시 용산구", longitude: 126.9810, latitude: 37.5612)
+            Aed(id: "Aed1", name: "AED A", address: "서울시 종로구", longitude: 126.9901, latitude: 37.5703),
+            Aed(id: "Aed2", name: "AED B", address: "서울시 용산구", longitude: 126.9810, latitude: 37.5612)
         ]
     }
   func findAed(id: String) -> Aed? {

@@ -12,8 +12,8 @@ class ShelterData {
     
     func setShelters() -> [Shelter] {
         return [
-            Shelter(id: "1", name: "Shelter A", address: "서울시 강남구", longitude: 126.967969, latitude: 37.5665, capacity: 500),
-            Shelter(id: "2", name: "Shelter B", address: "서울시 서초구", longitude: 126.9720, latitude: 37.5600, capacity: 400)
+            Shelter(id: "Shelter1", name: "Shelter A", address: "서울시 강남구", longitude: 126.967969, latitude: 37.5665, capacity: 500),
+            Shelter(id: "Shelter2", name: "Shelter B", address: "서울시 서초구", longitude: 126.9720, latitude: 37.5600, capacity: 400)
         ]
     }
   
