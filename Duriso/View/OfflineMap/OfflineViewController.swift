@@ -17,6 +17,7 @@ class OfflineViewController: UIViewController {
   
   // MARK: - Properties
   
+  private let viewName: String
   private let viewModel: OfflineViewModel
   private let disposeBag = DisposeBag()
   
@@ -30,8 +31,9 @@ class OfflineViewController: UIViewController {
   // MARK: - Initialization
   
   /// ViewModel을 넘겨받아 초기화
-  init(viewModel: OfflineViewModel) {
+  init(viewModel: OfflineViewModel, viewName: String) {
     self.viewModel = viewModel
+    self.viewName = viewName
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -44,6 +46,7 @@ class OfflineViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.title = self.viewName
     setupUI()
     bindViewModel()
   }
@@ -68,4 +71,9 @@ class OfflineViewController: UIViewController {
       .bind(to: messageLabel.rx.text)
       .disposed(by: disposeBag)
   }
+}
+
+@available(iOS 17.0, *)
+#Preview {
+  OfflineMapViewController()
 }
