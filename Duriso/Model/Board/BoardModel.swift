@@ -18,9 +18,15 @@ struct Post {
 
 // 카메라 알럿
 enum ActionType {
-  case Camera
-  case Library
-  case Cancel
+  case camera
+  case library
+  case cancel
+}
+
+// 신고 알럿
+enum RipotAction {
+  case ripot
+  case cancel
 }
 
 //콜랙션뷰(스크롤) 목데이터

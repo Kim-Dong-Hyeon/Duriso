@@ -7,11 +7,15 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 class BoardTableViewCell: UITableViewCell {
   
   static let boardTableCell = "BoardTableCell"
+  weak var delegate: BoardTableViewCellDelegate?
+  private let disposeBag = DisposeBag()
   
   public let titleLabel = UILabel().then {
     $0.text = "제목"
@@ -55,6 +59,7 @@ class BoardTableViewCell: UITableViewCell {
     timeLabel.text = timeAgo(from: post.createdAt)
   }
   
+  
   private func timeAgo(from date: Date) -> String {
     let interval = -date.timeIntervalSinceNow
     let minutes = Int(interval) / 60
@@ -73,8 +78,17 @@ class BoardTableViewCell: UITableViewCell {
     }
   }
   
+  private func ripotAlerts() {
+    reportButton.rx.tap
+      .bind { [weak self] in
+        self?.delegate?.ripotAlert(in: self!)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    ripotAlerts()
     
     [
       titleLabel,
@@ -122,4 +136,8 @@ class BoardTableViewCell: UITableViewCell {
       $0.centerY.equalTo(addressLabel)
     }
   }
+}
+
+protocol BoardTableViewCellDelegate: AnyObject {
+    func ripotAlert(in cell: BoardTableViewCell)
 }
