@@ -11,12 +11,13 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class PostViewController: UIViewController {
+class PostViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
   
   private let boardViewController = BoardViewController()
   private let boardTableViewCell = BoardTableViewCell()
   private let disposeBag = DisposeBag()
-  var onPostAdded: ((String, String) -> Void)?
+  private let mainTabBarViewModel = MainTabBarViewModel()
+  var onPostAdded: ((String, String, UIImage?) -> Void)?
   
   private let categoryButton = UIButton().then {
     $0.setTitle("카테고리", for: .normal)
@@ -69,6 +70,18 @@ class PostViewController: UIViewController {
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
+
+  private let deleteButton = UIButton().then {
+    $0.setImage(UIImage(systemName: "trash.circle"), for: .normal)
+    $0.tintColor = .red
+    $0.isHidden = true
+  }
+  
+  
+  private let pickerImage = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+    $0.isHidden = true
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -76,7 +89,22 @@ class PostViewController: UIViewController {
     
     reportNavigationItem()
     reportViewLayOut()
+    pictureButtonTap()
+    deleteButtonTap()
     userTextSet.delegate = self
+    deleteButton.isHidden = true
+  }
+  
+  // 글쓰기뷰에서 탭바 없애기
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tabBarController?.tabBar.isHidden = true
+  }
+  
+  // 글쓰기뷰가 끝나면 탭바 생기기
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.tabBarController?.tabBar.isHidden = false
   }
   
   // 네비게이션
@@ -91,8 +119,9 @@ class PostViewController: UIViewController {
     rightBarButtonItem.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        if let title = self.titleText.text, let content = self.userTextSet.text {
-          self.onPostAdded?(title, content)
+        if let title = self.titleText.text,
+           let content = self.userTextSet.text {
+          self.onPostAdded?(title, content, self.pickerImage.image)
         }
         self.navigationController?.popViewController(animated: true)
       })
@@ -105,8 +134,97 @@ class PostViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  // 사진추가 알럿 (무엇을 보여줄지)
+  private func pictureButtonTap() {
+    pictureButton.rx.tap
+      .flatMap { [weak self] in
+        self?.cameraAlert(title: "사진 선택") ?? Observable.empty()
+      }
+      .subscribe(onNext: { [weak self] actionType in
+        switch actionType {
+        case .Camera:
+          self?.presentImagePicker(sourceType: .camera)
+        case .Library:
+          self?.presentImagePicker(sourceType: .photoLibrary)
+        case .Cancel:
+          print("취소 선택됨")
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  // 사진삭제
+  private func deleteButtonTap() {
+    deleteButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        self?.pickerImage.image = nil
+        self?.pickerImage.isHidden = true
+        self?.deleteButton.isHidden = true
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  // 카메라 추가
+  private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = self
+    imagePicker.sourceType = sourceType
+    imagePicker.allowsEditing = false
+    present(imagePicker, animated: true, completion: nil)
+  }
+  
+  // 라이브러리 추가
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    if let selectedImage = info[.originalImage] as? UIImage {
+      pickerImage.image = selectedImage
+      pickerImage.isHidden = false
+      deleteButton.isHidden = false
+    }
+    dismiss(animated: true, completion: nil)
+  }
+  
+  // 이미지피커 닫기
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    dismiss(animated: true, completion: nil)
+  }
+  
+  //Alert Mock case는 model부분에 있음
+  private func cameraAlert(title: String, message: String? = nil) -> Observable<ActionType> {
+    return Observable.create { observer in
+      let alertController = UIAlertController(
+        title: title,
+        message: "카메라 종류를 선택해주세요.",
+        preferredStyle: .actionSheet
+      )
+      let cameraAction = UIAlertAction(title: "카메라", style: .default) { _ in
+        observer.onNext(.Camera)
+        observer.onCompleted()
+      }
+      
+      let libraryAction = UIAlertAction(title: "사진첩", style: .default) { _ in
+        observer.onNext(.Library)
+        observer.onCompleted()
+      }
+      
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+        observer.onNext(.Cancel)
+        observer.onCompleted()
+      }
+      
+      [cameraAction, libraryAction, cancelAction].forEach(alertController.addAction(_:))
+      
+      DispatchQueue.main.async {
+        self.present(alertController, animated: true, completion: nil)
+      }
+      
+      return Disposables.create {
+        alertController.dismiss(animated: true, completion: nil)
+      }
+    }
+  }
+  
+  // 레이아웃
   private func reportViewLayOut() {
-    
     [
       categoryButton,
       titleName,
@@ -116,7 +234,9 @@ class PostViewController: UIViewController {
       locationeName1,
       lineView1,
       userTextSet,
-      pictureButton
+      pictureButton,
+      pickerImage,
+      deleteButton
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
@@ -149,8 +269,8 @@ class PostViewController: UIViewController {
     }
     
     locationeName1.snp.makeConstraints {
-      $0.centerY.equalTo(locationeName.snp.centerY)
-      $0.leading.equalTo(locationeName.snp.trailing).offset(8)
+      $0.centerY.equalTo(locationeName1.snp.centerY)
+      $0.leading.equalTo(locationeName1.snp.trailing).offset(8)
     }
     
     lineView1.snp.makeConstraints {
@@ -172,6 +292,18 @@ class PostViewController: UIViewController {
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
+    }
+    
+    pickerImage.snp.makeConstraints {
+      $0.top.equalTo(userTextSet.snp.bottom).offset(8)
+      $0.leading.equalTo(30)
+      $0.width.height.equalTo(80)
+    }
+    
+    deleteButton.snp.makeConstraints {
+      $0.top.equalTo(pickerImage.snp.top).offset(-10)
+      $0.trailing.equalTo(pickerImage.snp.trailing).offset(10)
+      $0.width.height.equalTo(30)
     }
   }
 }
