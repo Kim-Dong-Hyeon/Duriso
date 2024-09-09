@@ -59,6 +59,7 @@
 		768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */; };
 		768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */; };
 		76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */; };
+		76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */; };
 		D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268982C8A81D50031114E /* PoiViewModel.swift */; };
 		D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportData.swift */; };
 		D61268A32C8A82060031114E /* AedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689C2C8A82050031114E /* AedData.swift */; };
@@ -135,6 +136,7 @@
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFetcher.swift; sourceTree = "<group>"; };
 		D61268982C8A81D50031114E /* PoiViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiViewModel.swift; sourceTree = "<group>"; };
 		D612689A2C8A82050031114E /* EmergencyReportData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportData.swift; sourceTree = "<group>"; };
 		D612689C2C8A82050031114E /* AedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AedData.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				D612689C2C8A82050031114E /* AedData.swift */,
 				D612689A2C8A82050031114E /* EmergencyReportData.swift */,
 				D612689D2C8A82050031114E /* ShelterRepository.swift */,
+				76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
 				E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */,
+				76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */,
 				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
 				768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */,
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
