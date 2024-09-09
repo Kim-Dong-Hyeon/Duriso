@@ -68,13 +68,15 @@
 		D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A82C8A82320031114E /* OnlineViewController.swift */; };
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
 		D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */; };
-		D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */; };
+		D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */; };
 		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
 		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
 		76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
+		D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B42C8F142100B4E546 /* AedViewController.swift */; };
+		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
 		D6BA243A2C8B5CB200C3BCE7 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
@@ -147,7 +149,7 @@
 		D61268A82C8A82320031114E /* OnlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		D61268A92C8A82320031114E /* KakaoMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
-		D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
+		D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
 		76EFE8B72C8F1F580077D75B /* SignUpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -157,6 +159,8 @@
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
 		D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterNetworkManager.swift; sourceTree = "<group>"; };
+		D69CF2B42C8F142100B4E546 /* AedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedViewController.swift; sourceTree = "<group>"; };
+		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
 		D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
@@ -254,7 +258,9 @@
 				D61268A82C8A82320031114E /* OnlineViewController.swift */,
 				D61268A92C8A82320031114E /* KakaoMapViewController.swift */,
 				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
-				D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */,
+				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
+				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
+				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -634,6 +640,7 @@
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
 				768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */,
 				D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */,
+				D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */,
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
 				7676228E2C85F2190075B09E /* OfflineViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
@@ -665,7 +672,7 @@
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
 				D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */,
-				D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */,
+				D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
@@ -687,6 +694,7 @@
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
+				D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */,
 				D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */,
 				D61268A42C8A82060031114E /* ShelterRepository.swift in Sources */,
 			);
