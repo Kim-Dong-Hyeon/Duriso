@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseCore
+import IQKeyboardManagerSwift
 import KakaoMapsSDK
 
 @main
@@ -30,6 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // 네트워크 모니터링 시작
     NetworkMonitor.shared.startMonitoring()
+    
+    // IQKeyboardManager 사용 설정
+    IQKeyboardManager.shared.enable = true
+    IQKeyboardManager.shared.enableAutoToolbar = true
+    IQKeyboardManager.shared.resignOnTouchOutside = true
     
     return true
   }
