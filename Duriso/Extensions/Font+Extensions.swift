@@ -1,5 +1,5 @@
 //
-//  FontExtensions.swift
+//  Font+Extensions.swift
 //  Duriso
 //
 //  Created by 이주희 on 8/26/24.

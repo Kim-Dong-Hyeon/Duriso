@@ -1,5 +1,5 @@
 //
-//  ReportView.swift
+//  PostViewController.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/2/24.
