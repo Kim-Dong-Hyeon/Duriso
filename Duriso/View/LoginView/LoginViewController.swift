@@ -6,89 +6,96 @@
 //
 
 import UIKit
+
+import RxCocoa
+import RxSwift
 import SnapKit
 
 class LoginViewController: UIViewController {
-  let idLogin = UIImage(named: "idLogin")
-  let kakaoLogin = UIImage(named: "kakaoLogin")
-  let appleLogin = UIImage(named: "appleLogin")
   
-  private let titleLabel: UILabel = {
-    let label = UILabel()
-    label.text = "반갑습니다! \n로그인 및 가입하기"
-    label.font = CustomFont.Head.font()
-    label.textColor = .CBlack
-    label.numberOfLines = 0
-    label.textAlignment = .left
-    return label
-  }()
+  let disposeBag = DisposeBag()
+  private let viewModel = LoginViewModel()
   
-  private let idLabel: UILabel = {
-    let label = UILabel()
-    label.text = "아이디"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let titleLabel = UILabel().then {
+    $0.text = "반갑습니다! \n로그인 및 가입하기"
+    $0.font = CustomFont.Head.font()
+    $0.textColor = .CBlack
+    $0.numberOfLines = 0
+    $0.textAlignment = .left
+  }
   
-  private let idTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "아이디를 입력하세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let idLabel = UILabel().then {
+    $0.text = "아이디"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let passWordLabel: UILabel = {
-    let label = UILabel()
-    label.text = "비밀번호"
-    label.font = CustomFont.Body3.font()
-    label.textColor = .CBlack
-    return label
-  }()
+  private let idTextField = UITextField().then {
+    $0.borderStyle = .roundedRect
+    $0.placeholder = "아이디를 입력하세요"
+    $0.font = CustomFont.Body3.font()
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+    $0.autocapitalizationType = .none
+  }
   
-  private let passWordTextField: UITextField = {
-    let textField = UITextField()
-    textField.borderStyle = .roundedRect
-    textField.placeholder = "비밀번호를 입력하세요"
-    textField.font = CustomFont.Body3.font()
-    textField.backgroundColor = .lightGray
-    textField.autocorrectionType = .no
-    return textField
-  }()
+  private let passwordLabel = UILabel().then {
+    $0.text = "비밀번호"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
   
-  private let idLoginButton = UIButton()
-  private let kakaoLoginButton = UIButton()
-  private let appleLoginButton = UIButton()
+  private let passwordTextField = UITextField().then {
+    $0.borderStyle = .roundedRect
+    $0.placeholder = "비밀번호를 입력하세요"
+    $0.font = CustomFont.Body3.font()
+    $0.backgroundColor = .lightGray
+    $0.autocorrectionType = .no
+    $0.isSecureTextEntry = true
+    $0.autocapitalizationType = .none
+  }
   
-  private let signUpButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("회원가입", for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
-    button.backgroundColor = .CWhite
-    button.setTitleColor(.CBlack, for: .normal)
-    return button
-  }()
+  private let idLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "idLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
+  
+  private let kakaoLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "kakaoLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
+  
+  private let appleLoginButton = UIButton().then {
+    $0.setImage(UIImage(named: "appleLogin"), for: .normal)
+    $0.layer.cornerRadius = 10
+    $0.clipsToBounds = true
+  }
+  
+  private let signUpButton = UIButton().then {
+    $0.setTitle("회원가입", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CWhite
+    $0.setTitleColor(.CBlack, for: .normal)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .CWhite
     
     configureUI()
+    bindUI()
   }
+  
   private func configureUI() {
-    idLoginButton.setImage(idLogin, for: .normal)
-    kakaoLoginButton.setImage(kakaoLogin, for: .normal)
-    appleLoginButton.setImage(appleLogin, for: .normal)
     
     [
       titleLabel,
       idLabel,
       idTextField,
-      passWordLabel,
-      passWordTextField,
+      passwordLabel,
+      passwordTextField,
       kakaoLoginButton,
       appleLoginButton,
       idLoginButton,
@@ -112,13 +119,13 @@ class LoginViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
-    passWordLabel.snp.makeConstraints {
+    passwordLabel.snp.makeConstraints {
       $0.top.equalTo(idTextField.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    passWordTextField.snp.makeConstraints {
-      $0.top.equalTo(passWordLabel.snp.bottom).offset(8)
+    passwordTextField.snp.makeConstraints {
+      $0.top.equalTo(passwordLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -126,7 +133,7 @@ class LoginViewController: UIViewController {
     
     idLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(passWordTextField.snp.bottom).offset(48)
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(48)
       $0.width.equalTo(320)
       $0.height.equalTo(48)
     }
@@ -149,5 +156,52 @@ class LoginViewController: UIViewController {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
     }
+  }
+  
+  private func bindUI() {
+    idTextField.rx.text.orEmpty
+      .bind(to: viewModel.email)
+      .disposed(by: disposeBag)
+    
+    passwordTextField.rx.text.orEmpty
+      .bind(to: viewModel.password)
+      .disposed(by: disposeBag)
+
+    idLoginButton.rx.tap
+      .bind(to: viewModel.loginTap)
+      .disposed(by: disposeBag)
+    
+    viewModel.loginSuccess
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        print("로그인 성공")
+        
+        let mainTabBarViewModel = MainTabBarViewModel()
+        let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+        
+        self.navigationController?.setViewControllers([mainTabBarVC], animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.loginError
+      .subscribe(onNext: { [weak self] errorMessage in
+        let alert = UIAlertController(
+          title: "로그인 실패",
+          message: errorMessage, preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(action)
+        self?.present(alert, animated: true, completion: nil)
+      })
+      .disposed(by: disposeBag)
+    
+    signUpButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        let signUpVC = SignUpViewController()
+        self.navigationController?.pushViewController(signUpVC, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 }

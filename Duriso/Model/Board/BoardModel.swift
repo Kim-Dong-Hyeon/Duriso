@@ -8,10 +8,28 @@
 import Foundation
 import UIKit
 
-struct TableViewModel {
+//테이블뷰
+struct Post {
   let title: String
+  let content: String
+  let settingImage: UIImage?
+  let createdAt: Date
 }
 
+// 카메라 알럿
+enum ActionType {
+  case camera
+  case library
+  case cancel
+}
+
+// 신고 알럿
+enum RipotAction {
+  case ripot
+  case cancel
+}
+
+//콜랙션뷰(스크롤) 목데이터
 struct SomeDataModel {
   enum DataModelType: String {
     case allPerson
