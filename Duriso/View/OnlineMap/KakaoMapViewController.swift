@@ -113,67 +113,67 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   }
   
   func updatePOILayers() {
-      guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-        print("Error: mapView is nil in updatePOILayers")
-        return
-      }
-      
-      let labelManager = mapView.getLabelManager()
-      
-      // 레이어 제거
-      let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
-      for layerID in layerIDs {
-        if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
-          existingLayer.clearAllItems()
-          labelManager.removeLabelLayer(layerID: layerID)
-          print("\(layerID) layer removed successfully.")
-        }
-      }
-      
-      // 레이어 생성
-      createLabelLayer()
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil in updatePOILayers")
+      return
     }
+    
+    let labelManager = mapView.getLabelManager()
+    
+    // 레이어 제거
+    let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
+    for layerID in layerIDs {
+      if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
+        existingLayer.clearAllItems()
+        labelManager.removeLabelLayer(layerID: layerID)
+        print("\(layerID) layer removed successfully.")
+      }
+    }
+    
+    // 레이어 생성
+    createLabelLayer()
+  }
   
   func createLabelLayer() {
-      print("createLabelLayer called")
-      guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-          print("Error: mapView is nil in createLabelLayer")
-          return
+    print("createLabelLayer called")
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil in createLabelLayer")
+      return
+    }
+    let labelManager = mapView.getLabelManager()
+    
+    // 레이어 ID 목록
+    let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
+    
+    // 기존 레이어 제거
+    for layerID in layerIDs {
+      if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
+        existingLayer.clearAllItems()
+        labelManager.removeLabelLayer(layerID: layerID)
+        print("\(layerID) layer removed successfully.")
       }
-      let labelManager = mapView.getLabelManager()
-      
-      // 레이어 ID 목록
-      let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
-      
-      // 기존 레이어 제거
-      for layerID in layerIDs {
-          if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
-              existingLayer.clearAllItems()
-              labelManager.removeLabelLayer(layerID: layerID)
-              print("\(layerID) layer removed successfully.")
-          }
-      }
-      
-      // 새 레이어 생성
-      for (index, layerID) in layerIDs.enumerated() {
-          let zOrder = 20000 + index
-          createLabelLayer(withID: layerID, zOrder: zOrder, labelManager: labelManager)
-      }
+    }
+    
+    // 새 레이어 생성
+    for (index, layerID) in layerIDs.enumerated() {
+      let zOrder = 20000 + index
+      createLabelLayer(withID: layerID, zOrder: zOrder, labelManager: labelManager)
+    }
   }
-
+  
   private func createLabelLayer(withID layerID: String, zOrder: Int, labelManager: LabelManager) {
-      let labelLayer = LabelLayerOptions(
-          layerID: layerID,
-          competitionType: .none,
-          competitionUnit: .symbolFirst,
-          orderType: .rank,
-          zOrder: zOrder
-      )
-      if let layerResult = labelManager.addLabelLayer(option: labelLayer) {
-          print("\(layerID) label layer created successfully: \(layerResult)")
-      } else {
-          print("Failed to create \(layerID) label layer.")
-      }
+    let labelLayer = LabelLayerOptions(
+      layerID: layerID,
+      competitionType: .none,
+      competitionUnit: .symbolFirst,
+      orderType: .rank,
+      zOrder: zOrder
+    )
+    if let layerResult = labelManager.addLabelLayer(option: labelLayer) {
+      print("\(layerID) label layer created successfully: \(layerResult)")
+    } else {
+      print("Failed to create \(layerID) label layer.")
+    }
   }
 }
 

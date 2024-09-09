@@ -30,35 +30,35 @@ struct Notification: PoiData {
 }
 
 struct Shelter: Codable {
-    let shelterName: String
-    let address: String
-    let latitude: Double
-    let longitude: Double
-    let shelterTypeName: String
-    let managementSerialNumber: String
-    let shelterTypeCode: String
-    
-    enum CodingKeys: String, CodingKey {
-        case shelterName = "REARE_NM"
-        case address = "RONA_DADDR"
-        case latitude = "LAT"
-        case longitude = "LOT"
-        case shelterTypeName = "SHLT_SE_NM"
-        case managementSerialNumber = "MNG_SN"
-        case shelterTypeCode = "SHLT_SE_CD"
-    }
+  let shelterName: String
+  let address: String
+  let latitude: Double
+  let longitude: Double
+  let shelterTypeName: String
+  let managementSerialNumber: String
+  let shelterTypeCode: String
+  
+  enum CodingKeys: String, CodingKey {
+    case shelterName = "REARE_NM"
+    case address = "RONA_DADDR"
+    case latitude = "LAT"
+    case longitude = "LOT"
+    case shelterTypeName = "SHLT_SE_NM"
+    case managementSerialNumber = "MNG_SN"
+    case shelterTypeCode = "SHLT_SE_CD"
+  }
 }
 
 struct ShelterResponse: Codable {
-    let header: Header
-    let numOfRows: Int
-    let pageNo: Int
-    let totalCount: Int
-    let body: [Shelter] 
-    
-    struct Header: Codable {
-        let resultMsg: String
-        let resultCode: String
-        let errorMsg: String?
-    }
+  let header: Header
+  let numOfRows: Int
+  let pageNo: Int
+  let totalCount: Int
+  let body: [Shelter] 
+  
+  struct Header: Codable {
+    let resultMsg: String
+    let resultCode: String
+    let errorMsg: String?
+  }
 }

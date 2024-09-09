@@ -28,7 +28,7 @@ class MapBottomSheetViewController: UIViewController {
     fpc.changePanelStyle()
     fpc.delegate = self
     fpc.set(contentViewController: panelContentsViewController)
-  
+    
     
     fpc.layout = MyFloatingPanelLayout()  // Custom layout 적용
     fpc.invalidateLayout()
@@ -69,15 +69,15 @@ extension MapBottomSheetViewController: FloatingPanelControllerDelegate {
 
 // 위치와 상태를 설정하는 layout 클래스
 class MyFloatingPanelLayout: FloatingPanelLayout {
-    // 올라오는 위치 지정
-    let position: FloatingPanelPosition = .bottom
-    let initialState: FloatingPanelState = .half
-    var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
-        return [
-            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.24, edge: .bottom, referenceGuide: .safeArea),
-        ]
-    }
+  // 올라오는 위치 지정
+  let position: FloatingPanelPosition = .bottom
+  let initialState: FloatingPanelState = .half
+  var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+    return [
+      .half: FloatingPanelLayoutAnchor(fractionalInset: 0.24, edge: .bottom, referenceGuide: .safeArea),
+    ]
+  }
 }
 
- @available(iOS 17.0, *)
+@available(iOS 17.0, *)
 #Preview { MapBottomSheetViewController() }
