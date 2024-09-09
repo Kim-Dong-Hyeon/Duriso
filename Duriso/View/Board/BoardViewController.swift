@@ -22,7 +22,7 @@ class BoardViewController: UIViewController {
     $0.font = CustomFont.Deco.font()
   }
   
-  private let notificationHeadImage = UIImageView().then {
+  public let notificationHeadImage = UIImageView().then {
     $0.image = UIImage(systemName: "megaphone")
     $0.tintColor = .red
   }
@@ -115,9 +115,9 @@ class BoardViewController: UIViewController {
   
   private func reportNavigation() {
     let postViewController = PostViewController()
-    postViewController.onPostAdded = { [weak self] title, content in
+    postViewController.onPostAdded = { [weak self] title, content, settingImage in
       guard let self = self else { return }
-      let newPost = Post(title: title, content: content, createdAt: Date()) //새로운 게시글 생성
+      let newPost = Post(title: title, content: content,settingImage: settingImage ,createdAt: Date()) //새로운 게시글 생성
       var currentItems = self.tableItems.value //테이블아이템의 벨류를 가져옴
       currentItems.append(newPost) //어펜드로 새로운 게시글 추가
       self.tableItems.accept(currentItems) // 게시글 생성 시간 계산하여 설정해줌
@@ -132,7 +132,6 @@ class BoardViewController: UIViewController {
       }
       .disposed(by: disposeBag)
   }
-
   
   private func setupLayout() {
     [
