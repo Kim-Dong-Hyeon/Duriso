@@ -70,6 +70,7 @@
 		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
+		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
 		D6BA243A2C8B5CB200C3BCE7 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
@@ -147,6 +148,7 @@
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
+		D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterNetworkManager.swift; sourceTree = "<group>"; };
 		D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */,
+				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
 				149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */,
 				149EEFB32C871B000088FDB2 /* GuidelineKitView.swift in Sources */,
+				D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */,
 				D61268A32C8A82060031114E /* AedData.swift in Sources */,
 				E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */,
 				D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */,

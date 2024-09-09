@@ -52,7 +52,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     mapController?.activateEngine()
-    //    viewModel.bindPoiData(to: mapController!)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
