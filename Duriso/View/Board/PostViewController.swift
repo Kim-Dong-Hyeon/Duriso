@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   private let boardViewController = BoardViewController()
   private let boardTableViewCell = BoardTableViewCell()
@@ -142,11 +142,11 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate & UI
       }
       .subscribe(onNext: { [weak self] actionType in
         switch actionType {
-        case .Camera:
+        case .camera:
           self?.presentImagePicker(sourceType: .camera)
-        case .Library:
+        case .library:
           self?.presentImagePicker(sourceType: .photoLibrary)
-        case .Cancel:
+        case .cancel:
           print("취소 선택됨")
         }
       })
@@ -197,17 +197,17 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate & UI
         preferredStyle: .actionSheet
       )
       let cameraAction = UIAlertAction(title: "카메라", style: .default) { _ in
-        observer.onNext(.Camera)
+        observer.onNext(.camera)
         observer.onCompleted()
       }
       
       let libraryAction = UIAlertAction(title: "사진첩", style: .default) { _ in
-        observer.onNext(.Library)
+        observer.onNext(.library)
         observer.onCompleted()
       }
       
       let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-        observer.onNext(.Cancel)
+        observer.onNext(.cancel)
         observer.onCompleted()
       }
       
