@@ -60,6 +60,9 @@
 		768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */; };
 		76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */; };
 		76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */; };
+		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
+		76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */; };
+		76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */; };
 		D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268982C8A81D50031114E /* PoiViewModel.swift */; };
 		D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportData.swift */; };
 		D61268A32C8A82060031114E /* AedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689C2C8A82050031114E /* AedData.swift */; };
@@ -71,11 +74,8 @@
 		D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */; };
 		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
-		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
-		76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
-		D6BA243A2C8B5CB200C3BCE7 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
 		E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* notice2.txt */; };
@@ -139,6 +139,8 @@
 		768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFetcher.swift; sourceTree = "<group>"; };
+		76EFE8B72C8F1F580077D75B /* SignUpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
+		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		D61268982C8A81D50031114E /* PoiViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiViewModel.swift; sourceTree = "<group>"; };
 		D612689A2C8A82050031114E /* EmergencyReportData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportData.swift; sourceTree = "<group>"; };
 		D612689C2C8A82050031114E /* AedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AedData.swift; sourceTree = "<group>"; };
@@ -149,15 +151,12 @@
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
 		D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
-		76EFE8B72C8F1F580077D75B /* SignUpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
-		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
 		D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterNetworkManager.swift; sourceTree = "<group>"; };
-		D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
 		E20C3A612C873AC500AD5AA4 /* notice2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice2.txt; sourceTree = "<group>"; };
@@ -191,6 +190,7 @@
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
+				76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,6 +552,7 @@
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
 				D613FE4E2C882049000FA3F5 /* FloatingPanel */,
+				76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -589,6 +590,7 @@
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
 				D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -979,6 +981,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.1;
+			};
+		};
 		D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel.git";
@@ -1034,6 +1044,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 		D613FE4E2C882049000FA3F5 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;
