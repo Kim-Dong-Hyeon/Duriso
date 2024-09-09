@@ -7,12 +7,6 @@
 
 import Foundation
 
-
-struct GuidelineModel {
-  let title: String
-  let url: URL
-}
-
 struct Product {
   let imageName: String
   let title: String

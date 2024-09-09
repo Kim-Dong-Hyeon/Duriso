@@ -51,6 +51,7 @@ class BoardTableViewCell: UITableViewCell {
     titleLabel.text = post.title
     contentLabel.text = post.content
     addressLabel.text = "사랑시 고백구 행복동"  // 추후 변경예정 자기위치 따다가 넣을곳
+    userSetImage.image = post.settingImage
     timeLabel.text = timeAgo(from: post.createdAt)
   }
   
@@ -98,7 +99,7 @@ class BoardTableViewCell: UITableViewCell {
     userSetImage.snp.makeConstraints {
       $0.centerY.equalTo(contentView)
       $0.trailing.equalTo(contentView).offset(-30)
-      $0.width.height.equalTo(70)
+      $0.width.height.equalTo(100)
     }
     
     contentLabel.snp.makeConstraints {
@@ -117,7 +118,7 @@ class BoardTableViewCell: UITableViewCell {
     }
     
     timeLabel.snp.makeConstraints {
-      $0.trailing.equalTo(userSetImage.snp.leading).offset(-80)
+      $0.leading.equalTo(userSetImage.snp.trailing).offset(-160)
       $0.centerY.equalTo(addressLabel)
     }
   }

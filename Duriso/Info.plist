@@ -2,16 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>사용자의 현재 위치를 기반으로 정보를 제공하기 위해 필요한 권한입니다. (필수 권한)</string>
-	<key>KAKAO_MAP_API_KEY</key>
-	<string>$(KAKAO_MAP_API_KEY)</string>
 	<key>KAKAO_DEV_API_KEY</key>
 	<string>$(KAKAO_DEV_API_KEY)</string>
+	<key>KAKAO_MAP_API_KEY</key>
+	<string>$(KAKAO_MAP_API_KEY)</string>
 	<key>NEWS_API_KEY</key>
 	<string>$(NEWS_API_KEY)</string>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSansKR-Regular.ttf</string>
