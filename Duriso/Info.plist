@@ -8,6 +8,10 @@
 	<string>$(KAKAO_MAP_API_KEY)</string>
 	<key>NEWS_API_KEY</key>
 	<string>$(NEWS_API_KEY)</string>
+	<key>SHELTER_API_KEY</key>
+	<string>$(SHELTER_API_KEY)</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NotoSansKR-Regular.ttf</string>

@@ -15,7 +15,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   var mapContainer: KMViewContainer?
   var mapController: KMController?
   private let disposeBag = DisposeBag()
-  var viewModel: MapViewModel = MapViewModel()
+  var viewModel: PoiViewModel = PoiViewModel()
   
   override func loadView() {
     if mapContainer == nil {
@@ -81,11 +81,12 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     print("mapView initialized successfully after addViewSucceeded")
     
     // 지도 엔진이 준비된 후에 레이어 생성
-    createLabelLayer()
+    updatePOILayers()
     
     // POI 데이터 설정 및 바인딩
     viewModel.setupPoiData()
     viewModel.bindPoiData(to: mapController)
+    
   }
   
   func addViewFailed(_ viewName: String, viewInfoName: String) {
@@ -111,6 +112,28 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     mapController.addView(mapviewInfo)
   }
   
+  func updatePOILayers() {
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil in updatePOILayers")
+      return
+    }
+    
+    let labelManager = mapView.getLabelManager()
+    
+    // 레이어 제거
+    let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
+    for layerID in layerIDs {
+      if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
+        existingLayer.clearAllItems()
+        labelManager.removeLabelLayer(layerID: layerID)
+        print("\(layerID) layer removed successfully.")
+      }
+    }
+    
+    // 레이어 생성
+    createLabelLayer()
+  }
+  
   func createLabelLayer() {
     print("createLabelLayer called")
     guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
@@ -119,14 +142,23 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     }
     let labelManager = mapView.getLabelManager()
     
-    // Shelter 레이어 생성
-    createLabelLayer(withID: "shelterLayer", zOrder: 20000, labelManager: labelManager)
+    // 레이어 ID 목록
+    let layerIDs = ["shelterLayer", "aedLayer", "emergencyReportLayer"]
     
-    // AED 레이어 생성
-    createLabelLayer(withID: "aedLayer", zOrder: 20001, labelManager: labelManager)
+    // 기존 레이어 제거
+    for layerID in layerIDs {
+      if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
+        existingLayer.clearAllItems()
+        labelManager.removeLabelLayer(layerID: layerID)
+        print("\(layerID) layer removed successfully.")
+      }
+    }
     
-    // Notification 레이어 생성
-    createLabelLayer(withID: "notificationLayer", zOrder: 20002, labelManager: labelManager)
+    // 새 레이어 생성
+    for (index, layerID) in layerIDs.enumerated() {
+      let zOrder = 20000 + index
+      createLabelLayer(withID: layerID, zOrder: zOrder, labelManager: labelManager)
+    }
   }
   
   private func createLabelLayer(withID layerID: String, zOrder: Int, labelManager: LabelManager) {
@@ -144,3 +176,5 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     }
   }
 }
+
+

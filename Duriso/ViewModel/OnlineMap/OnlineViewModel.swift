@@ -7,115 +7,73 @@
 
 import RxCocoa
 import RxSwift
-import UIKit
+import KakaoMapsSDK
 
 class OnlineViewModel {
   
   private let disposeBag = DisposeBag()
+  private let poiViewModel = PoiViewModel()
   
-  // Outputs
+  private var mapController = KakaoMapViewController()
+  
+  // 버튼 상태를 나타내는 변수
   let shelterButtonSelected = BehaviorRelay<Bool>(value: true)
-  let defibrillatorButtonSelected = BehaviorRelay<Bool>(value: true)
-  let emergencyReportButtonSelected = BehaviorRelay<Bool>(value: true)
+  let aedButtonSelected = BehaviorRelay<Bool>(value: true)
+  let emergencyReportSelected = BehaviorRelay<Bool>(value: true)
   
-  // Actions
-  func setupButtonBindings(shelterButton: UIButton, defibrillatorButton: UIButton, emergencyReportButton: UIButton) {
-    bindButtonTap(button: shelterButton, selectedColor: .CGreen, buttonType: .shelter)
-    bindButtonTap(button: defibrillatorButton, selectedColor: .CRed, buttonType: .defibrillator)
-    bindButtonTap(button: emergencyReportButton, selectedColor: .CBlue, buttonType: .emergencyReport)
-    
-    // 버튼의 초기 상태 설정
-    initializeButtonStates()
-  }
-  
-  private func bindButtonTap(button: UIButton, selectedColor: UIColor, buttonType: ButtonType) {
-    button.rx.tap
-      .subscribe(onNext: { [weak self] in
-        guard let self = self else { return }
-        
-        switch buttonType {
-        case .shelter:
-          self.shelterButtonSelected.accept(!self.shelterButtonSelected.value)
-        case .defibrillator:
-          self.defibrillatorButtonSelected.accept(!self.defibrillatorButtonSelected.value)
-        case .emergencyReport:
-          self.emergencyReportButtonSelected.accept(!self.emergencyReportButtonSelected.value)
-        }
-        
-        if self.areAllButtonsSelected() {
-          self.resetButtonsExcept(buttonType: buttonType, button: button, selectedColor: selectedColor)
-        } else if button.isSelected {
-          self.selectAllButtons()
-        } else {
-          self.resetButtonsExcept(buttonType: buttonType, button: button, selectedColor: selectedColor)
-        }
-      })
-      .disposed(by: disposeBag)
-  }
-  
-  private func areAllButtonsSelected() -> Bool {
-    return shelterButtonSelected.value && defibrillatorButtonSelected.value && emergencyReportButtonSelected.value
-  }
-  
-  private func resetButtonsExcept(buttonType: ButtonType, button: UIButton, selectedColor: UIColor) {
-    let buttons = [
-      ButtonType.shelter: (buttonRelay: shelterButtonSelected, color: UIColor.CGreen),
-      ButtonType.defibrillator: (buttonRelay: defibrillatorButtonSelected, color: UIColor.CRed),
-      ButtonType.emergencyReport: (buttonRelay: emergencyReportButtonSelected, color: UIColor.CBlue)
-    ]
-    
-    for (type, (buttonRelay, color)) in buttons {
-      if type != buttonType {
-        buttonRelay.accept(false)
-        let button = getButton(for: type)
-        button?.isSelected = false
-        button?.backgroundColor = .CLightBlue
-      }
+  // Shelter 버튼 클릭 처리
+  // 버튼 색상 처리 필요
+  func toggleShelterButton(mapController: KMController?) {
+    guard let mapController = mapController else {
+      print("mapController is nil")
+      return
     }
     
-    button.isSelected = true
-    button.backgroundColor = selectedColor
-  }
-  
-  private func selectAllButtons() {
-    let buttons = [
-      ButtonType.shelter: (buttonRelay: shelterButtonSelected, color: UIColor.CGreen),
-      ButtonType.defibrillator: (buttonRelay: defibrillatorButtonSelected, color: UIColor.CRed),
-      ButtonType.emergencyReport: (buttonRelay: emergencyReportButtonSelected, color: UIColor.CBlue)
-    ]
+    // 버튼 상태 토글
+    let isSelected = !shelterButtonSelected.value
+    shelterButtonSelected.accept(isSelected)
     
-    for (type, (buttonRelay, color)) in buttons {
-      buttonRelay.accept(true)
-      let button = getButton(for: type)
-      button?.isSelected = true
-      button?.backgroundColor = color
+    // 상태에 따라 POI 표시/숨김
+    if isSelected {
+      print("Shelter POIs 표시 중")
+      poiViewModel.showShelters(mapController: mapController)
+    } else {
+      print("Shelter POIs 숨김")
+      poiViewModel.hideShelters(mapController: mapController)
     }
   }
   
-  func initializeButtonStates() {
-    let buttons = [
-      ButtonType.shelter: (buttonRelay: shelterButtonSelected, color: UIColor.CGreen),
-      ButtonType.defibrillator: (buttonRelay: defibrillatorButtonSelected, color: UIColor.CRed),
-      ButtonType.emergencyReport: (buttonRelay: emergencyReportButtonSelected, color: UIColor.CBlue)
-    ]
+  // AED 버튼 클릭 처리
+  // 버튼 색상 처리 필요
+  func toggleAedButton(mapController: KMController) {
+    // 버튼 상태 토글
+    let isSelected = !aedButtonSelected.value
+    aedButtonSelected.accept(isSelected)
     
-    for (type, (buttonRelay, color)) in buttons {
-      buttonRelay.accept(true) // 초기 상태는 선택되지 않은 상태
-      let button = getButton(for: type)
-      button?.isSelected = false
-      button?.backgroundColor = color // 색상 설정
+    // 상태에 따라 POI 표시/숨김
+    if isSelected {
+      print("AED POIs 표시 중")
+      poiViewModel.showAeds(mapController: mapController)
+    } else {
+      print("AED POIs 숨김")
+      poiViewModel.hideAeds(mapController: mapController)
     }
   }
   
-  private func getButton(for type: ButtonType) -> UIButton? {
-    // 버튼 반환 로직 필요
-    return nil
+  // 긴급제보 버튼 클릭 처리
+  // 버튼 색상 처리 필요
+  func toggleEmergencyReportButton(mapController: KMController) {
+    // 버튼 상태 토글
+    let isSelected = !emergencyReportSelected.value
+    emergencyReportSelected.accept(isSelected)
+    
+    // 상태에 따라 POI 표시/숨김
+    if isSelected {
+      print("Emergency Report POIs 표시 중")
+      poiViewModel.showEmergencyReport(mapController: mapController)
+    } else {
+      print("Emergency Report POIs 숨김")
+      poiViewModel.hideEmergencyReport(mapController: mapController)
+    }
   }
-}
-
-// Enum for button types
-enum ButtonType {
-  case shelter
-  case defibrillator
-  case emergencyReport
 }

@@ -11,11 +11,10 @@ import FloatingPanel
 import RxCocoa
 import RxSwift
 
-
 class MapBottomSheetViewController: UIViewController {
   
   var fpc: FloatingPanelController!  // FloatingPanelController의 인스턴스
-  var panelContentsViewController: PaneltContentsViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
+  var panelContentsViewController: EmergencyReportViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,29 +22,27 @@ class MapBottomSheetViewController: UIViewController {
   }
   
   private func setupView() {
-    panelContentsViewController = PaneltContentsViewController() // 콘텐츠 뷰 컨트롤러 인스턴스화
+    panelContentsViewController = EmergencyReportViewController() // 콘텐츠 뷰 컨트롤러 인스턴스화
     
     fpc = FloatingPanelController()
     fpc.changePanelStyle()
     fpc.delegate = self
     fpc.set(contentViewController: panelContentsViewController)
     
-    // 만약 panelContentsViewController에 스크롤 뷰가 있으면 활성화
-    // fpc.track(scrollView: panelContentsViewController.scrollView)
     
-    fpc.layout = FloatingPanelBottomLayout()
+    fpc.layout = MyFloatingPanelLayout()  // Custom layout 적용
     fpc.invalidateLayout()
     fpc.addPanel(toParent: self)
   }
 }
 
 // MARK: - Extesions
-///FloatingPanelController 확장: 스타일 변경 메서드 정의
+/// FloatingPanelController 확장: 스타일 변경 메서드 정의
 extension FloatingPanelController {
   func changePanelStyle() {
-    let appearance = SurfaceAppearance() // 수정된 변수명
+    let appearance = SurfaceAppearance()
     let shadow = SurfaceAppearance.Shadow()
-    shadow.color = UIColor.black // UIColor.CBlack 대신 UIColor.black 사용
+    shadow.color = UIColor.black
     shadow.offset = CGSize(width: 0, height: -4)
     shadow.opacity = 0.15
     appearance.shadows = [shadow]
@@ -67,6 +64,18 @@ extension MapBottomSheetViewController: FloatingPanelControllerDelegate {
     } else {
       // 패널이 다른 모드일 때의 동작
     }
+  }
+}
+
+// 위치와 상태를 설정하는 layout 클래스
+class MyFloatingPanelLayout: FloatingPanelLayout {
+  // 올라오는 위치 지정
+  let position: FloatingPanelPosition = .bottom
+  let initialState: FloatingPanelState = .half
+  var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+    return [
+      .half: FloatingPanelLayoutAnchor(fractionalInset: 0.24, edge: .bottom, referenceGuide: .safeArea),
+    ]
   }
 }
 
