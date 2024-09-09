@@ -1,5 +1,5 @@
 //
-//  OnlineMapViewController.swift
+//  OnlineViewController.swift
 //  Duriso
 //
 //  Created by 이주희 on 8/26/24.
@@ -12,7 +12,7 @@ import RxSwift
 import SnapKit
 import KakaoMapsSDK
 
-class OnlineMapViewController: UIViewController {
+class OnlineViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
@@ -22,9 +22,13 @@ class OnlineMapViewController: UIViewController {
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
   
-  let addressView = UIView().then {
+  let addressView = UIStackView().then {
     $0.backgroundColor = .CWhite
-    $0.layer.cornerRadius = 20
+    $0.axis = .horizontal
+    $0.distribution = .fill
+    $0.layer.borderColor = UIColor.CBlack.cgColor
+    $0.layer.borderWidth = 1.0
+    $0.layer.cornerRadius = 10
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
     $0.layer.shadowColor = UIColor.CBlack.cgColor
@@ -33,10 +37,16 @@ class OnlineMapViewController: UIViewController {
   }
   
   let addressLabel = UILabel().then {
-    $0.text = "00시 00구 00동"
+    $0.backgroundColor = .CWhite
+    $0.text = "위치 확인 중..."
     $0.textColor = .CBlack
-    $0.textAlignment = .left
+    $0.textAlignment = .center
     $0.font = CustomFont.Head3.font()
+  }
+  
+  let addressRefreshButton = UIButton().then {
+    $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+    $0.tintColor = .CBlack
   }
   
   let buttonStackView = UIStackView().then {
@@ -48,7 +58,7 @@ class OnlineMapViewController: UIViewController {
   
   lazy var currentLocationButton = UIButton().then {
     $0.setImage(UIImage(named: "locationButton"), for: .normal)
-    $0.addTarget(self, action: #selector(didTapcurrentLocationButton), for: .touchUpInside)
+    $0.addTarget(self, action: #selector(didTapCurrentLocationButton), for: .touchUpInside)
   }
   
   let writingButton = UIButton().then {
@@ -91,6 +101,20 @@ class OnlineMapViewController: UIViewController {
     setupViews()
     setupConstraints()
     setupButtonBindings()
+    
+    // 위치 업데이트 콜백 설정
+    LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
+      self?.updatePlaceNameLabel(latitude: latitude, longitude: longitude)
+//      self?.goToCurrentLocation()
+    }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // 위치 업데이트 시작
+    LocationManager.shared.startUpdatingLocation()
+
   }
   
   
@@ -114,7 +138,8 @@ class OnlineMapViewController: UIViewController {
     ].forEach { buttonStackView.addArrangedSubview($0) }
     
     [
-      addressLabel
+      addressLabel,
+      addressRefreshButton
     ].forEach { addressView.addSubview($0) }
   }
   
@@ -126,12 +151,20 @@ class OnlineMapViewController: UIViewController {
     addressView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.top.equalToSuperview().offset(80)
-      $0.width.equalTo(180)
+      $0.width.equalTo(280)
       $0.height.equalTo(40)
     }
     
     addressLabel.snp.makeConstraints {
-      $0.center.equalTo(addressView)
+      $0.centerY.equalTo(addressView)
+      $0.leading.equalTo(addressView).offset(20)
+      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-20)
+    }
+    
+    addressRefreshButton.snp.makeConstraints {
+      $0.centerY.equalTo(addressView)
+      $0.trailing.equalTo(addressView).offset(-10)
+      $0.width.height.equalTo(30)
     }
     
     currentLocationButton.snp.makeConstraints{
@@ -195,6 +228,23 @@ class OnlineMapViewController: UIViewController {
     return button
   }
   
+  // 위치에 따라 주소 레이블을 업데이트하는 메서드
+  func updatePlaceNameLabel(latitude: Double, longitude: Double) {
+    let regionFetcher = RegionFetcher()
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) {
+      [weak self] documents, error in guard let self = self else { return }
+      if let document = documents?.first {
+        DispatchQueue.main.async {
+          self.addressLabel.text = document.addressName
+        }
+        print("Your Location is: \(document.addressName)")
+      }
+      if let error = error {
+        print("Error fetching region: \(error)")
+        return
+      }
+    }
+  }
   
   private func setupButtonBindings() {
     
@@ -229,9 +279,19 @@ class OnlineMapViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
-  @objc func didTapcurrentLocationButton() {
+  @objc private func didTapCurrentLocationButton() {
     // Handle the writing button tap action here
-    print("Writing button tapped")
+    print("CurrentLocation button tapped")
+    // 현재 위치로 이동하는 메서드
+    if let currentLocation = LocationManager.shared.currentLocation {
+      let latitude = currentLocation.coordinate.latitude
+      let longitude = currentLocation.coordinate.longitude
+//      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
+//      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      updatePlaceNameLabel(latitude: latitude, longitude: longitude)
+    } else {
+      LocationManager.shared.startUpdatingLocation()
+    }
   }
   
   @objc private func didTapWritingButton() {
@@ -252,4 +312,4 @@ class OnlineMapViewController: UIViewController {
 
 
 @available(iOS 17.0, *)
-#Preview { OnlineMapViewController() }
+#Preview { OnlineViewController() }
