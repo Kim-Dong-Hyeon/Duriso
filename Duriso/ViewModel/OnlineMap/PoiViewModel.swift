@@ -18,7 +18,7 @@ class PoiViewModel {
   let emergencyReportPois = PublishSubject<[PoiData]>()
   
   func setupPoiData() {
-    let shelters = ShelterData.shared.setShelters().map { $0 as PoiData }
+    let shelters = ShelterRepository.setShelters().map { $0 as PoiData }
     let aeds = AedData.shared.setAeds().map { $0 as PoiData }
     let notifications = EmergencyReportData.shared.setNotifications().map { $0 as PoiData }
     

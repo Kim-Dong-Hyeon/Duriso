@@ -29,12 +29,19 @@ struct Notification: PoiData {
   let latitude: Double
 }
 
-struct Shelter: PoiData {
-  let id: String
-  let name: String
+struct Shelter: Codable {
+  let shelterName: String
   let address: String
-  let longitude: Double
   let latitude: Double
-  let capacity: Int
+  let longitude: Double
+  let shelterTypeName: String
+  
+  enum CodingKeys: String, CodingKey {
+    case shelterName = "REARE_NM"
+    case address = "RONA_DADDR"
+    case longitude = "LOT"
+    case latitude = "LAT"
+    case shelterTypeName = "SHLT_SE_NM"
+  }
 }
 
