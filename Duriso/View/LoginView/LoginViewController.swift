@@ -7,9 +7,14 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 class LoginViewController: UIViewController {
+  
+  let disposeBag = DisposeBag()
+  private let viewModel = LoginViewModel()
   
   private let titleLabel = UILabel().then {
     $0.text = "반갑습니다! \n로그인 및 가입하기"
@@ -31,20 +36,23 @@ class LoginViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
+    $0.autocapitalizationType = .none
   }
   
-  private let passWordLabel = UILabel().then {
+  private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
-  private let passWordTextField = UITextField().then {
+  private let passwordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "비밀번호를 입력하세요"
     $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
+    $0.isSecureTextEntry = true
+    $0.autocapitalizationType = .none
   }
   
   private let idLoginButton = UIButton().then {
@@ -77,15 +85,17 @@ class LoginViewController: UIViewController {
     view.backgroundColor = .CWhite
     
     configureUI()
+    bindUI()
   }
+  
   private func configureUI() {
     
     [
       titleLabel,
       idLabel,
       idTextField,
-      passWordLabel,
-      passWordTextField,
+      passwordLabel,
+      passwordTextField,
       kakaoLoginButton,
       appleLoginButton,
       idLoginButton,
@@ -109,13 +119,13 @@ class LoginViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
-    passWordLabel.snp.makeConstraints {
+    passwordLabel.snp.makeConstraints {
       $0.top.equalTo(idTextField.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    passWordTextField.snp.makeConstraints {
-      $0.top.equalTo(passWordLabel.snp.bottom).offset(8)
+    passwordTextField.snp.makeConstraints {
+      $0.top.equalTo(passwordLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -123,7 +133,7 @@ class LoginViewController: UIViewController {
     
     idLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(passWordTextField.snp.bottom).offset(48)
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(48)
       $0.width.equalTo(320)
       $0.height.equalTo(48)
     }
@@ -146,5 +156,52 @@ class LoginViewController: UIViewController {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
     }
+  }
+  
+  private func bindUI() {
+    idTextField.rx.text.orEmpty
+      .bind(to: viewModel.email)
+      .disposed(by: disposeBag)
+    
+    passwordTextField.rx.text.orEmpty
+      .bind(to: viewModel.password)
+      .disposed(by: disposeBag)
+
+    idLoginButton.rx.tap
+      .bind(to: viewModel.loginTap)
+      .disposed(by: disposeBag)
+    
+    viewModel.loginSuccess
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        print("로그인 성공")
+        
+        let mainTabBarViewModel = MainTabBarViewModel()
+        let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+        
+        self.navigationController?.setViewControllers([mainTabBarVC], animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.loginError
+      .subscribe(onNext: { [weak self] errorMessage in
+        let alert = UIAlertController(
+          title: "로그인 실패",
+          message: errorMessage, preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(action)
+        self?.present(alert, animated: true, completion: nil)
+      })
+      .disposed(by: disposeBag)
+    
+    signUpButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        let signUpVC = SignUpViewController()
+        self.navigationController?.pushViewController(signUpVC, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 }

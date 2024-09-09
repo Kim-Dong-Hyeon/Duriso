@@ -21,6 +21,7 @@ class LegalNoticeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     configureUI()
     bindViewModel()
   }
@@ -32,7 +33,9 @@ class LegalNoticeViewController: UIViewController {
   
   
   private func configureUI() {
-    view.addSubview(legalNoticeTableView)
+    [
+      legalNoticeTableView
+    ].forEach{ view.addSubview($0) }
     
     legalNoticeTableView.snp.makeConstraints {
       $0.edges.equalTo(view.safeAreaLayoutGuide)

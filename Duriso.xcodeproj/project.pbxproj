@@ -71,6 +71,8 @@
 		D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */; };
 		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
+		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
+		76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
 		D6BA243A2C8B5CB200C3BCE7 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BA24392C8B5CB200C3BCE7 /* BoardViewController.swift */; };
@@ -147,6 +149,8 @@
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
 		D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
+		76EFE8B72C8F1F580077D75B /* SignUpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
+		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
@@ -206,6 +210,7 @@
 		7622D0422C7C1C6000B1AEB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				76EFE8B42C8F1EF80077D75B /* SignUp */,
 				7622D0632C7C203C00B1AEB2 /* OnlineMap */,
 				7622D0672C7C20E400B1AEB2 /* OfflineMap */,
 				7622D0622C7C203600B1AEB2 /* Board */,
@@ -472,6 +477,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		76EFE8B42C8F1EF80077D75B /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				76EFE8B72C8F1F580077D75B /* SignUpModel.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 		D61B61212C7C396900C5E69D /* FontAssets */ = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +520,7 @@
 			isa = PBXGroup;
 			children = (
 				E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */,
+				76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -632,6 +646,7 @@
 				149EEFB52C8723610088FDB2 /* GuidelineViewModel.swift in Sources */,
 				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
+				76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarViewController.swift in Sources */,
 				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
 				D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */,
@@ -659,6 +674,7 @@
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
+				76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */,
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
 				149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */,
 				149EEFB32C871B000088FDB2 /* GuidelineKitView.swift in Sources */,
