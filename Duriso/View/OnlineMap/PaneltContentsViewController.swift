@@ -1,5 +1,5 @@
 //
-//  EmergencyReportViewController.swift
+//  PaneltContentsViewController.swift
 //  Duriso
 //
 //  Created by 이주희 on 9/4/24.

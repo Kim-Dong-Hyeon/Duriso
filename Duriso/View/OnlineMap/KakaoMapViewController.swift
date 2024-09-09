@@ -1,5 +1,5 @@
 //
-//  OnlineMapView.swift
+//  KakaoMapViewController.swift
 //  Duriso
 //
 //  Created by 이주희 on 9/1/24.
