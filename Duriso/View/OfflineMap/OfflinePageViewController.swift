@@ -72,8 +72,3 @@ class OfflinePageViewController: UIViewController {
       .disposed(by: disposeBag)
   }
 }
-
-@available(iOS 17.0, *)
-#Preview {
-  OfflineMapViewController()
-}
