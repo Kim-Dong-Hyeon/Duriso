@@ -38,13 +38,13 @@ class SignUpViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
-  private let nickNameLabel = UILabel().then {
+  private let nicknameLabel = UILabel().then {
     $0.text = "닉네임"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
-  private let nickNameTextField = UITextField().then {
+  private let nicknameTextField = UITextField().then {
     $0.placeholder = "닉네임을 입력하세요"
     $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
@@ -53,13 +53,13 @@ class SignUpViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
-  private let passWordLabel = UILabel().then {
+  private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
-  private let passWordTextField = UITextField().then {
+  private let passwordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "비밀번호를 입력하세요"
     $0.font = CustomFont.Body3.font()
@@ -69,13 +69,13 @@ class SignUpViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
-  private let checkPassWordLabel = UILabel().then {
+  private let checkpasswordLabel = UILabel().then {
     $0.text = "비밀번호 확인"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
-  private let checkPassWordTextField = UITextField().then {
+  private let checkpasswordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "비밀번호를 입력하세요"
     $0.font = CustomFont.Body3.font()
@@ -108,12 +108,12 @@ class SignUpViewController: UIViewController {
       titleLabel,
       emailLabel,
       emailTextField,
-      nickNameLabel,
-      nickNameTextField,
-      passWordLabel,
-      passWordTextField,
-      checkPassWordLabel,
-      checkPassWordTextField,
+      nicknameLabel,
+      nicknameTextField,
+      passwordLabel,
+      passwordTextField,
+      checkpasswordLabel,
+      checkpasswordTextField,
       saveButton
     ].forEach { view.addSubview($0) }
     
@@ -134,37 +134,37 @@ class SignUpViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
-    nickNameLabel.snp.makeConstraints {
+    nicknameLabel.snp.makeConstraints {
       $0.top.equalTo(emailTextField.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    nickNameTextField.snp.makeConstraints {
-      $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+    nicknameTextField.snp.makeConstraints {
+      $0.top.equalTo(nicknameLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
-    passWordLabel.snp.makeConstraints {
-      $0.top.equalTo(nickNameTextField.snp.bottom).offset(24)
+    passwordLabel.snp.makeConstraints {
+      $0.top.equalTo(nicknameTextField.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    passWordTextField.snp.makeConstraints {
-      $0.top.equalTo(passWordLabel.snp.bottom).offset(8)
+    passwordTextField.snp.makeConstraints {
+      $0.top.equalTo(passwordLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
-    checkPassWordLabel.snp.makeConstraints {
-      $0.top.equalTo(passWordTextField.snp.bottom).offset(24)
+    checkpasswordLabel.snp.makeConstraints {
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    checkPassWordTextField.snp.makeConstraints {
-      $0.top.equalTo(checkPassWordLabel.snp.bottom).offset(8)
+    checkpasswordTextField.snp.makeConstraints {
+      $0.top.equalTo(checkpasswordLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -183,17 +183,22 @@ class SignUpViewController: UIViewController {
       .bind(to: viewModel.emailText)
       .disposed(by: disposeBag)
     
-    nickNameTextField.rx.text.orEmpty
+    nicknameTextField.rx.text.orEmpty
       .bind(to: viewModel.nicknameText)
       .disposed(by: disposeBag)
     
-    passWordTextField.rx.text.orEmpty
+    passwordTextField.rx.text.orEmpty
       .bind(to: viewModel.passwordText)
       .disposed(by: disposeBag)
     
+    // 아직 viewmodel에서 선언을 안해둠..
+//    checkpasswordTextField.rx.text.orEmpty
+//      .bind(to: viewModel.passwordText)
+//      .disposed(by: disposeBag)
+    
     Observable.combineLatest(
-      passWordTextField.rx.text.orEmpty,
-      checkPassWordTextField.rx.text.orEmpty
+      passwordTextField.rx.text.orEmpty,
+      checkpasswordTextField.rx.text.orEmpty
     )
     .map { $0.0 == $0.1 }
     .bind(to: saveButton.rx.isEnabled)
