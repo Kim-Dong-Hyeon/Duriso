@@ -78,6 +78,7 @@
 		D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B42C8F142100B4E546 /* AedViewController.swift */; };
 		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
 		D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */; };
+		D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
 		E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* notice2.txt */; };
@@ -161,6 +162,7 @@
 		D69CF2B42C8F142100B4E546 /* AedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedViewController.swift; sourceTree = "<group>"; };
 		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
 		D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedNetworkManager.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
 		E20C3A612C873AC500AD5AA4 /* notice2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice2.txt; sourceTree = "<group>"; };
@@ -207,7 +209,7 @@
 			children = (
 				D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */,
 				149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */,
-				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
+				D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -502,6 +504,15 @@
 			path = FontAssets;
 			sourceTree = "<group>";
 		};
+		D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */,
+				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
+			);
+			path = OnlineMapNetworkManager;
+			sourceTree = "<group>";
+		};
 		E20C3A5E2C873A8600AD5AA4 /* LegalNotice */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,6 +681,7 @@
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
+				D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */,
 				E20C3A662C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift in Sources */,
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,

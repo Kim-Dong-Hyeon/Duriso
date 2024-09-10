@@ -28,7 +28,7 @@ struct Notification: PoiData {
   let longitude: Double
   let latitude: Double
 }
-
+// MARK: - ShelterModel
 struct Shelter: Codable {
   let shelterName: String
   let address: String
