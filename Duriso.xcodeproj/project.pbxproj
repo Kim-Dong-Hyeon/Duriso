@@ -71,11 +71,14 @@
 		D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A82C8A82320031114E /* OnlineViewController.swift */; };
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
 		D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */; };
-		D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */; };
+		D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */; };
 		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
+		D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B42C8F142100B4E546 /* AedViewController.swift */; };
+		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
+		D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
 		E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* notice2.txt */; };
@@ -149,7 +152,7 @@
 		D61268A82C8A82320031114E /* OnlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		D61268A92C8A82320031114E /* KakaoMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
-		D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaneltContentsViewController.swift; sourceTree = "<group>"; };
+		D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
@@ -157,6 +160,9 @@
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
 		D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterNetworkManager.swift; sourceTree = "<group>"; };
+		D69CF2B42C8F142100B4E546 /* AedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedViewController.swift; sourceTree = "<group>"; };
+		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
+		D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
 		E20C3A612C873AC500AD5AA4 /* notice2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice2.txt; sourceTree = "<group>"; };
@@ -201,6 +207,7 @@
 		149EEFB62C87246A0088FDB2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */,
 				149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */,
 				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
 			);
@@ -251,10 +258,12 @@
 		7622D0472C7C1D7A00B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				D61268A82C8A82320031114E /* OnlineViewController.swift */,
+				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
+				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
 				D61268A92C8A82320031114E /* KakaoMapViewController.swift */,
 				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
-				D61268AB2C8A82320031114E /* PaneltContentsViewController.swift */,
+				D61268A82C8A82320031114E /* OnlineViewController.swift */,
+				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -273,15 +282,15 @@
 		7622D0492C7C1D9F00B1AEB2 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
-				E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */,
-				E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */,
-				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
-				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
-				E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */,
-				E2DAB85D2C86380D0037BCA2 /* LegalNoticeViewController.swift */,
-				E2DAB85F2C863A520037BCA2 /* LegalNoticeTableViewCell.swift */,
 				E20C3A652C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift */,
+				E2DAB85F2C863A520037BCA2 /* LegalNoticeTableViewCell.swift */,
+				E2DAB85D2C86380D0037BCA2 /* LegalNoticeViewController.swift */,
+				E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */,
+				E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */,
+				7622D0512C7C1E9400B1AEB2 /* MyPageViewController.swift */,
+				E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */,
+				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
+				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -301,8 +310,8 @@
 		7622D0532C7C1F5900B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				D61268982C8A81D50031114E /* PoiViewModel.swift */,
 				D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */,
+				D61268982C8A81D50031114E /* PoiViewModel.swift */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -431,6 +440,7 @@
 				7622D0332C7C045300B1AEB2 /* CodeConvention.md */,
 				7622D0352C7C049A00B1AEB2 /* CommitConvention.md */,
 				763C0A222C7B125B006BC4E7 /* Duriso */,
+				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
 				763C0A212C7B125B006BC4E7 /* Products */,
 			);
 			indentWidth = 2;
@@ -450,19 +460,18 @@
 			isa = PBXGroup;
 			children = (
 				768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */,
+				7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */,
+				763C0A312C7B125C006BC4E7 /* Info.plist */,
+				7676228B2C85E6710075B09E /* Secrets.xcconfig */,
+				7622D0692C7C211800B1AEB2 /* Assets */,
 				E20C3A5E2C873A8600AD5AA4 /* LegalNotice */,
-				149EEFB62C87246A0088FDB2 /* Network */,
 				7622D05F2C7C1FA800B1AEB2 /* App */,
-				7676227F2C85AE500075B09E /* Common */,
+				149EEFB62C87246A0088FDB2 /* Network */,
 				7622D0422C7C1C6000B1AEB2 /* Model */,
 				7622D0432C7C1C7600B1AEB2 /* View */,
 				7622D0442C7C1C7B00B1AEB2 /* ViewModel */,
+				7676227F2C85AE500075B09E /* Common */,
 				7622D0682C7C20F100B1AEB2 /* Extensions */,
-				7622D0692C7C211800B1AEB2 /* Assets */,
-				763C0A2E2C7B125C006BC4E7 /* LaunchScreen.storyboard */,
-				763C0A312C7B125C006BC4E7 /* Info.plist */,
-				7676228B2C85E6710075B09E /* Secrets.xcconfig */,
-				7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */,
 			);
 			path = Duriso;
 			sourceTree = "<group>";
@@ -636,6 +645,7 @@
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
 				768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */,
 				D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */,
+				D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */,
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
 				7676228E2C85F2190075B09E /* OfflineViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
@@ -667,7 +677,7 @@
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
 				D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */,
-				D61268AF2C8A82320031114E /* PaneltContentsViewController.swift in Sources */,
+				D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
@@ -675,6 +685,7 @@
 				767622852C85CA790075B09E /* OfflineViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
+				D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */,
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
@@ -689,6 +700,7 @@
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
+				D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */,
 				D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */,
 				D61268A42C8A82060031114E /* ShelterRepository.swift in Sources */,
 			);

@@ -295,19 +295,20 @@ class OnlineViewController: UIViewController {
   }
   
   @objc private func didTapWritingButton() {
-    presentMapBottomSheet()
+    presentMapBottomSheet(with: .emergencyReport)
     print("Writing button tapped")
   }
   
-  func presentMapBottomSheet() {
-    // MapBottomSheetViewController를 인스턴스화합니다
+  func presentMapBottomSheet(with type: BottomSheetType) {
     let bottomSheetVC = MapBottomSheetViewController()
     
-    // FloatingPanelController와 함께 bottomSheetVC를 설정합니다
+    // 여기서 setupView 메서드를 호출하며 타입을 전달
+    bottomSheetVC.setupView(type: type)
+    
+    // FloatingPanelController와 함께 bottomSheetVC를 설정
     mapBottomSheetViewController = bottomSheetVC
     present(mapBottomSheetViewController!, animated: true, completion: nil)
   }
-  
 }
 
 
