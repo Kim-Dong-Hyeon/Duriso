@@ -13,7 +13,7 @@ protocol PoiData {
   var latitude: Double { get }
 }
 
-struct Aed: PoiData {
+struct Aed: Codable {
   let name: String
   let address: String
   let longitude: Double
@@ -25,7 +25,7 @@ struct AedResponse: Codable {
   let numOfRows: Int
   let pageNo: Int
   let totalCount: Int
-  let body: [Shelter]
+  let body: [Aed]
   
   struct Header: Codable {
     let resultMsg: String

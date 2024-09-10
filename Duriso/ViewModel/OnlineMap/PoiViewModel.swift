@@ -44,58 +44,44 @@ class PoiViewModel {
   
   // POI 데이터를 바인딩하고 생성
   func bindPoiData(to mapController: KMController) {
-    aedPois
+    bindPoiType(poiObservable: aedPois,
+                styleID: "aedStyle",
+                imageName: "AEDMarker.png",
+                layerID: "aedLayer",
+                createPoiFunction: self.createPoi,
+                mapController: mapController)
+    
+    bindPoiType(poiObservable: shelterPois,
+                styleID: "shelterStyle",
+                imageName: "ShelterMarker.png",
+                layerID: "shelterLayer",
+                createPoiFunction: self.ShelterCreatePoi,
+                mapController: mapController)
+    
+    bindPoiType(poiObservable: emergencyReportPois,
+                styleID: "emergencyReportStyle",
+                imageName: "NotificationMarker.png",
+                layerID: "emergencyReportLayer",
+                createPoiFunction: self.createPoi,
+                mapController: mapController)
+  }
+  
+  private func bindPoiType<T>(poiObservable: Observable<T>,
+                              styleID: String,
+                              imageName: String,
+                              layerID: String,
+                              createPoiFunction: @escaping (T, String, String, KMController) -> Void,
+                              mapController: KMController) {
+    poiObservable
       .subscribe(onNext: { [weak self] pois in
         self?.createPoiStyle(
-          styleID: "aedStyle",
-          imageName: "AEDMarker.png",
+          styleID: styleID,
+          imageName: imageName,
           mapController: mapController
         )
-        
-        self?.createPoi(
-          poiData: pois,
-          layerID: "aedLayer",
-          styleID: "aedStyle",
-          mapController: mapController
-        )
+        createPoiFunction(pois, layerID, styleID, mapController)
       }, onError: { error in
-        print("Error receiving AED POIs: \(error)")
-      }).disposed(by: disposeBag)
-    
-    shelterPois
-      .subscribe(onNext: { [weak self] shelters in
-        self?.createPoiStyle(
-          styleID: "shelterStyle",
-          imageName: "ShelterMarker.png",
-          mapController: mapController
-        )
-        
-        self?.ShelterCreatePoi(
-          shelters: shelters,
-          layerID: "shelterLayer",
-          styleID: "shelterStyle",
-          mapController: mapController
-        )
-      }, onError: { error in
-        print("Error receiving Shelter POIs: \(error)")
-      }).disposed(by: disposeBag)
-    
-    emergencyReportPois
-      .subscribe(onNext: { [weak self] pois in
-        self?.createPoiStyle(
-          styleID: "emergencyReportStyle",
-          imageName: "NotificationMarker.png",
-          mapController: mapController
-        )
-        
-        self?.createPoi(
-          poiData: pois,
-          layerID: "emergencyReportLayer",
-          styleID: "emergencyReportStyle",
-          mapController: mapController
-        )
-      }, onError: { error in
-        print("Error receiving Emergency Report POIs: \(error)")
+        print("Error receiving POIs for \(styleID): \(error)")
       }).disposed(by: disposeBag)
   }
   

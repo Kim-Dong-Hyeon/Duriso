@@ -20,12 +20,8 @@ class AedNetworkManager {
   /// - Returns: 쉘터 데이터를 포함한 `Observable<ShelterResponse>` 객체를 반환합니다.
   func fetchAeds() -> Observable<AedResponse> {
     let parameters: [String: Any] = [
-      "serviceKey": Environment.shelterApiKey,
-      "numOfRows": 1000,
-      "startLot": "126.0",
-      "endLot": "127.0",
-      "startLat": "35.0",
-      "endLat": "36.0"
+      "serviceKey": Environment.aedApiKey,
+      "numOfRows": 1000
     ]
     
     /// NetworkManager의 request 메소드를 호출하여 데이터를 요청
@@ -33,7 +29,7 @@ class AedNetworkManager {
       baseURL: baseURL,
       endpoint: endpoint,
       parameters: parameters,
-      responseType: ShelterResponse.self
+      responseType: AedResponse.self
     )
   }
 }
