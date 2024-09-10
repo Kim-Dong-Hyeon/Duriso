@@ -16,6 +16,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   var mapController: KMController?
   private let disposeBag = DisposeBag()
   var viewModel: PoiViewModel = PoiViewModel()
+  var currentLocationMarker: Poi?
   
   override func loadView() {
     if mapContainer == nil {
@@ -67,32 +68,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     print("Error code: \(errorCode), description: \(desc)")
   }
   
-  func addViewSucceeded(_ viewName: String, viewInfoName: String) {
-    guard let mapController = mapController else {
-      print("Error: mapController is nil after addViewSucceeded")
-      return
-    }
-    
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil after addViewSucceeded")
-      return
-    }
-    
-    print("mapView initialized successfully after addViewSucceeded")
-    
-    // 지도 엔진이 준비된 후에 레이어 생성
-    updatePOILayers()
-    
-    // POI 데이터 설정 및 바인딩
-    viewModel.setupPoiData()
-    viewModel.bindPoiData(to: mapController)
-    
-  }
-  
-  func addViewFailed(_ viewName: String, viewInfoName: String) {
-    print("Error: Failed to add view \(viewName)")
-  }
-  
   func addViews() {
     guard let mapController = mapController else { return }
     
@@ -111,6 +86,48 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     )
     mapController.addView(mapviewInfo)
   }
+  
+  func addViewSucceeded(_ viewName: String, viewInfoName: String) {
+    guard let mapController = mapController else {
+      print("Error: mapController is nil after addViewSucceeded")
+      return
+    }
+    
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil after addViewSucceeded")
+      return
+    }
+    
+    print("mapView initialized successfully after addViewSucceeded")
+    
+    // 현재 위치 정보를 가져옴
+    if let currentLocation = LocationManager.shared.currentLocation {
+      let latitude = currentLocation.coordinate.latitude
+      let longitude = currentLocation.coordinate.longitude
+      
+      // 현재 위치 마커를 업데이트
+      updateCurrentLocation(latitude: latitude, longitude: longitude)
+      
+      // 카메라를 현재 위치로 이동
+      moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      
+    } else {
+      print("Current location is not available.")
+    }
+    
+    // 지도 엔진이 준비된 후에 레이어 생성
+    updatePOILayers()
+    
+    // POI 데이터 설정 및 바인딩
+    viewModel.setupPoiData()
+    viewModel.bindPoiData(to: mapController)
+  }
+  
+  func addViewFailed(_ viewName: String, viewInfoName: String) {
+    print("Error: Failed to add view \(viewName)")
+  }
+  
+  
   
   func updatePOILayers() {
     guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
@@ -174,6 +191,66 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     } else {
       print("Failed to create \(layerID) label layer.")
     }
+  }
+  
+  func updateCurrentLocation(latitude: Double, longitude: Double) {
+    let currentPosition = MapPoint(longitude: longitude, latitude: latitude)
+    
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil")
+      return
+    }
+    
+    let manager = mapView.getLabelManager()
+    
+    if currentLocationMarker == nil {
+      print("Creating new current location marker")
+      
+      let iconStyle = PoiIconStyle(symbol: UIImage(named: "map_ico_marker.png"))
+      let poiStyle = PoiStyle(
+        styleID: "currentLocationStyle",
+        styles: [PerLevelPoiStyle(iconStyle: iconStyle, level: 0)]
+      )
+      manager.addPoiStyle(poiStyle)
+      print("POI style added")
+      
+      let layerOptions = LabelLayerOptions(
+        layerID: "default",
+        competitionType: .none,
+        competitionUnit: .symbolFirst,
+        orderType: .rank,
+        zOrder: 1000
+      )
+      let layer = manager.getLabelLayer(layerID: "default")
+      ?? manager.addLabelLayer(option: layerOptions)
+      
+      let poiOption = PoiOptions(styleID: "currentLocationStyle")
+      
+      currentLocationMarker = layer?.addPoi(option: poiOption, at: currentPosition)
+      print("POI added at position: (\(latitude), \(longitude))")
+    } else {
+      print("Updating current location marker position")
+      currentLocationMarker?.position = currentPosition
+    }
+    
+    currentLocationMarker?.show()
+    print("Current location marker shown")
+    
+    moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+  }
+  
+  func moveCameraToCurrentLocation(latitude: Double, longitude: Double, zoomLevel: Int = 17) {
+    let currentPosition = MapPoint(longitude: longitude, latitude: latitude)
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+    
+    // 현재 위치로 카메라 이동
+    let cameraUpdate = CameraUpdate.make(
+      target: currentPosition,
+      zoomLevel: zoomLevel,
+      mapView: mapView
+    )
+    mapView.moveCamera(cameraUpdate)
+    print("Camera moved to current position")
   }
 }
 

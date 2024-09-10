@@ -25,7 +25,7 @@ class PoiViewModel {
         // 성공적으로 대피소 데이터를 가져왔을 때
         let shelters = ShelterResponse.body
         for shelter in shelters {
-          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
+//          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
         }
         
         // shelterPois 스트림에 데이터 방출
@@ -37,13 +37,11 @@ class PoiViewModel {
     
     aedNetworkManager.fetchAeds()
       .subscribe(onNext: { AedResponse in
-        // 성공적으로 대피소 데이터를 가져왔을 때
         let aeds = AedResponse.body
         for aed in aeds {
           print("Shelter Name: \(aed.serialNumber), Address: \(aed.address)")
         }
         
-        // shelterPois 스트림에 데이터 방출
         self.aedPois.onNext(aeds)
       }, onError: { error in
         // 에러 발생 시
@@ -207,10 +205,9 @@ class PoiViewModel {
       let point = MapPoint(longitude: longitude, latitude: latitude)
       
       if let poiItem = layer.addPoi(option: options, at: point) {
-        print("POI added at (\(shelter.longitude), \(shelter.latitude)) with ID: \(shelter.shelterName)")
         poiItem.show()
       } else {
-        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
+//        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
       }
     }
   }

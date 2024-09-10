@@ -288,8 +288,8 @@ class OnlineViewController: UIViewController {
     if let currentLocation = LocationManager.shared.currentLocation {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
-//      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
-//      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
       updatePlaceNameLabel(latitude: latitude, longitude: longitude)
     } else {
       LocationManager.shared.startUpdatingLocation()
