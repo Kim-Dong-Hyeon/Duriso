@@ -36,6 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     IQKeyboardManager.shared.enable = true
     IQKeyboardManager.shared.enableAutoToolbar = true
     IQKeyboardManager.shared.resignOnTouchOutside = true
+
+    // TabBar 색상 지정
+    if #available(iOS 15, *) {
+      let appearance = UITabBarAppearance()
+      appearance.configureWithOpaqueBackground()
+      appearance.backgroundColor = .CWhite
+      UITabBar.appearance().standardAppearance = appearance
+      UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
     
     return true
   }
