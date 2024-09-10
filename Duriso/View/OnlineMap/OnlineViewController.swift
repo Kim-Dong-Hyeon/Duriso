@@ -41,6 +41,7 @@ class OnlineViewController: UIViewController {
     $0.text = "위치 확인 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .center
+    $0.adjustsFontSizeToFitWidth = true
     $0.font = CustomFont.Head3.font()
   }
   
@@ -58,6 +59,7 @@ class OnlineViewController: UIViewController {
   
   lazy var currentLocationButton = UIButton().then {
     $0.setImage(UIImage(named: "locationButton"), for: .normal)
+    $0.imageView?.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCurrentLocationButton), for: .touchUpInside)
   }
   
@@ -157,14 +159,14 @@ class OnlineViewController: UIViewController {
     
     addressLabel.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
-      $0.leading.equalTo(addressView).offset(20)
-      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-20)
+      $0.leading.equalTo(addressView).offset(8)
+      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-8)
     }
     
     addressRefreshButton.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
       $0.trailing.equalTo(addressView).offset(-10)
-      $0.width.height.equalTo(30)
+      $0.width.height.equalTo(16)
     }
     
     currentLocationButton.snp.makeConstraints{
@@ -311,6 +313,3 @@ class OnlineViewController: UIViewController {
   }
 }
 
-
-@available(iOS 17.0, *)
-#Preview { OnlineViewController() }

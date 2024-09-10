@@ -83,5 +83,3 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
   }
 }
 
-@available(iOS 17.0, *)
-#Preview { MapBottomSheetViewController() }
