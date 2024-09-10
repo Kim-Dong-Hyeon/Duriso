@@ -99,21 +99,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     }
     
     print("mapView initialized successfully after addViewSucceeded")
-    
-    // 현재 위치 정보를 가져옴
-    if let currentLocation = LocationManager.shared.currentLocation {
-      let latitude = currentLocation.coordinate.latitude
-      let longitude = currentLocation.coordinate.longitude
-      
-      // 현재 위치 마커를 업데이트
-      updateCurrentLocation(latitude: latitude, longitude: longitude)
-      
-      // 카메라를 현재 위치로 이동
-      moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
-      
-    } else {
-      print("Current location is not available.")
-    }
+    goToCurrentLocation()
     
     // 지도 엔진이 준비된 후에 레이어 생성
     updatePOILayers()
@@ -126,8 +112,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   func addViewFailed(_ viewName: String, viewInfoName: String) {
     print("Error: Failed to add view \(viewName)")
   }
-  
-  
   
   func updatePOILayers() {
     guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
@@ -151,6 +135,23 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     createLabelLayer()
   }
   
+  func goToCurrentLocation() {
+    // 현재 위치 정보를 가져옴
+    if let currentLocation = LocationManager.shared.currentLocation {
+      let latitude = currentLocation.coordinate.latitude
+      let longitude = currentLocation.coordinate.longitude
+      
+      // 현재 위치 마커를 업데이트
+      updateCurrentLocation(latitude: latitude, longitude: longitude)
+      
+      // 카메라를 현재 위치로 이동
+      moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      
+    } else {
+      print("Current location is not available.")
+    }
+    
+  }
   func createLabelLayer() {
     print("createLabelLayer called")
     guard let mapView = mapController?.getView("mapview") as? KakaoMap else {

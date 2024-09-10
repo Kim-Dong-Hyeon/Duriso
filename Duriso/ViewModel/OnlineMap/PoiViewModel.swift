@@ -25,7 +25,7 @@ class PoiViewModel {
         // 성공적으로 대피소 데이터를 가져왔을 때
         let shelters = ShelterResponse.body
         for shelter in shelters {
-//          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
+          //          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
         }
         
         // shelterPois 스트림에 데이터 방출
@@ -48,7 +48,7 @@ class PoiViewModel {
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
     let notifications = EmergencyReportData.shared.setNotifications().map { $0 as PoiData }
-
+    
     emergencyReportPois.onNext(notifications)
   }
   
@@ -207,7 +207,7 @@ class PoiViewModel {
       if let poiItem = layer.addPoi(option: options, at: point) {
         poiItem.show()
       } else {
-//        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
+        //        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
       }
     }
   }
