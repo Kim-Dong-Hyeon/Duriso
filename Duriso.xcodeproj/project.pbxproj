@@ -62,6 +62,7 @@
 		76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */; };
 		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
 		76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */; };
+		76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */; };
 		D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268982C8A81D50031114E /* PoiViewModel.swift */; };
 		D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportData.swift */; };
 		D61268A32C8A82060031114E /* AedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689C2C8A82050031114E /* AedData.swift */; };
@@ -195,6 +196,7 @@
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
+				76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,6 +561,7 @@
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
 				D613FE4E2C882049000FA3F5 /* FloatingPanel */,
+				76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -596,6 +599,7 @@
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
 				D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -989,6 +993,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.1;
+			};
+		};
 		D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel.git";
@@ -1044,6 +1056,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 		D613FE4E2C882049000FA3F5 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;
