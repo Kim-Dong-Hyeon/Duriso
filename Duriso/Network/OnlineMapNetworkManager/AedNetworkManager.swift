@@ -13,15 +13,16 @@ import RxSwift
 class AedNetworkManager {
   
   private let baseURL = "https://www.safetydata.go.kr"
-  private let endpoint = "/V2/api/DSSP-IF-10941"
+  private let endpoint = "/V2/api/DSSP-IF-00068"
   private let networkManager = NetworkManager()
   
-  // MARK: 쉘터 데이터를 API로부터 가져오는 함수
-  /// - Returns: 쉘터 데이터를 포함한 `Observable<ShelterResponse>` 객체를 반환합니다.
+  // MARK: AED 데이터를 API로부터 가져오는 함수
+  /// - Returns: AED 데이터를 포함한 `Observable<AedResponse>` 객체를 반환합니다.
   func fetchAeds() -> Observable<AedResponse> {
     let parameters: [String: Any] = [
       "serviceKey": Environment.aedApiKey,
-      "numOfRows": 1000
+      "numOfRows": 1000,
+      "pageNo": 1
     ]
     
     /// NetworkManager의 request 메소드를 호출하여 데이터를 요청

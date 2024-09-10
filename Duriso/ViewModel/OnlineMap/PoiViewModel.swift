@@ -12,10 +12,11 @@ class PoiViewModel {
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
+  let aedNetworkManager = AedNetworkManager()
   
   // POI 데이터 스트림
   let shelterPois = PublishSubject<[Shelter]>()
-  let aedPois = PublishSubject<[PoiData]>()
+  let aedPois = PublishSubject<[Aed]>()
   let emergencyReportPois = PublishSubject<[PoiData]>()
   
   func setupPoiData() {
@@ -34,11 +35,22 @@ class PoiViewModel {
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
     
-    let aeds = AedData.shared.setAeds().map { $0 as PoiData }
+    aedNetworkManager.fetchAeds()
+      .subscribe(onNext: { AedResponse in
+        // 성공적으로 대피소 데이터를 가져왔을 때
+        let aeds = AedResponse.body
+        for aed in aeds {
+          print("Shelter Name: \(aed.serialNumber), Address: \(aed.address)")
+        }
+        
+        // shelterPois 스트림에 데이터 방출
+        self.aedPois.onNext(aeds)
+      }, onError: { error in
+        // 에러 발생 시
+        print("Error fetching shelters: \(error)")
+      }).disposed(by: disposeBag)
     let notifications = EmergencyReportData.shared.setNotifications().map { $0 as PoiData }
-    
-    aedPois.onNext(aeds)
-    print("AED POIs 데이터 설정: \(aeds)")
+
     emergencyReportPois.onNext(notifications)
   }
   
@@ -48,14 +60,14 @@ class PoiViewModel {
                 styleID: "aedStyle",
                 imageName: "AEDMarker.png",
                 layerID: "aedLayer",
-                createPoiFunction: self.createPoi,
+                createPoiFunction: self.aedCreatePoi,
                 mapController: mapController)
     
     bindPoiType(poiObservable: shelterPois,
                 styleID: "shelterStyle",
                 imageName: "ShelterMarker.png",
                 layerID: "shelterLayer",
-                createPoiFunction: self.ShelterCreatePoi,
+                createPoiFunction: self.shelterCreatePoi,
                 mapController: mapController)
     
     bindPoiType(poiObservable: emergencyReportPois,
@@ -137,7 +149,40 @@ class PoiViewModel {
     }
   }
   
-  private func ShelterCreatePoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
+  private func aedCreatePoi(aeds: [Aed], layerID: String, styleID: String, mapController: KMController) {
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil")
+      return
+    }
+    
+    let labelManager = mapView.getLabelManager()
+    guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
+      print("Error: Failed to get layer with ID \(layerID)")
+      return
+    }
+    
+    layer.clearAllItems()
+    
+    if aeds.isEmpty {
+      print("No POIs to add for layerID: \(layerID)")
+    }
+    
+    for aed in aeds {
+      let longitude = aed.longitude
+      let latitude = aed.latitude
+      let options = PoiOptions(styleID: styleID, poiID: aed.serialNumber)
+      let point = MapPoint(longitude: longitude, latitude: latitude)
+      
+      if let poiItem = layer.addPoi(option: options, at: point) {
+        print("POI added at (\(aed.longitude), \(aed.latitude)) with ID: \(aed.serialNumber)")
+        poiItem.show()
+      } else {
+        print("Error: Failed to add POI with ID: \(aed.serialNumber) at (\(aed.longitude), \(aed.latitude))")
+      }
+    }
+  }
+  
+  private func shelterCreatePoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil")
       return

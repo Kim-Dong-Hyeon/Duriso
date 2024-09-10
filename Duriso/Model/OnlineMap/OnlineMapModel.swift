@@ -14,7 +14,7 @@ protocol PoiData {
 }
 
 struct Aed: Codable {
-  let name: String
+  let serialNumber: String
   let address: String
   let longitude: Double
   let latitude: Double
