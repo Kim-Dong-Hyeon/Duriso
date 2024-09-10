@@ -14,11 +14,24 @@ protocol PoiData {
 }
 
 struct Aed: PoiData {
-  let id: String
   let name: String
   let address: String
   let longitude: Double
   let latitude: Double
+}
+
+struct AedResponse: Codable {
+  let header: Header
+  let numOfRows: Int
+  let pageNo: Int
+  let totalCount: Int
+  let body: [Shelter]
+  
+  struct Header: Codable {
+    let resultMsg: String
+    let resultCode: String
+    let errorMsg: String?
+  }
 }
 
 struct Notification: PoiData {

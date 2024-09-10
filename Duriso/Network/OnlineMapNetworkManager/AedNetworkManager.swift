@@ -18,7 +18,7 @@ class AedNetworkManager {
   
   // MARK: 쉘터 데이터를 API로부터 가져오는 함수
   /// - Returns: 쉘터 데이터를 포함한 `Observable<ShelterResponse>` 객체를 반환합니다.
-  func fetchShelters() -> Observable<ShelterResponse> {
+  func fetchAeds() -> Observable<AedResponse> {
     let parameters: [String: Any] = [
       "serviceKey": Environment.shelterApiKey,
       "numOfRows": 1000,
