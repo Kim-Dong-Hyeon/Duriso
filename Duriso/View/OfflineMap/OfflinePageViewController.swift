@@ -1,5 +1,5 @@
 //
-//  OfflineViewController.swift
+//  OfflinePageViewController.swift
 //  Duriso
 //
 //  Created by 김동현 on 9/2/24.
@@ -13,12 +13,12 @@ import SnapKit
 import Then
 
 /// 오프라인 상태를 표시하는 뷰 컨트롤러
-class OfflineViewController: UIViewController {
+class OfflinePageViewController: UIViewController {
   
   // MARK: - Properties
   
   private let viewName: String
-  private let viewModel: OfflineViewModel
+  private let viewModel: OfflinePageViewModel
   private let disposeBag = DisposeBag()
   
   /// 오프라인 메시지를 표시하는 레이블
@@ -31,7 +31,7 @@ class OfflineViewController: UIViewController {
   // MARK: - Initialization
   
   /// ViewModel을 넘겨받아 초기화
-  init(viewModel: OfflineViewModel, viewName: String) {
+  init(viewModel: OfflinePageViewModel, viewName: String) {
     self.viewModel = viewModel
     self.viewName = viewName
     super.init(nibName: nil, bundle: nil)
