@@ -12,10 +12,11 @@ class PoiViewModel {
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
+  let aedNetworkManager = AedNetworkManager()
   
   // POI 데이터 스트림
   let shelterPois = PublishSubject<[Shelter]>()
-  let aedPois = PublishSubject<[PoiData]>()
+  let aedPois = PublishSubject<[Aed]>()
   let emergencyReportPois = PublishSubject<[PoiData]>()
   
   func setupPoiData() {
@@ -24,7 +25,7 @@ class PoiViewModel {
         // 성공적으로 대피소 데이터를 가져왔을 때
         let shelters = ShelterResponse.body
         for shelter in shelters {
-          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
+          //          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
         }
         
         // shelterPois 스트림에 데이터 방출
@@ -34,68 +35,63 @@ class PoiViewModel {
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
     
-    let aeds = AedData.shared.setAeds().map { $0 as PoiData }
+    aedNetworkManager.fetchAeds()
+      .subscribe(onNext: { AedResponse in
+        let aeds = AedResponse.body
+        for aed in aeds {
+          print("Shelter Name: \(aed.serialNumber), Address: \(aed.address)")
+        }
+        
+        self.aedPois.onNext(aeds)
+      }, onError: { error in
+        // 에러 발생 시
+        print("Error fetching shelters: \(error)")
+      }).disposed(by: disposeBag)
     let notifications = EmergencyReportData.shared.setNotifications().map { $0 as PoiData }
     
-    aedPois.onNext(aeds)
-    print("AED POIs 데이터 설정: \(aeds)")
     emergencyReportPois.onNext(notifications)
   }
   
   // POI 데이터를 바인딩하고 생성
   func bindPoiData(to mapController: KMController) {
-    aedPois
+    bindPoiType(poiObservable: aedPois,
+                styleID: "aedStyle",
+                imageName: "AEDMarker.png",
+                layerID: "aedLayer",
+                createPoiFunction: self.aedCreatePoi,
+                mapController: mapController)
+    
+    bindPoiType(poiObservable: shelterPois,
+                styleID: "shelterStyle",
+                imageName: "ShelterMarker.png",
+                layerID: "shelterLayer",
+                createPoiFunction: self.shelterCreatePoi,
+                mapController: mapController)
+    
+    bindPoiType(poiObservable: emergencyReportPois,
+                styleID: "emergencyReportStyle",
+                imageName: "NotificationMarker.png",
+                layerID: "emergencyReportLayer",
+                createPoiFunction: self.createPoi,
+                mapController: mapController)
+  }
+  
+  private func bindPoiType<T>(poiObservable: Observable<T>,
+                              styleID: String,
+                              imageName: String,
+                              layerID: String,
+                              createPoiFunction: @escaping (T, String, String, KMController) -> Void,
+                              mapController: KMController) {
+    poiObservable
       .subscribe(onNext: { [weak self] pois in
         self?.createPoiStyle(
-          styleID: "aedStyle",
-          imageName: "AEDMarker.png",
+          styleID: styleID,
+          imageName: imageName,
           mapController: mapController
         )
-        
-        self?.createPoi(
-          poiData: pois,
-          layerID: "aedLayer",
-          styleID: "aedStyle",
-          mapController: mapController
-        )
+        createPoiFunction(pois, layerID, styleID, mapController)
       }, onError: { error in
-        print("Error receiving AED POIs: \(error)")
-      }).disposed(by: disposeBag)
-    
-    shelterPois
-      .subscribe(onNext: { [weak self] shelters in
-        self?.createPoiStyle(
-          styleID: "shelterStyle",
-          imageName: "ShelterMarker.png",
-          mapController: mapController
-        )
-        
-        self?.ShelterCreatePoi(
-          shelters: shelters,
-          layerID: "shelterLayer",
-          styleID: "shelterStyle",
-          mapController: mapController
-        )
-      }, onError: { error in
-        print("Error receiving Shelter POIs: \(error)")
-      }).disposed(by: disposeBag)
-    
-    emergencyReportPois
-      .subscribe(onNext: { [weak self] pois in
-        self?.createPoiStyle(
-          styleID: "emergencyReportStyle",
-          imageName: "NotificationMarker.png",
-          mapController: mapController
-        )
-        
-        self?.createPoi(
-          poiData: pois,
-          layerID: "emergencyReportLayer",
-          styleID: "emergencyReportStyle",
-          mapController: mapController
-        )
-      }, onError: { error in
-        print("Error receiving Emergency Report POIs: \(error)")
+        print("Error receiving POIs for \(styleID): \(error)")
       }).disposed(by: disposeBag)
   }
   
@@ -151,7 +147,40 @@ class PoiViewModel {
     }
   }
   
-  private func ShelterCreatePoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
+  private func aedCreatePoi(aeds: [Aed], layerID: String, styleID: String, mapController: KMController) {
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil")
+      return
+    }
+    
+    let labelManager = mapView.getLabelManager()
+    guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
+      print("Error: Failed to get layer with ID \(layerID)")
+      return
+    }
+    
+    layer.clearAllItems()
+    
+    if aeds.isEmpty {
+      print("No POIs to add for layerID: \(layerID)")
+    }
+    
+    for aed in aeds {
+      let longitude = aed.longitude
+      let latitude = aed.latitude
+      let options = PoiOptions(styleID: styleID, poiID: aed.serialNumber)
+      let point = MapPoint(longitude: longitude, latitude: latitude)
+      
+      if let poiItem = layer.addPoi(option: options, at: point) {
+        print("POI added at (\(aed.longitude), \(aed.latitude)) with ID: \(aed.serialNumber)")
+        poiItem.show()
+      } else {
+        print("Error: Failed to add POI with ID: \(aed.serialNumber) at (\(aed.longitude), \(aed.latitude))")
+      }
+    }
+  }
+  
+  private func shelterCreatePoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil")
       return
@@ -176,10 +205,9 @@ class PoiViewModel {
       let point = MapPoint(longitude: longitude, latitude: latitude)
       
       if let poiItem = layer.addPoi(option: options, at: point) {
-        print("POI added at (\(shelter.longitude), \(shelter.latitude)) with ID: \(shelter.shelterName)")
         poiItem.show()
       } else {
-        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
+        //        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
       }
     }
   }

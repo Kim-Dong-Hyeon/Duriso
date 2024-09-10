@@ -65,7 +65,6 @@
 		76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */; };
 		D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268982C8A81D50031114E /* PoiViewModel.swift */; };
 		D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportData.swift */; };
-		D61268A32C8A82060031114E /* AedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689C2C8A82050031114E /* AedData.swift */; };
 		D61268A52C8A82060031114E /* OnlineMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689E2C8A82050031114E /* OnlineMapModel.swift */; };
 		D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A82C8A82320031114E /* OnlineViewController.swift */; };
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
@@ -78,6 +77,7 @@
 		D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B42C8F142100B4E546 /* AedViewController.swift */; };
 		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
 		D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */; };
+		D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
 		E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* notice2.txt */; };
@@ -145,7 +145,6 @@
 		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		D61268982C8A81D50031114E /* PoiViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiViewModel.swift; sourceTree = "<group>"; };
 		D612689A2C8A82050031114E /* EmergencyReportData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportData.swift; sourceTree = "<group>"; };
-		D612689C2C8A82050031114E /* AedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AedData.swift; sourceTree = "<group>"; };
 		D612689E2C8A82050031114E /* OnlineMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineMapModel.swift; sourceTree = "<group>"; };
 		D61268A82C8A82320031114E /* OnlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		D61268A92C8A82320031114E /* KakaoMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +160,7 @@
 		D69CF2B42C8F142100B4E546 /* AedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedViewController.swift; sourceTree = "<group>"; };
 		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
 		D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedNetworkManager.swift; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice3.txt; sourceTree = "<group>"; };
 		E20C3A612C873AC500AD5AA4 /* notice2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notice2.txt; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 			children = (
 				D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */,
 				149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */,
-				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
+				D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -378,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				D612689E2C8A82050031114E /* OnlineMapModel.swift */,
-				D612689C2C8A82050031114E /* AedData.swift */,
 				D612689A2C8A82050031114E /* EmergencyReportData.swift */,
 				76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */,
 			);
@@ -500,6 +499,15 @@
 				D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */,
 			);
 			path = FontAssets;
+			sourceTree = "<group>";
+		};
+		D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */,
+				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
+			);
+			path = OnlineMapNetworkManager;
 			sourceTree = "<group>";
 		};
 		E20C3A5E2C873A8600AD5AA4 /* LegalNotice */ = {
@@ -670,6 +678,7 @@
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
+				D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */,
 				E20C3A662C873F1000AD5AA4 /* LegalNoticeDetailViewController.swift in Sources */,
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
@@ -689,7 +698,6 @@
 				149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */,
 				149EEFB32C871B000088FDB2 /* GuidelineKitView.swift in Sources */,
 				D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */,
-				D61268A32C8A82060031114E /* AedData.swift in Sources */,
 				E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */,
 				D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */,
 				E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */,

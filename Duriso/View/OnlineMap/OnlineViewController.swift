@@ -41,6 +41,7 @@ class OnlineViewController: UIViewController {
     $0.text = "위치 확인 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .center
+    $0.adjustsFontSizeToFitWidth = true
     $0.font = CustomFont.Head3.font()
   }
   
@@ -58,6 +59,7 @@ class OnlineViewController: UIViewController {
   
   lazy var currentLocationButton = UIButton().then {
     $0.setImage(UIImage(named: "locationButton"), for: .normal)
+    $0.imageView?.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCurrentLocationButton), for: .touchUpInside)
   }
   
@@ -87,13 +89,6 @@ class OnlineViewController: UIViewController {
     selectedColor: .CBlue
   )
   
-  //  private let gasMaskButton: UIButton = createButton(
-  //    title: "방독면",
-  //    symbolName: "location.fill",
-  //    baseColor: .CLightBlue,
-  //    selectedColor: .CYellow,
-  //initiallySelected: false
-  //  )
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -105,7 +100,6 @@ class OnlineViewController: UIViewController {
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
       self?.updatePlaceNameLabel(latitude: latitude, longitude: longitude)
-//      self?.goToCurrentLocation()
     }
   }
   
@@ -114,7 +108,7 @@ class OnlineViewController: UIViewController {
     
     // 위치 업데이트 시작
     LocationManager.shared.startUpdatingLocation()
-
+    
   }
   
   
@@ -133,7 +127,7 @@ class OnlineViewController: UIViewController {
     
     [
       shelterButton,
-      aedButton, /*gasMaskButton,*/
+      aedButton,
       emergencyReportButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
     
@@ -157,14 +151,14 @@ class OnlineViewController: UIViewController {
     
     addressLabel.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
-      $0.leading.equalTo(addressView).offset(20)
-      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-20)
+      $0.leading.equalTo(addressView).offset(8)
+      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-8)
     }
     
     addressRefreshButton.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
       $0.trailing.equalTo(addressView).offset(-10)
-      $0.width.height.equalTo(30)
+      $0.width.height.equalTo(16)
     }
     
     currentLocationButton.snp.makeConstraints{
@@ -197,9 +191,6 @@ class OnlineViewController: UIViewController {
     }
   }
   
-  //    gasMaskButton.snp.makeConstraints{
-  //      $0.height.equalTo(34)
-  //    }
   
   
   func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
@@ -286,8 +277,8 @@ class OnlineViewController: UIViewController {
     if let currentLocation = LocationManager.shared.currentLocation {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
-//      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
-//      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
       updatePlaceNameLabel(latitude: latitude, longitude: longitude)
     } else {
       LocationManager.shared.startUpdatingLocation()
@@ -311,6 +302,3 @@ class OnlineViewController: UIViewController {
   }
 }
 
-
-@available(iOS 17.0, *)
-#Preview { OnlineViewController() }
