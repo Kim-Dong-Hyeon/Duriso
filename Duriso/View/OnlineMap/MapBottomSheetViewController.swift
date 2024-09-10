@@ -11,30 +11,42 @@ import FloatingPanel
 import RxCocoa
 import RxSwift
 
-class MapBottomSheetViewController: UIViewController {
+class MapBottomSheetViewController: UIViewController, FloatingPanelControllerDelegate {
   
-  var fpc: FloatingPanelController!  // FloatingPanelController의 인스턴스
-  var panelContentsViewController: EmergencyReportViewController! // 패널에 표시될 콘텐츠 뷰 컨트롤러
+  var fpc: FloatingPanelController!
+  var panelContentsViewController: UIViewController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setupView()
   }
   
-  private func setupView() {
-    panelContentsViewController = EmergencyReportViewController() // 콘텐츠 뷰 컨트롤러 인스턴스화
+   func setupView(type: BottomSheetType) {
+    switch type {
+    case .shelter:
+      panelContentsViewController = ShelterViewController()
+    case .aed:
+      panelContentsViewController = AedViewController()
+    case .emergencyReport:
+      panelContentsViewController = EmergencyReportViewController()
+    }
     
     fpc = FloatingPanelController()
     fpc.changePanelStyle()
     fpc.delegate = self
     fpc.set(contentViewController: panelContentsViewController)
-    
-    
-    fpc.layout = MyFloatingPanelLayout()  // Custom layout 적용
+    fpc.layout = MyFloatingPanelLayout()
     fpc.invalidateLayout()
     fpc.addPanel(toParent: self)
   }
 }
+
+// 새로운 enum으로 타입 지정
+enum BottomSheetType {
+  case shelter
+  case aed
+  case emergencyReport
+}
+
 
 // MARK: - Extesions
 /// FloatingPanelController 확장: 스타일 변경 메서드 정의
@@ -56,25 +68,17 @@ extension FloatingPanelController {
   }
 }
 
-/// FloatingPanelControllerDelegate 채택 및 구현
-extension MapBottomSheetViewController: FloatingPanelControllerDelegate {
-  func floatingPanelDidChangePosition(_ fpc: FloatingPanelController) {
-    if fpc.state == .full {
-      // 패널이 풀스크린 모드일 때의 동작
-    } else {
-      // 패널이 다른 모드일 때의 동작
-    }
-  }
-}
-
 // 위치와 상태를 설정하는 layout 클래스
 class MyFloatingPanelLayout: FloatingPanelLayout {
   // 올라오는 위치 지정
   let position: FloatingPanelPosition = .bottom
   let initialState: FloatingPanelState = .half
+  
   var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
     return [
-      .half: FloatingPanelLayoutAnchor(fractionalInset: 0.24, edge: .bottom, referenceGuide: .safeArea),
+      .full: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),  // 85% 높이
+      .half: FloatingPanelLayoutAnchor(fractionalInset: 0.4, edge: .bottom, referenceGuide: .safeArea),   // 40% 높이
+      .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.25, edge: .bottom, referenceGuide: .safeArea),    // 10% 높이 (기본 상태)
     ]
   }
 }
