@@ -37,7 +37,11 @@ class NoticeViewController: UIViewController {
     noticeTableView.snp.makeConstraints {
       $0.edges.equalTo(view.safeAreaLayoutGuide)
     }
-    
+    noneNoticeLabel.snp.makeConstraints {
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.centerY.equalTo(view.safeAreaLayoutGuide)
+    }
+  }
     
     // 테이블 뷰에 데이터가 있으면 라벨 가리고 테이블 뷰 표시/ 데이터가 없으면 테이블 뷰 가리고 라벨 표시
     //    func showData() {
@@ -49,7 +53,4 @@ class NoticeViewController: UIViewController {
     //        noticeTableView.isHidden = false
     //      }
     //    }
-  }
-  
-  
 }
