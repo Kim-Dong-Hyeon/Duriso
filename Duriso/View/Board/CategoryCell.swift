@@ -26,7 +26,7 @@ class CategoryCell: UITableViewCell {
     self.addSubview(categoryLabel)
     
     categoryLabel.snp.makeConstraints {
-      $0.left.equalToSuperview().offset(16)
+      $0.leading.equalToSuperview().offset(16)
       $0.centerY.equalToSuperview()
     }
   }
