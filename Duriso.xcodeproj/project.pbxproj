@@ -14,6 +14,8 @@
 		149EEFB32C871B000088FDB2 /* GuidelineKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB22C871B000088FDB2 /* GuidelineKitView.swift */; };
 		149EEFB52C8723610088FDB2 /* GuidelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB42C8723610088FDB2 /* GuidelineViewModel.swift */; };
 		149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */; };
+		14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE812E2C900BAD002E26FD /* CategoryCell.swift */; };
+		14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81312C9029EE002E26FD /* PostingViewController.swift */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -106,6 +108,8 @@
 		149EEFB22C871B000088FDB2 /* GuidelineKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineKitView.swift; sourceTree = "<group>"; };
 		149EEFB42C8723610088FDB2 /* GuidelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewModel.swift; sourceTree = "<group>"; };
 		149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineNetWork.swift; sourceTree = "<group>"; };
+		14DE812E2C900BAD002E26FD /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		14DE81312C9029EE002E26FD /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -275,6 +279,8 @@
 				768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */,
 				76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */,
 				768F50A82C8B530300A92ED6 /* PostViewController.swift */,
+				14DE812E2C900BAD002E26FD /* CategoryCell.swift */,
+				14DE81312C9029EE002E26FD /* PostingViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -673,6 +679,7 @@
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
 				E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */,
+				14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */,
 				76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */,
 				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
 				768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */,
@@ -708,6 +715,7 @@
 				76EFE8CE2C904D0B0077D75B /* OfflineViewController.swift in Sources */,
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */,
+				14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */,
 				7622D0502C7C1E8A00B1AEB2 /* GuidelineViewController.swift in Sources */,
 				D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */,
 				D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */,
