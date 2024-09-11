@@ -12,12 +12,12 @@ import RxSwift
 import SnapKit
 import KakaoMapsSDK
 
-class OnlineViewController: UIViewController {
+class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
+  private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
-  private let poiViewModel = PoiViewModel()
   
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
@@ -26,13 +26,13 @@ class OnlineViewController: UIViewController {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
-    $0.layer.borderColor = UIColor.CBlack.cgColor
-    $0.layer.borderWidth = 1.0
-    $0.layer.cornerRadius = 10
+    //    $0.layer.borderColor = UIColor.CBlack.cgColor
+    //    $0.layer.borderWidth = 1.0
+    $0.layer.cornerRadius = 20
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
     $0.layer.shadowColor = UIColor.CBlack.cgColor
-    $0.layer.shadowRadius = 8
+    $0.layer.shadowRadius = 4
     $0.layer.masksToBounds = false
   }
   
@@ -96,6 +96,10 @@ class OnlineViewController: UIViewController {
     setupViews()
     setupConstraints()
     setupButtonBindings()
+    
+    poiViewModel.delegate = self
+    print("OnlineViewController initialized with PoiViewModel: \(Unmanaged.passUnretained(poiViewModel).toOpaque())")
+    
     
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
@@ -251,7 +255,7 @@ class OnlineViewController: UIViewController {
       self.viewModel.toggleAedButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // Notification 버튼
+    // emergencyReportButton
     bindButtonTap(for: emergencyReportButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleEmergencyReportButton(mapController: self.onlineMapViewController.mapController!)
@@ -291,14 +295,17 @@ class OnlineViewController: UIViewController {
   }
   
   func presentMapBottomSheet(with type: BottomSheetType) {
-    let bottomSheetVC = MapBottomSheetViewController()
+    print("Presenting BottomSheet of type: \(type)")
     
-    // 여기서 setupView 메서드를 호출하며 타입을 전달
-    bottomSheetVC.setupView(type: type)
+    // BottomSheetViewController를 타입과 함께 초기화
+    let bottomSheetVC = MapBottomSheetViewController(type: type)
     
-    // FloatingPanelController와 함께 bottomSheetVC를 설정
-    mapBottomSheetViewController = bottomSheetVC
-    present(mapBottomSheetViewController!, animated: true, completion: nil)
+    // BottomSheet 표시
+    present(bottomSheetVC, animated: true)
   }
 }
 
+@available(iOS 17.0, *)
+#Preview {
+  OnlineViewController()
+}

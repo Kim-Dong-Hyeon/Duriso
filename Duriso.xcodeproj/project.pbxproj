@@ -73,7 +73,6 @@
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
 		D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */; };
 		D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */; };
-		D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = D613FE4E2C882049000FA3F5 /* FloatingPanel */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
@@ -195,7 +194,6 @@
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
-				D613FE4F2C882049000FA3F5 /* FloatingPanel in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
@@ -262,12 +260,9 @@
 		7622D0472C7C1D7A00B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
-				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
 				D61268A92C8A82320031114E /* KakaoMapViewController.swift */,
-				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
 				D61268A82C8A82320031114E /* OnlineViewController.swift */,
-				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
+				D69CF2BD2C916D9400B4E546 /* BottomsheetView */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -519,6 +514,17 @@
 			path = OnlineMapNetworkManager;
 			sourceTree = "<group>";
 		};
+		D69CF2BD2C916D9400B4E546 /* BottomsheetView */ = {
+			isa = PBXGroup;
+			children = (
+				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
+				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
+				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
+				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
+			);
+			path = BottomsheetView;
+			sourceTree = "<group>";
+		};
 		E20C3A5E2C873A8600AD5AA4 /* LegalNotice */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,7 +580,6 @@
 				7622D03C2C7C178400B1AEB2 /* FirebaseDatabase */,
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
-				D613FE4E2C882049000FA3F5 /* FloatingPanel */,
 				76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */,
 			);
 			productName = Duriso;
@@ -612,7 +617,6 @@
 				763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
-				D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
@@ -1017,14 +1021,6 @@
 				minimumVersion = 7.1.1;
 			};
 		};
-		D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scenee/FloatingPanel.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.8.5;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1077,11 +1073,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
-		};
-		D613FE4E2C882049000FA3F5 /* FloatingPanel */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D613FE4D2C882049000FA3F5 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
-			productName = FloatingPanel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,8 +1,8 @@
 //
-//  ShelterViewController.swift
+//  PaneltContentsViewController.swift
 //  Duriso
 //
-//  Created by t2024-m0153 on 9/9/24.
+//  Created by 이주희 on 9/4/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class ShelterViewController: UIViewController {
+class EmergencyReportViewController: UIViewController {
   
   internal let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
@@ -39,7 +39,7 @@ class ShelterViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancleButton = UIButton().then {
+  private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
     $0.tintColor = .black  // 아이콘 색상 설정
     $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
@@ -80,7 +80,7 @@ class ShelterViewController: UIViewController {
       megaphoneLabel,
       poiViewAddress,
       postTime,
-      cancleButton,
+      cancelButton,
       messageInputText,
       addPostButton
     ].forEach { view.addSubview($0) }
@@ -88,7 +88,7 @@ class ShelterViewController: UIViewController {
   
   func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
@@ -98,7 +98,7 @@ class ShelterViewController: UIViewController {
     }
     
     postTime.snp.makeConstraints {
-      $0.centerY.equalTo(poiViewTitle.snp.centerY)
+      $0.bottom.equalTo(megaphoneLabel.snp.bottom)
       $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
     }
     
@@ -108,7 +108,7 @@ class ShelterViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    cancleButton.snp.makeConstraints {
+    cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
     }

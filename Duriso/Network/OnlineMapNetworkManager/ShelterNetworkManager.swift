@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import Alamofire
 import RxSwift
 
@@ -17,18 +16,20 @@ class ShelterNetworkManager {
   private let networkManager = NetworkManager()
   
   // MARK: 쉘터 데이터를 API로부터 가져오는 함수
+  /// - Parameters:
+  ///   - boundingBox: 검색할 좌표 범위를 지정하는 파라미터
   /// - Returns: 쉘터 데이터를 포함한 `Observable<ShelterResponse>` 객체를 반환합니다.
-  func fetchShelters() -> Observable<ShelterResponse> {
+  func fetchShelters(boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) -> Observable<ShelterResponse> {
     let parameters: [String: Any] = [
       "serviceKey": Environment.shelterApiKey,
       "numOfRows": 1000,
-      "startLot": "126.0",
-      "endLot": "127.0",
-      "startLat": "35.0",
-      "endLat": "36.0"
+      "startLot": boundingBox.startLot,
+      "endLot": boundingBox.endLot,
+      "startLat": boundingBox.startLat,
+      "endLat": boundingBox.endLat
     ]
     
-    /// NetworkManager의 request 메소드를 호출하여 데이터를 요청
+    // NetworkManager의 request 메소드를 호출하여 데이터를 요청
     return networkManager.request(
       baseURL: baseURL,
       endpoint: endpoint,

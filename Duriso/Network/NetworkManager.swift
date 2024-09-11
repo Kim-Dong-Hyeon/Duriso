@@ -30,7 +30,7 @@ class NetworkManager {
         switch response.result {
         case .success(let data):   // 요청 성공 시
           if let responseString = String(data: data, encoding: .utf8) {
-            print("Response Data: \(responseString)")   // 응답 데이터 출력.
+            /*  print("Response Data: \(responseString)") */  // 응답 데이터 출력.
           }
           
           do {

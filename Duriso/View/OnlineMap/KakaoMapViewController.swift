@@ -15,7 +15,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   var mapContainer: KMViewContainer?
   var mapController: KMController?
   private let disposeBag = DisposeBag()
-  var viewModel: PoiViewModel = PoiViewModel()
+  var viewModel: PoiViewModel = PoiViewModel.shared
   var currentLocationMarker: Poi?
   
   override func loadView() {
@@ -48,6 +48,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     
     viewModel.setupPoiData()
     viewModel.bindPoiData(to: mapController)
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -114,10 +115,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   }
   
   func updatePOILayers() {
-    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil in updatePOILayers")
-      return
-    }
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
     
     let labelManager = mapView.getLabelManager()
     
@@ -127,7 +125,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       if let existingLayer = labelManager.getLabelLayer(layerID: layerID) {
         existingLayer.clearAllItems()
         labelManager.removeLabelLayer(layerID: layerID)
-        print("\(layerID) layer removed successfully.")
       }
     }
     
@@ -154,10 +151,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   }
   func createLabelLayer() {
     print("createLabelLayer called")
-    guard let mapView = mapController?.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil in createLabelLayer")
-      return
-    }
+    guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
     let labelManager = mapView.getLabelManager()
     
     // 레이어 ID 목록
@@ -228,7 +222,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       let poiOption = PoiOptions(styleID: "currentLocationStyle")
       
       currentLocationMarker = layer?.addPoi(option: poiOption, at: currentPosition)
-      print("POI added at position: (\(latitude), \(longitude))")
+      //      print("POI added at position: (\(latitude), \(longitude))")
     } else {
       print("Updating current location marker position")
       currentLocationMarker?.position = currentPosition

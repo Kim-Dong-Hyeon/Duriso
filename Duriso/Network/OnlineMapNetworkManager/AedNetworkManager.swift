@@ -17,15 +17,17 @@ class AedNetworkManager {
   private let networkManager = NetworkManager()
   
   // MARK: AED 데이터를 API로부터 가져오는 함수
-  /// - Returns: AED 데이터를 포함한 `Observable<AedResponse>` 객체를 반환합니다.
-  func fetchAeds() -> Observable<AedResponse> {
+  func fetchAeds(boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) -> Observable<AedResponse> {
     let parameters: [String: Any] = [
       "serviceKey": Environment.aedApiKey,
       "numOfRows": 1000,
+      "startLot": boundingBox.startLot,
+      "endLot": boundingBox.endLot,
+      "startLat": boundingBox.startLat,
+      "endLat": boundingBox.endLat,
       "pageNo": 1
     ]
     
-    /// NetworkManager의 request 메소드를 호출하여 데이터를 요청
     return networkManager.request(
       baseURL: baseURL,
       endpoint: endpoint,
@@ -34,4 +36,3 @@ class AedNetworkManager {
     )
   }
 }
-

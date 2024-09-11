@@ -39,7 +39,7 @@ class AedViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancleButton = UIButton().then {
+  private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
     $0.tintColor = .black  // 아이콘 색상 설정
     $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
@@ -80,7 +80,7 @@ class AedViewController: UIViewController {
       megaphoneLabel,
       poiViewAddress,
       postTime,
-      cancleButton,
+      cancelButton,
       messageInputText,
       addPostButton
     ].forEach { view.addSubview($0) }
@@ -108,7 +108,7 @@ class AedViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    cancleButton.snp.makeConstraints {
+    cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
     }
@@ -143,5 +143,3 @@ class AedViewController: UIViewController {
 }
 
 
-@available(iOS 17.0, *)
-#Preview { EmergencyReportViewController() }
