@@ -251,7 +251,7 @@ class OnlineViewController: UIViewController {
       self.viewModel.toggleAedButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // Notification 버튼
+    // emergencyReportButton
     bindButtonTap(for: emergencyReportButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleEmergencyReportButton(mapController: self.onlineMapViewController.mapController!)

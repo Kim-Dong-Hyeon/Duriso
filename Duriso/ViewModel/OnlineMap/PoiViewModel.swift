@@ -47,7 +47,7 @@ class PoiViewModel {
         // 에러 발생 시
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
-    let notifications = EmergencyReportData.shared.setNotifications().map { $0 as PoiData }
+    let notifications = EmergencyReportData.shared.setEmergencyReports().map { $0 as PoiData }
     
     emergencyReportPois.onNext(notifications)
   }
@@ -168,14 +168,18 @@ class PoiViewModel {
     for aed in aeds {
       let longitude = aed.longitude
       let latitude = aed.latitude
-      let options = PoiOptions(styleID: styleID, poiID: aed.serialNumber)
+      
+      // serialNumber를 Int에서 String으로 변환
+      let serialNumberString = String(aed.serialNumber)
+      
+      let options = PoiOptions(styleID: styleID, poiID: serialNumberString)
       let point = MapPoint(longitude: longitude, latitude: latitude)
       
       if let poiItem = layer.addPoi(option: options, at: point) {
-        print("POI added at (\(aed.longitude), \(aed.latitude)) with ID: \(aed.serialNumber)")
+        print("POI added at (\(aed.longitude), \(aed.latitude)) with ID: \(serialNumberString)")
         poiItem.show()
       } else {
-        print("Error: Failed to add POI with ID: \(aed.serialNumber) at (\(aed.longitude), \(aed.latitude))")
+        print("Error: Failed to add POI with ID: \(serialNumberString) at (\(aed.longitude), \(aed.latitude))")
       }
     }
   }

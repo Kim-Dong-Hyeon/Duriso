@@ -143,5 +143,3 @@ class AedViewController: UIViewController {
 }
 
 
-@available(iOS 17.0, *)
-#Preview { EmergencyReportViewController() }
