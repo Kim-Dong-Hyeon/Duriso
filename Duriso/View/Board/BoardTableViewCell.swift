@@ -15,10 +15,16 @@ class BoardTableViewCell: UITableViewCell {
   
   static let boardTableCell = "BoardTableCell"
   weak var delegate: BoardTableViewCellDelegate?
+  private var post: Post?
   private let disposeBag = DisposeBag()
   
   public let titleLabel = UILabel().then {
     $0.text = "제목"
+    $0.font = CustomFont.Head2.font()
+  }
+  
+  public let titleTop = UILabel().then {
+    $0.text = ""
     $0.font = CustomFont.Head2.font()
   }
   
@@ -38,11 +44,6 @@ class BoardTableViewCell: UITableViewCell {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let reportButton = UIButton().then {
-    $0.setTitle("🚨", for: .normal)
-    $0.backgroundColor = .clear
-  }
-  
   private let userSetImage = UIImageView().then {
     $0.image = .writingButton
   }
@@ -52,13 +53,22 @@ class BoardTableViewCell: UITableViewCell {
   }
   
   func configure(with post: Post) {
+    self.post = post
     titleLabel.text = post.title
     contentLabel.text = post.content
     addressLabel.text = "사랑시 고백구 행복동"  // 추후 변경예정 자기위치 따다가 넣을곳
     userSetImage.image = post.settingImage
     timeLabel.text = timeAgo(from: post.createdAt)
+    titleTop.text = post.categorys
+    
+    let cellTapEvent = UITapGestureRecognizer(target: self, action: #selector(cellTap))
+    self.contentView.addGestureRecognizer(cellTapEvent)
   }
   
+  @objc private func cellTap() {
+    guard let post = self.post else { return }
+    delegate?.didTapCell(with: post)
+  }
   
   private func timeAgo(from date: Date) -> String {
     let interval = -date.timeIntervalSinceNow
@@ -78,36 +88,26 @@ class BoardTableViewCell: UITableViewCell {
     }
   }
   
-  private func ripotAlerts() {
-    reportButton.rx.tap
-      .bind { [weak self] in
-        self?.delegate?.ripotAlert(in: self!)
-      }
-      .disposed(by: disposeBag)
-  }
-  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    ripotAlerts()
     
     [
       titleLabel,
       contentLabel,
       addressLabel,
-      reportButton,
       userSetImage,
-      timeLabel
+      timeLabel,
+      titleTop
     ].forEach { contentView.addSubview($0) }
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
       $0.leading.equalTo(contentView).offset(10)
-      $0.trailing.equalTo(reportButton.snp.leading).offset(-10)
     }
     
-    reportButton.snp.makeConstraints {
-      $0.trailing.equalTo(userSetImage.snp.leading).offset(-30)
-      $0.centerY.equalTo(titleLabel)
+    titleTop.snp.makeConstraints {
+      $0.top.equalTo(contentView).offset(10)
+      $0.centerX.equalTo(timeLabel.snp.centerX)
     }
     
     userSetImage.snp.makeConstraints {
@@ -118,7 +118,6 @@ class BoardTableViewCell: UITableViewCell {
     
     contentLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom)
-      $0.width.equalTo(150)
       $0.height.equalTo(50)
       $0.leading.equalTo(contentView).offset(10)
       $0.trailing.equalTo(contentView).offset(-120)
@@ -139,5 +138,6 @@ class BoardTableViewCell: UITableViewCell {
 }
 
 protocol BoardTableViewCellDelegate: AnyObject {
-    func ripotAlert(in cell: BoardTableViewCell)
+  func didTapCell(with post: Post)
 }
+

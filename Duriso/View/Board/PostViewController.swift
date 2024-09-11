@@ -17,7 +17,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   private let boardTableViewCell = BoardTableViewCell()
   private let disposeBag = DisposeBag()
   private let mainTabBarViewModel = MainTabBarViewModel()
-  var onPostAdded: ((String, String, UIImage?) -> Void)?
+  var onPostAdded: ((String, String, UIImage?, String) -> Void)?
+  private let tableItems = BehaviorRelay<[Category]>(value: [])
   
   private let categoryButton = UIButton().then {
     $0.setTitle("카테고리", for: .normal)
@@ -25,6 +26,12 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
+  }
+  
+  private let categoryTouch = UILabel().then {
+    $0.text = ""
+    $0.font = CustomFont.Head2.font()
+    $0.textColor = .black
   }
   
   private let titleName = UILabel().then {
@@ -70,7 +77,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
-
+  
   private let deleteButton = UIButton().then {
     $0.setImage(UIImage(systemName: "trash.circle"), for: .normal)
     $0.tintColor = .red
@@ -83,6 +90,10 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.isHidden = true
   }
   
+  private let categoryTableView = UITableView().then {
+    $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.categoryCell)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
@@ -91,8 +102,12 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     reportViewLayOut()
     pictureButtonTap()
     deleteButtonTap()
+    categoryButtonTap()
+    bindCategoryTableView()
+    bindCategoryTableViewModel()
     userTextSet.delegate = self
     deleteButton.isHidden = true
+    categoryTableView.isHidden = true
   }
   
   // 글쓰기뷰에서 탭바 없애기
@@ -120,8 +135,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         if let title = self.titleText.text,
-           let content = self.userTextSet.text {
-          self.onPostAdded?(title, content, self.pickerImage.image)
+           let content = self.userTextSet.text,
+           let category = self.categoryTouch.text{
+          self.onPostAdded?(title, content, self.pickerImage.image, category)
         }
         self.navigationController?.popViewController(animated: true)
       })
@@ -223,10 +239,59 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
   }
   
+  private func bindCategoryTableView() {
+    categoryTableView.delegate = nil
+    categoryTableView.dataSource = nil
+    
+    // 셀을 테이블 뷰에 바인딩
+    tableItems
+      .bind(to: categoryTableView.rx.items(cellIdentifier: CategoryCell.categoryCell, cellType: CategoryCell.self)) { index, category, cell in
+        cell.configure(with: category)
+      }
+      .disposed(by: disposeBag)
+    
+    categoryTableView.rx.modelSelected(Category.self)
+      .subscribe(onNext: { [weak self] category in
+        guard let self = self else { return }
+        
+        self.categoryTouch.text = category.title
+        
+        self.categoryTableView.isHidden = true
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func categoryButtonTap() {
+    categoryButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        let isHidden = self.categoryTableView.isHidden
+        
+        UIView.animate(withDuration: 0.3) {
+          self.categoryTableView.isHidden = !isHidden
+        }
+        
+        if !isHidden {
+          self.bindCategoryTableView()
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindCategoryTableViewModel() {
+    let viewModel = CategoryTableViewModel()
+    viewModel.items
+      .bind(to: tableItems)
+      .disposed(by: disposeBag)
+    viewModel.fetchItem()
+  }
+  
   // 레이아웃
   private func reportViewLayOut() {
     [
       categoryButton,
+      categoryTouch,
       titleName,
       titleText,
       lineView,
@@ -236,7 +301,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       userTextSet,
       pictureButton,
       pickerImage,
-      deleteButton
+      deleteButton,
+      categoryTableView
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
@@ -244,6 +310,19 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
+    }
+    
+    categoryTouch.snp.makeConstraints {
+      $0.top.equalToSuperview().offset(100)
+      $0.centerY.equalTo(categoryButton.snp.centerY)
+      $0.centerX.equalToSuperview()
+    }
+    
+    categoryTableView.snp.makeConstraints {
+      $0.leading.equalTo(categoryButton.snp.trailing).offset(10)
+      $0.top.equalToSuperview().offset(100)
+      $0.width.equalTo(200)
+      $0.height.equalTo(150)
     }
     
     titleName.snp.makeConstraints {
@@ -269,8 +348,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     locationeName1.snp.makeConstraints {
-      $0.centerY.equalTo(locationeName1.snp.centerY)
-      $0.leading.equalTo(locationeName1.snp.trailing).offset(8)
+      $0.centerY.equalTo(locationeName.snp.centerY)
+      $0.leading.equalTo(locationeName.snp.trailing).offset(8)
     }
     
     lineView1.snp.makeConstraints {

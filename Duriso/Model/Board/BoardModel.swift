@@ -8,11 +8,22 @@
 import Foundation
 import UIKit
 
+
+struct Category {
+  let title: String
+}
+
+struct Product {
+  let imageName: String
+  let title: String
+}
+
 //테이블뷰
 struct Post {
   let title: String
   let content: String
   let settingImage: UIImage?
+  let categorys: String
   let createdAt: Date
 }
 

@@ -7,11 +7,7 @@
 
 import Foundation
 
-struct Product {
-  let imageName: String
-  let title: String
-}
-
+// 유튜브 & 썸네일
 struct VideoItem {
   let title: String
   let url: URL
@@ -27,6 +23,7 @@ struct VideoThumbnailItem {
   let videoItem: VideoItem
 }
 
+// 연합뉴스
 struct ApiResponse: Decodable {
   let header: Header
   let numOfRows: Int
