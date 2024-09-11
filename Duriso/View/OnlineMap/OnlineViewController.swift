@@ -26,13 +26,13 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
-    $0.layer.borderColor = UIColor.CBlack.cgColor
-    $0.layer.borderWidth = 1.0
-    $0.layer.cornerRadius = 10
+//    $0.layer.borderColor = UIColor.CBlack.cgColor
+//    $0.layer.borderWidth = 1.0
+    $0.layer.cornerRadius = 20
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
     $0.layer.shadowColor = UIColor.CBlack.cgColor
-    $0.layer.shadowRadius = 8
+    $0.layer.shadowRadius = 4
     $0.layer.masksToBounds = false
   }
   
@@ -99,7 +99,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     
     poiViewModel.delegate = self
     print("OnlineViewController initialized with PoiViewModel: \(Unmanaged.passUnretained(poiViewModel).toOpaque())")
-
+    
     
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
@@ -295,37 +295,41 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   func presentMapBottomSheet(with type: BottomSheetType) {
-      print("Presenting BottomSheet of type: \(type)")  // 바텀시트 타입 로그 출력
-
-      // BottomSheetViewController를 타입과 함께 초기화
-      let bottomSheetVC = MapBottomSheetViewController(type: type)
-      
-      // BottomSheet 표시
-      if let sheetPresentationController = bottomSheetVC.sheetPresentationController {
-          if #available(iOS 16.0, *) {
-              // Custom detent 설정
-              if type == .emergencyReport {
-                  let customDetent = UISheetPresentationController.Detent.custom(identifier: UISheetPresentationController.Detent.Identifier("uniqueCustomIdentifier")) { context in
-                      let value = context.maximumDetentValue * 0.3
-                      print("Custom detent 높이: \(value)")
-                      return value
-                  }
-                  sheetPresentationController.detents = [customDetent]  // custom만 사용
-                  print("Custom detent 설정됨")
-              } else {
-                  sheetPresentationController.detents = [.medium()]
-                  print("Medium detent 설정됨")
-              }
-          } else {
-              sheetPresentationController.detents = [.medium()]
-              print("Medium detent 설정됨 (iOS 16.0 미만)")
+    print("Presenting BottomSheet of type: \(type)")  // 바텀시트 타입 로그 출력
+    
+    // BottomSheetViewController를 타입과 함께 초기화
+    let bottomSheetVC = MapBottomSheetViewController(type: type)
+    
+    // BottomSheet 표시
+    if let sheetPresentationController = bottomSheetVC.sheetPresentationController {
+      if #available(iOS 16.0, *) {
+        // Custom detent 설정
+        if type == .emergencyReport {
+          let customDetent = UISheetPresentationController.Detent.custom(identifier: UISheetPresentationController.Detent.Identifier("uniqueCustomIdentifier")) { context in
+            let value = context.maximumDetentValue * 0.3
+            print("Custom detent 높이: \(value)")
+            return value
           }
-          
-          sheetPresentationController.prefersGrabberVisible = true
-          sheetPresentationController.preferredCornerRadius = 15.0
+          sheetPresentationController.detents = [customDetent]  // custom만 사용
+          print("Custom detent 설정됨")
+        } else {
+          sheetPresentationController.detents = [.medium()]
+          print("Medium detent 설정됨")
+        }
+      } else {
+        sheetPresentationController.detents = [.medium()]
+        print("Medium detent 설정됨 (iOS 16.0 미만)")
       }
       
-      present(bottomSheetVC, animated: true)
+      sheetPresentationController.prefersGrabberVisible = true
+      sheetPresentationController.preferredCornerRadius = 15.0
+    }
+    
+    present(bottomSheetVC, animated: true)
   }
 }
 
+@available(iOS 17.0, *)
+#Preview {
+  OnlineViewController()
+}
