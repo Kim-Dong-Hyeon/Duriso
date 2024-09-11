@@ -8,9 +8,9 @@
 import Foundation
 
 protocol PoiData {
-  var id: String { get }
-  var longitude: Double { get }
-  var latitude: Double { get }
+    var id: String { get }
+    var longitude: Double { get }
+    var latitude: Double { get }
 }
 
 struct Aed: Codable {

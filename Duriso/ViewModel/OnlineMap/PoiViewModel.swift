@@ -4,11 +4,25 @@
 //
 //  Created by 이주희 on 8/26/24.
 
+import CoreLocation
 
 import RxSwift
 import KakaoMapsSDK
 
+
+protocol PoiViewModelDelegate: AnyObject {
+  // POI가 탭되었을 때 호출되는 메서드
+  func presentMapBottomSheet(with type: BottomSheetType)
+}
+
 class PoiViewModel {
+  
+  static let shared = PoiViewModel()
+  weak var delegate: PoiViewModelDelegate?
+  
+  private init() {
+         print("PoiViewModel initialized: \(Unmanaged.passUnretained(self).toOpaque())")
+     }
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
@@ -17,70 +31,150 @@ class PoiViewModel {
   // POI 데이터 스트림
   let shelterPois = PublishSubject<[Shelter]>()
   let aedPois = PublishSubject<[Aed]>()
-  let emergencyReportPois = PublishSubject<[PoiData]>()
+  let emergencyReportPois = PublishSubject<[EmergencyReport]>()
   
+  /// POI 데이터를 설정하는 함수.
+  /// 현재 위치를 기준으로 2km 반경의 데이터를 요청함.
   func setupPoiData() {
-    shelterNetworkManager.fetchShelters()
-      .subscribe(onNext: { ShelterResponse in
-        // 성공적으로 대피소 데이터를 가져왔을 때
-        let shelters = ShelterResponse.body
-        for shelter in shelters {
-          //          print("Shelter Name: \(shelter.shelterName), Address: \(shelter.address)")
-        }
-        
-        // shelterPois 스트림에 데이터 방출
+    guard let currentLocation = LocationManager.shared.currentLocation else {
+      print("Error: Current location is nil")
+      return
+    }
+    
+    let boundingBox = calculateBoundingBox(for: currentLocation, radius: 2000) // 2km 반경
+    
+    // 쉘터 데이터 요청
+    shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
+      .subscribe(onNext: { shelterResponse in
+        let shelters = shelterResponse.body
         self.shelterPois.onNext(shelters)
       }, onError: { error in
-        // 에러 발생 시
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
     
-    aedNetworkManager.fetchAeds()
-      .subscribe(onNext: { AedResponse in
-        let aeds = AedResponse.body
-        for aed in aeds {
-          print("Shelter Name: \(aed.serialNumber), Address: \(aed.address)")
-        }
-        
+    // AED 데이터 요청
+    aedNetworkManager.fetchAeds(boundingBox: boundingBox)
+      .subscribe(onNext: { aedResponse in
+        let aeds = aedResponse.body
         self.aedPois.onNext(aeds)
       }, onError: { error in
-        // 에러 발생 시
-        print("Error fetching shelters: \(error)")
+        print("Error fetching AEDs: \(error)")
       }).disposed(by: disposeBag)
-    let notifications = EmergencyReportData.shared.setEmergencyReports().map { $0 as PoiData }
     
-    emergencyReportPois.onNext(notifications)
+    // 긴급 보고 데이터 처리
+    let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
+    emergencyReportPois.onNext(emergencyReports)
   }
   
-  // POI 데이터를 바인딩하고 생성
-  func bindPoiData(to mapController: KMController) {
-    bindPoiType(poiObservable: aedPois,
-                styleID: "aedStyle",
-                imageName: "AEDMarker.png",
-                layerID: "aedLayer",
-                createPoiFunction: self.aedCreatePoi,
-                mapController: mapController)
+  /// 주어진 위치와 반경을 바탕으로 바운딩 박스를 계산하는 함수.
+  /// - Parameters:
+  ///   - location: 현재 위치
+  ///   - radius: 반경(미터 단위)
+  /// - Returns: 시작 및 종료 위도와 경도를 포함하는 바운딩 박스
+  func calculateBoundingBox(for location: CLLocation, radius: Double) -> (startLat: Double, endLat: Double, startLot: Double, endLot: Double) {
+    let earthRadius = 6371000.0 // 지구 반지름 (미터 단위)
+    let deltaLat = (radius / earthRadius) * (180.0 / .pi)
+    let deltaLon = (radius / (earthRadius * cos(.pi * location.coordinate.latitude / 180.0))) * (180.0 / .pi)
     
-    bindPoiType(poiObservable: shelterPois,
-                styleID: "shelterStyle",
-                imageName: "ShelterMarker.png",
-                layerID: "shelterLayer",
-                createPoiFunction: self.shelterCreatePoi,
-                mapController: mapController)
+    let startLat = location.coordinate.latitude - deltaLat
+    let endLat = location.coordinate.latitude + deltaLat
+    let startLot = location.coordinate.longitude - deltaLon
+    let endLot = location.coordinate.longitude + deltaLon
+    
+    return (startLat, endLat, startLot, endLot)
+  }
+  
+  /// POI 데이터를 지도에 바인딩하는 함수.
+  /// - Parameter mapController: POI를 표시할 지도 컨트롤러
+  func bindPoiData(to mapController: KMController) {
+    bindLodPoiType(poiObservable: aedPois,
+                   styleID: "aedStyle",
+                   imageName: "AEDMarker.png",
+                   layerID: "aedLayer",
+                   createLodPoiFunction: self.aedCreateLodPoi,
+                   mapController: mapController)
+    
+    bindLodPoiType(poiObservable: shelterPois,
+                   styleID: "shelterStyle",
+                   imageName: "ShelterMarker.png",
+                   layerID: "shelterLayer",
+                   createLodPoiFunction: self.shelterCreateLodPoi,
+                   mapController: mapController)
     
     bindPoiType(poiObservable: emergencyReportPois,
                 styleID: "emergencyReportStyle",
                 imageName: "NotificationMarker.png",
                 layerID: "emergencyReportLayer",
-                createPoiFunction: self.createPoi,
+                createPoiFunction: self.emergencyReportCreatePoi,
                 mapController: mapController)
   }
   
-  private func bindPoiType<T>(poiObservable: Observable<T>,
+  /// POI 스타일과 데이터를 바인딩하는 공통 함수.
+  /// - Parameters:
+  ///   - poiObservable: POI 데이터 스트림
+  ///   - styleID: 스타일 ID
+  ///   - imageName: 마커 이미지 이름
+  ///   - layerID: 지도 레이어 ID
+  ///   - createLodPoiFunction: LodPoi를 생성하는 함수
+  ///   - mapController: 지도 컨트롤러
+  private func bindLodPoiType<T>(
+    poiObservable: Observable<[T]>,
+    styleID: String,
+    imageName: String,
+    layerID: String,
+    createLodPoiFunction: @escaping ([T], String, String, KMController) -> Void,
+    mapController: KMController) {
+      poiObservable
+        .subscribe(onNext: { [weak self] pois in
+          self?.createLodPoiStyle(styleID: styleID, imageName: imageName, mapController: mapController)
+          createLodPoiFunction(pois, layerID, styleID, mapController)
+        }, onError: { error in
+          print("Error receiving LodPOIs for \(styleID): \(error)")
+        }).disposed(by: disposeBag)
+    }
+  
+  /// POI 스타일과 데이터를 바인딩하는 공통 함수.
+  /// - Parameters:
+  ///   - poiObservable: POI 데이터 스트림
+  ///   - styleID: 스타일 ID
+  ///   - imageName: 마커 이미지 이름
+  ///   - layerID: 지도 레이어 ID
+  ///   - createLodPoiFunction: LodPoi를 생성하는 함수
+  ///   - mapController: 지도 컨트롤러
+  // LodPoi 스타일 생성
+  private func createLodPoiStyle(styleID: String, imageName: String, mapController: KMController) {
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+      print("Error: mapView is nil.")
+      return
+    }
+    
+    let labelManager = mapView.getLabelManager()
+    if let image = UIImage(named: imageName) {
+      let icon = PoiIconStyle(
+        symbol: image,
+        anchorPoint: CGPoint(x: 0.5, y: 1.0)
+      )
+      let perLevelStyle = PerLevelPoiStyle(iconStyle: icon, level: 0)
+      let lodPoiStyle = PoiStyle(styleID: styleID, styles: [perLevelStyle])
+      labelManager.addPoiStyle(lodPoiStyle)
+    } else {
+      print("Error: Failed to load image: \(imageName)")
+    }
+  }
+  
+  /// POI 스타일과 데이터를 바인딩하는 공통 함수.
+  /// - Parameters:
+  ///   - poiObservable: POI 데이터 스트림
+  ///   - styleID: 스타일 ID
+  ///   - imageName: 마커 이미지 이름
+  ///   - layerID: 지도 레이어 ID
+  ///   - createPoiFunction: POI를 생성하는 함수
+  ///   - mapController: 지도 컨트롤러
+  private func bindPoiType<T>(poiObservable: Observable<[T]>,
                               styleID: String,
                               imageName: String,
                               layerID: String,
-                              createPoiFunction: @escaping (T, String, String, KMController) -> Void,
+                              createPoiFunction: @escaping ([T], String, String, KMController) -> Void,
                               mapController: KMController) {
     poiObservable
       .subscribe(onNext: { [weak self] pois in
@@ -95,7 +189,11 @@ class PoiViewModel {
       }).disposed(by: disposeBag)
   }
   
-  // POI 스타일 생성
+  /// POI 스타일을 생성하는 함수.
+  /// - Parameters:
+  ///   - styleID: 스타일 ID
+  ///   - imageName: 마커 이미지 이름
+  ///   - mapController: 지도 컨트롤러
   private func createPoiStyle(styleID: String, imageName: String, mapController: KMController) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil.")
@@ -116,8 +214,24 @@ class PoiViewModel {
     }
   }
   
-  // POI 생성 (PoiData를 사용할 때)
-  private func createPoi(poiData: [PoiData], layerID: String, styleID: String, mapController: KMController) {
+  /// LodPoi를 생성하는 함수.
+  /// - Parameters:
+  ///   - items: POI 아이템 리스트
+  ///   - layerID: 레이어 ID
+  ///   - styleID: 스타일 ID
+  ///   - mapController: 지도 컨트롤러
+  ///   - getPoiID: POI의 고유 ID를 얻는 클로저
+  ///   - getCoordinates: POI의 좌표를 얻는 클로저
+  ///   - radius: 반경 필터링
+  private func createLodPoi<T>(
+    items: [T],
+    layerID: String,
+    styleID: String,
+    mapController: KMController,
+    getPoiID: (T) -> String,
+    getCoordinates: (T) -> (latitude: Double, longitude: Double),
+    radius: Double? = nil
+  ) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil")
       return
@@ -131,23 +245,93 @@ class PoiViewModel {
     
     layer.clearAllItems()
     
-    if poiData.isEmpty {
+    if items.isEmpty {
       print("No POIs to add for layerID: \(layerID)")
     }
     
-    for poi in poiData {
-      let options = PoiOptions(styleID: styleID, poiID: poi.id)
-      let point = MapPoint(longitude: poi.longitude, latitude: poi.latitude) // 경도, 위도 순서
+    var currentCLLocation: CLLocation? = nil
+    if let radius = radius, let currentLocation = LocationManager.shared.currentLocation {
+      currentCLLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+    }
+    
+    for item in items {
+      let coordinates = getCoordinates(item)
+      let poiID = getPoiID(item)
+      print( "poiID :\(poiID)")
+      
+      // 반경 필터링이 필요한 경우
+      if let radius = radius, let currentCLLocation = currentCLLocation {
+        let itemLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        let distance = currentCLLocation.distance(from: itemLocation)
+        if distance > radius {
+          continue // 반경을 벗어난 POI는 건너뜁니다
+        }
+      }
+      
+      let options = PoiOptions(styleID: styleID, poiID: poiID)
+      let point = MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)
+      
+      // POI 생성
       if let poiItem = layer.addPoi(option: options, at: point) {
-        print("POI added at (\(poi.longitude), \(poi.latitude)) with ID: \(poi.id)")
         poiItem.show()
+        
+        // ❤️ POI를 클릭 가능하게 설정하고, 탭 이벤트 핸들러 추가
+        poiItem.clickable = true
+        poiItem.addPoiTappedEventHandler(target: self) { (self) in
+          return { param in
+            print("POI tapped: \(param.poiItem.itemID)")  // 로그 추가
+            self.poiTapped(param)  // POI 탭 이벤트 처리 함수 호출
+          }
+        }
       } else {
-        print("Error: Failed to add POI with ID: \(poi.id) at (\(poi.longitude), \(poi.latitude))")
+        print("Error: Failed to add LodPoi with ID: \(poiID) at (\(coordinates.longitude), \(coordinates.latitude))")
       }
     }
   }
   
-  private func aedCreatePoi(aeds: [Aed], layerID: String, styleID: String, mapController: KMController) {
+  /// AED LodPoi 생성 함수.
+  /// - Parameters:
+  ///   - aeds: AED 데이터 리스트
+  ///   - layerID: 지도 레이어 ID
+  ///   - styleID: 스타일 ID
+  ///   - mapController: 지도 컨트롤러
+  private func aedCreateLodPoi(aeds: [Aed], layerID: String, styleID: String, mapController: KMController) {
+    createLodPoi(
+      items: aeds,
+      layerID: layerID,
+      styleID: styleID,
+      mapController: mapController,
+      getPoiID: { String($0.serialNumber) },
+      getCoordinates: { ($0.latitude, $0.longitude) },
+      radius: 2000
+    )
+  }
+  
+  /// 쉘터 LodPoi 생성 함수.
+  /// - Parameters:
+  ///   - shelters: 쉘터 데이터 리스트
+  ///   - layerID: 지도 레이어 ID
+  ///   - styleID: 스타일 ID
+  ///   - mapController: 지도 컨트롤러
+  private func shelterCreateLodPoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
+    createLodPoi(
+      items: shelters,
+      layerID: layerID,
+      styleID: styleID,
+      mapController: mapController,
+      getPoiID: { $0.shelterName },
+      getCoordinates: { ($0.latitude, $0.longitude) },
+      radius: 2000
+    )
+  }
+  
+  /// 긴급 제보 POI 생성 함수.
+  /// - Parameters:
+  ///   - reports: 긴급 제보 데이터 리스트
+  ///   - layerID: 지도 레이어 ID
+  ///   - styleID: 스타일 ID
+  ///   - mapController: 지도 컨트롤러
+  private func emergencyReportCreatePoi(reports: [EmergencyReport], layerID: String, styleID: String, mapController: KMController) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil")
       return
@@ -159,150 +343,107 @@ class PoiViewModel {
       return
     }
     
+    // 기존 아이템 제거
     layer.clearAllItems()
     
-    if aeds.isEmpty {
-      print("No POIs to add for layerID: \(layerID)")
+    if reports.isEmpty {
+      print("No emergency reports to add for layerID: \(layerID)")
+      return
     }
     
-    for aed in aeds {
-      let longitude = aed.longitude
-      let latitude = aed.latitude
-      
-      // serialNumber를 Int에서 String으로 변환
-      let serialNumberString = String(aed.serialNumber)
-      
-      let options = PoiOptions(styleID: styleID, poiID: serialNumberString)
-      let point = MapPoint(longitude: longitude, latitude: latitude)
+    for report in reports {
+      let poiID = report.id
+      let point = MapPoint(longitude: report.longitude, latitude: report.latitude)
+      let options = PoiOptions(styleID: styleID, poiID: poiID)
       
       if let poiItem = layer.addPoi(option: options, at: point) {
-        print("POI added at (\(aed.longitude), \(aed.latitude)) with ID: \(serialNumberString)")
-        poiItem.show()
+        poiItem.show() // POI 표시
       } else {
-        print("Error: Failed to add POI with ID: \(serialNumberString) at (\(aed.longitude), \(aed.latitude))")
+        print("Error: Failed to add POI with ID: \(poiID) at (\(report.longitude), \(report.latitude))")
       }
     }
   }
   
-  private func shelterCreatePoi(shelters: [Shelter], layerID: String, styleID: String, mapController: KMController) {
+  /// 공통적으로 POI 레이어의 아이템을 숨기거나 표시하는 함수.
+  /// - Parameters:
+  ///   - mapController: 지도 컨트롤러
+  ///   - layerID: 레이어 ID
+  ///   - show: 표시 여부 (true: 표시, false: 숨김)
+  private func togglePoisVisibility(mapController: KMController, layerID: String, show: Bool) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
       print("Error: mapView is nil")
       return
     }
     
     let labelManager = mapView.getLabelManager()
-    guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
-      print("Error: Failed to get layer with ID \(layerID)")
-      return
-    }
-    
-    layer.clearAllItems()
-    
-    if shelters.isEmpty {
-      print("No POIs to add for layerID: \(layerID)")
-    }
-    
-    for shelter in shelters {
-      let longitude = shelter.longitude
-      let latitude = shelter.latitude
-      let options = PoiOptions(styleID: styleID, poiID: shelter.shelterName)
-      let point = MapPoint(longitude: longitude, latitude: latitude)
-      
-      if let poiItem = layer.addPoi(option: options, at: point) {
-        poiItem.show()
+    if let layer = labelManager.getLabelLayer(layerID: layerID) {
+      if show {
+        layer.showAllPois() // 모든 POI를 표시
+        print("\(layerID) POIs 표시 완료")
       } else {
-        //        print("Error: Failed to add POI with ID: \(shelter.shelterName) at (\(shelter.longitude), \(shelter.latitude))")
+        layer.hideAllPois() // 모든 POI를 숨김
+        print("\(layerID) POIs 숨김 완료")
       }
-    }
-  }
-  
-  func showShelters(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "shelterLayer") {
-      layer.showAllPois() // 모든 아이템을 숨김
-      print("Shelter POIs 숨김 완료")
     } else {
-      print("Error: Failed to get layer with ID shelterLayer")
+      print("Error: Failed to get layer with ID \(layerID)")
     }
   }
   
+  /// Shelter POI 숨기기
   func hideShelters(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "shelterLayer") {
-      layer.hideAllPois() // 모든 아이템을 숨김
-      print("Shelter POIs 숨김 완료")
-    } else {
-      print("Error: Failed to get layer with ID shelterLayer")
-    }
+    togglePoisVisibility(mapController: mapController, layerID: "shelterLayer", show: false)
   }
   
-  func showAeds(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "aedLayer") {
-      layer.showAllPois()
-      print("AED POIs 숨김 완료")
-    } else {
-      print("Error: Failed to get layer with ID aedLayer")
-    }
+  /// Shelter POI 표시
+  func showShelters(mapController: KMController) {
+    togglePoisVisibility(mapController: mapController, layerID: "shelterLayer", show: true)
   }
   
+  /// AED POI 숨기기
   func hideAeds(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "aedLayer") {
-      layer.hideAllPois()
-      print("AED POIs 숨김 완료")
-    } else {
-      print("Error: Failed to get layer with ID aedLayer")
-    }
+    togglePoisVisibility(mapController: mapController, layerID: "aedLayer", show: false)
   }
   
-  func showEmergencyReport(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "emergencyReportLayer") {
-      layer.showAllPois()
-      print("emergencyReport POIs 숨김 완료")
-    } else {
-      print("Error: Failed to get layer with ID aedLayer")
-    }
+  /// AED POI 표시
+  func showAeds(mapController: KMController) {
+    togglePoisVisibility(mapController: mapController, layerID: "aedLayer", show: true)
   }
   
+  /// Emergency Report POI 숨기기
   func hideEmergencyReport(mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    if let layer = labelManager.getLabelLayer(layerID: "emergencyReportLayer") {
-      layer.hideAllPois()
-      print("Emergency Report POIs 숨김 완료")
-    } else {
-      print("Error: Failed to get layer with ID emergencyReportLayer")
-    }
+    togglePoisVisibility(mapController: mapController, layerID: "emergencyReportLayer", show: false)
   }
+  
+  /// Emergency Report POI 표시
+  func showEmergencyReport(mapController: KMController) {
+    togglePoisVisibility(mapController: mapController, layerID: "emergencyReportLayer", show: true)
+  }
+  
+  func poiTapped(_ param: PoiInteractionEventParam) {
+          // 동일한 인스턴스에서 호출됨
+          let poiID = param.poiItem.itemID
+          let layerID = param.poiItem.layerID
+
+          print("POI ID: \(poiID), Layer ID: \(layerID)")
+
+          let bottomSheetType: BottomSheetType
+          switch layerID {
+          case "shelterLayer":
+              bottomSheetType = .shelter
+          case "aedLayer":
+              bottomSheetType = .aed
+          case "emergencyReportLayer":
+              bottomSheetType = .emergencyReport
+          default:
+              print("Unknown Layer ID: \(layerID)")
+              return
+          }
+
+          if let delegate = delegate {
+              print("Delegate is set, presenting bottom sheet")
+              delegate.presentMapBottomSheet(with: bottomSheetType)
+          } else {
+              print("Delegate is nil, cannot present BottomSheet")
+          }
+      }
 }

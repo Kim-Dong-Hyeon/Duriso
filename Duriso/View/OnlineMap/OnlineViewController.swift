@@ -12,12 +12,12 @@ import RxSwift
 import SnapKit
 import KakaoMapsSDK
 
-class OnlineViewController: UIViewController {
+class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
+  private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
-  private let poiViewModel = PoiViewModel()
   
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
@@ -96,6 +96,10 @@ class OnlineViewController: UIViewController {
     setupViews()
     setupConstraints()
     setupButtonBindings()
+    
+    poiViewModel.delegate = self
+    print("OnlineViewController initialized with PoiViewModel: \(Unmanaged.passUnretained(poiViewModel).toOpaque())")
+
     
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
@@ -291,14 +295,37 @@ class OnlineViewController: UIViewController {
   }
   
   func presentMapBottomSheet(with type: BottomSheetType) {
-    let bottomSheetVC = MapBottomSheetViewController()
-    
-    // 여기서 setupView 메서드를 호출하며 타입을 전달
-    bottomSheetVC.setupView(type: type)
-    
-    // FloatingPanelController와 함께 bottomSheetVC를 설정
-    mapBottomSheetViewController = bottomSheetVC
-    present(mapBottomSheetViewController!, animated: true, completion: nil)
+      print("Presenting BottomSheet of type: \(type)")  // 바텀시트 타입 로그 출력
+
+      // BottomSheetViewController를 타입과 함께 초기화
+      let bottomSheetVC = MapBottomSheetViewController(type: type)
+      
+      // BottomSheet 표시
+      if let sheetPresentationController = bottomSheetVC.sheetPresentationController {
+          if #available(iOS 16.0, *) {
+              // Custom detent 설정
+              if type == .emergencyReport {
+                  let customDetent = UISheetPresentationController.Detent.custom(identifier: UISheetPresentationController.Detent.Identifier("uniqueCustomIdentifier")) { context in
+                      let value = context.maximumDetentValue * 0.3
+                      print("Custom detent 높이: \(value)")
+                      return value
+                  }
+                  sheetPresentationController.detents = [customDetent]  // custom만 사용
+                  print("Custom detent 설정됨")
+              } else {
+                  sheetPresentationController.detents = [.medium()]
+                  print("Medium detent 설정됨")
+              }
+          } else {
+              sheetPresentationController.detents = [.medium()]
+              print("Medium detent 설정됨 (iOS 16.0 미만)")
+          }
+          
+          sheetPresentationController.prefersGrabberVisible = true
+          sheetPresentationController.preferredCornerRadius = 15.0
+      }
+      
+      present(bottomSheetVC, animated: true)
   }
 }
 

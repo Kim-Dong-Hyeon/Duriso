@@ -262,12 +262,9 @@
 		7622D0472C7C1D7A00B1AEB2 /* OnlineMap */ = {
 			isa = PBXGroup;
 			children = (
-				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
-				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
 				D61268A92C8A82320031114E /* KakaoMapViewController.swift */,
-				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
 				D61268A82C8A82320031114E /* OnlineViewController.swift */,
-				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
+				D69CF2BD2C916D9400B4E546 /* BottomsheetView */,
 			);
 			path = OnlineMap;
 			sourceTree = "<group>";
@@ -517,6 +514,17 @@
 				D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */,
 			);
 			path = OnlineMapNetworkManager;
+			sourceTree = "<group>";
+		};
+		D69CF2BD2C916D9400B4E546 /* BottomsheetView */ = {
+			isa = PBXGroup;
+			children = (
+				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
+				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
+				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
+				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
+			);
+			path = BottomsheetView;
 			sourceTree = "<group>";
 		};
 		E20C3A5E2C873A8600AD5AA4 /* LegalNotice */ = {
@@ -880,7 +888,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -921,7 +929,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

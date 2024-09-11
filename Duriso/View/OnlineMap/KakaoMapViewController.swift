@@ -15,7 +15,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   var mapContainer: KMViewContainer?
   var mapController: KMController?
   private let disposeBag = DisposeBag()
-  var viewModel: PoiViewModel = PoiViewModel()
+  var viewModel: PoiViewModel = PoiViewModel.shared
   var currentLocationMarker: Poi?
   
   override func loadView() {
@@ -48,6 +48,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     
     viewModel.setupPoiData()
     viewModel.bindPoiData(to: mapController)
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -228,7 +229,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       let poiOption = PoiOptions(styleID: "currentLocationStyle")
       
       currentLocationMarker = layer?.addPoi(option: poiOption, at: currentPosition)
-      print("POI added at position: (\(latitude), \(longitude))")
+//      print("POI added at position: (\(latitude), \(longitude))")
     } else {
       print("Updating current location marker position")
       currentLocationMarker?.position = currentPosition

@@ -1,5 +1,5 @@
 //
-//  AedViewController.swift
+//  ShelterViewController.swift
 //  Duriso
 //
 //  Created by t2024-m0153 on 9/9/24.
@@ -10,10 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-class AedViewController: UIViewController {
+class ShelterViewController: UIViewController {
   
-  internal let poiViewTitle = UILabel().then {
-    $0.text = "우리 동네 한줄 제보"
+  internal let shelterName = UILabel().then {
+    $0.text = "대피소 이름"
     $0.textColor = .CBlack
     $0.textAlignment = .left
     $0.font = CustomFont.Deco2.font()
@@ -25,21 +25,21 @@ class AedViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let poiViewAddress = UILabel().then {
-    $0.text = "서울특별시 00구 00동"
+  private let shelterAddress = UILabel().then {
+    $0.text = "00도 00시 00구 00동"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body2.font()
   }
   
-  private let postTime = UILabel().then {
-    $0.text = "00분전"
+  private let shelterType = UILabel().then {
+    $0.text = "000 대피소"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancleButton = UIButton().then {
+  private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
     $0.tintColor = .black  // 아이콘 색상 설정
     $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
@@ -76,46 +76,46 @@ class AedViewController: UIViewController {
   
   func setupView() {
     [
-      poiViewTitle,
+      shelterName,
       megaphoneLabel,
-      poiViewAddress,
-      postTime,
-      cancleButton,
+      shelterAddress,
+      shelterType,
+      cancelButton,
       messageInputText,
       addPostButton
     ].forEach { view.addSubview($0) }
   }
   
   func setupConstraints() {
-    poiViewTitle.snp.makeConstraints {
+    shelterName.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    poiViewAddress.snp.makeConstraints {
-      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
+    shelterAddress.snp.makeConstraints {
+      $0.top.equalTo(shelterName.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    postTime.snp.makeConstraints {
-      $0.centerY.equalTo(poiViewTitle.snp.centerY)
+    shelterType.snp.makeConstraints {
+      $0.centerY.equalTo(shelterName.snp.centerY)
       $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
     }
     
     megaphoneLabel.snp.makeConstraints{
-      $0.centerY.equalTo(poiViewTitle.snp.centerY)
-      $0.leading.equalTo(poiViewTitle.snp.trailing).offset(4)
+      $0.centerY.equalTo(shelterName.snp.centerY)
+      $0.leading.equalTo(shelterName.snp.trailing).offset(4)
       $0.width.height.equalTo(32)
     }
     
-    cancleButton.snp.makeConstraints {
+    cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
     }
     
     messageInputText.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
+      $0.top.equalTo(shelterAddress.snp.bottom).offset(16)
       $0.width.equalTo(350)
       $0.height.equalTo(38)
     }
@@ -130,7 +130,7 @@ class AedViewController: UIViewController {
   
   func updatePoiData(with poiData: PoiData) {
     // 공통된 속성 업데이트
-    poiViewTitle.text = poiData.id
+    shelterName.text = poiData.id
   }
   
   @objc func didTapCancelButton() {
@@ -141,5 +141,4 @@ class AedViewController: UIViewController {
     dismiss(animated: true)
   }
 }
-
 

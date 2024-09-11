@@ -1,8 +1,8 @@
 //
-//  PaneltContentsViewController.swift
+//  AedViewController.swift
 //  Duriso
 //
-//  Created by 이주희 on 9/4/24.
+//  Created by t2024-m0153 on 9/9/24.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class EmergencyReportViewController: UIViewController {
+class AedViewController: UIViewController {
   
   internal let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
@@ -39,7 +39,7 @@ class EmergencyReportViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancleButton = UIButton().then {
+  private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
     $0.tintColor = .black  // 아이콘 색상 설정
     $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
@@ -80,7 +80,7 @@ class EmergencyReportViewController: UIViewController {
       megaphoneLabel,
       poiViewAddress,
       postTime,
-      cancleButton,
+      cancelButton,
       messageInputText,
       addPostButton
     ].forEach { view.addSubview($0) }
@@ -108,7 +108,7 @@ class EmergencyReportViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    cancleButton.snp.makeConstraints {
+    cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
     }
@@ -143,5 +143,3 @@ class EmergencyReportViewController: UIViewController {
 }
 
 
-@available(iOS 17.0, *)
-#Preview { EmergencyReportViewController() }
