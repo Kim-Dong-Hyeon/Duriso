@@ -56,18 +56,14 @@ class MapBottomSheetViewController: UIViewController {
     
     if let sheet = sheetPresentationController {
       if #available(iOS 16.0, *) {
-        if type == .emergencyReport {
-          let customDetent = UISheetPresentationController.Detent.custom(identifier: UISheetPresentationController.Detent.Identifier("uniqueCustomIdentifier")) { context in
-            let value = context.maximumDetentValue * 0.3
-            print("Custom detent 높이: \(value)")
-            return value
-          }
-          sheet.detents = [customDetent]  // custom만 사용
-          print("Custom detent 설정됨")
-        } else {
-          sheet.detents = [.medium()]
-          print("Medium detent 설정됨")
+        // Custom detent 설정
+        let customDetent = UISheetPresentationController.Detent.custom(identifier: UISheetPresentationController.Detent.Identifier("uniqueCustomIdentifier")) { context in
+          let value = context.maximumDetentValue * 0.3
+          print("Custom detent 높이: \(value)")
+          return value
         }
+        sheet.detents = [customDetent]  // custom만 사용
+        print("Custom detent 설정됨")
       } else {
         sheet.detents = [.medium()]
         print("Medium detent 설정됨 (iOS 16.0 미만)")

@@ -88,7 +88,7 @@ class EmergencyReportViewController: UIViewController {
   
   func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
@@ -98,7 +98,7 @@ class EmergencyReportViewController: UIViewController {
     }
     
     postTime.snp.makeConstraints {
-      $0.centerY.equalTo(poiViewTitle.snp.centerY)
+      $0.bottom.equalTo(megaphoneLabel.snp.bottom)
       $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
     }
     
