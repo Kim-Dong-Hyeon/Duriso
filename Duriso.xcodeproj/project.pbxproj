@@ -16,6 +16,7 @@
 		149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */; };
 		14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE812E2C900BAD002E26FD /* CategoryCell.swift */; };
 		14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81312C9029EE002E26FD /* PostingViewController.swift */; };
+		14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE81362C91BC9B002E26FD /* FirebaseFirestore */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -194,6 +195,7 @@
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
+				14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
@@ -214,6 +216,13 @@
 				D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		14DE81352C91BC9B002E26FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7622D0422C7C1C6000B1AEB2 /* Model */ = {
@@ -441,6 +450,7 @@
 				7622D0352C7C049A00B1AEB2 /* CommitConvention.md */,
 				763C0A222C7B125B006BC4E7 /* Duriso */,
 				763C0A212C7B125B006BC4E7 /* Products */,
+				14DE81352C91BC9B002E26FD /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -581,6 +591,7 @@
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
 				76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */,
+				14DE81362C91BC9B002E26FD /* FirebaseFirestore */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -1024,6 +1035,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		14DE81362C91BC9B002E26FD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		7622D03A2C7C178400B1AEB2 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

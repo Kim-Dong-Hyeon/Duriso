@@ -16,6 +16,8 @@ class BoardViewController: UIViewController {
   private let disposeBag = DisposeBag()
   private let tableItems = BehaviorRelay<[Post]>(value: [])
   private let dataSource = SomeDataModel.Mocks.getDataSource()
+  private var allPosts: [Post] = []  // 전체 게시물 배열
+  private var filteredPosts: [Post] = []  // 필터링된 게시물 배열
   
   private let notificationHeadLabel = UILabel().then {
     $0.text = "우리동네 알리미"
@@ -85,26 +87,27 @@ class BoardViewController: UIViewController {
   private func handleButtonTap(for model: SomeDataModel) {
     switch model.type {
     case .allPerson:
-      print("전체 버튼 눌림")
+      filteredPosts = allPosts
     case .atipoff:
-      print("긴급제보 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "긴급제보" }
     case .typhoon:
-      print("태풍 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "태풍" }
     case .earthquake:
-      print("지진 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "지진" }
     case .flood:
-      print("홍수 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "홍수" }
     case .tsunami:
-      print("쓰나미 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "쓰나미" }
     case .nuclear:
-      print("핵폭발 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "핵폭발" }
     case .fire:
-      print("산불 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "산불" }
     case .alandslide:
-      print("산사태 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "산사태" }
     case .hot:
-      print("폭염 버튼 눌림")
+      filteredPosts = allPosts.filter { $0.categorys == "폭염" }
     }
+    tableItems.accept(filteredPosts)
   }
   
   private func writingButtonTap() {

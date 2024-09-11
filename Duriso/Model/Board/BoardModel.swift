@@ -86,3 +86,20 @@ struct SomeDataModel {
     }
   }
 }
+
+//Firebase
+struct Posts {
+  let author: String //작성자
+  let contents: String //내용
+  let dong: String //동
+  let gu: String //구
+  let likescount: Int //좋아요 갯수
+  let postid: Int //게시물번호
+  let postlatitude: Double //위도
+  let postlocation: Double //경도
+  let postlongitude: Double //위도경도 합친값
+  let posttime: Date //게시글 시간
+  let reportcount: Int //신고 수
+  let si: String //시
+  let title: String //제목
+}
