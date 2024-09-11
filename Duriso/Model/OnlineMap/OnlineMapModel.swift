@@ -8,51 +8,51 @@
 import Foundation
 
 protocol PoiData {
-    var id: String { get }
-    var longitude: Double { get }
-    var latitude: Double { get }
+  var id: String { get }
+  var longitude: Double { get }
+  var latitude: Double { get }
 }
 
 struct Aed: Codable {
-    let serialNumber: String
-    let address: String
-    let location: String
-    let adminName: String?
-    let adminNumber: String
-    let managementAgency: String
-    let longitude: Double
-    let latitude: Double
-
-    enum CodingKeys: String, CodingKey {
-        case serialNumber = "SN"
-        case address = "INSTL_ADDR"
-        case location = "INSTL_PSTN"
-        case adminName = "MNGR_NM"
-        case adminNumber = "MNGR_TELNO"
-        case managementAgency = "MNG_INST_NM"
-        case longitude = "LOT"
-        case latitude = "LAT"
-    }
+  let serialNumber: String
+  let address: String
+  let location: String
+  let adminName: String?
+  let adminNumber: String
+  let managementAgency: String
+  let longitude: Double
+  let latitude: Double
+  
+  enum CodingKeys: String, CodingKey {
+    case serialNumber = "SN"
+    case address = "INSTL_ADDR"
+    case location = "INSTL_PSTN"
+    case adminName = "MNGR_NM"
+    case adminNumber = "MNGR_TELNO"
+    case managementAgency = "MNG_INST_NM"
+    case longitude = "LOT"
+    case latitude = "LAT"
+  }
   
   init(from decoder: Decoder) throws {
-         let container = try decoder.container(keyedBy: CodingKeys.self)
-         
-         // Handle serialNumber being either String or Int
-         if let serialNumberInt = try? container.decode(Int.self, forKey: .serialNumber) {
-             serialNumber = String(serialNumberInt)
-         } else {
-             serialNumber = try container.decode(String.self, forKey: .serialNumber)
-         }
-
-         address = try container.decode(String.self, forKey: .address)
-         location = try container.decode(String.self, forKey: .location)
-         adminName = try container.decodeIfPresent(String.self, forKey: .adminName)
-         adminNumber = try container.decode(String.self, forKey: .adminNumber)
-         managementAgency = try container.decode(String.self, forKey: .managementAgency)
-         longitude = try container.decode(Double.self, forKey: .longitude)
-         latitude = try container.decode(Double.self, forKey: .latitude)
-     }
- }
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+    // Handle serialNumber being either String or Int
+    if let serialNumberInt = try? container.decode(Int.self, forKey: .serialNumber) {
+      serialNumber = String(serialNumberInt)
+    } else {
+      serialNumber = try container.decode(String.self, forKey: .serialNumber)
+    }
+    
+    address = try container.decode(String.self, forKey: .address)
+    location = try container.decode(String.self, forKey: .location)
+    adminName = try container.decodeIfPresent(String.self, forKey: .adminName)
+    adminNumber = try container.decode(String.self, forKey: .adminNumber)
+    managementAgency = try container.decode(String.self, forKey: .managementAgency)
+    longitude = try container.decode(Double.self, forKey: .longitude)
+    latitude = try container.decode(Double.self, forKey: .latitude)
+  }
+}
 
 
 struct AedResponse: Codable {
@@ -84,8 +84,7 @@ struct Shelter: Codable {
   let latitude: Double
   let longitude: Double
   let shelterTypeName: String
-  let managementSerialNumber: String
-  let shelterTypeCode: String
+  let shelterSerialNumber: String
   
   enum CodingKeys: String, CodingKey {
     case shelterName = "REARE_NM"
@@ -93,8 +92,7 @@ struct Shelter: Codable {
     case latitude = "LAT"
     case longitude = "LOT"
     case shelterTypeName = "SHLT_SE_NM"
-    case managementSerialNumber = "MNG_SN"
-    case shelterTypeCode = "SHLT_SE_CD"
+    case shelterSerialNumber = "MNG_SN"
   }
 }
 

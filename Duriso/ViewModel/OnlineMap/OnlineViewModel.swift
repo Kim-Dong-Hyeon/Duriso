@@ -13,7 +13,7 @@ class OnlineViewModel {
   
   private let disposeBag = DisposeBag()
   private let poiViewModel = PoiViewModel.shared  // 싱글톤 인스턴스 사용
-
+  
   
   private var mapController = KakaoMapViewController()
   

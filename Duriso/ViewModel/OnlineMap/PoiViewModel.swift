@@ -20,9 +20,11 @@ class PoiViewModel {
   static let shared = PoiViewModel()
   weak var delegate: PoiViewModelDelegate?
   
+  private var cachedShelterPois: [Shelter] = []
+  
   private init() {
-         print("PoiViewModel initialized: \(Unmanaged.passUnretained(self).toOpaque())")
-     }
+    print("PoiViewModel initialized: \(Unmanaged.passUnretained(self).toOpaque())")
+  }
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
@@ -47,6 +49,7 @@ class PoiViewModel {
     shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
       .subscribe(onNext: { shelterResponse in
         let shelters = shelterResponse.body
+        self.cachedShelterPois = shelters // 데이터를 캐싱
         self.shelterPois.onNext(shelters)
       }, onError: { error in
         print("Error fetching shelters: \(error)")
@@ -257,7 +260,6 @@ class PoiViewModel {
     for item in items {
       let coordinates = getCoordinates(item)
       let poiID = getPoiID(item)
-      print( "poiID :\(poiID)")
       
       // 반경 필터링이 필요한 경우
       if let radius = radius, let currentCLLocation = currentCLLocation {
@@ -274,8 +276,6 @@ class PoiViewModel {
       // POI 생성
       if let poiItem = layer.addPoi(option: options, at: point) {
         poiItem.show()
-        
-        // ❤️ POI를 클릭 가능하게 설정하고, 탭 이벤트 핸들러 추가
         poiItem.clickable = true
         poiItem.addPoiTappedEventHandler(target: self) { (self) in
           return { param in
@@ -319,7 +319,7 @@ class PoiViewModel {
       layerID: layerID,
       styleID: styleID,
       mapController: mapController,
-      getPoiID: { $0.shelterName },
+      getPoiID: { $0.shelterSerialNumber},
       getCoordinates: { ($0.latitude, $0.longitude) },
       radius: 2000
     )
@@ -379,10 +379,8 @@ class PoiViewModel {
     if let layer = labelManager.getLabelLayer(layerID: layerID) {
       if show {
         layer.showAllPois() // 모든 POI를 표시
-        print("\(layerID) POIs 표시 완료")
       } else {
         layer.hideAllPois() // 모든 POI를 숨김
-        print("\(layerID) POIs 숨김 완료")
       }
     } else {
       print("Error: Failed to get layer with ID \(layerID)")
@@ -420,30 +418,47 @@ class PoiViewModel {
   }
   
   func poiTapped(_ param: PoiInteractionEventParam) {
-          // 동일한 인스턴스에서 호출됨
-          let poiID = param.poiItem.itemID
-          let layerID = param.poiItem.layerID
-
-          print("POI ID: \(poiID), Layer ID: \(layerID)")
-
-          let bottomSheetType: BottomSheetType
-          switch layerID {
-          case "shelterLayer":
-              bottomSheetType = .shelter
-          case "aedLayer":
-              bottomSheetType = .aed
-          case "emergencyReportLayer":
-              bottomSheetType = .emergencyReport
-          default:
-              print("Unknown Layer ID: \(layerID)")
-              return
-          }
-
-          if let delegate = delegate {
-              print("Delegate is set, presenting bottom sheet")
-              delegate.presentMapBottomSheet(with: bottomSheetType)
-          } else {
-              print("Delegate is nil, cannot present BottomSheet")
-          }
+    let poiID = param.poiItem.itemID
+    let layerID = param.poiItem.layerID
+    
+    print("POI ID: \(poiID), Layer ID: \(layerID)")
+    
+    let bottomSheetType: BottomSheetType
+    
+    switch layerID {
+    case "shelterLayer":
+      bottomSheetType = .shelter
+      if let shelter = findShelterByID(poiID) {
+        print("Found shelter for MNG_SN: \(poiID)")
+        
+        // ShelterViewController 생성 후 먼저 데이터를 설정
+        let shelterVC = ShelterViewController()
+        shelterVC.shelterupdatePoiData(with: shelter)
+        
+        // 데이터를 설정한 후에 BottomSheet를 프레젠트
+        delegate?.presentMapBottomSheet(with: bottomSheetType)
+        
+        // 이후 MapBottomSheetViewController에서 ShelterViewController 설정
+        if let bottomSheetVC = delegate as? MapBottomSheetViewController {
+          bottomSheetVC.panelContentsViewController = shelterVC
+        }
+      } else {
+        print("No shelter found for MNG_SN: \(poiID)")
       }
+    case "aedLayer":
+      bottomSheetType = .aed
+      // 추가 처리
+    case "emergencyReportLayer":
+      bottomSheetType = .emergencyReport
+      // 추가 처리
+    default:
+      print("Unknown Layer ID: \(layerID)")
+      return
+    }
+  }
+  
+  func findShelterByID(_ id: String) -> Shelter? {
+    // 관리일련번호(MNG_SN)를 기준으로 찾기
+    return cachedShelterPois.first { $0.shelterSerialNumber == id }
+  }
 }

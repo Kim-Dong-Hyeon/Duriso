@@ -295,13 +295,13 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   func presentMapBottomSheet(with type: BottomSheetType) {
-      print("Presenting BottomSheet of type: \(type)")  // 바텀시트 타입 로그 출력
-      
-      // BottomSheetViewController를 타입과 함께 초기화
-      let bottomSheetVC = MapBottomSheetViewController(type: type)
-      
-      // BottomSheet 표시
-      present(bottomSheetVC, animated: true)
+    print("Presenting BottomSheet of type: \(type)")
+    
+    // BottomSheetViewController를 타입과 함께 초기화
+    let bottomSheetVC = MapBottomSheetViewController(type: type)
+    
+    // BottomSheet 표시
+    present(bottomSheetVC, animated: true)
   }
 }
 
