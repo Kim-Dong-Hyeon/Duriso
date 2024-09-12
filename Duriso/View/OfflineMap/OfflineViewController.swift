@@ -8,10 +8,13 @@
 import UIKit
 
 class OfflineViewController: UIViewController {
+  private let offlineMapViewController = OfflineMapViewController()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBackground
+    
+    addChild(offlineMapViewController)
+    view.addSubview(offlineMapViewController.view)
   }
 }
 

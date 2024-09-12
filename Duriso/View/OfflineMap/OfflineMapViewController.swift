@@ -7,14 +7,24 @@
 
 import UIKit
 
-class OfflineMapViewController: UIViewController {
+import MapLibre
 
+class OfflineMapViewController: UIViewController, MLNMapViewDelegate {
+  var mapView: MLNMapView!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBackground
+    
+    mapView = MLNMapView(frame: view.bounds)
+    mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.addSubview(mapView)
+    
+    mapView.delegate = self
   }
-
-
+  
+  // MLNMapViewDelegate method called when map has finished loading
+  func mapView(_: MLNMapView, didFinishLoading _: MLNStyle) {
+  }
 }
 
 @available(iOS 17.0, *)
