@@ -69,7 +69,10 @@ class MainTabBarViewController: UITabBarController {
     let offlinemypageVC = UINavigationController(rootViewController: OfflinePageViewController(viewModel: OfflinePageViewModel(), viewName: "마이페이지"))
     offlinemypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: UIImage(systemName: "exclamationmark.triangle.fill"), tag: 3)
     
-    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC]
+    let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
+    offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
+    
+    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
     
     offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     
