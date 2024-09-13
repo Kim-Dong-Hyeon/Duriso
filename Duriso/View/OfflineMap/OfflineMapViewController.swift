@@ -101,8 +101,7 @@ class OfflineMapViewController: UIViewController {
   }
   
   private func setupMapView() {
-    let mapTilerKey = viewModel.getMapTilerkey()
-    let styleURL = URL(string: "https://api.maptiler.com/maps/streets/style.json?key=\(mapTilerKey)")
+    let styleURL = URL(string: "https://api.maptiler.com/maps/streets/style.json?key=\(Environment.mapTilerApiKey)")
     
     mapView = MLNMapView(frame: view.bounds, styleURL: styleURL)
     mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
