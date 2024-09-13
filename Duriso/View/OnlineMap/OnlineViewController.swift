@@ -24,7 +24,9 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
   
-  public var address: String = ""
+  public var si: String = ""
+  public var gu: String = ""
+  public var dong: String = ""
   
   let addressView = UIStackView().then {
     $0.backgroundColor = .CWhite
@@ -231,11 +233,15 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) {
       [weak self] documents, error in guard let self = self else { return }
       if let document = documents?.first {
+        si = document.region1DepthName
+        gu = document.region2DepthName
+        dong = document.region3DepthName
         DispatchQueue.main.async {
-          self.addressLabel.text = document.addressName
+          let region = "\(document.region1DepthName) \(document.region2DepthName) \(document.region3DepthName)"
+          self.addressLabel.text = region
+          
+          print("Your Location is: \(region)")
         }
-        print("Your Location is: \(document.addressName)")
-        self.address = document.addressName
       }
       if let error = error {
         print("Error fetching region: \(error)")
