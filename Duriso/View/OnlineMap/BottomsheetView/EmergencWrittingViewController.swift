@@ -1,14 +1,18 @@
+//
+//  PaneltContentsViewController.swift
+//  Duriso
+//
+//  Created by 이주희 on 9/4/24.
+//
+
 import UIKit
 
 import SnapKit
 import Then
 
-class EmergencyReportViewController: UIViewController {
+class EmergencWrittingViewController: UIViewController {
   
-  var reportName: String?     // 보고서 이름
-  var reportAddress: String?  // 보고서 주소
-  
-  private let poiViewTitle = UILabel().then {
+  internal let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
     $0.textColor = .CBlack
     $0.textAlignment = .left
@@ -37,18 +41,30 @@ class EmergencyReportViewController: UIViewController {
   
   private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black
-    $0.contentMode = .scaleAspectFit
+    $0.tintColor = .black  // 아이콘 색상 설정
+    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private let postMessage = UILabel().then {
+  private let messageInputText = UITextField().then {
     $0.backgroundColor = UIColor.CLightBlue
     $0.font = CustomFont.Body2.font()
-    $0.text = "꼭 필요한 긴급 정보만 남겨주세요!"
+    $0.placeholder = "꼭 필요한 긴급 정보만 남겨주세요!"
     $0.layer.cornerRadius = 16
     $0.layer.masksToBounds = true
+    $0.clearButtonMode = .always
   }
+  
+  private let addPostButton = UIButton().then {
+    $0.setTitle("완료", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.setTitleColor(.CWhite, for: .normal)
+    $0.backgroundColor = .CBlue
+    $0.layer.cornerRadius = 12
+    $0.layer.masksToBounds = true
+    $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
+  }
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -56,7 +72,6 @@ class EmergencyReportViewController: UIViewController {
     
     setupView()
     setupConstraints()
-    updatePoiData()  // ViewController가 로드된 후에 데이터를 업데이트합니다.
   }
   
   func setupView() {
@@ -66,7 +81,8 @@ class EmergencyReportViewController: UIViewController {
       poiViewAddress,
       postTime,
       cancelButton,
-      postMessage
+      messageInputText,
+      addPostButton
     ].forEach { view.addSubview($0) }
   }
   
@@ -97,26 +113,35 @@ class EmergencyReportViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    postMessage.snp.makeConstraints {
+    messageInputText.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
       $0.width.equalTo(350)
       $0.height.equalTo(38)
     }
+    
+    addPostButton.snp.makeConstraints {
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(messageInputText.snp.bottom).offset(16)
+      $0.width.equalTo(60)
+      $0.height.equalTo(24)
+    }
   }
   
-  func updatePoiData() {
-    // 전달받은 POI 데이터를 UILabel에 반영
-    poiViewTitle.text = reportName ?? "Unknown Report"
-    poiViewAddress.text = reportAddress ?? "Unknown Address"
+  func updatePoiData(with poiData: PoiData) {
+    // 공통된 속성 업데이트
+    poiViewTitle.text = poiData.id
   }
   
   @objc func didTapCancelButton() {
     dismiss(animated: true)
   }
+  
+  @objc func didTapAddPostButton() {
+    dismiss(animated: true)
+  }
 }
 
+
 @available(iOS 17.0, *)
-#Preview {
-  EmergencyReportViewController()
-}
+#Preview { EmergencyReportViewController() }
