@@ -8,7 +8,7 @@ class EmergencyReportViewController: UIViewController {
   var reportName: String?     // 보고서 이름
   var reportAddress: String?  // 보고서 주소
   
-  internal let poiViewTitle = UILabel().then {
+  private let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
     $0.textColor = .CBlack
     $0.textAlignment = .left

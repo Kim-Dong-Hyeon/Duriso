@@ -134,7 +134,7 @@ class ShelterViewController: UIViewController {
       $0.top.equalTo(shelterType.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
-
+    
     cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
@@ -142,11 +142,11 @@ class ShelterViewController: UIViewController {
   }
   
   func updatePoiData() {
-      // 전달받은 POI 데이터를 UILabel에 반영
-      shelterName.text = poiName ?? "Unknown Shelter Name"
-      shelterAddress.text = poiAddress ?? "Unknown Address"
-      shelterType.text = poiType ?? "Unknown Shelter Type"
-    }
+    // 전달받은 POI 데이터를 UILabel에 반영
+    shelterName.text = poiName ?? "Unknown Shelter Name"
+    shelterAddress.text = poiAddress ?? "Unknown Address"
+    shelterType.text = poiType ?? "Unknown Shelter Type"
+  }
   
   @objc func didTapCancelButton() {
     dismiss(animated: true)

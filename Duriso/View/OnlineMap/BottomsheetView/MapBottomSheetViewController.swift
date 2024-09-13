@@ -10,79 +10,49 @@ import RxCocoa
 import RxSwift
 
 class MapBottomSheetViewController: UIViewController {
-  
-  var panelContentsViewController: UIViewController!
-  var type: BottomSheetType
-  
-  // Custom initializer
-  init(type: BottomSheetType) {
-    self.type = type
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  var panelContentsViewController: UIViewController?
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .CWhite
-    setupView(type: type)  // 인자로 받은 타입으로 설정
+    setupView()
   }
   
-  func setupView(type: BottomSheetType) {
-    print("Setup view called with type: \(type)")  // 타입 확인을 위한 출력
-    
-    switch type {
-    case .shelter:
-      panelContentsViewController = ShelterViewController()
-    case .aed:
-      panelContentsViewController = AedViewController()
-    case .emergencyReport:
-      panelContentsViewController = EmergencyReportViewController()
-    }
-    
-    addChild(panelContentsViewController)
-    view.addSubview(panelContentsViewController.view)
-    panelContentsViewController.didMove(toParent: self)
-    
-    panelContentsViewController.view.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      panelContentsViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-      panelContentsViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-      panelContentsViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      panelContentsViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-    ])
-    
+  func setupView() {
+    // 기본적인 바텀 시트 설정 코드
     if let sheet = sheetPresentationController {
-      print("sheetPresentationController is accessible")
       if #available(iOS 16.0, *) {
-        // Custom detent 설정
         let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("uniqueCustomIdentifier")) { context in
-          // 화면 높이의 30%를 커스텀 높이로 설정
           let customHeight = context.maximumDetentValue * 0.3
-          print("Custom detent 높이: \(customHeight)")
           return customHeight
         }
-        // 오직 커스텀 detent만 설정
         sheet.detents = [customDetent]
-        print("Custom detent 설정됨")
       } else {
-        // iOS 16 미만에서 Medium Detent 사용
         sheet.detents = [.medium()]
-        print("Medium detent 설정됨 (iOS 16.0 미만)")
       }
       
-      sheet.prefersGrabberVisible = true  // Grabber를 표시
-      sheet.preferredCornerRadius = 15.0  // 둥근 모서리 설정
-    } else {
-      print("Error: sheetPresentationController is nil")
+      sheet.prefersGrabberVisible = true
+      sheet.preferredCornerRadius = 15.0
     }
   }
-}
-
-enum BottomSheetType {
-  case shelter
-  case aed
-  case emergencyReport
+  
+  func configureContentViewController(_ viewController: UIViewController) {
+    // 이전의 child view controller를 제거
+    panelContentsViewController?.willMove(toParent: nil)
+    panelContentsViewController?.view.removeFromSuperview()
+    panelContentsViewController?.removeFromParent()
+    
+    // 새 view controller 추가
+    panelContentsViewController = viewController
+    addChild(panelContentsViewController!)
+    view.addSubview(panelContentsViewController!.view)
+    panelContentsViewController!.didMove(toParent: self)
+    
+    panelContentsViewController!.view.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      panelContentsViewController!.view.topAnchor.constraint(equalTo: view.topAnchor),
+      panelContentsViewController!.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      panelContentsViewController!.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      panelContentsViewController!.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    ])
+  }
 }
