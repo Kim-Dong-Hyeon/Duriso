@@ -20,7 +20,7 @@ class PostingViewController: UIViewController {
   var postImage: UIImage?  // 이미지 타입 변경
   var postTitleTop: String?
   var postAddress: String?
-  var postTime: Date?
+  var postTimes: Date?
   
   let postingScrollView = UIScrollView()
   
@@ -94,6 +94,19 @@ class PostingViewController: UIViewController {
     setupView()
     configureUI()
     setupBindings()
+  }
+  
+  // 게시글 데이터를 설정하는 메서드
+  func setPostData(post: Posts) {
+    self.postTitle = post.title
+    self.postContent = post.contents
+    self.postAddress = "\(post.si) \(post.gu) \(post.dong)"
+    self.postTimes = post.posttime
+    
+    // 이미지 로드
+    if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
+      loadImage(from: url)
+    }
   }
   
   private func setupView() {
@@ -189,6 +202,10 @@ class PostingViewController: UIViewController {
       postingImage.alpha = 0
     }
     
+    if let time = postTimes {
+      postingTimeLabel.text = formatTime(from: time)
+    }
+    
     view.layoutIfNeeded()
   }
   
@@ -198,6 +215,23 @@ class PostingViewController: UIViewController {
         self?.showReportAlert()
       }
       .disposed(by: disposeBag)
+  }
+  
+  private func loadImage(from url: URL) {
+    URLSession.shared.dataTask(with: url) { data, response, error in
+      if let data = data, let image = UIImage(data: data) {
+        DispatchQueue.main.async {
+          self.postImage = image
+          self.configureUI()
+        }
+      }
+    }.resume()
+  }
+  
+  private func formatTime(from date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return formatter.string(from: date)
   }
   
   private func showReportAlert() {

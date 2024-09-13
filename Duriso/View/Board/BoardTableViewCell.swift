@@ -118,8 +118,8 @@ class BoardTableViewCell: UITableViewCell {
     titleLabel.text = post.title
     contentLabel.text = post.contents
     addressLabel.text = "\(post.si) \(post.gu) \(post.dong)"
-    timeLabel.text = timeAgo(from: post.posttime.dateValue())
-    categorysLabel.text = post.categorys
+    timeLabel.text = timeAgo(from: post.posttime)
+    categorysLabel.text = post.category
     
     // 이미지 URL을 UIImage로 비동기 로드
     postImageView.loadImage(from: post.imageUrl)

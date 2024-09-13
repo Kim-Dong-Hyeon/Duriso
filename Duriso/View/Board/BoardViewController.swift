@@ -21,6 +21,9 @@ class BoardViewController: UIViewController {
   private let dataSource = SomeDataModel.Mocks.getDataSource()
   private var allPosts: [Posts] = []  // 전체 게시물 배열
   private var filteredPosts: [Posts] = []  // 필터링된 게시물 배열
+  private let kakaoMap = KakaoMapViewController()
+  private let postService = PostService()
+  private let firestore = Firestore.firestore()
   
   private let notificationHeadLabel = UILabel().then {
     $0.text = "우리동네 알리미"
@@ -63,8 +66,6 @@ class BoardViewController: UIViewController {
     $0.rowHeight = 100 // 셀 높이 설정
   }
   
-  private let postService = PostService()
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
@@ -94,23 +95,23 @@ class BoardViewController: UIViewController {
     case .allPerson:
       filteredPosts = allPosts
     case .atipoff:
-      filteredPosts = allPosts.filter { $0.categorys == "긴급제보" }
+      filteredPosts = allPosts.filter { $0.category == "긴급제보" }
     case .typhoon:
-      filteredPosts = allPosts.filter { $0.categorys == "태풍" }
+      filteredPosts = allPosts.filter { $0.category == "태풍" }
     case .earthquake:
-      filteredPosts = allPosts.filter { $0.categorys == "지진" }
+      filteredPosts = allPosts.filter { $0.category == "지진" }
     case .flood:
-      filteredPosts = allPosts.filter { $0.categorys == "홍수" }
+      filteredPosts = allPosts.filter { $0.category == "홍수" }
     case .tsunami:
-      filteredPosts = allPosts.filter { $0.categorys == "쓰나미" }
+      filteredPosts = allPosts.filter { $0.category == "쓰나미" }
     case .nuclear:
-      filteredPosts = allPosts.filter { $0.categorys == "핵폭발" }
+      filteredPosts = allPosts.filter { $0.category == "핵폭발" }
     case .fire:
-      filteredPosts = allPosts.filter { $0.categorys == "산불" }
+      filteredPosts = allPosts.filter { $0.category == "산불" }
     case .alandslide:
-      filteredPosts = allPosts.filter { $0.categorys == "산사태" }
+      filteredPosts = allPosts.filter { $0.category == "산사태" }
     case .hot:
-      filteredPosts = allPosts.filter { $0.categorys == "폭염" }
+      filteredPosts = allPosts.filter { $0.category == "폭염" }
     }
     tableItems.accept(filteredPosts)
   }
@@ -145,18 +146,27 @@ class BoardViewController: UIViewController {
         let newPost = Posts(
           author: "작성자 이름",  // 작성자 이름을 설정
           contents: content,
-          categorys: categorys,
+          category: categorys,
           dong: "동",
           gu: "구",
           likescount: 0,
           postid: UUID().uuidString,  // 고유한 ID 생성
-          postlocation: GeoPoint(latitude: 0, longitude: 0), // 위치 정보를 설정
-          posttime: Timestamp(date: Date()), // 현재 시간 설정
+          postlatitude: self.kakaoMap.latitude,
+          postlongitude: self.kakaoMap.longitude,
+          posttime: Date(), // 현재 시간 설정
           reportcount: 0,
           si: "시",
           title: title,
           imageUrl: imageUrl
         )
+        
+        self.firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) { error in
+          if let error = error {
+            print("Firestore에 데이터 저장 실패: \(error.localizedDescription)")
+          } else {
+            print("게시글 저장 성공")
+          }
+        }
         
         // 테이블 아이템 업데이트
         var currentItems = self.tableItems.value
@@ -172,6 +182,7 @@ class BoardViewController: UIViewController {
       .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
         print("Post at index \(index): \(post)")
         cell.configure(with: post)
+        cell.delegate = self
       }
       .disposed(by: disposeBag)
     
@@ -242,46 +253,7 @@ class BoardViewController: UIViewController {
 extension BoardViewController: BoardTableViewCellDelegate {
   func didTapCell(with post: Posts) {
     let postingViewController = PostingViewController()
-    postingViewController.postTitle = post.title
-    postingViewController.postContent = post.contents
-    postingViewController.postTitleTop = post.categorys
-    
-    // 비동기적으로 이미지를 로드
-    if let imageUrl = post.imageUrl {
-      UIImage.from(url: imageUrl) { image in
-        DispatchQueue.main.async {
-          postingViewController.postImage = image
-          self.navigationController?.pushViewController(postingViewController, animated: true)
-        }
-      }
-    } else {
-      navigationController?.pushViewController(postingViewController, animated: true)
-    }
-  }
-}
-
-extension UIImage {
-  static func from(url: String?, completion: @escaping (UIImage?) -> Void) {
-    guard let urlString = url, let url = URL(string: urlString) else {
-      completion(nil)
-      return
-    }
-    
-    URLSession.shared.dataTask(with: url) { data, _, error in
-      if let error = error {
-        print("Failed to load image: \(error.localizedDescription)")
-        completion(nil)
-        return
-      }
-      
-      guard let data = data, let image = UIImage(data: data) else {
-        completion(nil)
-        return
-      }
-      
-      DispatchQueue.main.async {
-        completion(image)
-      }
-    }.resume()
+    postingViewController.setPostData(post: post) // 전달된 post 데이터를 기반으로 설정
+    self.navigationController?.pushViewController(postingViewController, animated: true)
   }
 }

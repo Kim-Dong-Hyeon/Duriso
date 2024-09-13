@@ -18,6 +18,9 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
   var viewModel: PoiViewModel = PoiViewModel.shared
   var currentLocationMarker: Poi?
   
+  public var latitude: Double = 0.0
+  public var longitude: Double = 0.0
+  
   override func loadView() {
     if mapContainer == nil {
       let kmViewContainer = KMViewContainer(frame: UIScreen.main.bounds)
@@ -141,6 +144,8 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     if let currentLocation = LocationManager.shared.currentLocation {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
+      self.latitude = latitude
+      self.longitude = longitude
       
       // 현재 위치 마커를 업데이트
       updateCurrentLocation(latitude: latitude, longitude: longitude)

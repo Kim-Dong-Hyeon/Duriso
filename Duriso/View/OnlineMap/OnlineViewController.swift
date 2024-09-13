@@ -24,6 +24,8 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
   
+  public var address: String = ""
+  
   let addressView = UIStackView().then {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
@@ -233,6 +235,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
           self.addressLabel.text = document.addressName
         }
         print("Your Location is: \(document.addressName)")
+        self.address = document.addressName
       }
       if let error = error {
         print("Error fetching region: \(error)")

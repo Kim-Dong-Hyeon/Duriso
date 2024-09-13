@@ -84,28 +84,30 @@ struct SomeDataModel {
 struct Posts: Codable {
   var author: String
   var contents: String
-  var categorys: String
+  var category: String
   var dong: String
   var gu: String
   var imageUrl: String?
   var likescount: Int
   var postid: String
-  var postlocation: GeoPoint
-  var posttime: Timestamp
+  var postlatitude: Double
+  var postlongitude: Double
+  var posttime: Date
   var reportcount: Int
   var si: String
   var title: String
   
   // 초기화
-  init(author: String, contents: String, categorys: String, dong: String, gu: String, likescount: Int, postid: String, postlocation: GeoPoint, posttime: Timestamp, reportcount: Int, si: String, title: String, imageUrl: String?) {
+  init(author: String, contents: String, category: String, dong: String, gu: String, likescount: Int, postid: String, postlatitude: Double,postlongitude: Double , posttime: Date, reportcount: Int, si: String, title: String, imageUrl: String?) {
     self.author = author
     self.contents = contents
-    self.categorys = categorys
+    self.category = category
     self.dong = dong
     self.gu = gu
     self.likescount = likescount
     self.postid = postid
-    self.postlocation = postlocation
+    self.postlatitude = postlatitude
+    self.postlongitude = postlongitude
     self.posttime = posttime
     self.reportcount = reportcount
     self.si = si
@@ -118,13 +120,14 @@ struct Posts: Codable {
     return [
       "author": author,
       "contents": contents,
-      "categorys": categorys,
+      "category": category,
       "dong": dong,
       "gu": gu,
       "imageUrl": imageUrl ?? "",
       "likescount": likescount,
       "postid": postid,
-      "postlocation": postlocation,
+      "postlatitude": postlatitude,
+      "postlongitude": postlongitude,
       "posttime": posttime,
       "reportcount": reportcount,
       "si": si,
