@@ -20,12 +20,12 @@ class OfflineMapViewController: UIViewController {
   private var pannedToUserLocation = false
   private let disposeBag = DisposeBag()
   
-  private let requestButton = UIButton(type: .system).then {
-    $0.setTitle("Request Precise Location", for: .normal)
-    $0.backgroundColor = .CBlue
-    $0.setTitleColor(.CWhite, for: .normal)
-    $0.layer.cornerRadius = 8
-  }
+//  private let requestButton = UIButton(type: .system).then {
+//    $0.setTitle("Request Precise Location", for: .normal)
+//    $0.backgroundColor = .CBlue
+//    $0.setTitleColor(.CWhite, for: .normal)
+//    $0.layer.cornerRadius = 8
+//  }
   
   private let snapshotButton = UIButton(type: .system).then {
     $0.backgroundColor = .CWhite
@@ -65,24 +65,20 @@ class OfflineMapViewController: UIViewController {
   private func setupUI() {
     [
       mapView,
-      requestButton,
+//      requestButton,
       snapshotButton,
       imageView,
       activityIndicator
     ].forEach { view.addSubview($0) }
     
-    requestButton.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
-      $0.width.equalTo(200)
-      $0.height.equalTo(44)
-    }
+//    requestButton.snp.makeConstraints {
+//      $0.centerX.equalToSuperview()
+//      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
+//      $0.width.equalTo(200)
+//      $0.height.equalTo(44)
+//    }
     
     snapshotButton.snp.makeConstraints {
-//      $0.centerX.equalToSuperview()
-//      $0.bottom.equalTo(mapView.snp.bottom).offset(-300)
-//      $0.width.equalTo(80)
-//      $0.height.equalTo(30)
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(mapView.snp.bottom).offset(-150)
       $0.width.height.equalTo(40)
@@ -116,15 +112,15 @@ class OfflineMapViewController: UIViewController {
   }
   
   private func setupBindings() {
-    viewModel.shouldShowRequestButton
-      .observe(on: MainScheduler.asyncInstance)
-      .bind(to: requestButton.rx.isHidden)
-      .disposed(by: disposeBag)
+//    viewModel.shouldShowRequestButton
+//      .observe(on: MainScheduler.asyncInstance)
+//      .bind(to: requestButton.rx.isHidden)
+//      .disposed(by: disposeBag)
     
-    requestButton.rx.tap
-      .observe(on: MainScheduler.asyncInstance)
-      .bind(to: viewModel.didTapRequestPreciseLocation)
-      .disposed(by: disposeBag)
+//    requestButton.rx.tap
+//      .observe(on: MainScheduler.asyncInstance)
+//      .bind(to: viewModel.didTapRequestPreciseLocation)
+//      .disposed(by: disposeBag)
     
     snapshotButton.rx.tap
       .observe(on: MainScheduler.asyncInstance)
