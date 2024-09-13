@@ -464,31 +464,37 @@ class PoiViewModel {
   }
   
   func handleAedPoi(poiID: String, latitude: Double, longitude: Double, userObject: [String: Any]) {
-    // 관리자 정보와 AED 설치 위치 추출
-    if let adminName = userObject["adminName"] as? String,
-       let adminNumber = userObject["adminNumber"] as? String,
-       let location = userObject["location"] as? String {
-      // 추가 정보를 처리하거나 저장
-      print("AED Info: Admin Name: \(adminName), Admin Number: \(adminNumber), Location: \(location)")
-      
-      // delegate를 통해 POI 정보 전달
-      delegate?.didTapPOI(poiID: poiID, latitude: latitude, longitude: longitude, type: .aed, address: location)
-    } else {
-      print("AED information is missing")
-    }
+      // 관리자 정보와 AED 설치 위치 추출
+      if let adminName = userObject["adminName"] as? String,
+         let adminNumber = userObject["adminNumber"] as? String,
+         let location = userObject["location"] as? String {
+          print("AED Info: Admin Name: \(adminName), Admin Number: \(adminNumber), Location: \(location)")
+          
+          // AED ViewController를 표시하고 데이터 전달
+          let aedVC = AedViewController()
+          aedVC.poiName = poiID
+          aedVC.poiAddress = location
+          aedVC.adminName = adminName
+          aedVC.adminNumber = adminNumber
+          present(aedVC, animated: true)
+      } else {
+          print("AED information is missing")
+      }
   }
   
   func handleEmergencyReportPoi(poiID: String, latitude: Double, longitude: Double, userObject: [String: Any]) {
-    // 보고서 이름과 주소 추출
-    if let reportName = userObject["name"] as? String,
-       let reportAddress = userObject["address"] as? String {
-      // 추가 정보를 처리하거나 저장
-      print("Emergency Report Info: Name: \(reportName), Address: \(reportAddress)")
-      
-      // delegate를 통해 POI 정보 전달
-      delegate?.didTapPOI(poiID: poiID, latitude: latitude, longitude: longitude, type: .emergencyReport, address: reportAddress)
-    } else {
-      print("Emergency Report information is missing")
-    }
+      // 보고서 이름과 주소 추출
+      if let reportName = userObject["name"] as? String,
+         let reportAddress = userObject["address"] as? String {
+          print("Emergency Report Info: Name: \(reportName), Address: \(reportAddress)")
+          
+          // Emergency Report ViewController를 표시하고 데이터 전달
+          let emergencyReportVC = EmergencyReportViewController()
+          emergencyReportVC.reportName = reportName
+          emergencyReportVC.reportAddress = reportAddress
+          present(emergencyReportVC, animated: true)
+      } else {
+          print("Emergency Report information is missing")
+      }
   }
 }

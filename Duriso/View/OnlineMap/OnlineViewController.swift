@@ -307,10 +307,11 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
           shelterVC.poiAddress = address  // 좌표 대신 실제 주소를 전달
           shelterVC.poiType = "대피소"  // Shelter 타입 정보
           present(shelterVC, animated: true)
+        presentMapBottomSheet(with: .shelter)
       
-      default:
-          // 바텀시트를 표시 (기존 로직 유지)
-          presentMapBottomSheet(with: type)
+      default: break
+//          // 바텀시트를 표시 (기존 로직 유지)
+//          presentMapBottomSheet(with: type)
       }
   }
   
