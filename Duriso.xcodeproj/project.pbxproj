@@ -17,6 +17,9 @@
 		14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE812E2C900BAD002E26FD /* CategoryCell.swift */; };
 		14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81312C9029EE002E26FD /* PostingViewController.swift */; };
 		14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE81362C91BC9B002E26FD /* FirebaseFirestore */; };
+		14DE813B2C92C640002E26FD /* BoardFirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE813A2C92C640002E26FD /* BoardFirebaseStorage.swift */; };
+		14DE813F2C93F4F7002E26FD /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE813E2C93F4F7002E26FD /* PostService.swift */; };
+		14DE81412C94640C002E26FD /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81402C94640C002E26FD /* FirebaseFirestoreManager.swift */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -110,6 +113,9 @@
 		149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineNetWork.swift; sourceTree = "<group>"; };
 		14DE812E2C900BAD002E26FD /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		14DE81312C9029EE002E26FD /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
+		14DE813A2C92C640002E26FD /* BoardFirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardFirebaseStorage.swift; sourceTree = "<group>"; };
+		14DE813E2C93F4F7002E26FD /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		14DE81402C94640C002E26FD /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +219,7 @@
 			children = (
 				D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */,
 				149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */,
+				14DE813E2C93F4F7002E26FD /* PostService.swift */,
 				D69CF2BA2C8FD57B00B4E546 /* OnlineMapNetworkManager */,
 			);
 			path = Network;
@@ -330,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				7622D0592C7C1F8B00B1AEB2 /* BoardViewModel.swift */,
+				14DE813A2C92C640002E26FD /* BoardFirebaseStorage.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -492,6 +500,7 @@
 				768F509E2C89DC0D00A92ED6 /* LocationManager.swift */,
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
+				14DE81402C94640C002E26FD /* FirebaseFirestoreManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -669,6 +678,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14DE81412C94640C002E26FD /* FirebaseFirestoreManager.swift in Sources */,
 				768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */,
 				768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */,
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
@@ -700,6 +710,7 @@
 				768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */,
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */,
+				14DE813F2C93F4F7002E26FD /* PostService.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
@@ -710,6 +721,7 @@
 				D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */,
 				D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
+				14DE813B2C92C640002E26FD /* BoardFirebaseStorage.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,

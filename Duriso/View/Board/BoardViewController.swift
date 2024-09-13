@@ -7,6 +7,9 @@
 
 import UIKit
 
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -14,10 +17,10 @@ import SnapKit
 class BoardViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
-  private let tableItems = BehaviorRelay<[Post]>(value: [])
+  private let tableItems = BehaviorRelay<[Posts]>(value: [])
   private let dataSource = SomeDataModel.Mocks.getDataSource()
-  private var allPosts: [Post] = []  // 전체 게시물 배열
-  private var filteredPosts: [Post] = []  // 필터링된 게시물 배열
+  private var allPosts: [Posts] = []  // 전체 게시물 배열
+  private var filteredPosts: [Posts] = []  // 필터링된 게시물 배열
   
   private let notificationHeadLabel = UILabel().then {
     $0.text = "우리동네 알리미"
@@ -57,7 +60,10 @@ class BoardViewController: UIViewController {
   
   private let notificationTableView = UITableView().then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
+    $0.rowHeight = 100 // 셀 높이 설정
   }
+  
+  private let postService = PostService()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -65,17 +71,16 @@ class BoardViewController: UIViewController {
     
     setupLayout()
     writingButtonTap()
-    bindTableView()
+    bindBoardTableView()
     bindCollectionView()
+    notificationTableView.estimatedRowHeight = 120
+    notificationTableView.rowHeight = UITableView.automaticDimension
   }
   
   private func bindCollectionView() {
-    notificationCollectionView.delegate = nil
-    notificationCollectionView.dataSource = nil
     Observable.just(dataSource)
       .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { index, model, cell in
         cell.configure(with: model)
-        
         cell.bindTapAction {
           print("\(model.name) 버튼이 눌렸습니다!")
           self.handleButtonTap(for: model)
@@ -118,25 +123,62 @@ class BoardViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
+      postService.uploadImage(image ?? UIImage()) { result in
+          switch result {
+          case .success(let imageUrl):
+              completion(imageUrl) // 성공적으로 얻은 URL을 반환
+          case .failure(let error):
+              print("Error uploading image: \(error.localizedDescription)")
+              completion(nil) // 실패 시 nil 반환
+          }
+      }
+  }
+  
   private func reportNavigation() {
     let postViewController = PostViewController()
     postViewController.onPostAdded = { [weak self] title, content, settingImage, categorys in
       guard let self = self else { return }
-      let newPost = Post(title: title, content: content, settingImage: settingImage, categorys: categorys, createdAt: Date()) //새로운 게시글 생성
-      var currentItems = self.tableItems.value //테이블아이템의 벨류를 가져옴
-      currentItems.append(newPost) //어펜드로 새로운 게시글 추가
-      self.tableItems.accept(currentItems) // 게시글 생성 시간 계산하여 설정해줌
+      
+      self.uploadImageAndGetURL(settingImage) { imageUrl in
+        // 게시글 생성
+        let newPost = Posts(
+          author: "작성자 이름",  // 작성자 이름을 설정
+          contents: content,
+          categorys: categorys,
+          dong: "동",
+          gu: "구",
+          likescount: 0,
+          postid: UUID().uuidString,  // 고유한 ID 생성
+          postlocation: GeoPoint(latitude: 0, longitude: 0), // 위치 정보를 설정
+          posttime: Timestamp(date: Date()), // 현재 시간 설정
+          reportcount: 0,
+          si: "시",
+          title: title,
+          imageUrl: imageUrl
+        )
+        
+        // 테이블 아이템 업데이트
+        var currentItems = self.tableItems.value
+        currentItems.append(newPost)
+        self.tableItems.accept(currentItems)
+      }
     }
     self.navigationController?.pushViewController(postViewController, animated: true)
   }
   
-  private func bindTableView() {
+  private func bindBoardTableView() {
     tableItems
       .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
         print("Post at index \(index): \(post)")
-        cell.configure(with: post) // 셀마다 게시글의 데이터를 설정해줌
-        cell.delegate = self
+        cell.configure(with: post)
       }
+      .disposed(by: disposeBag)
+    
+    notificationTableView.rx.modelSelected(Posts.self)
+      .subscribe(onNext: { [weak self] post in
+        self?.didTapCell(with: post)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -197,17 +239,49 @@ class BoardViewController: UIViewController {
   }
 }
 
-
-
 extension BoardViewController: BoardTableViewCellDelegate {
-  
-  func didTapCell(with post: Post) {
+  func didTapCell(with post: Posts) {
     let postingViewController = PostingViewController()
     postingViewController.postTitle = post.title
-    postingViewController.postContent = post.content
-    postingViewController.postImage = post.settingImage ?? nil
+    postingViewController.postContent = post.contents
     postingViewController.postTitleTop = post.categorys
     
-    navigationController?.pushViewController(postingViewController, animated: true)
+    // 비동기적으로 이미지를 로드
+    if let imageUrl = post.imageUrl {
+      UIImage.from(url: imageUrl) { image in
+        DispatchQueue.main.async {
+          postingViewController.postImage = image
+          self.navigationController?.pushViewController(postingViewController, animated: true)
+        }
+      }
+    } else {
+      navigationController?.pushViewController(postingViewController, animated: true)
+    }
+  }
+}
+
+extension UIImage {
+  static func from(url: String?, completion: @escaping (UIImage?) -> Void) {
+    guard let urlString = url, let url = URL(string: urlString) else {
+      completion(nil)
+      return
+    }
+    
+    URLSession.shared.dataTask(with: url) { data, _, error in
+      if let error = error {
+        print("Failed to load image: \(error.localizedDescription)")
+        completion(nil)
+        return
+      }
+      
+      guard let data = data, let image = UIImage(data: data) else {
+        completion(nil)
+        return
+      }
+      
+      DispatchQueue.main.async {
+        completion(image)
+      }
+    }.resume()
   }
 }

@@ -240,25 +240,24 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
   
   private func bindCategoryTableView() {
-    categoryTableView.delegate = nil
-    categoryTableView.dataSource = nil
-    
-    // 셀을 테이블 뷰에 바인딩
-    tableItems
-      .bind(to: categoryTableView.rx.items(cellIdentifier: CategoryCell.categoryCell, cellType: CategoryCell.self)) { index, category, cell in
-        cell.configure(with: category)
-      }
-      .disposed(by: disposeBag)
-    
-    categoryTableView.rx.modelSelected(Category.self)
-      .subscribe(onNext: { [weak self] category in
-        guard let self = self else { return }
-        
-        self.categoryTouch.text = category.title
-        
-        self.categoryTableView.isHidden = true
-      })
-      .disposed(by: disposeBag)
+      categoryTableView.delegate = nil
+      categoryTableView.dataSource = nil
+
+      // 셀을 테이블 뷰에 바인딩
+      tableItems
+          .bind(to: categoryTableView.rx.items(cellIdentifier: CategoryCell.categoryCell, cellType: CategoryCell.self)) { index, category, cell in
+              let viewModel = CategoryViewModel(categoryTitle: Observable.just(category.title))
+              cell.configure(with: viewModel)
+          }
+          .disposed(by: disposeBag)
+
+      categoryTableView.rx.modelSelected(Category.self)
+          .subscribe(onNext: { [weak self] category in
+              guard let self = self else { return }
+              self.categoryTouch.text = category.title
+              self.categoryTableView.isHidden = true
+          })
+          .disposed(by: disposeBag)
   }
   
   private func categoryButtonTap() {
