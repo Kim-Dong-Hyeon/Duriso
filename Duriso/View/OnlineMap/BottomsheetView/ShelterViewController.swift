@@ -2,7 +2,7 @@
 //  ShelterViewController.swift
 //  Duriso
 //
-//  Created by 이주희 on 9/9/24.
+//  Created by t2024-m0153 on 9/9/24.
 //
 
 import UIKit
@@ -12,14 +12,9 @@ import Then
 
 class ShelterViewController: UIViewController {
   
-  private var shelterData: Shelter? {
-    didSet {
-      print("shelterData didSet called with: \(shelterData?.shelterName ?? "No Data")")
-      if isViewLoaded {  // view가 이미 로드된 상태라면 UI 업데이트
-        updateUI()
-      }
-    }
-  }
+  var poiName: String?
+  var poiAddress: String?
+  var poiType: String?
   
   private let typeStackView = UIStackView().then {
     //타입 로고 및 타입명
@@ -71,67 +66,26 @@ class ShelterViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark"), for: .normal)
+    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
     $0.tintColor = .black  // 아이콘 색상 설정
     $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  //  private let messageInputText = UITextField().then {
-  //    $0.backgroundColor = UIColor.CLightBlue
-  //    $0.font = CustomFont.Body2.font()
-  //    $0.placeholder = "꼭 필요한 긴급 정보만 남겨주세요!"
-  //    $0.layer.cornerRadius = 16
-  //    $0.layer.masksToBounds = true
-  //    $0.clearButtonMode = .always
-  //  }
-  //
-  //  private let addPostButton = UIButton().then {
-  //    $0.setTitle("완료", for: .normal)
-  //    $0.titleLabel?.font = CustomFont.Body3.font()
-  //    $0.setTitleColor(.CWhite, for: .normal)
-  //    $0.backgroundColor = .CBlue
-  //    $0.layer.cornerRadius = 12
-  //    $0.layer.masksToBounds = true
-  //    $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
-  //  }
-  
   // MARK: - view Lifecycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     setupView()
     setupConstraints()
-    print("viewDidLoad: \(shelterData?.shelterTypeName)")
-    if shelterData != nil {
-      updateUI()  // view가 로드될 때 바로 UI 업데이트
-    }
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    if shelterData != nil {
-      print("viewWillAppear: shelterData is \(shelterData?.shelterName ?? "No Data")")
-      updateUI()  // 화면에 나타나기 전 UI 업데이트
-    }
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if shelterData != nil {
-      print("viewDidAppear: shelterData is \(shelterData?.shelterName ?? "No Data")")
-      updateUI()  // 화면에 나타난 후 UI 업데이트
-    }
-  }
-  
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
     
-    // 캐시된 데이터 초기화
-    self.shelterData = nil
-    print("Shelter data cleared")
+    // POI 데이터 업데이트
+    updatePoiData()
   }
   
+  // MARK: - View setup & Constraints
   func setupView() {
     [
       typeLogo,
@@ -143,9 +97,7 @@ class ShelterViewController: UIViewController {
       typeStackView,
       shelterAddress,
       shelterType,
-      cancelButton,
-      //      messageInputText,
-      //      addPostButton
+      cancelButton
     ].forEach { view.addSubview($0) }
   }
   
@@ -165,7 +117,6 @@ class ShelterViewController: UIViewController {
     }
     
     typeLabel.snp.makeConstraints {
-      //      $0.centerY.equalTo(typeStackView)
       $0.leading.equalTo(typeLogo.snp.trailing)
     }
     
@@ -188,49 +139,13 @@ class ShelterViewController: UIViewController {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.width.height.equalTo(32)
     }
-    
-    //    messageInputText.snp.makeConstraints {
-    //      $0.centerX.equalTo(view.safeAreaLayoutGuide)
-    //      $0.top.equalTo(shelterAddress.snp.bottom).offset(16)
-    //      $0.width.equalTo(350)
-    //      $0.height.equalTo(38)
-    //    }
-    //
-    //    addPostButton.snp.makeConstraints {
-    //      $0.centerX.equalTo(view.safeAreaLayoutGuide)
-    //      $0.top.equalTo(messageInputText.snp.bottom).offset(16)
-    //      $0.width.equalTo(60)
-    //      $0.height.equalTo(24)
-    //    }
   }
   
-  private func updateUI() {
-    guard let shelter = shelterData else {
-      print("updateUI: shelterData is nil")
-      return
-    }
-    
-    print("updateUI: Updating UI with shelter: \(shelter.shelterName)")
-    
-    DispatchQueue.main.async {
-      self.shelterName.text = shelter.shelterName
-      self.shelterType.text = shelter.shelterTypeName
-      self.shelterAddress.text = shelter.address
-      
-      print("UI Updated with shelter: \(shelter.shelterName)")
-      
-      // 레이아웃 강제 갱신
-      self.view.setNeedsLayout()
-      self.view.layoutIfNeeded()
-    }
-  }
-  
-  func shelterupdatePoiData(with shelter: Shelter) {
-    print("updatePoiData called with shelter: \(shelter.shelterName)")
-    self.shelterData = shelter  // shelter 데이터를 설정하면 didSet에서 UI 업데이트
-    if isViewLoaded {  // 뷰가 이미 로드된 상태면 즉시 UI 업데이트
-      updateUI()
-    }
+  func updatePoiData() {
+    // 전달받은 POI 데이터를 UILabel에 반영
+    shelterName.text = poiName ?? "Unknown Shelter Name"
+    shelterAddress.text = poiAddress ?? "Unknown Address"
+    shelterType.text = poiType ?? "Unknown Shelter Type"
   }
   
   @objc func didTapCancelButton() {
@@ -242,4 +157,3 @@ class ShelterViewController: UIViewController {
 #Preview {
   ShelterViewController()
 }
-

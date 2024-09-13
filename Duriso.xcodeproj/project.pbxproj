@@ -50,6 +50,7 @@
 		763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A412C7B1AA7006BC4E7 /* RxSwift */; };
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
+		7663B7EB2C92D0250066FE91 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 7663B7EA2C92D0250066FE91 /* MapLibre */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
 		767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflinePageViewModel.swift */; };
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
@@ -64,6 +65,9 @@
 		768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A82C8B530300A92ED6 /* PostViewController.swift */; };
 		768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */; };
 		768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */; };
+		76E370652C93CCB9005724E9 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E370642C93CCB9005724E9 /* LocationModel.swift */; };
+		76E370672C946F41005724E9 /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E370662C946F41005724E9 /* FirebaseFirestoreManager.swift */; };
+		76E3706B2C947676005724E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76E3706A2C947676005724E9 /* FirebaseFirestore */; };
 		76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */; };
 		76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */; };
 		76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B72C8F1F580077D75B /* SignUpModel.swift */; };
@@ -76,9 +80,10 @@
 		D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A82C8A82320031114E /* OnlineViewController.swift */; };
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
 		D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */; };
-		D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */; };
+		D61268AF2C8A82320031114E /* EmergencWrittingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268AB2C8A82320031114E /* EmergencWrittingViewController.swift */; };
 		D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */; };
 		D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */; };
+		D62E9CCA2C944B2E00829FB8 /* EmergencyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62E9CC92C944B2E00829FB8 /* EmergencyReportViewController.swift */; };
 		D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */; };
 		D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B42C8F142100B4E546 /* AedViewController.swift */; };
 		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
@@ -150,6 +155,8 @@
 		768F50A82C8B530300A92ED6 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
+		76E370642C93CCB9005724E9 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		76E370662C946F41005724E9 /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFetcher.swift; sourceTree = "<group>"; };
 		76EFE8B72C8F1F580077D75B /* SignUpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
@@ -161,13 +168,14 @@
 		D61268A82C8A82320031114E /* OnlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		D61268A92C8A82320031114E /* KakaoMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
 		D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBottomSheetViewController.swift; sourceTree = "<group>"; };
-		D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportViewController.swift; sourceTree = "<group>"; };
+		D61268AB2C8A82320031114E /* EmergencWrittingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencWrittingViewController.swift; sourceTree = "<group>"; };
 		D61412FD2C8B01CC007BA568 /* OnlineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineViewModel.swift; sourceTree = "<group>"; };
 		D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D61B612A2C7C582800C5E69D /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Bold.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Bold.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Regular.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-Light.ttf"; path = "Duriso/Assets/FontAssets/NotoSansKR-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		D61B612D2C7C583700C5E69D /* HSSaemaul.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = HSSaemaul.ttf; path = Duriso/Assets/FontAssets/HSSaemaul.ttf; sourceTree = SOURCE_ROOT; };
+		D62E9CC92C944B2E00829FB8 /* EmergencyReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyReportViewController.swift; sourceTree = "<group>"; };
 		D69CF2B02C8E7D4300B4E546 /* ShelterNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterNetworkManager.swift; sourceTree = "<group>"; };
 		D69CF2B42C8F142100B4E546 /* AedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedViewController.swift; sourceTree = "<group>"; };
 		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
@@ -203,11 +211,13 @@
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
 				14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
+				76E3706B2C947676005724E9 /* FirebaseFirestore in Frameworks */,
 				7676228A2C85CDB50075B09E /* Then in Frameworks */,
 				7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */,
 				7622D03D2C7C178400B1AEB2 /* FirebaseDatabase in Frameworks */,
 				76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */,
 				763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */,
+				7663B7EB2C92D0250066FE91 /* MapLibre in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */,
+				76E370642C93CCB9005724E9 /* LocationModel.swift */,
 			);
 			path = OfflineMap;
 			sourceTree = "<group>";
@@ -499,6 +510,7 @@
 			children = (
 				768F509E2C89DC0D00A92ED6 /* LocationManager.swift */,
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
+				76E370662C946F41005724E9 /* FirebaseFirestoreManager.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 				14DE81402C94640C002E26FD /* FirebaseFirestoreManager.swift */,
 			);
@@ -537,7 +549,8 @@
 			isa = PBXGroup;
 			children = (
 				D69CF2B42C8F142100B4E546 /* AedViewController.swift */,
-				D61268AB2C8A82320031114E /* EmergencyReportViewController.swift */,
+				D61268AB2C8A82320031114E /* EmergencWrittingViewController.swift */,
+				D62E9CC92C944B2E00829FB8 /* EmergencyReportViewController.swift */,
 				D61268AA2C8A82320031114E /* MapBottomSheetViewController.swift */,
 				D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */,
 			);
@@ -600,6 +613,8 @@
 				7622D03E2C7C178400B1AEB2 /* FirebaseStorage */,
 				767622892C85CDB50075B09E /* Then */,
 				76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */,
+				7663B7EA2C92D0250066FE91 /* MapLibre */,
+				76E3706A2C947676005724E9 /* FirebaseFirestore */,
 				14DE81362C91BC9B002E26FD /* FirebaseFirestore */,
 			);
 			productName = Duriso;
@@ -638,6 +653,7 @@
 				7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
 				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				7663B7E92C92D0250066FE91 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -678,7 +694,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14DE81412C94640C002E26FD /* FirebaseFirestoreManager.swift in Sources */,
+				76E370672C946F41005724E9 /* FirebaseFirestoreManager.swift in Sources */,
 				768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */,
 				768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */,
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
@@ -695,6 +711,7 @@
 				768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */,
 				E2DAB85E2C86380D0037BCA2 /* LegalNoticeViewController.swift in Sources */,
 				149EEFB52C8723610088FDB2 /* GuidelineViewModel.swift in Sources */,
+				76E370652C93CCB9005724E9 /* LocationModel.swift in Sources */,
 				7622D0522C7C1E9400B1AEB2 /* MyPageViewController.swift in Sources */,
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */,
@@ -710,6 +727,7 @@
 				768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */,
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */,
+				D62E9CCA2C944B2E00829FB8 /* EmergencyReportViewController.swift in Sources */,
 				14DE813F2C93F4F7002E26FD /* PostService.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
@@ -719,7 +737,7 @@
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
 				D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */,
-				D61268AF2C8A82320031114E /* EmergencyReportViewController.swift in Sources */,
+				D61268AF2C8A82320031114E /* EmergencWrittingViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				14DE813B2C92C640002E26FD /* BoardFirebaseStorage.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
@@ -1028,6 +1046,14 @@
 				minimumVersion = 2.10.5;
 			};
 		};
+		7663B7E92C92D0250066FE91 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.4;
+			};
+		};
 		767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then.git";
@@ -1092,10 +1118,20 @@
 			package = 763C0A492C7B1B70006BC4E7 /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
 			productName = "KakaoMapsSDK-SPM";
 		};
+		7663B7EA2C92D0250066FE91 /* MapLibre */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7663B7E92C92D0250066FE91 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			productName = MapLibre;
+		};
 		767622892C85CDB50075B09E /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		76E3706A2C947676005724E9 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

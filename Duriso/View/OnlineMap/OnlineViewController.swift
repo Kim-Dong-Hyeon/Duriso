@@ -14,11 +14,13 @@ import KakaoMapsSDK
 
 class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
+  
+  
   private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
-  
+  private let emergencyWrittingViewController = EmergencWrittingViewController()
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
   
@@ -26,8 +28,6 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
-    //    $0.layer.borderColor = UIColor.CBlack.cgColor
-    //    $0.layer.borderWidth = 1.0
     $0.layer.cornerRadius = 20
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
@@ -52,7 +52,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   let buttonStackView = UIStackView().then {
     $0.alignment = .center
-    $0.distribution = .fillProportionally
+    $0.distribution = .fillEqually
     $0.axis = .horizontal
     $0.spacing = 8
   }
@@ -290,17 +290,42 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-    presentMapBottomSheet(with: .emergencyReport)
-    print("Writing button tapped")
+    let emergencyWrittingViewController = EmergencWrittingViewController()
+    present(emergencyWrittingViewController, animated: true)
+    print("Emergency Writing button tapped")
   }
   
-  func presentMapBottomSheet(with type: BottomSheetType) {
-    print("Presenting BottomSheet of type: \(type)")
+  func didTapShelter(poiID: String, shelterType: String, address: String) {
+    let shelterVC = ShelterViewController()
+    shelterVC.poiName = poiID
+    shelterVC.poiAddress = address
+    shelterVC.poiType = shelterType
     
-    // BottomSheetViewController를 타입과 함께 초기화
-    let bottomSheetVC = MapBottomSheetViewController(type: type)
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(shelterVC)
+    present(bottomSheetVC, animated: true)
+  }
+  
+  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String) {
+    let aedVC = AedViewController()
+    aedVC.poiName = poiID
+    aedVC.poiAddress = address
+    aedVC.adminName = adminName
+    aedVC.adminNumber = adminNumber
+    // aedVC.managementAgency = managementAgency
     
-    // BottomSheet 표시
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(aedVC)
+    present(bottomSheetVC, animated: true)
+  }
+  
+  func didTapEmergencyReport(poiID: String, address: String) {
+    let emergencyReportVC = EmergencyReportViewController()
+    emergencyReportVC.reportName = poiID
+    emergencyReportVC.reportAddress = address
+    
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(emergencyReportVC)
     present(bottomSheetVC, animated: true)
   }
 }

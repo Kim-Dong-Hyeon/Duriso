@@ -9,18 +9,16 @@ import CoreLocation
 import RxSwift
 import KakaoMapsSDK
 
-
 protocol PoiViewModelDelegate: AnyObject {
-  // POI가 탭되었을 때 호출되는 메서드
-  func presentMapBottomSheet(with type: BottomSheetType)
+  func didTapShelter(poiID: String, shelterType: String, address: String)
+  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String)
+  func didTapEmergencyReport(poiID: String, address: String)
 }
 
 class PoiViewModel {
   
   static let shared = PoiViewModel()
   weak var delegate: PoiViewModelDelegate?
-  
-  private var cachedShelterPois: [Shelter] = []
   
   private init() {
     print("PoiViewModel initialized: \(Unmanaged.passUnretained(self).toOpaque())")
@@ -49,7 +47,6 @@ class PoiViewModel {
     shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
       .subscribe(onNext: { shelterResponse in
         let shelters = shelterResponse.body
-        self.cachedShelterPois = shelters // 데이터를 캐싱
         self.shelterPois.onNext(shelters)
       }, onError: { error in
         print("Error fetching shelters: \(error)")
@@ -217,15 +214,6 @@ class PoiViewModel {
     }
   }
   
-  /// LodPoi를 생성하는 함수.
-  /// - Parameters:
-  ///   - items: POI 아이템 리스트
-  ///   - layerID: 레이어 ID
-  ///   - styleID: 스타일 ID
-  ///   - mapController: 지도 컨트롤러
-  ///   - getPoiID: POI의 고유 ID를 얻는 클로저
-  ///   - getCoordinates: POI의 좌표를 얻는 클로저
-  ///   - radius: 반경 필터링
   private func createLodPoi<T>(
     items: [T],
     layerID: String,
@@ -233,6 +221,11 @@ class PoiViewModel {
     mapController: KMController,
     getPoiID: (T) -> String,
     getCoordinates: (T) -> (latitude: Double, longitude: Double),
+    getAddress: (T) -> String?,           // 주소 추출 함수 추가
+    getAdditionalInfo: (T) -> String?,
+    getAdditionalInfo2: (T) -> String?,
+    getAdditionalInfo3: (T) -> String?,
+    getAdditionalInfo4: (T) -> String?,// 추가 정보 추출 함수 추가
     radius: Double? = nil
   ) {
     guard let mapView = mapController.getView("mapview") as? KakaoMap else {
@@ -248,10 +241,6 @@ class PoiViewModel {
     
     layer.clearAllItems()
     
-    if items.isEmpty {
-      print("No POIs to add for layerID: \(layerID)")
-    }
-    
     var currentCLLocation: CLLocation? = nil
     if let radius = radius, let currentLocation = LocationManager.shared.currentLocation {
       currentCLLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
@@ -260,31 +249,36 @@ class PoiViewModel {
     for item in items {
       let coordinates = getCoordinates(item)
       let poiID = getPoiID(item)
-      
-      // 반경 필터링이 필요한 경우
-      if let radius = radius, let currentCLLocation = currentCLLocation {
-        let itemLocation = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-        let distance = currentCLLocation.distance(from: itemLocation)
-        if distance > radius {
-          continue // 반경을 벗어난 POI는 건너뜁니다
-        }
-      }
-      
-      let options = PoiOptions(styleID: styleID, poiID: poiID)
-      let point = MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)
+      let address = getAddress(item) ?? "Unknown Address"
+      let additionalInfo1 = getAdditionalInfo(item) ?? "Unknown Info"
+      let additionalInfo2 = getAdditionalInfo2(item) ?? "Unknown Info"
+      let additionalInfo3 = getAdditionalInfo3(item) ?? "Unknown Info"
+      let additionalInfo4 = getAdditionalInfo4(item) ?? "Unknown Info"
+      print("poiID: \(poiID)")
       
       // POI 생성
-      if let poiItem = layer.addPoi(option: options, at: point) {
+      if let poiItem = layer.addPoi(option: PoiOptions(styleID: styleID, poiID: poiID), at: MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)) {
         poiItem.show()
         poiItem.clickable = true
-        poiItem.addPoiTappedEventHandler(target: self) { (self) in
+        
+        // POI에 userObject 설정 - 기본 값 포함
+        poiItem.userObject = NSDictionary(dictionary: [
+          "poiID": poiID,
+          "latitude": coordinates.latitude,
+          "longitude": coordinates.longitude,
+          "address": address,
+          "additionalInfo1": additionalInfo1,
+          "additionalInfo2": additionalInfo2,
+          "additionalInfo3": additionalInfo3,
+          "additionalInfo4": additionalInfo4
+        ])
+        
+        _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
           return { param in
-            print("POI tapped: \(param.poiItem.itemID)")  // 로그 추가
-            self.poiTapped(param)  // POI 탭 이벤트 처리 함수 호출
+            print("POI tapped: \(param.poiItem.itemID)")
+            self.poiTapped(param)
           }
         }
-      } else {
-        print("Error: Failed to add LodPoi with ID: \(poiID) at (\(coordinates.longitude), \(coordinates.latitude))")
       }
     }
   }
@@ -303,7 +297,11 @@ class PoiViewModel {
       mapController: mapController,
       getPoiID: { String($0.serialNumber) },
       getCoordinates: { ($0.latitude, $0.longitude) },
-      radius: 2000
+      getAddress: { $0.address },
+      getAdditionalInfo: { $0.location },
+      getAdditionalInfo2: { $0.adminName ?? "Unknown Admin" },
+      getAdditionalInfo3: { $0.adminNumber ?? "Unknown Number" },
+      getAdditionalInfo4: { $0.managementAgency ?? "Unknown Agency" }
     )
   }
   
@@ -319,9 +317,13 @@ class PoiViewModel {
       layerID: layerID,
       styleID: styleID,
       mapController: mapController,
-      getPoiID: { $0.shelterSerialNumber},
+      getPoiID: { $0.shelterName },
       getCoordinates: { ($0.latitude, $0.longitude) },
-      radius: 2000
+      getAddress: { $0.address },               // 쉘터의 주소
+      getAdditionalInfo: { $0.shelterTypeName },
+      getAdditionalInfo2: { _ in nil },
+      getAdditionalInfo3: { _ in nil },
+      getAdditionalInfo4: { _ in nil }
     )
   }
   
@@ -379,8 +381,10 @@ class PoiViewModel {
     if let layer = labelManager.getLabelLayer(layerID: layerID) {
       if show {
         layer.showAllPois() // 모든 POI를 표시
+        print("\(layerID) POIs 표시 완료")
       } else {
         layer.hideAllPois() // 모든 POI를 숨김
+        print("\(layerID) POIs 숨김 완료")
       }
     } else {
       print("Error: Failed to get layer with ID \(layerID)")
@@ -417,48 +421,67 @@ class PoiViewModel {
     togglePoisVisibility(mapController: mapController, layerID: "emergencyReportLayer", show: true)
   }
   
+  // POI 클릭 이벤트를 처리하는 함수
   func poiTapped(_ param: PoiInteractionEventParam) {
-    let poiID = param.poiItem.itemID
-    let layerID = param.poiItem.layerID
-    
-    print("POI ID: \(poiID), Layer ID: \(layerID)")
-    
-    let bottomSheetType: BottomSheetType
-    
-    switch layerID {
-    case "shelterLayer":
-      bottomSheetType = .shelter
-      if let shelter = findShelterByID(poiID) {
-        print("Found shelter for MNG_SN: \(poiID)")
-        
-        // ShelterViewController 생성 후 먼저 데이터를 설정
-        let shelterVC = ShelterViewController()
-        shelterVC.shelterupdatePoiData(with: shelter)
-        
-        // 데이터를 설정한 후에 BottomSheet를 프레젠트
-        delegate?.presentMapBottomSheet(with: bottomSheetType)
-        
-        // 이후 MapBottomSheetViewController에서 ShelterViewController 설정
-        if let bottomSheetVC = delegate as? MapBottomSheetViewController {
-          bottomSheetVC.panelContentsViewController = shelterVC
-        }
-      } else {
-        print("No shelter found for MNG_SN: \(poiID)")
-      }
-    case "aedLayer":
-      bottomSheetType = .aed
-      // 추가 처리
-    case "emergencyReportLayer":
-      bottomSheetType = .emergencyReport
-      // 추가 처리
-    default:
-      print("Unknown Layer ID: \(layerID)")
+    let poiItem = param.poiItem
+    guard let userObject = poiItem.userObject as? [String: Any],
+          let poiID = userObject["poiID"] as? String else {
+      print("Error: POI ID is nil or invalid.")
       return
     }
+    
+    
+    // layerID에 따라 다른 함수를 호출
+    switch param.poiItem.layerID {
+    case "shelterLayer":
+      handleShelterPoi(poiID: poiID, userObject: userObject)
+    case "aedLayer":
+      handleAedPoi(poiID: poiID, userObject: userObject)
+    case "emergencyReportLayer":
+      handleEmergencyReportPoi(poiID: poiID,  userObject: userObject)
+    default:
+      print("Error: POI style ID is unknown.")
+    }
+    print("POI layerID: \(param.poiItem.layerID)")
   }
   
-  func findShelterByID(_ id: String) -> Shelter? {
-    // 관리일련번호(MNG_SN)를 기준으로 찾기
-    return cachedShelterPois.first { $0.shelterSerialNumber == id }
+  // AED POI를 처리하는 함수
+  func handleAedPoi(poiID: String, userObject: [String: Any]) {
+    print("Full AED User Object: \(userObject)")
+    
+    // userObject에서 추가 정보 가져오기
+    let location = userObject["additionalInfo1"] as? String ?? "Unknown Location"
+    let adminName = userObject["additionalInfo2"] as? String ?? "Unknown Admin"
+    let adminNumber = userObject["additionalInfo3"] as? String ?? "Unknown Number"
+    let managementAgency = userObject["additionalInfo4"] as? String ?? "Unknown Agency"
+    let address = userObject["address"] as? String ?? "Unknown Address"
+    
+    
+    // AED 정보 출력
+    print("AED Info: Admin Name: \(adminName), Admin Number: \(adminNumber), Location: \(location), Management Agency: \(managementAgency), Address: \(address)")
+    
+    // delegate를 통해 AED POI 데이터 전달
+    delegate?.didTapAed(poiID: poiID, address: address, adminName: adminName, adminNumber: adminNumber, managementAgency: managementAgency)
+  }
+  
+  // Shelter POI를 처리하는 함수
+  func handleShelterPoi(poiID: String, userObject: [String: Any]) {
+    let address = userObject["address"] as? String ?? "Unknown Address"
+    let shelterType = userObject["additionalInfo1"] as? String ?? "Unknown Shelter Type"
+    print("Shelter Info: Address: \(address), Shelter Type: \(shelterType)")
+    
+    // delegate를 통해 Shelter POI 데이터 전달
+    delegate?.didTapShelter(poiID: poiID, shelterType: shelterType, address: address)
+  }
+  
+  // Emergency Report POI를 처리하는 함수
+  func handleEmergencyReportPoi(poiID: String, userObject: [String: Any]) {
+    let reportName = userObject["name"] as? String ?? "Unknown Report Name"
+    let reportAddress = userObject["address"] as? String ?? "Unknown Address"
+    
+    print("Emergency Report Info: Name: \(reportName), Address: \(reportAddress)")
+    
+    // delegate를 통해 Emergency Report POI 데이터 전달
+    delegate?.didTapEmergencyReport(poiID: poiID, address: reportAddress)
   }
 }
