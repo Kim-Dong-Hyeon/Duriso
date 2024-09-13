@@ -1,8 +1,8 @@
 ---
 name: Feature Template
 about: 기능 추가 이슈 템플릿
-title: "[Feat]"
-labels: enhancement
+title: "[Feat] "
+labels: ":sparkles: Feat"
 assignees: ''
 
 ---
