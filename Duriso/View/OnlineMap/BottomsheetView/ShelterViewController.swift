@@ -97,7 +97,7 @@ class ShelterViewController: UIViewController {
       typeStackView,
       shelterAddress,
       shelterType,
-      cancelButton,
+      cancelButton
     ].forEach { view.addSubview($0) }
   }
   
