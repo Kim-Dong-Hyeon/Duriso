@@ -13,6 +13,7 @@ import SnapKit
 import KakaoMapsSDK
 
 class OnlineViewController: UIViewController, PoiViewModelDelegate {
+
   
   private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
@@ -26,8 +27,6 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
-    //    $0.layer.borderColor = UIColor.CBlack.cgColor
-    //    $0.layer.borderWidth = 1.0
     $0.layer.cornerRadius = 20
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
@@ -52,7 +51,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   let buttonStackView = UIStackView().then {
     $0.alignment = .center
-    $0.distribution = .fillProportionally
+    $0.distribution = .fillEqually
     $0.axis = .horizontal
     $0.spacing = 8
   }
@@ -294,15 +293,39 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     print("Writing button tapped")
   }
   
+  // PoiViewModelDelegate에서 정의한 메서드 구현
+  func didTapPOI(poiID: String, latitude: Double, longitude: Double, type: BottomSheetType, address: String) {
+      // 전달받은 POI 정보 처리
+      print("Tapped POI - ID: \(poiID), Address: \(address), Type: \(type)")
+
+      // POI 타입에 따라 다른 동작 수행
+      switch type {
+      case .shelter:
+          // ShelterViewController를 표시하고 데이터 전달
+          let shelterVC = ShelterViewController()
+          shelterVC.poiName = poiID
+          shelterVC.poiAddress = address  // 좌표 대신 실제 주소를 전달
+          shelterVC.poiType = "대피소"  // Shelter 타입 정보
+          present(shelterVC, animated: true)
+      
+      default:
+          // 바텀시트를 표시 (기존 로직 유지)
+          presentMapBottomSheet(with: type)
+      }
+  }
+  
   func presentMapBottomSheet(with type: BottomSheetType) {
-    print("Presenting BottomSheet of type: \(type)")
+    print("Presenting BottomSheet of type: \(type)")  // 바텀시트 타입 로그 출력
     
     // BottomSheetViewController를 타입과 함께 초기화
     let bottomSheetVC = MapBottomSheetViewController(type: type)
     
+    bottomSheetVC.modalPresentationStyle = .pageSheet
+    
     // BottomSheet 표시
     present(bottomSheetVC, animated: true)
   }
+  
 }
 
 @available(iOS 17.0, *)
