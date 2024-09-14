@@ -41,6 +41,7 @@ class BoardTableViewCell: UITableViewCell {
   
   private let categorysLabel = UILabel().then {
     $0.font = CustomFont.Head3.font()
+    $0.textAlignment = .center
   }
   
   private let postImageView = UIImageView()
@@ -68,18 +69,20 @@ class BoardTableViewCell: UITableViewCell {
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
       $0.leading.equalTo(contentView).offset(10)
-      $0.trailing.lessThanOrEqualTo(contentView).offset(-150)
+      $0.trailing.lessThanOrEqualTo(contentView).offset(-100)
+      $0.width.equalTo(140)
     }
     
     categorysLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
-      $0.leading.equalTo(postImageView.snp.trailing).offset(-150)
+      $0.leading.equalTo(210)
+      $0.width.equalTo(70)
     }
     
     postImageView.snp.makeConstraints {
       $0.centerY.equalTo(contentView)
       $0.trailing.equalTo(contentView).offset(-10)
-      $0.width.height.equalTo(100)
+      $0.width.height.equalTo(80)
     }
     
     contentLabel.snp.makeConstraints {
@@ -96,7 +99,7 @@ class BoardTableViewCell: UITableViewCell {
     }
     
     timeLabel.snp.makeConstraints {
-      $0.leading.equalTo(postImageView.snp.trailing).offset(-150)
+      $0.leading.equalTo(220)
       $0.centerY.equalTo(addressLabel)
     }
   }
@@ -121,8 +124,23 @@ class BoardTableViewCell: UITableViewCell {
     timeLabel.text = timeAgo(from: post.posttime)
     categorysLabel.text = post.category
     
-    // 이미지 URL을 UIImage로 비동기 로드
-    postImageView.loadImage(from: post.imageUrl)
+    // 이미지 URL이 있는 경우 비동기로 이미지 로드
+    if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
+      URLSession.shared.dataTask(with: url) { data, _, _ in
+        if let data = data, let image = UIImage(data: data) {
+          DispatchQueue.main.async {
+            self.postImageView.image = image
+          }
+        } else {
+          DispatchQueue.main.async {
+            self.postImageView.image = UIImage(named: "AppIcon")
+          }
+        }
+      }.resume()
+    } else {
+      // 이미지 URL이 없는 경우 기본 이미지 설정
+      self.postImageView.image = UIImage(named: "AppIcon")
+    }
   }
   
   private func timeAgo(from date: Date) -> String {

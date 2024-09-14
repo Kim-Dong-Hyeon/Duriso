@@ -14,7 +14,7 @@ import FirebaseStorage
 class BoardFirebaseService {
   
   private let db = Firestore.firestore()
-
+  
   // MARK: - 게시물 데이터 읽어오기
   
   func fetchPosts() -> Observable<[Posts]> {
@@ -25,12 +25,12 @@ class BoardFirebaseService {
             observer.onError(error)
             return
           }
-
+          
           guard let documents = snapshot?.documents else {
             observer.onNext([])
             return
           }
-
+          
           let posts = documents.compactMap { doc -> Posts? in
             try? doc.data(as: Posts.self)
           }
@@ -40,7 +40,7 @@ class BoardFirebaseService {
       return Disposables.create()
     }
   }
-
+  
   // MARK: - 게시물 생성
   
   func createPost(_ post: Posts, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -56,7 +56,7 @@ class BoardFirebaseService {
       completion(.failure(error))
     }
   }
-
+  
   // MARK: - 이미지 업로드
   
   func uploadImage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
@@ -65,13 +65,13 @@ class BoardFirebaseService {
       completion(.failure(NSError(domain: "ImageError", code: -1, userInfo: [NSLocalizedDescriptionKey: "이미지 데이터 변환 실패"])))
       return
     }
-
+    
     storageRef.putData(imageData, metadata: nil) { metadata, error in
       if let error = error {
         completion(.failure(error))
         return
       }
-
+      
       storageRef.downloadURL { url, error in
         if let error = error {
           completion(.failure(error))

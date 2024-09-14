@@ -52,11 +52,11 @@ class CategoryCell: UITableViewCell {
   // MARK: - Binding
   
   func configure(with viewModel: CategoryViewModel) {
-          viewModel.categoryTitle
-              .bind(to: categoryLabel.rx.text) // Observable을 UI 요소에 바인딩
-              .disposed(by: disposeBag) // DisposeBag을 사용하여 구독 해제 관리
-      }
+    viewModel.categoryTitle
+      .bind(to: categoryLabel.rx.text) // Observable을 UI 요소에 바인딩
+      .disposed(by: disposeBag) // DisposeBag을 사용하여 구독 해제 관리
   }
+}
 
 // MARK: - ViewModel
 

@@ -94,6 +94,7 @@ class PostingViewController: UIViewController {
     setupView()
     configureUI()
     setupBindings()
+    self.title = postTitleTop
   }
   
   // 게시글 데이터를 설정하는 메서드
@@ -102,6 +103,7 @@ class PostingViewController: UIViewController {
     self.postContent = post.contents
     self.postAddress = "\(post.si) \(post.gu) \(post.dong)"
     self.postTimes = post.posttime
+    self.postTitleTop = post.category
     
     // 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
@@ -110,7 +112,7 @@ class PostingViewController: UIViewController {
   }
   
   private func setupView() {
-    // 서브뷰를 슈퍼뷰에 추가
+    
     [
       postingScrollView,
       bottomStackView
@@ -125,12 +127,13 @@ class PostingViewController: UIViewController {
       postingUserTextLabel
     ].forEach { postingScrollView.addSubview($0) }
     
-    // UIStackView에 어레인지 서브뷰 추가
-    [postingTimeText, postingTimeLabel].forEach { postingStackView.addArrangedSubview($0) }
+    [
+      postingTimeText,
+      postingTimeLabel
+    ].forEach { postingStackView.addArrangedSubview($0) }
     
     let spacerView = UIView()
     
-    // Bottom StackView에 버튼 추가
     [
       ripotButton,
       spacerView,
@@ -171,7 +174,7 @@ class PostingViewController: UIViewController {
     postingImage.snp.makeConstraints {
       $0.top.equalTo(postingStackView.snp.bottom).offset(16)
       $0.centerX.equalToSuperview()
-      $0.height.equalTo(postImage == nil ? 0 : 200)
+      $0.height.equalTo(loadImage == nil ? 0 : 200)
       $0.width.equalToSuperview().inset(30)
     }
     

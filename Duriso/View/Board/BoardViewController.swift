@@ -22,6 +22,7 @@ class BoardViewController: UIViewController {
   private var allPosts: [Posts] = []  // 전체 게시물 배열
   private var filteredPosts: [Posts] = []  // 필터링된 게시물 배열
   private let kakaoMap = KakaoMapViewController()
+  private let onlineViewController = OnlineViewController()
   private let postService = PostService()
   private let firestore = Firestore.firestore()
   
@@ -64,6 +65,8 @@ class BoardViewController: UIViewController {
   private let notificationTableView = UITableView().then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
     $0.rowHeight = 100 // 셀 높이 설정
+    $0.estimatedRowHeight = 100 // 예상 높이 설정
+    $0.rowHeight = UITableView.automaticDimension // 자동 높이 계산
   }
   
   override func viewDidLoad() {
@@ -74,9 +77,25 @@ class BoardViewController: UIViewController {
     writingButtonTap()
     bindBoardTableView()
     bindCollectionView()
-    notificationTableView.estimatedRowHeight = 120
-    notificationTableView.rowHeight = UITableView.automaticDimension
+    fetchPosts()
   }
+  
+  private func fetchPosts() {
+    firestore.collection("posts").getDocuments { [weak self] querySnapshot, error in
+      if let error = error {
+        print("데이터 가져오기 실패: \(error.localizedDescription)")
+      } else {
+        guard let documents = querySnapshot?.documents else { return }
+        let posts = documents.compactMap { document -> Posts? in
+          try? document.data(as: Posts.self)
+        }
+        self?.allPosts = posts
+        self?.tableItems.accept(posts)
+      }
+    }
+  }
+  
+  
   
   private func bindCollectionView() {
     Observable.just(dataSource)
@@ -125,15 +144,15 @@ class BoardViewController: UIViewController {
   }
   
   private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
-      postService.uploadImage(image ?? UIImage()) { result in
-          switch result {
-          case .success(let imageUrl):
-              completion(imageUrl) // 성공적으로 얻은 URL을 반환
-          case .failure(let error):
-              print("Error uploading image: \(error.localizedDescription)")
-              completion(nil) // 실패 시 nil 반환
-          }
+    postService.uploadImage(image ?? UIImage()) { result in
+      switch result {
+      case .success(let imageUrl):
+        completion(imageUrl) // 성공적으로 얻은 URL을 반환
+      case .failure(let error):
+        print("Error uploading image: \(error.localizedDescription)")
+        completion(nil) // 실패 시 nil 반환
       }
+    }
   }
   
   private func reportNavigation() {
@@ -147,15 +166,15 @@ class BoardViewController: UIViewController {
           author: "작성자 이름",  // 작성자 이름을 설정
           contents: content,
           category: categorys,
-          dong: "동",
-          gu: "구",
+          dong: self.onlineViewController.dong,
+          gu: self.onlineViewController.gu,
           likescount: 0,
           postid: UUID().uuidString,  // 고유한 ID 생성
           postlatitude: self.kakaoMap.latitude,
           postlongitude: self.kakaoMap.longitude,
           posttime: Date(), // 현재 시간 설정
           reportcount: 0,
-          si: "시",
+          si: self.onlineViewController.si,
           title: title,
           imageUrl: imageUrl
         )
@@ -171,16 +190,17 @@ class BoardViewController: UIViewController {
         // 테이블 아이템 업데이트
         var currentItems = self.tableItems.value
         currentItems.append(newPost)
-        self.tableItems.accept(currentItems)
+        self.tableItems.accept(currentItems) // 테이블 아이템 업데이트
       }
     }
     self.navigationController?.pushViewController(postViewController, animated: true)
   }
   
   private func bindBoardTableView() {
+    print("Current tableItems before binding: \(tableItems.value)")
+    
     tableItems
       .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
-        print("Post at index \(index): \(post)")
         cell.configure(with: post)
         cell.delegate = self
       }
@@ -188,6 +208,7 @@ class BoardViewController: UIViewController {
     
     notificationTableView.rx.modelSelected(Posts.self)
       .subscribe(onNext: { [weak self] post in
+        print("Cell tapped with post: \(post)")
         self?.didTapCell(with: post)
       })
       .disposed(by: disposeBag)
@@ -239,6 +260,7 @@ class BoardViewController: UIViewController {
       $0.top.equalTo(notificationLineView1.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview().inset(10)
       $0.bottom.equalToSuperview().inset(150)
+      $0.height.greaterThanOrEqualTo(100)
     }
     
     writingButton.snp.makeConstraints {
