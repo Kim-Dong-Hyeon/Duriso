@@ -23,7 +23,6 @@ class BoardViewController: UIViewController {
   private var filteredPosts: [Posts] = []  // 필터링된 게시물 배열
   private let kakaoMap = KakaoMapViewController()
   private let onlineViewController = OnlineViewController()
-  private let postService = PostService()
   private let firestore = Firestore.firestore()
   
   private let notificationHeadLabel = UILabel().then {
@@ -144,7 +143,7 @@ class BoardViewController: UIViewController {
   }
   
   private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
-    postService.uploadImage(image ?? UIImage()) { result in
+    FirebaseFirestoreManager.shared.uploadImage(image ?? UIImage()) { result in
       switch result {
       case .success(let imageUrl):
         completion(imageUrl) // 성공적으로 얻은 URL을 반환

@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import FirebaseStorage
 import RxSwift
 
 class FirebaseFirestoreManager {
@@ -87,6 +88,32 @@ class FirebaseFirestoreManager {
         }
       }
       return Disposables.create()
+    }
+  }
+  
+  
+  // MARK: - 이미지 업로드
+  
+  func uploadImage(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+    let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
+    guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+      completion(.failure(NSError(domain: "ImageError", code: -1, userInfo: [NSLocalizedDescriptionKey: "이미지 데이터 변환 실패"])))
+      return
+    }
+    
+    storageRef.putData(imageData, metadata: nil) { metadata, error in
+      if let error = error {
+        completion(.failure(error))
+        return
+      }
+      
+      storageRef.downloadURL { url, error in
+        if let error = error {
+          completion(.failure(error))
+        } else {
+          completion(.success(url?.absoluteString ?? ""))
+        }
+      }
     }
   }
 }

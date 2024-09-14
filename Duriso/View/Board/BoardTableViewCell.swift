@@ -19,6 +19,7 @@ class BoardTableViewCell: UITableViewCell {
   static let boardTableCell = "BoardTableViewCell"
   private let disposeBag = DisposeBag()
   private var post: Posts?
+  private let regionFetcher = RegionFetcher()
   
   weak var delegate: BoardTableViewCellDelegate?
   
