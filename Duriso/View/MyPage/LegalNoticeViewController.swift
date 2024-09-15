@@ -22,6 +22,8 @@ class LegalNoticeViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
+    legalNoticeTableView.rowHeight = 64
+    
     configureUI()
     bindViewModel()
   }

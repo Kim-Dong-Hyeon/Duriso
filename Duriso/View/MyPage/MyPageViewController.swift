@@ -55,9 +55,17 @@ class MyPageViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.tabBarController?.tabBar.isHidden = false
     
+    myPageTableView.rowHeight = 56
+
     configureUI()
     bindViewModel()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tabBarController?.tabBar.isHidden = false
   }
   
   private func configureUI() {
@@ -68,9 +76,7 @@ class MyPageViewController: UIViewController {
       myPageTableView,
       infoLabel
     ].forEach { view.addSubview($0) }
-    
-    myPageTableView.delegate = self
-    
+        
     
     profileImage.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
@@ -160,12 +166,5 @@ class MyPageViewController: UIViewController {
       self.present(alert, animated: true, completion: nil)
       return Disposables.create()
     }
-  }
-}
-
-extension MyPageViewController: UITableViewDelegate {
-  
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 56
   }
 }
