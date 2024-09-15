@@ -174,7 +174,7 @@ class PostingViewController: UIViewController {
     postingImage.snp.makeConstraints {
       $0.top.equalTo(postingStackView.snp.bottom).offset(16)
       $0.centerX.equalToSuperview()
-      $0.height.equalTo(loadImage == nil ? 0 : 200)
+      $0.height.equalTo(200) // 어떻게 처리 못하나 고민중
       $0.width.equalToSuperview().inset(30)
     }
     
@@ -190,6 +190,11 @@ class PostingViewController: UIViewController {
       $0.width.equalToSuperview().inset(30)
       $0.height.equalTo(50)
     }
+    
+    postingScrollView.contentSize = CGSize(
+      width: view.frame.width,
+      height: bottomStackView.frame.maxY + 16
+    )
   }
   
   private func configureUI() {
@@ -258,7 +263,9 @@ class PostingViewController: UIViewController {
       preferredStyle: .alert
     )
     
-    confirmationAlert.addAction(UIAlertAction(title: "확인", style: .cancel, handler: nil))
+    confirmationAlert.addAction(UIAlertAction(title: "신고하기", style: .cancel, handler: { [weak self] _ in
+      //신고 시 할것
+    }))
     present(confirmationAlert, animated: true, completion: nil)
   }
 }

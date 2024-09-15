@@ -51,6 +51,7 @@ class BoardTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupConstraints()
     setupGesture()
+    contentView.isUserInteractionEnabled = true
   }
   
   required init?(coder: NSCoder) {
@@ -139,7 +140,6 @@ class BoardTableViewCell: UITableViewCell {
         }
       }.resume()
     } else {
-      // 이미지 URL이 없는 경우 기본 이미지 설정
       self.postImageView.image = UIImage(named: "AppIcon")
     }
   }

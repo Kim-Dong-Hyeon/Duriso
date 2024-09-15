@@ -24,6 +24,10 @@ class BoardViewController: UIViewController {
   private let kakaoMap = KakaoMapViewController()
   private let onlineViewController = OnlineViewController()
   private let firestore = Firestore.firestore()
+  private let regionFetcher = RegionFetcher()
+  
+  private var latitude: Double = 0.0
+  private var longitude: Double = 0.0
   
   private let notificationHeadLabel = UILabel().then {
     $0.text = "우리동네 알리미"
@@ -73,10 +77,17 @@ class BoardViewController: UIViewController {
     view.backgroundColor = .systemBackground
     
     setupLayout()
-    writingButtonTap()
+    fetchPosts()
     bindBoardTableView()
     bindCollectionView()
-    fetchPosts()
+    writingButtonTap()
+    
+    LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
+      self?.latitude = latitude
+      self?.longitude = longitude
+      print("Updated Location: Latitude \(latitude), Longitude \(longitude)")
+      self?.updateLocationNames(latitude: latitude, longitude: longitude)
+    }
   }
   
   private func fetchPosts() {
@@ -94,7 +105,23 @@ class BoardViewController: UIViewController {
     }
   }
   
-  
+  private func updateLocationNames(latitude: Double, longitude: Double) {
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
+      guard let self = self else { return }
+      if let document = documents?.first {
+        let si = document.region1DepthName
+        let gu = document.region2DepthName
+        let dong = document.region3DepthName
+        
+        self.onlineViewController.si = si
+        self.onlineViewController.gu = gu
+        self.onlineViewController.dong = dong
+        print("Updated Region: SI \(si), GU \(gu), DONG \(dong)")
+      } else if let error = error {
+        print("지역 정보 가져오기 실패: \(error.localizedDescription)")
+      }
+    }
+  }
   
   private func bindCollectionView() {
     Observable.just(dataSource)
@@ -159,6 +186,9 @@ class BoardViewController: UIViewController {
     postViewController.onPostAdded = { [weak self] title, content, settingImage, categorys in
       guard let self = self else { return }
       
+      // 위치 정보 확인
+      print("Current Location in Report Navigation: Latitude \(self.latitude), Longitude \(self.longitude)")
+      
       self.uploadImageAndGetURL(settingImage) { imageUrl in
         // 게시글 생성
         let newPost = Posts(
@@ -169,14 +199,16 @@ class BoardViewController: UIViewController {
           gu: self.onlineViewController.gu,
           likescount: 0,
           postid: UUID().uuidString,  // 고유한 ID 생성
-          postlatitude: self.kakaoMap.latitude,
-          postlongitude: self.kakaoMap.longitude,
+          postlatitude: self.latitude,
+          postlongitude: self.longitude,
           posttime: Date(), // 현재 시간 설정
           reportcount: 0,
           si: self.onlineViewController.si,
           title: title,
           imageUrl: imageUrl
         )
+        
+        print("New Post to Save: \(newPost)") // 디버깅 로그 추가
         
         self.firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) { error in
           if let error = error {
@@ -196,8 +228,6 @@ class BoardViewController: UIViewController {
   }
   
   private func bindBoardTableView() {
-    print("Current tableItems before binding: \(tableItems.value)")
-    
     tableItems
       .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
         cell.configure(with: post)
@@ -207,7 +237,6 @@ class BoardViewController: UIViewController {
     
     notificationTableView.rx.modelSelected(Posts.self)
       .subscribe(onNext: { [weak self] post in
-        print("Cell tapped with post: \(post)")
         self?.didTapCell(with: post)
       })
       .disposed(by: disposeBag)
@@ -273,6 +302,7 @@ class BoardViewController: UIViewController {
 
 extension BoardViewController: BoardTableViewCellDelegate {
   func didTapCell(with post: Posts) {
+    print("didTapCell called with post: \(post)")
     let postingViewController = PostingViewController()
     postingViewController.setPostData(post: post) // 전달된 post 데이터를 기반으로 설정
     self.navigationController?.pushViewController(postingViewController, animated: true)
