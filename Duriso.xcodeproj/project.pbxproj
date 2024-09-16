@@ -96,7 +96,6 @@
 		E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */; };
 		E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */; };
 		E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2334CF82C947300003D9612 /* NoticeModel.swift */; };
-		E264A7B52C9061C500F3CFBF /* WriteNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E264A7B42C9061C500F3CFBF /* WriteNoticeViewController.swift */; };
 		E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */; };
 		E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */; };
 		E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */; };
@@ -191,7 +190,6 @@
 		E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
 		E2334CF82C947300003D9612 /* NoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeModel.swift; sourceTree = "<group>"; };
-		E264A7B42C9061C500F3CFBF /* WriteNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteNoticeViewController.swift; sourceTree = "<group>"; };
 		E2792E1B2C7F4B7300AD6C0E /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		E2792E1C2C7F4B7300AD6C0E /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		E2792E1F2C7F4BAB00AD6C0E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -323,7 +321,6 @@
 				E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */,
 				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
 				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
-				E264A7B42C9061C500F3CFBF /* WriteNoticeViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -763,7 +760,6 @@
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
-				E264A7B52C9061C500F3CFBF /* WriteNoticeViewController.swift in Sources */,
 				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
 				D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,

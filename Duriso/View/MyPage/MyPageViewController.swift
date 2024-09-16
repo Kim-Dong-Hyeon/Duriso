@@ -55,7 +55,6 @@ class MyPageViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
-    self.tabBarController?.tabBar.isHidden = false
     
     myPageTableView.rowHeight = 56
 

@@ -39,11 +39,6 @@ class NoticeViewController: UIViewController {
     showData()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    self.tabBarController?.tabBar.isHidden = true
-  }
-  
   private func ConfigureUI() {
     [
       noticeTableView,
