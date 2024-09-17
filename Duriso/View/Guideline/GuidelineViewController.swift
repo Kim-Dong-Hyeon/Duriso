@@ -97,9 +97,38 @@ class GuidelineViewController: UIViewController {
       cell.configure(with: product.title, imageName: product.imageName)
     }.disposed(by: disposeBag)
     
-    atrickTableView.rx.modelSelected(Product.self).bind { product in
-      print(product.title)
-    }.disposed(by: disposeBag)
+    // 테이블 셀 선택 시
+    atrickTableView.rx.modelSelected(Product.self)
+      .bind { [weak self] product in
+        print(product.title)
+        
+        let pdfViewController = GuidelinePDFViewController()
+        switch product.title {
+        case "국민행동요령":
+          pdfViewController.pdfFileName = "Alertcon"
+        case "지진":
+          pdfViewController.pdfFileName = "earthquake"
+        case "화재":
+          pdfViewController.pdfFileName = "Fire"
+        case "폭염":
+          pdfViewController.pdfFileName = "HeatWave"
+        case "대설":
+          pdfViewController.pdfFileName = "Heavysnow"
+        case "산사태":
+          pdfViewController.pdfFileName = "Landslide"
+        case "핵공격":
+          pdfViewController.pdfFileName = "NuclearAttack"
+        case "집중호우":
+          pdfViewController.pdfFileName = "TorrentialRain"
+        case "태풍":
+          pdfViewController.pdfFileName = "Typhoon"
+        default:
+          pdfViewController.pdfFileName = nil
+        }
+        self?.navigationController?.pushViewController(pdfViewController, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
     tableViewModel.fetchItem()
   }
   

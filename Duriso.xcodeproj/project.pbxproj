@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */; };
+		1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */; };
+		142676302C99D639004C56D5 /* GuidelinePDF in Resources */ = {isa = PBXBuildFile; fileRef = 1426762F2C99D639004C56D5 /* GuidelinePDF */; };
 		14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */; };
 		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
 		14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */; };
@@ -109,6 +111,8 @@
 
 /* Begin PBXFileReference section */
 		146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChangeViewController.swift; sourceTree = "<group>"; };
+		1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinePDFViewController.swift; sourceTree = "<group>"; };
+		1426762F2C99D639004C56D5 /* GuidelinePDF */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GuidelinePDF; path = ../Desktop/GuidelinePDF; sourceTree = "<group>"; };
 		14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineCollectionViewCell.swift; sourceTree = "<group>"; };
 		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
 		14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewCell.swift; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 				14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */,
 				14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */,
 				149EEFB22C871B000088FDB2 /* GuidelineKitView.swift */,
+				1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */,
 			);
 			path = Guideline;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 		763C0A172C7B125B006BC4E7 = {
 			isa = PBXGroup;
 			children = (
+				1426762F2C99D639004C56D5 /* GuidelinePDF */,
 				763C0A372C7B17AE006BC4E7 /* README.md */,
 				763C0A392C7B180A006BC4E7 /* .gitignore */,
 				7622D0332C7C045300B1AEB2 /* CodeConvention.md */,
@@ -678,6 +684,7 @@
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
+				142676302C99D639004C56D5 /* GuidelinePDF in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
@@ -700,6 +707,8 @@
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
 				7676228E2C85F2190075B09E /* OfflinePageViewController.swift in Sources */,
 				146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */,
+				1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */,
+				7676228E2C85F2190075B09E /* OfflineViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
