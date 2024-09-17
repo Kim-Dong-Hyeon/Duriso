@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */; };
 		14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */; };
 		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
 		14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */; };
@@ -107,6 +108,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChangeViewController.swift; sourceTree = "<group>"; };
 		14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineCollectionViewCell.swift; sourceTree = "<group>"; };
 		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
 		14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewCell.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				768F50A82C8B530300A92ED6 /* PostViewController.swift */,
 				14DE812E2C900BAD002E26FD /* CategoryCell.swift */,
 				14DE81312C9029EE002E26FD /* PostingViewController.swift */,
+				146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */,
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
 				7676228E2C85F2190075B09E /* OfflinePageViewController.swift in Sources */,
+				146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,

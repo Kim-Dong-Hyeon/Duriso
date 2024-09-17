@@ -12,11 +12,11 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class BoardFirebaseService {
-
+  
   private let db = Firestore.firestore()
-
+  
   // MARK: - 게시물 데이터 읽어오기
-
+  
   func fetchPosts() -> Observable<[Posts]> {
     return Observable.create { observer in
       self.db.collection("posts")
@@ -25,12 +25,12 @@ class BoardFirebaseService {
             observer.onError(error)
             return
           }
-
+          
           guard let documents = snapshot?.documents else {
             observer.onNext([])
             return
           }
-
+          
           let posts = documents.compactMap { doc -> Posts? in
             try? doc.data(as: Posts.self)
           }
@@ -40,9 +40,9 @@ class BoardFirebaseService {
       return Disposables.create()
     }
   }
-
+  
   // MARK: - 게시물 생성
-
+  
   func createPost(_ post: Posts, completion: @escaping (Result<Void, Error>) -> Void) {
     do {
       try db.collection("posts").document(post.postid).setData(from: post) { error in

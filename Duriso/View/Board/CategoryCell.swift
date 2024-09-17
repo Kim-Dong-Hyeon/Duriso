@@ -17,15 +17,13 @@ class CategoryCell: UITableViewCell {
   
   static let categoryCell = "CategoryCell"
   
-  // MARK: - UI Components
-  
+  // MARK: - UI 컴포넌트
   private let categoryLabel = UILabel().then {
     $0.font = CustomFont.Body2.font()
     $0.textColor = .black
   }
   
-  // MARK: - Initializer
-  
+  // MARK: - 초기화
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     setupView()
@@ -36,8 +34,7 @@ class CategoryCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Setup Methods
-  
+  // MARK: - 설정 메서드
   private func setupView() {
     contentView.addSubview(categoryLabel)
   }
@@ -49,15 +46,20 @@ class CategoryCell: UITableViewCell {
     }
   }
   
-  // MARK: - Binding
-  
+  // MARK: - 바인딩
   func configure(with viewModel: CategoryViewModel) {
     viewModel.categoryTitle
-      .bind(to: categoryLabel.rx.text) // Observable을 UI 요소에 바인딩
-      .disposed(by: disposeBag) // DisposeBag을 사용하여 구독 해제 관리
+      .bind(to: categoryLabel.rx.text)
+      .disposed(by: disposeBag)
+  }
+  
+  // MARK: - 재사용 준비
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    categoryLabel.text = nil
   }
 }
-
 // MARK: - ViewModel
 
 struct CategoryViewModel {

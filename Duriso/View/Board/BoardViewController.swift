@@ -21,7 +21,6 @@ class BoardViewController: UIViewController {
   private let dataSource = SomeDataModel.Mocks.getDataSource()
   private var allPosts: [Posts] = []  // 전체 게시물 배열
   private var filteredPosts: [Posts] = []  // 필터링된 게시물 배열
-  private let kakaoMap = KakaoMapViewController()
   private let onlineViewController = OnlineViewController()
   private let firestore = Firestore.firestore()
   private let regionFetcher = RegionFetcher()
@@ -67,7 +66,6 @@ class BoardViewController: UIViewController {
   
   private let notificationTableView = UITableView().then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
-    $0.rowHeight = 100 // 셀 높이 설정
     $0.estimatedRowHeight = 100 // 예상 높이 설정
     $0.rowHeight = UITableView.automaticDimension // 자동 높이 계산
   }
@@ -91,16 +89,17 @@ class BoardViewController: UIViewController {
   }
   
   private func fetchPosts() {
-    firestore.collection("posts").getDocuments { [weak self] querySnapshot, error in
+    firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
       if let error = error {
         print("데이터 가져오기 실패: \(error.localizedDescription)")
       } else {
-        guard let documents = querySnapshot?.documents else { return }
+        guard let documents = snapshot?.documents else { return }
         let posts = documents.compactMap { document -> Posts? in
           try? document.data(as: Posts.self)
         }
         self?.allPosts = posts
-        self?.tableItems.accept(posts)
+        let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
+        self?.tableItems.accept(sortedPosts)
       }
     }
   }
@@ -158,6 +157,7 @@ class BoardViewController: UIViewController {
     case .hot:
       filteredPosts = allPosts.filter { $0.category == "폭염" }
     }
+    let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
     tableItems.accept(filteredPosts)
   }
   
