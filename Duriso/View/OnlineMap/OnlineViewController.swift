@@ -48,6 +48,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   let addressRefreshButton = UIButton().then {
     $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
     $0.tintColor = .CBlack
+    $0.addTarget(self, action: #selector(didTapAddressRefreshButton), for: .touchUpInside)
   }
   
   let buttonStackView = UIStackView().then {
@@ -148,7 +149,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     
     addressView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview().offset(80)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-24)
       $0.width.equalTo(280)
       $0.height.equalTo(40)
     }
@@ -179,7 +180,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     buttonStackView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().offset(-96)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(13)
     }
     
     shelterButton.snp.makeConstraints{
@@ -273,6 +274,12 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       }
       .disposed(by: disposeBag)
   }
+  
+  @objc private func
+  didTapAddressRefreshButton() {
+  //카메라로 이동한 위치에 해당하는 정보를 받아와야 함
+  }
+  
   
   @objc private func didTapCurrentLocationButton() {
     // Handle the writing button tap action here

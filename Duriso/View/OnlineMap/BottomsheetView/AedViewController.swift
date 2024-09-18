@@ -12,6 +12,8 @@ class AedViewController: UIViewController {
   var managementAgency: String?
   var location: String?
   
+  
+  /// <#Description#>
   private let typeStackView = UIStackView().then {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
@@ -43,7 +45,8 @@ class AedViewController: UIViewController {
     $0.text = "AED 위치"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head2.font()
+    $0.numberOfLines = 0
   }
   
   private let aedAddress = UILabel().then {
@@ -76,8 +79,8 @@ class AedViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black
+    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+    $0.tintColor = .CLightBlue
     $0.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
@@ -166,7 +169,7 @@ class AedViewController: UIViewController {
       let formattedAddress = poiAddress.replacingOccurrences(of: "(", with: "\n(")
       aedAddress.text = "주소: \(formattedAddress)"
     } else {
-      aedAddress.text = "주소: Unknown Address"
+      aedAddress.text = "주소: 제공된 데이터가 없습니다."
     }
     adminInfoLabel.text = "관리기관: \(managementAgency ?? "제공된 데이터가 없습니다.")"
     adminNameLabel.text = "관리자 이름: \(adminName ?? "제공된 데이터가 없습니다.")"

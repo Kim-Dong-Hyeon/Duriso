@@ -22,7 +22,7 @@ class MapBottomSheetViewController: UIViewController {
     if let sheet = sheetPresentationController {
       if #available(iOS 16.0, *) {
         let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("uniqueCustomIdentifier")) { context in
-          let customHeight = context.maximumDetentValue * 0.3
+          let customHeight = context.maximumDetentValue * 0.36
           return customHeight
         }
         sheet.detents = [customDetent]

@@ -69,8 +69,8 @@ class ShelterViewController: UIViewController {
   
   private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    $0.tintColor = .black  // 아이콘 색상 설정
-    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
+    $0.tintColor = .CLightBlue
+    $0.contentMode = .scaleAspectFit  
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
