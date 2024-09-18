@@ -17,7 +17,7 @@ class MyPageViewController: UIViewController {
   
   let noticeViewController = NoticeViewController()
   let legalNoticeViewController = LegalNoticeViewController()
-  
+  let modifyInformationViewController = ModifyInformationViewController()
   
   private let profileImage = UIImageView().then {
     $0.contentMode = .scaleAspectFit
@@ -57,9 +57,10 @@ class MyPageViewController: UIViewController {
     view.backgroundColor = .systemBackground
     
     myPageTableView.rowHeight = 56
-
+    
     configureUI()
     bindViewModel()
+    bindProfileButton()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +76,7 @@ class MyPageViewController: UIViewController {
       myPageTableView,
       infoLabel
     ].forEach { view.addSubview($0) }
-        
+    
     
     profileImage.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
@@ -143,7 +144,15 @@ class MyPageViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
-  // 로그아웃 처리 메서드
+  private func bindProfileButton() {
+    profileButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.navigationController?.pushViewController(self.modifyInformationViewController, animated: true)
+      })
+      .disposed(by: disposeBag)
+  }
+  
   private func handleLogout() -> Observable<Void> {
     return Observable.create { observer in
       let alert = UIAlertController(
@@ -153,9 +162,17 @@ class MyPageViewController: UIViewController {
       )
       
       let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+        let loginVC = LoginViewController()
+        let navController = UINavigationController(rootViewController: loginVC)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+          let window = windowScene.windows.first
+          window?.rootViewController = navController
+          window?.makeKeyAndVisible()
+        }
         observer.onNext(())
         observer.onCompleted()
       }
+      
       let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         observer.onCompleted()
       }

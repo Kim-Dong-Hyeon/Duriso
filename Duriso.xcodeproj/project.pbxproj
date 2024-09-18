@@ -107,7 +107,7 @@
 		E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DAB85F2C863A520037BCA2 /* LegalNoticeTableViewCell.swift */; };
 		E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DAB8612C863AE00037BCA2 /* LegalNoticeViewModel.swift */; };
 		E2E4F0992C96BD00004808CC /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */; };
-		E2E4F09C2C96BD97004808CC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E2E4F09B2C96BD97004808CC /* FirebaseFirestore */; };
+		E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -201,6 +201,7 @@
 		E2DAB85F2C863A520037BCA2 /* LegalNoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeTableViewCell.swift; sourceTree = "<group>"; };
 		E2DAB8612C863AE00037BCA2 /* LegalNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeViewModel.swift; sourceTree = "<group>"; };
 		E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +322,7 @@
 				E219EAF02C8860BB00A1E3F7 /* NoticeDetailViewController.swift */,
 				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
 				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
+				E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -745,6 +747,7 @@
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
+				E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
 				14E916202C956E3100020670 /* BoardFirebaseService.swift in Sources */,
 				D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */,
@@ -1151,11 +1154,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
-		};
-		E2E4F09B2C96BD97004808CC /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
