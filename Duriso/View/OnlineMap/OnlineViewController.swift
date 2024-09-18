@@ -306,13 +306,14 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     present(bottomSheetVC, animated: true)
   }
   
-  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String) {
+  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String, location: String) {
     let aedVC = AedViewController()
     aedVC.poiName = poiID
     aedVC.poiAddress = address
     aedVC.adminName = adminName
     aedVC.adminNumber = adminNumber
-    // aedVC.managementAgency = managementAgency
+    aedVC.managementAgency = managementAgency
+    aedVC.location = location
     
     let bottomSheetVC = MapBottomSheetViewController()
     bottomSheetVC.configureContentViewController(aedVC)

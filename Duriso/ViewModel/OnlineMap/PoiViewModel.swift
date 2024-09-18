@@ -11,7 +11,7 @@ import KakaoMapsSDK
 
 protocol PoiViewModelDelegate: AnyObject {
   func didTapShelter(poiID: String, shelterType: String, address: String)
-  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String)
+  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String, location: String)
   func didTapEmergencyReport(poiID: String, address: String)
 }
 
@@ -26,7 +26,7 @@ class PoiViewModel {
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
-  let aedNetworkManager = AedNetworkManager()
+  let aedDataManager = AedDataManager()
   
   // POI 데이터 스트림
   let shelterPois = PublishSubject<[Shelter]>()
@@ -52,14 +52,25 @@ class PoiViewModel {
         print("Error fetching shelters: \(error)")
       }).disposed(by: disposeBag)
     
-    // AED 데이터 요청
-    aedNetworkManager.fetchAeds(boundingBox: boundingBox)
-      .subscribe(onNext: { aedResponse in
-        let aeds = aedResponse.body
-        self.aedPois.onNext(aeds)
-      }, onError: { error in
-        print("Error fetching AEDs: \(error)")
-      }).disposed(by: disposeBag)
+    // AED 데이터 요청 및 처리
+    
+    if let aedResponse = aedDataManager.loadAeds() {
+      let aeds = aedResponse.body
+      
+      // 필터링
+      let filteredAeds = self.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
+      self.aedPois.onNext(filteredAeds)
+      print("Loaded AEDs from UserDefaults: \(filteredAeds)")
+    } else {
+      aedDataManager.fetchAllAeds()
+        .subscribe(onNext: { [weak self] response in
+          let aeds = response.body
+          let filteredAeds = self?.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
+          self?.aedPois.onNext(filteredAeds ?? []) // API에서 가져온 데이터 사용
+        }, onError: { error in
+          print("Error fetching AEDs: \(error)")
+        }).disposed(by: disposeBag)
+    }
     
     // 긴급 보고 데이터 처리
     let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
@@ -82,6 +93,13 @@ class PoiViewModel {
     let endLot = location.coordinate.longitude + deltaLon
     
     return (startLat, endLat, startLot, endLot)
+  }
+  
+  private func filterAedsInBoundingBox(aeds: [Aed], boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) -> [Aed] {
+    return aeds.filter { aed in
+      return aed.latitude >= boundingBox.startLat && aed.latitude <= boundingBox.endLat &&
+      aed.longitude >= boundingBox.startLot && aed.longitude <= boundingBox.endLot
+    }
   }
   
   /// POI 데이터를 지도에 바인딩하는 함수.
@@ -299,9 +317,10 @@ class PoiViewModel {
       getCoordinates: { ($0.latitude, $0.longitude) },
       getAddress: { $0.address },
       getAdditionalInfo: { $0.location },
-      getAdditionalInfo2: { $0.adminName ?? "Unknown Admin" },
-      getAdditionalInfo3: { $0.adminNumber ?? "Unknown Number" },
-      getAdditionalInfo4: { $0.managementAgency ?? "Unknown Agency" }
+      getAdditionalInfo2: { $0.adminName },
+      getAdditionalInfo3: { $0.adminNumber },
+      getAdditionalInfo4: { $0.managementAgency },
+      radius: 2000
     )
   }
   
@@ -323,7 +342,8 @@ class PoiViewModel {
       getAdditionalInfo: { $0.shelterTypeName },
       getAdditionalInfo2: { _ in nil },
       getAdditionalInfo3: { _ in nil },
-      getAdditionalInfo4: { _ in nil }
+      getAdditionalInfo4: { _ in nil },
+      radius: 2000
     )
   }
   
@@ -430,7 +450,6 @@ class PoiViewModel {
       return
     }
     
-    
     // layerID에 따라 다른 함수를 호출
     switch param.poiItem.layerID {
     case "shelterLayer":
@@ -461,7 +480,7 @@ class PoiViewModel {
     print("AED Info: Admin Name: \(adminName), Admin Number: \(adminNumber), Location: \(location), Management Agency: \(managementAgency), Address: \(address)")
     
     // delegate를 통해 AED POI 데이터 전달
-    delegate?.didTapAed(poiID: poiID, address: address, adminName: adminName, adminNumber: adminNumber, managementAgency: managementAgency)
+    delegate?.didTapAed(poiID: poiID, address: address, adminName: adminName, adminNumber: adminNumber, managementAgency: managementAgency, location: location)
   }
   
   // Shelter POI를 처리하는 함수

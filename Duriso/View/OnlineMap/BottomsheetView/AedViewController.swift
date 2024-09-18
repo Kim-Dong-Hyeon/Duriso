@@ -9,6 +9,8 @@ class AedViewController: UIViewController {
   var poiAddress: String?
   var adminName: String?    // 관리자 이름
   var adminNumber: String?  // 관리자 전화번호
+  var managementAgency: String?
+  var location: String?
   
   private let typeStackView = UIStackView().then {
     $0.backgroundColor = .CWhite
@@ -157,11 +159,12 @@ class AedViewController: UIViewController {
   }
   
   func updatePoiData() {
-    // 전달받은 POI 데이터를 UILabel에 반영
-    aedName.text = poiName ?? "Unknown AED"
-    aedAddress.text = poiAddress ?? "Unknown Address"
-    adminNameLabel.text = adminName ?? "Unknown Admin Name"
-    adminNumberLabel.text = adminNumber ?? "Unknown Admin Number"
+      // 전달받은 POI 데이터를 UILabel에 반영
+      aedName.text = "AED 위치: \(location ?? "Unknown AED")"
+      aedAddress.text = "주소: \(poiAddress ?? "Unknown Address")"
+      adminInfoLabel.text = "관리기관: \(managementAgency ?? "제공된 데이터가 없습니다.")"
+      adminNameLabel.text = "관리자 이름: \(adminName ?? "Unknown Admin Name")"
+      adminNumberLabel.text = "전화번호: \(adminNumber ?? "Unknown Admin Number")"
   }
   
   @objc func didTapCancelButton() {
