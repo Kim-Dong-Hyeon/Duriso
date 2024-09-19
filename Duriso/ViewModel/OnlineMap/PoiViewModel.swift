@@ -6,6 +6,7 @@
 
 import CoreLocation
 
+import FirebaseFirestore
 import RxSwift
 import KakaoMapsSDK
 
@@ -19,6 +20,7 @@ class PoiViewModel {
   
   static let shared = PoiViewModel()
   weak var delegate: PoiViewModelDelegate?
+  private let boardFirebaseService = BoardFirebaseService()
   
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
@@ -27,7 +29,7 @@ class PoiViewModel {
   // POI 데이터 스트림
   let shelterPois = PublishSubject<[Shelter]>()
   let aedPois = PublishSubject<[Aed]>()
-  let emergencyReportPois = PublishSubject<[EmergencyReport]>()
+  let emergencyReportPois = PublishSubject<[Posts]>() // Posts로 변경
   
   /// POI 데이터를 설정하는 함수.
   /// 현재 위치를 기준으로 2km 반경의 데이터를 요청함.
@@ -48,7 +50,6 @@ class PoiViewModel {
       }).disposed(by: disposeBag)
     
     // AED 데이터 요청 및 처리
-    
     if let aedResponse = aedDataManager.loadAeds() {
       let aeds = aedResponse.body
       
@@ -67,8 +68,13 @@ class PoiViewModel {
     }
     
     // 긴급 보고 데이터 처리
-    let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
-    emergencyReportPois.onNext(emergencyReports)
+    boardFirebaseService.fetchPosts()
+      .subscribe(onNext: { [weak self] posts in
+        // 게시글 데이터를 처리하여 POI로 변환하거나 지도에 표시
+        self?.emergencyReportPois.onNext(posts)
+      }, onError: { error in
+        print("Error fetching posts: \(error)")
+      }).disposed(by: disposeBag)
   }
   
   /// 주어진 위치와 반경을 바탕으로 바운딩 박스를 계산하는 함수.
@@ -117,7 +123,7 @@ class PoiViewModel {
                 styleID: "emergencyReportStyle",
                 imageName: "NotificationMarker.png",
                 layerID: "emergencyReportLayer",
-                createPoiFunction: self.emergencyReportCreatePoi,
+                createPoiFunction: self.emergencyReportCreatePoi, // 수정된 함수
                 mapController: mapController)
   }
   
@@ -347,29 +353,44 @@ class PoiViewModel {
   ///   - layerID: 지도 레이어 ID
   ///   - styleID: 스타일 ID
   ///   - mapController: 지도 컨트롤러
-  private func emergencyReportCreatePoi(reports: [EmergencyReport], layerID: String, styleID: String, mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else { return }
-    
-    let labelManager = mapView.getLabelManager()
-    guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
-      print("Error: Failed to get layer with ID \(layerID)")
-      return
-    }
-    
-    // 기존 아이템 제거
-    layer.clearAllItems()
-    
-    if reports.isEmpty { return }
-    
-    for report in reports {
-      let poiID = report.id
-      let point = MapPoint(longitude: report.longitude, latitude: report.latitude)
+  private func emergencyReportCreatePoi(posts: [Posts], layerID: String, styleID: String, mapController: KMController) {
+      guard let mapView = mapController.getView("mapview") as? KakaoMap else { return }
+      
+      let labelManager = mapView.getLabelManager()
+      guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
+        print("Error: Failed to get layer with ID \(layerID)")
+        return
+      }
+      
+      // 기존 아이템 제거
+      layer.clearAllItems()
+      
+      if posts.isEmpty { return }
+      
+    for post in posts {
+      let poiID = post.postid
+      let point = MapPoint(longitude: post.postlongitude, latitude: post.postlatitude)
       let options = PoiOptions(styleID: styleID, poiID: poiID)
       
       if let poiItem = layer.addPoi(option: options, at: point) {
         poiItem.show() // POI 표시
-      } else {
-        print("Error: Failed to add POI with ID: \(poiID) at (\(report.longitude), \(report.latitude))")
+        poiItem.clickable = true
+        
+        // POI에 userObject 설정 - Posts 데이터 저장
+        poiItem.userObject = NSDictionary(dictionary: [
+          "poiID": poiID,
+          "latitude": post.postlatitude,
+          "longitude": post.postlongitude,
+          "address": post.dong + " " + post.gu
+        ])
+        
+        // POI 클릭 이벤트 핸들러 추가
+        _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
+          return { param in
+            //            print("POI tapped: \(param.poiItem.itemID)")
+            self.poiTapped(param)
+          }
+        }
       }
     }
   }
@@ -503,7 +524,12 @@ class PoiViewModel {
       }).disposed(by: disposeBag)
     
     // 긴급 보고 데이터 처리
-    let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
-    emergencyReportPois.onNext(emergencyReports)
+    boardFirebaseService.fetchPosts()
+      .subscribe(onNext: { [weak self] posts in
+        // 게시글 데이터를 처리하여 POI로 변환하거나 지도에 표시
+        self?.emergencyReportPois.onNext(posts)
+      }, onError: { error in
+        print("Error fetching posts: \(error)")
+      }).disposed(by: disposeBag)
   }
 }

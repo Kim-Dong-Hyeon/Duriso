@@ -1,3 +1,10 @@
+//
+//  EmergencyReportViewController.swift
+//  Duriso
+//
+//  Created by 이주희 on 9/4/24.
+//
+
 import UIKit
 
 import SnapKit
@@ -82,8 +89,9 @@ class EmergencyReportViewController: UIViewController {
     }
     
     postTime.snp.makeConstraints {
+      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
       $0.bottom.equalTo(megaphoneLabel.snp.bottom)
-      $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
+//      $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
     }
     
     megaphoneLabel.snp.makeConstraints{
