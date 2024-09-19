@@ -7,12 +7,6 @@
 
 import Foundation
 
-protocol PoiData {
-  var id: String { get }
-  var longitude: Double { get }
-  var latitude: Double { get }
-}
-
 ///null 값을 허용한 선택적 디코딩이 가능하도록 함
 struct Aed: Codable {
     let serialNumber: String
@@ -71,7 +65,7 @@ struct AedResponse: Codable {
   }
 }
 
-struct EmergencyReport: PoiData {
+struct EmergencyReport {
   let id: String
   let name: String
   let address: String

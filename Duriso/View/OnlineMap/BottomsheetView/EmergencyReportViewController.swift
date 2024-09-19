@@ -29,7 +29,7 @@ class EmergencyReportViewController: UIViewController {
   }
   
   private let postTime = UILabel().then {
-    $0.text = "00분전"
+    $0.text = "포스팅 시간 정보 가져오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body3.font()
@@ -45,7 +45,7 @@ class EmergencyReportViewController: UIViewController {
   private let postMessage = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue
     $0.font = CustomFont.Body2.font()
-    $0.text = "꼭 필요한 긴급 정보만 남겨주세요!"
+    $0.text = "제보글 데이터 불러오는 중"
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
