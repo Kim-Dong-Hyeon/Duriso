@@ -18,7 +18,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
-  private let emergencyWrittingViewController = EmergencWrittingViewController()
+  private let emergencyWrittingViewController = EmergencyWrittingViewController()
   private var mapBottomSheetViewController: MapBottomSheetViewController?
   var mapContainer: KMViewContainer?
   
@@ -321,11 +321,24 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-    let emergencyWrittingVC = EmergencWrittingViewController()
-    let bottomSheetVC = MapBottomSheetViewController()
-    bottomSheetVC.configureContentViewController(emergencyWrittingVC)
-    present(bottomSheetVC, animated: true)
-    print("Emergency Writing button tapped")
+      let emergencyWrittingVC = EmergencyWrittingViewController()
+
+      // OnlineViewController의 인스턴스를 emergencyWrittingVC에 전달
+      emergencyWrittingVC.setOnlineViewController(self)
+
+      // OnlineViewController의 위도와 경도 값을 emergencyWrittingVC에 전달
+      emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
+      emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
+
+      // 디버깅용 프린트
+      print("OnlineViewController si: \(si), gu: \(gu), dong: \(dong)")
+      print("OnlineViewController latitude: \(emergencyWrittingVC.latitude), longitude: \(emergencyWrittingVC.longitude)")
+
+      let bottomSheetVC = MapBottomSheetViewController()
+      bottomSheetVC.configureContentViewController(emergencyWrittingVC)
+      present(bottomSheetVC, animated: true)
+      
+      print("Emergency Writing button tapped")
   }
   
   
