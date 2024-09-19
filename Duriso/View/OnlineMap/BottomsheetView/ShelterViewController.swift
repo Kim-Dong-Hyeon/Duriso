@@ -54,8 +54,10 @@ class ShelterViewController: UIViewController {
   private let shelterAddress = UILabel().then {
     $0.text = "00도 00시 00구 00동"
     $0.textColor = .CBlack
-    $0.textAlignment = .center
+    $0.textAlignment = .left
+    
     $0.font = CustomFont.Body2.font()
+    $0.numberOfLines = 0
   }
   
   private let shelterType = UILabel().then {
@@ -66,9 +68,9 @@ class ShelterViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black  // 아이콘 색상 설정
-    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
+    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+    $0.tintColor = .CLightBlue
+    $0.contentMode = .scaleAspectFit  
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
@@ -143,9 +145,14 @@ class ShelterViewController: UIViewController {
   
   func updatePoiData() {
     // 전달받은 POI 데이터를 UILabel에 반영
-    shelterName.text = poiName ?? "Unknown Shelter Name"
-    shelterAddress.text = poiAddress ?? "Unknown Address"
-    shelterType.text = poiType ?? "Unknown Shelter Type"
+    shelterName.text = poiName ?? "제공받은 데이터가 없습니다."
+    if let poiAddress = poiAddress {
+      let formattedAddress = poiAddress.replacingOccurrences(of: "(", with: "\n(")
+      shelterAddress.text = "주소: \(formattedAddress)"
+    } else {
+      shelterAddress.text = "주소: 제공받은 데이터가 없습니다."
+    }
+    shelterType.text = poiType ?? "제공받은 데이터가 없습니다."
   }
   
   @objc func didTapCancelButton() {

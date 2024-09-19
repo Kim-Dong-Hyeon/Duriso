@@ -46,7 +46,7 @@ class NetworkManager {
         }
       }
       
-      return Disposables.create()  
+      return Disposables.create()
     }
   }
 }

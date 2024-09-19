@@ -7,19 +7,14 @@
 
 import Foundation
 
-protocol PoiData {
-  var id: String { get }
-  var longitude: Double { get }
-  var latitude: Double { get }
-}
-
+///null 값을 허용한 선택적 디코딩이 가능하도록 함
 struct Aed: Codable {
   let serialNumber: String
-  let address: String
-  let location: String
+  let address: String?
+  let location: String? // 선택적으로 변경
   let adminName: String?
-  let adminNumber: String
-  let managementAgency: String
+  let adminNumber: String?
+  let managementAgency: String?
   let longitude: Double
   let latitude: Double
   
@@ -44,13 +39,14 @@ struct Aed: Codable {
       serialNumber = try container.decode(String.self, forKey: .serialNumber)
     }
     
-    address = try container.decode(String.self, forKey: .address)
-    location = try container.decode(String.self, forKey: .location)
+    address = try container.decodeIfPresent(String.self, forKey: .address)
+    location = try container.decodeIfPresent(String.self, forKey: .location) // 선택적 디코딩
     adminName = try container.decodeIfPresent(String.self, forKey: .adminName)
-    adminNumber = try container.decode(String.self, forKey: .adminNumber)
-    managementAgency = try container.decode(String.self, forKey: .managementAgency)
+    adminNumber = try container.decodeIfPresent(String.self, forKey: .adminNumber)
+    managementAgency = try container.decodeIfPresent(String.self, forKey: .managementAgency)
     longitude = try container.decode(Double.self, forKey: .longitude)
     latitude = try container.decode(Double.self, forKey: .latitude)
+    
   }
 }
 
@@ -69,7 +65,7 @@ struct AedResponse: Codable {
   }
 }
 
-struct EmergencyReport: PoiData {
+struct EmergencyReport {
   let id: String
   let name: String
   let address: String
@@ -79,12 +75,12 @@ struct EmergencyReport: PoiData {
 
 // MARK: - ShelterModel
 struct Shelter: Codable {
-  let shelterName: String
-  let address: String
+  let shelterName: String?
+  let address: String?
   let latitude: Double
   let longitude: Double
-  let shelterTypeName: String
-  let shelterSerialNumber: String
+  let shelterTypeName: String?
+  let shelterSerialNumber: String?
   
   enum CodingKeys: String, CodingKey {
     case shelterName = "REARE_NM"

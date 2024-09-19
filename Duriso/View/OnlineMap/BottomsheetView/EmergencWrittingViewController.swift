@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class EmergencWrittingViewController: UIViewController {
+class EmergencWrittingViewController: UIViewController, UITextViewDelegate {
   
   internal let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
@@ -25,34 +25,30 @@ class EmergencWrittingViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let poiViewAddress = UILabel().then {
-    $0.text = "서울특별시 00구 00동"
-    $0.textColor = .CBlack
-    $0.textAlignment = .center
-    $0.font = CustomFont.Body2.font()
-  }
-  
-  private let postTime = UILabel().then {
-    $0.text = "00분전"
-    $0.textColor = .CBlack
-    $0.textAlignment = .center
-    $0.font = CustomFont.Body3.font()
-  }
-  
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black  // 아이콘 색상 설정
-    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
+    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+    $0.tintColor = .CLightBlue
+    $0.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private let messageInputText = UITextField().then {
-    $0.backgroundColor = UIColor.CLightBlue
+  private let messageInputTextView = UITextView().then {
+    $0.backgroundColor = UIColor.CWhite
     $0.font = CustomFont.Body2.font()
-    $0.placeholder = "꼭 필요한 긴급 정보만 남겨주세요!"
-    $0.layer.cornerRadius = 16
+    $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
-    $0.clearButtonMode = .always
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.CBlue.cgColor
+    $0.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5) // 패딩 설정
+    $0.isScrollEnabled = false
+  }
+  
+  // UILabel (플레이스홀더 역할)
+  private let placeholderLabel = UILabel().then {
+    $0.text = "꼭 필요한 정보만 남겨주세요.\n발생 지역을 상세히 적어주시면 큰 도움이 됩니다!"
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .gray
+    $0.numberOfLines = 0
   }
   
   private let addPostButton = UIButton().then {
@@ -72,34 +68,29 @@ class EmergencWrittingViewController: UIViewController {
     
     setupView()
     setupConstraints()
+    
+    messageInputTextView.delegate = self
+    
   }
   
   func setupView() {
     [
       poiViewTitle,
       megaphoneLabel,
-      poiViewAddress,
-      postTime,
       cancelButton,
-      messageInputText,
+      messageInputTextView,
       addPostButton
     ].forEach { view.addSubview($0) }
+   
+    [
+      placeholderLabel
+    ].forEach { messageInputTextView.addSubview($0) }
   }
   
   func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-    }
-    
-    poiViewAddress.snp.makeConstraints {
-      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-    }
-    
-    postTime.snp.makeConstraints {
-      $0.bottom.equalTo(megaphoneLabel.snp.bottom)
-      $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
     }
     
     megaphoneLabel.snp.makeConstraints{
@@ -113,24 +104,23 @@ class EmergencWrittingViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    messageInputText.snp.makeConstraints {
+    messageInputTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
-      $0.width.equalTo(350)
-      $0.height.equalTo(38)
+      $0.top.equalTo(poiViewTitle.snp.bottom).offset(24)
+      $0.width.equalTo(360)
+      $0.height.equalTo(88)
     }
     
     addPostButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(messageInputText.snp.bottom).offset(16)
+      $0.top.equalTo(messageInputTextView.snp.bottom).offset(16)
       $0.width.equalTo(60)
       $0.height.equalTo(24)
     }
-  }
-  
-  func updatePoiData(with poiData: PoiData) {
-    // 공통된 속성 업데이트
-    poiViewTitle.text = poiData.id
+    
+    placeholderLabel.snp.makeConstraints {
+      $0.edges.equalTo(messageInputTextView).inset(UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
+    }
   }
   
   @objc func didTapCancelButton() {
@@ -139,6 +129,24 @@ class EmergencWrittingViewController: UIViewController {
   
   @objc func didTapAddPostButton() {
     dismiss(animated: true)
+  }
+  
+  // UITextViewDelegate methods
+  func textViewDidChange(_ textView: UITextView) {
+    // Hide placeholder if text exists, otherwise show it
+    placeholderLabel.isHidden = !textView.text.isEmpty
+  }
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    // Hide placeholder when editing begins
+    placeholderLabel.isHidden = true
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    // Show placeholder if no text
+    if textView.text.isEmpty {
+      placeholderLabel.isHidden = false
+    }
   }
 }
 

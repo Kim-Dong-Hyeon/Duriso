@@ -97,7 +97,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       return
     }
     
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+    guard mapController.getView("mapview") is KakaoMap else {
       print("Error: mapView is nil after addViewSucceeded")
       return
     }
@@ -194,7 +194,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       zOrder: zOrder
     )
     if let layerResult = labelManager.addLabelLayer(option: labelLayer) {
-      print("\(layerID) label layer created successfully: \(layerResult)")
     } else {
       print("Failed to create \(layerID) label layer.")
     }
@@ -234,7 +233,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       let poiOption = PoiOptions(styleID: "currentLocationStyle")
       
       currentLocationMarker = layer?.addPoi(option: poiOption, at: currentPosition)
-//      print("POI added at position: (\(latitude), \(longitude))")
+      //      print("POI added at position: (\(latitude), \(longitude))")
     } else {
       print("Updating current location marker position")
       currentLocationMarker?.position = currentPosition
