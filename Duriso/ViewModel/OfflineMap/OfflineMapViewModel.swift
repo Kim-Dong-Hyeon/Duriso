@@ -48,20 +48,6 @@ class OfflineMapViewModel {
     }
   }
   
-  func getMapTilerkey() -> String {
-    guard let mapTilerKey = Bundle.main.object(forInfoDictionaryKey: "MAPTILER_API_KEY") as? String else {
-      fatalError("Failed to read MapTiler key from info.plist")
-    }
-    validateKey(mapTilerKey)
-    return mapTilerKey
-  }
-  
-  private func validateKey(_ mapTilerKey: String) {
-    if mapTilerKey.compare("placeholder", options: .caseInsensitive) == .orderedSame {
-      fatalError("Please enter correct MapTiler key in info.plist[MAPTILER_API_KEY] property")
-    }
-  }
-  
   func createSnapshot(with options: MLNMapSnapshotOptions) {
     print("Starting snapshot creation")
     isloadingSnapshot.accept(true)

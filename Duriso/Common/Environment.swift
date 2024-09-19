@@ -14,6 +14,7 @@ public enum Environment {
     static let disasterApiKey = "DISASTER_API_KEY"
     static let shelterApiKey = "SHELTER_API_KEY"
     static let aedApiKey = "AED_API_KEY"
+    static let mapTilerApiKey = "MAPTILER_API_KEY"
   }
   
   private static let infoDictionary: [String: Any] = {
@@ -56,6 +57,16 @@ public enum Environment {
       fatalError("aedApiKey not set in Info.plist or xcconfig")
     }
     return apiKey
+  }()
+  
+  static let mapTilerApiKey: String = {
+    guard let mapTilerKey = Bundle.main.object(forInfoDictionaryKey: "MAPTILER_API_KEY") as? String else {
+      fatalError("Failed to read MapTiler key from info.plist")
+    }
+    if mapTilerKey.compare("placeholder", options: .caseInsensitive) == .orderedSame {
+      fatalError("Please enter correct MapTiler key in info.plist[MAPTILER_API_KEY] property")
+    }
+    return mapTilerKey
   }()
   
 }
