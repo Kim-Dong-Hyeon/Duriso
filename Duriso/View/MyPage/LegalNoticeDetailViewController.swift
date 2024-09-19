@@ -29,12 +29,17 @@ class LegalNoticeDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.tabBarController?.tabBar.isHidden = true
     title = notice.title
     
     configureUI()
     displayContent()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tabBarController?.tabBar.isHidden = true
+  }
   
   private func configureUI() {
     [

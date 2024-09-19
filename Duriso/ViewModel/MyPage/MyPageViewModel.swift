@@ -5,12 +5,18 @@
 //  Created by 김동현 on 8/26/24.
 //
 
-import Foundation
-
+import FirebaseFirestore
+import FirebaseAuth
 import RxSwift
 
 class MyPageViewModel {
   let items: Observable<[MyPageModel]>
+  
+  let nickname: BehaviorSubject<String> = BehaviorSubject(value: "")
+  let postcount: BehaviorSubject<Int> = BehaviorSubject(value: 0)
+  
+  private let firestore = Firestore.firestore()
+  private let disposeBag = DisposeBag()
   
   init() {
     let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
@@ -25,5 +31,27 @@ class MyPageViewModel {
       MyPageModel(title: "로그아웃", type: .disclosure, selected: true),
       MyPageModel(title: "회원탈퇴", type: .disclosure, selected: true)
     ])
+    
+    fetchUserData()
+  }
+  
+  private func fetchUserData() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nickname = data?["nickname"] as? String ?? ""
+        let postcount = data?["postcount"] as? Int ?? 0
+        
+        // 닉네임과 게시글 수 업데이트
+        self.nickname.onNext(nickname)
+        self.postcount.onNext(postcount)
+      } else {
+        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
+      }
+    }
   }
 }
