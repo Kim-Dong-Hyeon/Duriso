@@ -60,9 +60,9 @@ class NoticeViewController: UIViewController {
       .bind(to: noticeTableView.rx.items(
         cellIdentifier: "NoticeCell",
         cellType: NoticeTableViewCell.self)) { row, notice, cell in
-        cell.configure(with: notice)
-      }
-      .disposed(by: disposeBag)
+          cell.configure(with: notice)
+        }
+        .disposed(by: disposeBag)
     
     noticeTableView.rx.modelSelected(NoticeModel.self)
       .subscribe(onNext: { [weak self] notice in
