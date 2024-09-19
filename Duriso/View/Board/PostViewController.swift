@@ -335,21 +335,21 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
-      $0.top.equalToSuperview().offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
     }
     
     categoryTouch.snp.makeConstraints {
-      $0.top.equalToSuperview().offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
       $0.centerY.equalTo(categoryButton.snp.centerY)
       $0.centerX.equalToSuperview()
     }
     
     categoryTableView.snp.makeConstraints {
       $0.leading.equalTo(categoryButton.snp.trailing).offset(10)
-      $0.top.equalToSuperview().offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
       $0.width.equalTo(200)
       $0.height.equalTo(150)
     }
@@ -396,7 +396,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     pictureButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().offset(-100)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-100)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
@@ -416,18 +416,18 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
 }
 
-extension PostViewController: UITextViewDelegate {
-  
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    guard textView.textColor == .placeholderText else { return }
-    textView.textColor = .label
-    textView.text = nil
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text.isEmpty {
-      textView.text = "텍스트 입력"
-      textView.textColor = .placeholderText
+  extension PostViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+      guard textView.textColor == .placeholderText else { return }
+      textView.textColor = .label
+      textView.text = nil
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+      if textView.text.isEmpty {
+        textView.text = "텍스트 입력"
+        textView.textColor = .placeholderText
+      }
     }
   }
-}

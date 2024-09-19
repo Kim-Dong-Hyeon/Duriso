@@ -313,7 +313,7 @@ class PostingViewController: UIViewController {
     
     postingTitleText.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(contentView.snp.top).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
       $0.height.equalTo(30)
     }
     
@@ -424,10 +424,12 @@ class PostingViewController: UIViewController {
       preferredStyle: .alert
     )
     
-    reportAlert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
-    reportAlert.addAction(UIAlertAction(title: "신고하기", style: .cancel, handler: { [weak self] _ in
+    reportAlert.addAction(UIAlertAction(title: "신고하기", style: .destructive, handler: { [weak self] _ in
       self?.showReportConfirmationAlert()
     }))
+    
+    reportAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+    
     present(reportAlert, animated: true, completion: nil)
   }
   
