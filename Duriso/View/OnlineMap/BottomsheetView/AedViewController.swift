@@ -50,7 +50,7 @@ class AedViewController: UIViewController {
   }
   
   private let aedAddress = UILabel().then {
-    $0.text = "00도 00시 00구 00동"
+    $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
     $0.font = CustomFont.Body2.font()
