@@ -14,6 +14,7 @@ struct GuidelineTableViewModel {
   
   func fetchItem() {
     let products = [
+      Product(imageName: "arrowshape.right", title: "재난키트 체크리스트"),
       Product(imageName: "arrowshape.right", title: "국민행동요령"),
       Product(imageName: "arrowshape.right", title: "지진"),
       Product(imageName: "arrowshape.right", title: "핵공격"),
