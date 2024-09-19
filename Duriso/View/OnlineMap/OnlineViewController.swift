@@ -14,8 +14,6 @@ import KakaoMapsSDK
 
 class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
-  
-  
   private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
@@ -303,7 +301,10 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       let longitude = currentLocation.coordinate.longitude
       onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
       onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      
+      poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
       updatePlaceNameLabel(latitude: latitude, longitude: longitude)
+      
     } else {
       LocationManager.shared.startUpdatingLocation()
     }
