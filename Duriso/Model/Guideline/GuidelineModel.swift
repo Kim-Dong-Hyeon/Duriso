@@ -23,35 +23,22 @@ struct VideoThumbnailItem {
   let videoItem: VideoItem
 }
 
-// 연합뉴스
 struct ApiResponse: Decodable {
-  let header: Header
-  let numOfRows: Int
-  let pageNo: Int
-  let totalCount: Int
-  let body: [Item]
-  
-  struct Header: Decodable {
-    let resultMsg: String
-    let resultCode: String
-    let errorMsg: String?
-  }
+  let body: [Item]?
   
   struct Item: Decodable {
+    let sn: Int?
     let crtDt: String
-    let ynaWrtrNm: String
-    let ynaCn: String
-    let ynaYmd: String
-    let ynaTtl: String
-    let ynaNo: Int
+    let msgCn: String
+    let rcptnRgnNm: String
+    let regYmd: String
     
     enum CodingKeys: String, CodingKey {
+      case sn = "SN"
       case crtDt = "CRT_DT"
-      case ynaWrtrNm = "YNA_WRTR_NM"
-      case ynaCn = "YNA_CN"
-      case ynaYmd = "YNA_YMD"
-      case ynaTtl = "YNA_TTL"
-      case ynaNo = "YNA_NO"
+      case msgCn = "MSG_CN"
+      case rcptnRgnNm = "RCPTN_RGN_NM"
+      case regYmd = "REG_YMD"
     }
   }
 }

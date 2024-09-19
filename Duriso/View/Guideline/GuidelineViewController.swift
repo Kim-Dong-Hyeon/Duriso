@@ -18,6 +18,9 @@ class GuidelineViewController: UIViewController {
   private let youtubeData = YoutubeData()
   private let news = GuidelineViewModel()
   
+  private var messageIndex = 0
+  private var timer: Timer?
+  
   private let urgentMessage = UILabel().then {
     $0.text = "긴급재난문자"
     $0.font = CustomFont.Head2.font()
@@ -32,18 +35,8 @@ class GuidelineViewController: UIViewController {
   
   private let urgentMessageContainerLabel = UILabel().then {
     $0.text = ""
-    $0.font = .systemFont(ofSize: 13)
-  }
-  
-  private let disasterKitLabel = UILabel().then {
-    $0.text = "비상시 재난키트 활용법"
-    $0.font = CustomFont.Head2.font()
-  }
-  
-  private let disasterKitButton = UIButton().then {
-    $0.setImage(UIImage.emergencykit, for: .normal)
-    $0.layer.cornerRadius = 10
-    $0.clipsToBounds = true
+    $0.font = CustomFont.Head4.font()
+    $0.numberOfLines = 3
   }
   
   private let atrickcollectionView = UICollectionView(frame: .zero,collectionViewLayout: GuidelineFlowLayout()).then {
@@ -67,16 +60,15 @@ class GuidelineViewController: UIViewController {
     $0.register(GuidelineTableViewCell.self, forCellReuseIdentifier: GuidelineTableViewCell.guidelineTableId)
   }
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
     self.title = "행동요령"
     guidelineLayout()
     bindCollectionView()
     bindTableView()
     bindNews()
-    disasterKitButtonTap()
   }
   
   private func bindCollectionView() {
@@ -97,32 +89,64 @@ class GuidelineViewController: UIViewController {
       cell.configure(with: product.title, imageName: product.imageName)
     }.disposed(by: disposeBag)
     
-    atrickTableView.rx.modelSelected(Product.self).bind { product in
-      print(product.title)
-    }.disposed(by: disposeBag)
+    // 테이블 셀 선택 시
+    atrickTableView.rx.modelSelected(Product.self)
+      .bind { [weak self] product in
+        print(product.title)
+        
+        let pdfViewController = GuidelinePDFViewController()
+        switch product.title {
+        case "재난키트 체크리스트":
+          pdfViewController.pdfFileName = "EmergencyKit"
+        case "국민행동요령":
+          pdfViewController.pdfFileName = "Alertcon"
+        case "지진":
+          pdfViewController.pdfFileName = "earthquake"
+        case "화재":
+          pdfViewController.pdfFileName = "Fire"
+        case "폭염":
+          pdfViewController.pdfFileName = "HeatWave"
+        case "대설":
+          pdfViewController.pdfFileName = "Heavysnow"
+        case "산사태":
+          pdfViewController.pdfFileName = "Landslide"
+        case "핵공격":
+          pdfViewController.pdfFileName = "NuclearAttack"
+        case "집중호우":
+          pdfViewController.pdfFileName = "TorrentialRain"
+        case "태풍":
+          pdfViewController.pdfFileName = "Typhoon"
+        default:
+          pdfViewController.pdfFileName = nil
+        }
+        self?.navigationController?.pushViewController(pdfViewController, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
     tableViewModel.fetchItem()
   }
   
   private func bindNews() {
     news.fetchData()
     
-    news.title
+    news.messageContent
+      .observe(on: MainScheduler.instance)
       .bind(to: urgentMessageContainerLabel.rx.text)
       .disposed(by: disposeBag)
     
-    news.writerName
-      .subscribe(onNext: { writerName in
-        // 필요한 경우 추가 업데이트
-        print("Writer Name: \(writerName)")
-      })
-      .disposed(by: disposeBag)
+    timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+      self?.updateMessageContent()
+    }
   }
   
-  private func disasterKitButtonTap() {
-    disasterKitButton.rx.tap
-      .subscribe(onNext: { [weak self] in
-        self?.navigationController?.pushViewController(GuidelineKitView(), animated: true)
-      }).disposed(by: disposeBag)
+  private func updateMessageContent() {
+    let messages = news.getRecentMessages()
+    
+    if !messages.isEmpty {
+      let index = messageIndex % messages.count
+      urgentMessageContainerLabel.text = messages[index]
+      messageIndex += 1
+    }
   }
   
   private func guidelineLayout() {
@@ -131,8 +155,6 @@ class GuidelineViewController: UIViewController {
     [
       urgentMessage,
       urgentMessageContainer,
-      disasterKitLabel,
-      disasterKitButton,
       atrickcollectionLabel,
       atrickcollectionView,
       atrickTableLabel,
@@ -146,18 +168,19 @@ class GuidelineViewController: UIViewController {
     
     urgentMessageContainer.snp.makeConstraints {
       $0.top.equalTo(urgentMessage.snp.bottom).offset(8)
-      $0.leading.equalTo(20)
-      $0.height.equalTo(40)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(60)
       $0.width.equalTo(350)
     }
     
     urgentMessageContainerLabel.snp.makeConstraints {
       $0.centerY.equalTo(urgentMessageContainer.snp.centerY)
       $0.leading.equalTo(10)
+      $0.width.equalTo(340)
     }
     
     atrickcollectionLabel.snp.makeConstraints {
-      $0.top.equalTo(urgentMessageContainerLabel.snp.bottom).offset(24)
+      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(64)
       $0.leading.equalTo(30)
     }
     
@@ -168,20 +191,8 @@ class GuidelineViewController: UIViewController {
       $0.height.equalTo(200)
     }
     
-    disasterKitLabel.snp.makeConstraints {
-      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(24)
-      $0.leading.equalTo(30)
-    }
-    
-    disasterKitButton.snp.makeConstraints {
-      $0.top.equalTo(disasterKitLabel.snp.bottom).offset(8)
-      $0.leading.equalTo(20)
-      $0.width.equalTo(350)
-      $0.height.equalTo(120)
-    }
-    
     atrickTableLabel.snp.makeConstraints {
-      $0.top.equalTo(disasterKitButton.snp.bottom).offset(24)
+      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(40)
       $0.leading.equalTo(30)
     }
     
@@ -189,7 +200,7 @@ class GuidelineViewController: UIViewController {
       $0.top.equalTo(atrickTableLabel.snp.bottom).offset(8)
       $0.leading.equalToSuperview().offset(20)
       $0.width.equalTo(350)
-      $0.height.equalTo(150)
+      $0.height.equalTo(250)
     }
   }
 }

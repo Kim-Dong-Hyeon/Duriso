@@ -12,24 +12,23 @@ import RxSwift
 
 class GuidelineNetWork {
   private let baseURL = "https://www.safetydata.go.kr"
-  private let endpoint = "/V2/api/DSSP-IF-00051"
+  private let endpoint = "/V2/api/DSSP-IF-00247"
   
-  func fetchGuidelineData() -> Observable<ApiResponse> {
+  func fetchGuidelineData(pageNo: Int, numOfRows: Int, crtDt: String, rgnNm: String) -> Observable<ApiResponse> {
+    let parameters: [String: Any] = [
+      "serviceKey": Environment.disasterApiKey,
+      "numOfRows": numOfRows,
+      "pageNo": pageNo,
+      "crtDt": crtDt,
+      "rgnNm": rgnNm
+    ]
+    
+    let url = baseURL + endpoint
+    
     return Observable.create { observer in
-      let url = self.baseURL + self.endpoint
-      let parameters: [String: Any] = [
-        "serviceKey": Environment.newsApiKey,
-        "numOfRows": 10,
-        "pageNo": 1,
-        "sortBy": "desc"
-      ]
-      
-      print("Request URL: \(url)")
-      
       AF.request(url, parameters: parameters).responseData { response in
         switch response.result {
         case .success(let data):
-          // 응답 데이터 출력
           if let responseString = String(data: data, encoding: .utf8) {
             print("Response Data: \(responseString)")
           }
@@ -39,9 +38,12 @@ class GuidelineNetWork {
             observer.onNext(apiResponse)
             observer.onCompleted()
           } catch {
+            print("Decoding Error: \(error)")
             observer.onError(error)
           }
+          
         case .failure(let error):
+          print("Request Error: \(error.localizedDescription)")
           observer.onError(error)
         }
       }
