@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseFirestore
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -20,6 +21,8 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private let viewModel = OnlineViewModel()
   private let emergencyWrittingViewController = EmergencyWrittingViewController()
   private var mapBottomSheetViewController: MapBottomSheetViewController?
+  private let firestore = Firestore.firestore()
+  
   var mapContainer: KMViewContainer?
   
   public var si: String = ""
@@ -321,24 +324,24 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-      let emergencyWrittingVC = EmergencyWrittingViewController()
-
-      // OnlineViewController의 인스턴스를 emergencyWrittingVC에 전달
-      emergencyWrittingVC.setOnlineViewController(self)
-
-      // OnlineViewController의 위도와 경도 값을 emergencyWrittingVC에 전달
-      emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
-      emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
-
-      // 디버깅용 프린트
-      print("OnlineViewController si: \(si), gu: \(gu), dong: \(dong)")
-      print("OnlineViewController latitude: \(emergencyWrittingVC.latitude), longitude: \(emergencyWrittingVC.longitude)")
-
-      let bottomSheetVC = MapBottomSheetViewController()
-      bottomSheetVC.configureContentViewController(emergencyWrittingVC)
-      present(bottomSheetVC, animated: true)
-      
-      print("Emergency Writing button tapped")
+    let emergencyWrittingVC = EmergencyWrittingViewController()
+    
+    // OnlineViewController의 인스턴스를 emergencyWrittingVC에 전달
+    emergencyWrittingVC.setOnlineViewController(self)
+    
+    // OnlineViewController의 위도와 경도 값을 emergencyWrittingVC에 전달
+    emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
+    emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
+    
+    // 디버깅용 프린트
+    print("OnlineViewController si: \(si), gu: \(gu), dong: \(dong)")
+    print("OnlineViewController latitude: \(emergencyWrittingVC.latitude), longitude: \(emergencyWrittingVC.longitude)")
+    
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(emergencyWrittingVC)
+    present(bottomSheetVC, animated: true)
+    
+    print("Emergency Writing button tapped")
   }
   
   
@@ -369,12 +372,27 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   func didTapEmergencyReport(poiID: String, address: String) {
     let emergencyReportVC = EmergencyReportViewController()
-    emergencyReportVC.reportName = poiID
-    emergencyReportVC.reportAddress = address
     
-    let bottomSheetVC = MapBottomSheetViewController()
-    bottomSheetVC.configureContentViewController(emergencyReportVC)
-    present(bottomSheetVC, animated: true)
+    // Firestore에서 데이터를 가져옵니다.
+    firestore.collection("posts").document(poiID).getDocument { document, error in
+      if let document = document, document.exists {
+        let data = document.data()
+        
+        // Firestore에서 데이터를 가져와 EmergencyReportViewController에 전달
+        emergencyReportVC.reportName = data?["title"] as? String ?? "Unknown"
+        emergencyReportVC.reportAddress = "\(data?["si"] ?? "") \(data?["gu"] ?? "") \(data?["dong"] ?? "")"
+        emergencyReportVC.authorName = data?["author"] as? String ?? "Unknown Author"
+        emergencyReportVC.postTime = (data?["posttime"] as? Timestamp)?.dateValue()  // Timestamp -> Date 변환
+        emergencyReportVC.postContent = data?["contents"] as? String ?? "No content available"
+        
+        // 데이터 전달 후, BottomSheet로 화면 전환
+        let bottomSheetVC = MapBottomSheetViewController()
+        bottomSheetVC.configureContentViewController(emergencyReportVC)
+        self.present(bottomSheetVC, animated: true)
+      } else {
+        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+      }
+    }
   }
 }
 

@@ -12,9 +12,14 @@ import Then
 
 class EmergencyReportViewController: UIViewController {
   
-  var reportName: String?     // 보고서 이름
-  var reportAddress: String?  // 보고서 주소
+  // MARK: - Properties
+  var reportName: String?      // 보고서 제목 또는 이름
+  var reportAddress: String?   // 보고서 위치 주소 (시, 군, 구)
+  var authorName: String?      // 작성자 이름
+  var postTime: Date?          // 작성 시간
+  var postContent: String?     // 작성 내용
   
+  // MARK: - UI Components
   private let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
     $0.textColor = .CBlack
@@ -28,17 +33,24 @@ class EmergencyReportViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let poiViewAddress = UILabel().then {
-    $0.text = "마커 위치 정보 가져오는 중"
+  private let authorLabel = UILabel().then {
+    $0.text = "작성자: 정보 불러오는 중"
     $0.textColor = .CBlack
-    $0.textAlignment = .center
+    $0.textAlignment = .left
     $0.font = CustomFont.Body2.font()
   }
   
-  private let postTime = UILabel().then {
-    $0.text = "포스팅 시간 정보 가져오는 중"
+  private let poiViewAddress = UILabel().then {
+    $0.text = "작성 위치: 정보 불러오는 중"
     $0.textColor = .CBlack
-    $0.textAlignment = .center
+    $0.textAlignment = .left
+    $0.font = CustomFont.Body2.font()
+  }
+  
+  private let postTimeLabel = UILabel().then {
+    $0.text = "작성 시간: 정보 불러오는 중"
+    $0.textColor = .CBlack
+    $0.textAlignment = .left
     $0.font = CustomFont.Body3.font()
   }
   
@@ -49,55 +61,56 @@ class EmergencyReportViewController: UIViewController {
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private let postMessage = UITextView().then {
+  private let postMessageTextView = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue
     $0.font = CustomFont.Body2.font()
-    $0.text = "제보글 데이터 불러오는 중"
+    $0.text = "제보 내용 불러오는 중"
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.isEditable = false
   }
   
+  // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
-    
-    setupView()
+    setupUI()
     setupConstraints()
-    updatePoiData()  // ViewController가 로드된 후에 데이터를 업데이트합니다.
+    updatePoiData()  // 전달받은 데이터를 업데이트합니다.
   }
   
-  func setupView() {
-    [
-      poiViewTitle,
-      megaphoneLabel,
-      poiViewAddress,
-      postTime,
-      cancelButton,
-      postMessage
-    ].forEach { view.addSubview($0) }
+  // MARK: - UI Setup
+  private func setupUI() {
+    [poiViewTitle, megaphoneLabel, authorLabel, poiViewAddress, postTimeLabel, cancelButton, postMessageTextView].forEach {
+      view.addSubview($0)
+    }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    poiViewAddress.snp.makeConstraints {
+    megaphoneLabel.snp.makeConstraints {
+      $0.centerY.equalTo(poiViewTitle.snp.centerY)
+      $0.leading.equalTo(poiViewTitle.snp.trailing).offset(4)
+      $0.width.height.equalTo(32)
+    }
+    
+    authorLabel.snp.makeConstraints {
       $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    postTime.snp.makeConstraints {
-      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
-      $0.bottom.equalTo(megaphoneLabel.snp.bottom)
-//      $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(8)
+    poiViewAddress.snp.makeConstraints {
+      $0.top.equalTo(authorLabel.snp.bottom).offset(8)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    megaphoneLabel.snp.makeConstraints{
-      $0.centerY.equalTo(poiViewTitle.snp.centerY)
-      $0.leading.equalTo(poiViewTitle.snp.trailing).offset(4)
-      $0.width.height.equalTo(32)
+    postTimeLabel.snp.makeConstraints {
+      $0.top.equalTo(poiViewAddress.snp.bottom).offset(8)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
     cancelButton.snp.makeConstraints {
@@ -105,26 +118,32 @@ class EmergencyReportViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
-    postMessage.snp.makeConstraints {
+    postMessageTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
+      $0.top.equalTo(postTimeLabel.snp.bottom).offset(16)
       $0.width.equalTo(350)
-      $0.height.equalTo(38)
+      $0.height.equalTo(100)
     }
   }
   
-  func updatePoiData() {
-    // 전달받은 POI 데이터를 UILabel에 반영
-    poiViewTitle.text = reportName ?? "Unknown Report"
-    poiViewAddress.text = reportAddress ?? "Unknown Address"
+  // MARK: - Data Update
+  private func updatePoiData() {
+    authorLabel.text = "작성자: \(authorName ?? "정보 없음")"
+    poiViewAddress.text = "작성 위치: \(reportAddress ?? "정보 없음")"
+    
+    if let time = postTime {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+      postTimeLabel.text = "작성 시간: \(dateFormatter.string(from: time))"
+    } else {
+      postTimeLabel.text = "작성 시간: 정보 없음"
+    }
+    
+    postMessageTextView.text = postContent ?? "작성된 내용이 없습니다."
   }
   
-  @objc func didTapCancelButton() {
+  // MARK: - Actions
+  @objc private func didTapCancelButton() {
     dismiss(animated: true)
   }
-}
-
-@available(iOS 17.0, *)
-#Preview {
-  EmergencyReportViewController()
 }
