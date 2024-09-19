@@ -45,23 +45,44 @@ class MainTabBarViewController: UITabBarController {
   }
   
   // MARK: - UI Setup
+  /// 이미지 크기를 리사이징하는 함수
+  func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+    
+    let widthRatio  = targetSize.width  / size.width
+    let heightRatio = targetSize.height / size.height
+    
+    let newSize = CGSize(width: size.width * widthRatio, height: size.height * heightRatio)
+    let rect = CGRect(origin: .zero, size: newSize)
+    
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return newImage!
+  }
   
   /// 탭바 아이템 설정
   private func setupTaps() {
+    let mapIcon = resizeImage(image: UIImage(named: "MapIcon")!, targetSize: CGSize(width: 20, height: 20))
+    let communityIcon = resizeImage(image: UIImage(named: "communityIcon")!, targetSize: CGSize(width: 20, height: 20))
+    let docsIcon = resizeImage(image: UIImage(named: "DocsIcon")!, targetSize: CGSize(width: 16, height: 20))
+    let userIcon = resizeImage(image: UIImage(named: "UserIcon")!, targetSize: CGSize(width: 20, height: 20))
+    
     let mapVC = UINavigationController(rootViewController: OnlineViewController())
-    mapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "globe"), tag: 0)
+    mapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), tag: 0)
     
     let boardVC = UINavigationController(rootViewController: BoardViewController())
-    boardVC.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(systemName: "list.bullet.clipboard"), tag: 1)
+    boardVC.tabBarItem = UITabBarItem(title: "게시판", image: communityIcon.withRenderingMode(.alwaysOriginal), tag: 1)
     
     let guidelineVC = UINavigationController(rootViewController: GuidelineViewController())
-    guidelineVC.tabBarItem = UITabBarItem(title: "행동요령", image: UIImage(systemName: "list.bullet.clipboard"), tag: 2)
+    guidelineVC.tabBarItem = UITabBarItem(title: "행동요령", image: docsIcon.withRenderingMode(.alwaysOriginal), tag: 2)
     
     let mypageVC = UINavigationController(rootViewController: MyPageViewController())
-    mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: UIImage(systemName: "person.circle"), tag: 3)
-    
-//    let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
-//    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 0)
+    mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: userIcon.withRenderingMode(.alwaysOriginal), tag: 3)
+    //    let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
+    //    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 0)
     let offlineDataVC = UINavigationController(rootViewController: OfflineDataViewController())
     offlineDataVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 0)
     
@@ -71,15 +92,15 @@ class MainTabBarViewController: UITabBarController {
     let offlinemypageVC = UINavigationController(rootViewController: OfflinePageViewController(viewModel: OfflinePageViewModel(), viewName: "마이페이지"))
     offlinemypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: UIImage(systemName: "exclamationmark.triangle.fill"), tag: 3)
     
-//    let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
-//    offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
+    //    let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
+    //    offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
     let offlineDataDevVC = UINavigationController(rootViewController: OfflineDataViewController())
     offlineDataDevVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 4)
     
-//    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
+    //    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
     onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineDataDevVC]
     
-//    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
+    //    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     offlineViewControllers = [offlineDataVC, offlineboardVC, guidelineVC, offlinemypageVC]
     
     setViewControllers(onlineViewControllers, animated: true)
