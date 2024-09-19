@@ -11,116 +11,86 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
+protocol BoardTableViewCellDelegate: AnyObject {
+  func didTapCell(with post: Posts)
+}
+
 class BoardTableViewCell: UITableViewCell {
-  
-  static let boardTableCell = "BoardTableCell"
-  weak var delegate: BoardTableViewCellDelegate?
-  private var post: Post?
+  static let boardTableCell = "BoardTableViewCell"
   private let disposeBag = DisposeBag()
+  private var post: Posts?
+  private let regionFetcher = RegionFetcher()
   
-  public let titleLabel = UILabel().then {
-    $0.text = "제목"
+  weak var delegate: BoardTableViewCellDelegate?
+  
+  private let titleLabel = UILabel().then {
     $0.font = CustomFont.Head2.font()
   }
   
-  public let titleTop = UILabel().then {
-    $0.text = ""
-    $0.font = CustomFont.Head2.font()
-  }
-  
-  public let contentLabel = UILabel().then {
-    $0.text = "내용"
-    $0.font = CustomFont.Body2.font()
+  private let contentLabel = UILabel().then {
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 2
   }
   
   private let addressLabel = UILabel().then {
-    $0.text = "사랑시 고백구 행복동"
     $0.font = CustomFont.Body3.font()
   }
   
   private let timeLabel = UILabel().then {
-    $0.text = "0분전"
     $0.font = CustomFont.Body3.font()
   }
   
-  private let userSetImage = UIImageView().then {
-    $0.image = .writingButton
+  private let categorysLabel = UILabel().then {
+    $0.font = CustomFont.Head3.font()
+    $0.textAlignment = .center
+  }
+  
+  private let postImageView = UIImageView()
+  
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    setupConstraints()
+    setupGesture()
+    contentView.isUserInteractionEnabled = true
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func configure(with post: Post) {
-    self.post = post
-    titleLabel.text = post.title
-    contentLabel.text = post.content
-    addressLabel.text = "사랑시 고백구 행복동"  // 추후 변경예정 자기위치 따다가 넣을곳
-    userSetImage.image = post.settingImage
-    timeLabel.text = timeAgo(from: post.createdAt)
-    titleTop.text = post.categorys
-    
-    let cellTapEvent = UITapGestureRecognizer(target: self, action: #selector(cellTap))
-    self.contentView.addGestureRecognizer(cellTapEvent)
-  }
-  
-  @objc private func cellTap() {
-    guard let post = self.post else { return }
-    delegate?.didTapCell(with: post)
-  }
-  
-  private func timeAgo(from date: Date) -> String {
-    let interval = -date.timeIntervalSinceNow
-    let minutes = Int(interval) / 60
-    if minutes < 1 {
-      return "방금"
-    } else if minutes < 60 {
-      return "\(minutes)분 전"
-    } else {
-      let hours = minutes / 60
-      if hours < 24 {
-        return "\(hours)시간 전"
-      } else {
-        let days = hours / 24
-        return "\(days)일 전"
-      }
-    }
-  }
-  
-  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
+  private func setupConstraints() {
     [
       titleLabel,
       contentLabel,
       addressLabel,
-      userSetImage,
       timeLabel,
-      titleTop
+      postImageView,
+      categorysLabel
     ].forEach { contentView.addSubview($0) }
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
       $0.leading.equalTo(contentView).offset(10)
+      $0.trailing.lessThanOrEqualTo(contentView).offset(-100)
+      $0.width.equalTo(140)
     }
     
-    titleTop.snp.makeConstraints {
+    categorysLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
-      $0.centerX.equalTo(timeLabel.snp.centerX)
+      $0.leading.equalTo(210)
+      $0.width.equalTo(70)
     }
     
-    userSetImage.snp.makeConstraints {
+    postImageView.snp.makeConstraints {
       $0.centerY.equalTo(contentView)
-      $0.trailing.equalTo(contentView).offset(-30)
-      $0.width.height.equalTo(100)
+      $0.trailing.equalTo(contentView).offset(-10)
+      $0.width.height.equalTo(80)
     }
     
     contentLabel.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom)
-      $0.height.equalTo(50)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(8)
       $0.leading.equalTo(contentView).offset(10)
-      $0.trailing.equalTo(contentView).offset(-120)
+      $0.trailing.equalTo(postImageView.snp.leading).offset(-10)
     }
     
     addressLabel.snp.makeConstraints {
@@ -131,13 +101,92 @@ class BoardTableViewCell: UITableViewCell {
     }
     
     timeLabel.snp.makeConstraints {
-      $0.leading.equalTo(userSetImage.snp.trailing).offset(-160)
+      $0.leading.equalTo(220)
       $0.centerY.equalTo(addressLabel)
+    }
+  }
+  
+  private func setupGesture() {
+    let tapGesture = UITapGestureRecognizer()
+    addGestureRecognizer(tapGesture)
+    
+    tapGesture.rx.event
+      .subscribe(onNext: { [weak self] _ in
+        guard let post = self?.post else { return }
+        self?.delegate?.didTapCell(with: post)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func configure(with post: Posts) {
+    self.post = post
+    titleLabel.text = post.title
+    contentLabel.text = post.contents
+    addressLabel.text = "\(post.si) \(post.gu) \(post.dong)"
+    timeLabel.text = timeAgo(from: post.posttime)
+    categorysLabel.text = post.category
+    
+    // 이미지 URL이 있는 경우 비동기로 이미지 로드
+    if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
+      URLSession.shared.dataTask(with: url) { data, _, _ in
+        if let data = data, let image = UIImage(data: data) {
+          DispatchQueue.main.async {
+            self.postImageView.image = image
+          }
+        } else {
+          DispatchQueue.main.async {
+            self.postImageView.image = UIImage(named: "AppIcon")
+          }
+        }
+      }.resume()
+    } else {
+      self.postImageView.image = UIImage(named: "AppIcon")
+    }
+  }
+  
+  private func timeAgo(from date: Date) -> String {
+    let now = Date()
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.day, .hour, .minute], from: date, to: now)
+    
+    if let days = components.day, days > 0 {
+      return "\(days)일 전"
+    } else if let hours = components.hour, hours > 0 {
+      return "\(hours)시간 전"
+    } else if let minutes = components.minute, minutes > 0 {
+      return "\(minutes)분 전"
+    } else {
+      return "방금 전"
     }
   }
 }
 
-protocol BoardTableViewCellDelegate: AnyObject {
-  func didTapCell(with post: Post)
+extension UIImageView {
+  func loadImage(from urlString: String?) {
+    guard let urlString = urlString, let url = URL(string: urlString) else {
+      self.image = UIImage(named: "placeholder")
+      return
+    }
+    
+    URLSession.shared.dataTask(with: url) { data, _, error in
+      if let error = error {
+        print("Failed to load image: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+          self.image = UIImage(named: "placeholder")
+        }
+        return
+      }
+      
+      guard let data = data, let image = UIImage(data: data) else {
+        DispatchQueue.main.async {
+          self.image = UIImage(named: "placeholder")
+        }
+        return
+      }
+      
+      DispatchQueue.main.async {
+        self.image = image
+      }
+    }.resume()
+  }
 }
-

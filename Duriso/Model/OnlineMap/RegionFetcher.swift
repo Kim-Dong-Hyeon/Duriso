@@ -18,10 +18,16 @@ struct RegionResponse: Decodable {
 struct RegionDocument: Decodable {
   let regionType: String
   let addressName: String
+  let region1DepthName: String
+  let region2DepthName: String
+  let region3DepthName: String
   
   enum CodingKeys: String, CodingKey {
     case regionType = "region_type"
     case addressName = "address_name"
+    case region1DepthName = "region_1depth_name"
+    case region2DepthName = "region_2depth_name"
+    case region3DepthName = "region_3depth_name"
   }
 }
 

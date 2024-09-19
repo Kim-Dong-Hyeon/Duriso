@@ -13,12 +13,13 @@ import SnapKit
 
 class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
-  private let boardViewController = BoardViewController()
-  private let boardTableViewCell = BoardTableViewCell()
   private let disposeBag = DisposeBag()
-  private let mainTabBarViewModel = MainTabBarViewModel()
   var onPostAdded: ((String, String, UIImage?, String) -> Void)?
+  private let regionFetcher = RegionFetcher()
+  private let kakaoMap = KakaoMapViewController()
   private let tableItems = BehaviorRelay<[Category]>(value: [])
+  var currentPost: Posts?
+  
   
   private let categoryButton = UIButton().then {
     $0.setTitle("카테고리", for: .normal)
@@ -55,8 +56,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.textColor = .black
   }
   
-  private let locationeName1 = UILabel().then {
-    $0.text = "사랑시 고백구 행복동"
+  private var locationeName1 = UILabel().then {
+    $0.text = "위치 읽는중..."
     $0.font = CustomFont.Body2.font()
     $0.textColor = .black
   }
@@ -84,7 +85,6 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.isHidden = true
   }
   
-  
   private let pickerImage = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.isHidden = true
@@ -92,6 +92,31 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   
   private let categoryTableView = UITableView().then {
     $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.categoryCell)
+    $0.isHidden = true
+  }
+  
+  func updateLocationNames(latitude: Double, longitude: Double) {
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
+      guard let self = self else { return }
+      if let document = documents?.first {
+        let si = document.region1DepthName
+        let gu = document.region2DepthName
+        let dong = document.region3DepthName
+        
+        DispatchQueue.main.async {
+          self.locationeName1.text = "\(si) \(gu) \(dong)"
+          if var currentPost = self.currentPost {
+            currentPost.si = document.region1DepthName
+            currentPost.gu = document.region2DepthName
+            currentPost.dong = document.region3DepthName
+            currentPost.postlatitude = self.kakaoMap.latitude
+            currentPost.postlongitude = self.kakaoMap.longitude
+            
+            self.onPostAdded?(currentPost.title, currentPost.contents, UIImage(), currentPost.category)
+          }
+        }
+      }
+    }
   }
   
   override func viewDidLoad() {
@@ -108,6 +133,10 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     userTextSet.delegate = self
     deleteButton.isHidden = true
     categoryTableView.isHidden = true
+    LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
+      print("LocationManager에서 위치 업데이트 수신: \(latitude), \(longitude)")
+      self?.updateLocationNames(latitude: latitude, longitude: longitude)
+    }
   }
   
   // 글쓰기뷰에서 탭바 없애기
@@ -136,8 +165,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         guard let self = self else { return }
         if let title = self.titleText.text,
            let content = self.userTextSet.text,
-           let category = self.categoryTouch.text{
-          self.onPostAdded?(title, content, self.pickerImage.image, category)
+           let category = self.categoryTouch.text
+        {
+          self.onPostAdded?(title, content, self.pickerImage.image ?? UIImage(), category)
         }
         self.navigationController?.popViewController(animated: true)
       })
@@ -246,16 +276,15 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     // 셀을 테이블 뷰에 바인딩
     tableItems
       .bind(to: categoryTableView.rx.items(cellIdentifier: CategoryCell.categoryCell, cellType: CategoryCell.self)) { index, category, cell in
-        cell.configure(with: category)
+        let viewModel = CategoryViewModel(categoryTitle: Observable.just(category.title))
+        cell.configure(with: viewModel)
       }
       .disposed(by: disposeBag)
     
     categoryTableView.rx.modelSelected(Category.self)
       .subscribe(onNext: { [weak self] category in
         guard let self = self else { return }
-        
         self.categoryTouch.text = category.title
-        
         self.categoryTableView.isHidden = true
       })
       .disposed(by: disposeBag)

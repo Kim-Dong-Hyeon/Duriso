@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+import FirebaseFirestore
+import RxSwift
 
 struct Category {
   let title: String
@@ -16,15 +18,6 @@ struct Category {
 struct Product {
   let imageName: String
   let title: String
-}
-
-//테이블뷰
-struct Post {
-  let title: String
-  let content: String
-  let settingImage: UIImage?
-  let categorys: String
-  let createdAt: Date
 }
 
 // 카메라 알럿
@@ -84,5 +77,82 @@ struct SomeDataModel {
         SomeDataModel(type: .hot, name: "폭염")
       ]
     }
+  }
+}
+
+//Firebase
+struct Posts: Codable {
+  var author: String
+  var contents: String
+  var category: String
+  var dong: String
+  var gu: String
+  var imageUrl: String?
+  var likescount: Int
+  var postid: String
+  var postlatitude: Double
+  var postlongitude: Double
+  var posttime: Date
+  var reportcount: Int
+  var si: String
+  var title: String
+  
+  // 초기화
+  init(author: String, contents: String, category: String, dong: String, gu: String, likescount: Int, postid: String, postlatitude: Double,postlongitude: Double , posttime: Date, reportcount: Int, si: String, title: String, imageUrl: String?) {
+    self.author = author
+    self.contents = contents
+    self.category = category
+    self.dong = dong
+    self.gu = gu
+    self.likescount = likescount
+    self.postid = postid
+    self.postlatitude = postlatitude
+    self.postlongitude = postlongitude
+    self.posttime = posttime
+    self.reportcount = reportcount
+    self.si = si
+    self.title = title
+    self.imageUrl = imageUrl
+  }
+  
+  // Firestore에 저장할 때 사용할 데이터 딕셔너리
+  func toDictionary() -> [String: Any] {
+    return [
+      "author": author,
+      "contents": contents,
+      "category": category,
+      "dong": dong,
+      "gu": gu,
+      "imageUrl": imageUrl ?? "",
+      "likescount": likescount,
+      "postid": postid,
+      "postlatitude": postlatitude,
+      "postlongitude": postlongitude,
+      "posttime": posttime,
+      "reportcount": reportcount,
+      "si": si,
+      "title": title
+    ]
+  }
+}
+
+struct CategoryTableModel {
+  var items = PublishSubject<[Category]>()
+  
+  func fetchItem() {
+    let category = [
+      Category(title: "긴급제보"),
+      Category(title: "태풍"),
+      Category(title: "지진"),
+      Category(title: "홍수"),
+      Category(title: "쓰나미"),
+      Category(title: "핵폭발"),
+      Category(title: "산불"),
+      Category(title: "산사태"),
+      Category(title: "폭염")
+    ]
+    
+    items.onNext(category)
+    items.onCompleted()
   }
 }

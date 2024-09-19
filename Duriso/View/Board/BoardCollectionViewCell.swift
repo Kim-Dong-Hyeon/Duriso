@@ -60,7 +60,7 @@ class BoardCollectionViewCell: UICollectionViewCell {
   func bindTapAction(onTap: @escaping () -> Void) {
     notificationButton.rx.tap
       .subscribe(onNext: {
-        onTap()  //버튼이 눌렸을때
+        onTap()  // 버튼이 눌렸을 때
       })
       .disposed(by: disposeBag)
   }
