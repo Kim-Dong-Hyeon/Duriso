@@ -25,10 +25,7 @@ class OnlineViewModel {
   // Shelter 버튼 클릭 처리
   // 버튼 색상 처리 필요
   func toggleShelterButton(mapController: KMController?) {
-    guard let mapController = mapController else {
-      print("mapController is nil")
-      return
-    }
+    guard let mapController = mapController else { return }
     
     // 버튼 상태 토글
     let isSelected = !shelterButtonSelected.value
@@ -36,10 +33,8 @@ class OnlineViewModel {
     
     // 상태에 따라 POI 표시/숨김
     if isSelected {
-      print("Shelter POIs 표시 중")
       poiViewModel.showShelters(mapController: mapController)
     } else {
-      print("Shelter POIs 숨김")
       poiViewModel.hideShelters(mapController: mapController)
     }
   }
@@ -53,10 +48,8 @@ class OnlineViewModel {
     
     // 상태에 따라 POI 표시/숨김
     if isSelected {
-      print("AED POIs 표시 중")
       poiViewModel.showAeds(mapController: mapController)
     } else {
-      print("AED POIs 숨김")
       poiViewModel.hideAeds(mapController: mapController)
     }
   }
@@ -70,10 +63,8 @@ class OnlineViewModel {
     
     // 상태에 따라 POI 표시/숨김
     if isSelected {
-      print("Emergency Report POIs 표시 중")
       poiViewModel.showEmergencyReport(mapController: mapController)
     } else {
-      print("Emergency Report POIs 숨김")
       poiViewModel.hideEmergencyReport(mapController: mapController)
     }
   }

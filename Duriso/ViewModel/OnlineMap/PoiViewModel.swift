@@ -20,10 +20,6 @@ class PoiViewModel {
   static let shared = PoiViewModel()
   weak var delegate: PoiViewModelDelegate?
   
-  private init() {
-    print("PoiViewModel initialized: \(Unmanaged.passUnretained(self).toOpaque())")
-  }
-  
   private let disposeBag = DisposeBag()
   let shelterNetworkManager = ShelterNetworkManager()
   let aedDataManager = AedDataManager()
@@ -37,7 +33,6 @@ class PoiViewModel {
   /// 현재 위치를 기준으로 2km 반경의 데이터를 요청함.
   func setupPoiData() {
     guard let currentLocation = LocationManager.shared.currentLocation else {
-      print("Error: Current location is nil")
       return
     }
     
@@ -60,7 +55,6 @@ class PoiViewModel {
       // 필터링
       let filteredAeds = self.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
       self.aedPois.onNext(filteredAeds)
-      print("Loaded AEDs from UserDefaults: \(filteredAeds)")
     } else {
       aedDataManager.fetchAllAeds()
         .subscribe(onNext: { [weak self] response in
@@ -259,20 +253,20 @@ class PoiViewModel {
     
     layer.clearAllItems()
     
-    var currentCLLocation: CLLocation? = nil
+    var _: CLLocation? = nil
+    
     if let radius = radius, let currentLocation = LocationManager.shared.currentLocation {
-      currentCLLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+      let currentCLLocation = CLLocation(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
     }
     
     for item in items {
       let coordinates = getCoordinates(item)
       let poiID = getPoiID(item)
-      let address = getAddress(item) ?? "Unknown Address"
-      let additionalInfo1 = getAdditionalInfo(item) ?? "Unknown Info"
-      let additionalInfo2 = getAdditionalInfo2(item) ?? "Unknown Info"
-      let additionalInfo3 = getAdditionalInfo3(item) ?? "Unknown Info"
-      let additionalInfo4 = getAdditionalInfo4(item) ?? "Unknown Info"
-      print("poiID: \(poiID)")
+      let address = getAddress(item) ?? "제공받은 데이터가 없습니다."
+      let additionalInfo1 = getAdditionalInfo(item) ?? "제공받은 데이터가 없습니다."
+      let additionalInfo2 = getAdditionalInfo2(item) ?? "제공받은 데이터가 없습니다."
+      let additionalInfo3 = getAdditionalInfo3(item) ?? "제공받은 데이터가 없습니다."
+      let additionalInfo4 = getAdditionalInfo4(item) ?? "제공받은 데이터가 없습니다."
       
       // POI 생성
       if let poiItem = layer.addPoi(option: PoiOptions(styleID: styleID, poiID: poiID), at: MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)) {
@@ -293,7 +287,7 @@ class PoiViewModel {
         
         _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
           return { param in
-            print("POI tapped: \(param.poiItem.itemID)")
+//            print("POI tapped: \(param.poiItem.itemID)")
             self.poiTapped(param)
           }
         }
@@ -336,7 +330,7 @@ class PoiViewModel {
       layerID: layerID,
       styleID: styleID,
       mapController: mapController,
-      getPoiID: { $0.shelterName },
+      getPoiID: { $0.shelterName ?? "제공받은 데이터가 없습니다." },
       getCoordinates: { ($0.latitude, $0.longitude) },
       getAddress: { $0.address },               // 쉘터의 주소
       getAdditionalInfo: { $0.shelterTypeName },
@@ -354,10 +348,7 @@ class PoiViewModel {
   ///   - styleID: 스타일 ID
   ///   - mapController: 지도 컨트롤러
   private func emergencyReportCreatePoi(reports: [EmergencyReport], layerID: String, styleID: String, mapController: KMController) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else { return }
     
     let labelManager = mapView.getLabelManager()
     guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
@@ -368,10 +359,7 @@ class PoiViewModel {
     // 기존 아이템 제거
     layer.clearAllItems()
     
-    if reports.isEmpty {
-      print("No emergency reports to add for layerID: \(layerID)")
-      return
-    }
+    if reports.isEmpty { return }
     
     for report in reports {
       let poiID = report.id
@@ -392,19 +380,16 @@ class PoiViewModel {
   ///   - layerID: 레이어 ID
   ///   - show: 표시 여부 (true: 표시, false: 숨김)
   private func togglePoisVisibility(mapController: KMController, layerID: String, show: Bool) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
+    guard let mapView = mapController.getView("mapview") as? KakaoMap else { return }
     
     let labelManager = mapView.getLabelManager()
     if let layer = labelManager.getLabelLayer(layerID: layerID) {
       if show {
         layer.showAllPois() // 모든 POI를 표시
-        print("\(layerID) POIs 표시 완료")
+//        print("\(layerID) POIs 표시 완료")
       } else {
         layer.hideAllPois() // 모든 POI를 숨김
-        print("\(layerID) POIs 숨김 완료")
+//        print("\(layerID) POIs 숨김 완료")
       }
     } else {
       print("Error: Failed to get layer with ID \(layerID)")
@@ -461,23 +446,17 @@ class PoiViewModel {
     default:
       print("Error: POI style ID is unknown.")
     }
-    print("POI layerID: \(param.poiItem.layerID)")
   }
   
   // AED POI를 처리하는 함수
   func handleAedPoi(poiID: String, userObject: [String: Any]) {
-    print("Full AED User Object: \(userObject)")
     
     // userObject에서 추가 정보 가져오기
-    let location = userObject["additionalInfo1"] as? String ?? "Unknown Location"
-    let adminName = userObject["additionalInfo2"] as? String ?? "Unknown Admin"
-    let adminNumber = userObject["additionalInfo3"] as? String ?? "Unknown Number"
-    let managementAgency = userObject["additionalInfo4"] as? String ?? "Unknown Agency"
-    let address = userObject["address"] as? String ?? "Unknown Address"
-    
-    
-    // AED 정보 출력
-    print("AED Info: Admin Name: \(adminName), Admin Number: \(adminNumber), Location: \(location), Management Agency: \(managementAgency), Address: \(address)")
+    let location = userObject["additionalInfo1"] as? String ?? "제공받은 데이터가 없습니다."
+    let adminName = userObject["additionalInfo2"] as? String ?? "제공받은 데이터가 없습니다."
+    let adminNumber = userObject["additionalInfo3"] as? String ?? "제공받은 데이터가 없습니다."
+    let managementAgency = userObject["additionalInfo4"] as? String ?? "제공받은 데이터가 없습니다."
+    let address = userObject["address"] as? String ?? "제공받은 데이터가 없습니다."
     
     // delegate를 통해 AED POI 데이터 전달
     delegate?.didTapAed(poiID: poiID, address: address, adminName: adminName, adminNumber: adminNumber, managementAgency: managementAgency, location: location)
@@ -485,9 +464,8 @@ class PoiViewModel {
   
   // Shelter POI를 처리하는 함수
   func handleShelterPoi(poiID: String, userObject: [String: Any]) {
-    let address = userObject["address"] as? String ?? "Unknown Address"
-    let shelterType = userObject["additionalInfo1"] as? String ?? "Unknown Shelter Type"
-    print("Shelter Info: Address: \(address), Shelter Type: \(shelterType)")
+    let address = userObject["address"] as? String ?? "제공받은 데이터가 없습니다."
+    let shelterType = userObject["additionalInfo1"] as? String ?? "제공받은 데이터가 없습니다."
     
     // delegate를 통해 Shelter POI 데이터 전달
     delegate?.didTapShelter(poiID: poiID, shelterType: shelterType, address: address)
@@ -495,12 +473,37 @@ class PoiViewModel {
   
   // Emergency Report POI를 처리하는 함수
   func handleEmergencyReportPoi(poiID: String, userObject: [String: Any]) {
-    let reportName = userObject["name"] as? String ?? "Unknown Report Name"
-    let reportAddress = userObject["address"] as? String ?? "Unknown Address"
-    
-    print("Emergency Report Info: Name: \(reportName), Address: \(reportAddress)")
+    let reportName = userObject["name"] as? String ?? "제공받은 데이터가 없습니다."
+    let reportAddress = userObject["address"] as? String ?? "제공받은 데이터가 없습니다."
     
     // delegate를 통해 Emergency Report POI 데이터 전달
     delegate?.didTapEmergencyReport(poiID: poiID, address: reportAddress)
   }
+  
+  func fetchDataForLocation(latitude: Double, longitude: Double) {
+         let boundingBox = calculateBoundingBox(for: CLLocation(latitude: latitude, longitude: longitude), radius: 2000) // 2km 반경
+         
+         // 쉘터 데이터 요청
+         shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
+             .subscribe(onNext: { shelterResponse in
+                 let shelters = shelterResponse.body
+                 self.shelterPois.onNext(shelters)
+             }, onError: { error in
+                 print("Error fetching shelters: \(error)")
+             }).disposed(by: disposeBag)
+         
+         // AED 데이터 요청 및 처리
+         aedDataManager.fetchAllAeds()
+             .subscribe(onNext: { [weak self] response in
+                 let aeds = response.body
+                 let filteredAeds = self?.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
+                 self?.aedPois.onNext(filteredAeds ?? []) // 필터링된 데이터 전달
+             }, onError: { error in
+                 print("Error fetching AEDs: \(error)")
+             }).disposed(by: disposeBag)
+         
+         // 긴급 보고 데이터 처리
+         let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
+         emergencyReportPois.onNext(emergencyReports)
+     }
 }

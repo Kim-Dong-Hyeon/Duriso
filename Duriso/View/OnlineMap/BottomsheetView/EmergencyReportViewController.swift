@@ -22,7 +22,7 @@ class EmergencyReportViewController: UIViewController {
   }
   
   private let poiViewAddress = UILabel().then {
-    $0.text = "서울특별시 00구 00동"
+    $0.text = "마커 위치 정보 가져오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body2.font()
@@ -36,17 +36,17 @@ class EmergencyReportViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black
+    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+    $0.tintColor = .CLightBlue
     $0.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  private let postMessage = UILabel().then {
+  private let postMessage = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue
     $0.font = CustomFont.Body2.font()
     $0.text = "꼭 필요한 긴급 정보만 남겨주세요!"
-    $0.layer.cornerRadius = 16
+    $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
   }
   

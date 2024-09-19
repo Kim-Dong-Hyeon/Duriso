@@ -81,12 +81,12 @@ struct EmergencyReport: PoiData {
 
 // MARK: - ShelterModel
 struct Shelter: Codable {
-  let shelterName: String
-  let address: String
+  let shelterName: String?
+  let address: String?
   let latitude: Double
   let longitude: Double
-  let shelterTypeName: String
-  let shelterSerialNumber: String
+  let shelterTypeName: String?
+  let shelterSerialNumber: String?
   
   enum CodingKeys: String, CodingKey {
     case shelterName = "REARE_NM"

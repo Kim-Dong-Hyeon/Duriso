@@ -145,14 +145,14 @@ class ShelterViewController: UIViewController {
   
   func updatePoiData() {
     // 전달받은 POI 데이터를 UILabel에 반영
-    shelterName.text = poiName ?? "Unknown Shelter Name"
+    shelterName.text = poiName ?? "제공받은 데이터가 없습니다."
     if let poiAddress = poiAddress {
       let formattedAddress = poiAddress.replacingOccurrences(of: "(", with: "\n(")
       shelterAddress.text = "주소: \(formattedAddress)"
     } else {
-      shelterAddress.text = "주소: Unknown Address"
+      shelterAddress.text = "주소: 제공받은 데이터가 없습니다."
     }
-    shelterType.text = poiType ?? "Unknown Shelter Type"
+    shelterType.text = poiType ?? "제공받은 데이터가 없습니다."
   }
   
   @objc func didTapCancelButton() {

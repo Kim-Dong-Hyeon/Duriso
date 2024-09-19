@@ -97,10 +97,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     setupViews()
     setupConstraints()
     setupButtonBindings()
-    
     poiViewModel.delegate = self
-    print("OnlineViewController initialized with PoiViewModel: \(Unmanaged.passUnretained(poiViewModel).toOpaque())")
-    
     
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
@@ -149,7 +146,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     
     addressView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-24)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
       $0.width.equalTo(280)
       $0.height.equalTo(40)
     }
@@ -233,7 +230,6 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
         DispatchQueue.main.async {
           self.addressLabel.text = document.addressName
         }
-        print("Your Location is: \(document.addressName)")
       }
       if let error = error {
         print("Error fetching region: \(error)")
@@ -275,11 +271,28 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       .disposed(by: disposeBag)
   }
   
-  @objc private func
-  didTapAddressRefreshButton() {
-  //카메라로 이동한 위치에 해당하는 정보를 받아와야 함
-  }
   
+  @objc private func didTapAddressRefreshButton() {
+    print("AddressRefreshButton clicked")
+    guard let mapView = onlineMapViewController.mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: Failed to get mapView")
+      return
+    }
+    
+    // 중앙 좌표에 해당하는 실제 지도상의 위치(MapPoint)를 가져옵니다.
+    let centerMapPoint = mapView.getPosition(CGPoint(x: 0.5, y: 0.5))
+    
+    // `MapPoint` 객체의 `wgsCoord` 속성에서 위도와 경도를 추출합니다.
+    let latitude = centerMapPoint.wgsCoord.latitude
+    let longitude = centerMapPoint.wgsCoord.longitude
+    
+    // 위치 기반 데이터 요청
+    poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
+    updatePlaceNameLabel(latitude: latitude, longitude: longitude)
+    
+    // 위도와 경도 출력 (디버깅용)
+    print("Latitude: \(latitude), Longitude: \(longitude)")
+  }
   
   @objc private func didTapCurrentLocationButton() {
     // Handle the writing button tap action here
@@ -297,10 +310,13 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-    let emergencyWrittingViewController = EmergencWrittingViewController()
-    present(emergencyWrittingViewController, animated: true)
+    let emergencyWrittingVC = EmergencWrittingViewController()
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(emergencyWrittingVC)
+    present(bottomSheetVC, animated: true)
     print("Emergency Writing button tapped")
   }
+  
   
   func didTapShelter(poiID: String, shelterType: String, address: String) {
     let shelterVC = ShelterViewController()

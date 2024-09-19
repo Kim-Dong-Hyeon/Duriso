@@ -25,12 +25,12 @@ class EmergencWrittingViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let poiViewAddress = UILabel().then {
-    $0.text = "서울특별시 00구 00동"
-    $0.textColor = .CBlack
-    $0.textAlignment = .center
-    $0.font = CustomFont.Body2.font()
-  }
+  //  private let poiViewAddress = UILabel().then {
+  //    $0.text = "현재 위치 가져오는 중"
+  //    $0.textColor = .CBlack
+  //    $0.textAlignment = .center
+  //    $0.font = CustomFont.Body2.font()
+  //  }
   
   private let postTime = UILabel().then {
     $0.text = "00분전"
@@ -40,9 +40,9 @@ class EmergencWrittingViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.app"), for: .normal)
-    $0.tintColor = .black  // 아이콘 색상 설정
-    $0.contentMode = .scaleAspectFit  // 이미지 모드 설정
+    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+    $0.tintColor = .CLightBlue
+    $0.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
@@ -50,7 +50,7 @@ class EmergencWrittingViewController: UIViewController {
     $0.backgroundColor = UIColor.CLightBlue
     $0.font = CustomFont.Body2.font()
     $0.placeholder = "꼭 필요한 긴급 정보만 남겨주세요!"
-    $0.layer.cornerRadius = 16
+    $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.clearButtonMode = .always
   }
@@ -78,7 +78,7 @@ class EmergencWrittingViewController: UIViewController {
     [
       poiViewTitle,
       megaphoneLabel,
-      poiViewAddress,
+      //      poiViewAddress,
       postTime,
       cancelButton,
       messageInputText,
@@ -88,14 +88,14 @@ class EmergencWrittingViewController: UIViewController {
   
   func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(48)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    poiViewAddress.snp.makeConstraints {
-      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-    }
+    //    poiViewAddress.snp.makeConstraints {
+    //      $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
+    //      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+    //    }
     
     postTime.snp.makeConstraints {
       $0.bottom.equalTo(megaphoneLabel.snp.bottom)
@@ -113,16 +113,23 @@ class EmergencWrittingViewController: UIViewController {
       $0.width.height.equalTo(32)
     }
     
+    //    messageInputText.snp.makeConstraints {
+    //      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+    //      $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
+    //      $0.width.equalTo(350)
+    //      $0.height.equalTo(38)
+    //    }
+    
     messageInputText.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
+      $0.top.equalTo(poiViewTitle.snp.bottom).offset(48)
       $0.width.equalTo(350)
       $0.height.equalTo(38)
     }
     
     addPostButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(messageInputText.snp.bottom).offset(16)
+      $0.top.equalTo(messageInputText.snp.bottom).offset(24)
       $0.width.equalTo(60)
       $0.height.equalTo(24)
     }
