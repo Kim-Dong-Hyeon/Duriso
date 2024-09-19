@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseFirestore
 import SnapKit
 
 class ChangePasswordViewController: UIViewController {
@@ -59,6 +60,12 @@ class ChangePasswordViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
+  private let saveButton = UIButton().then {
+    $0.setTitle("저장", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CLightBlue
+    $0.layer.cornerRadius = 10
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -74,7 +81,8 @@ class ChangePasswordViewController: UIViewController {
       newPasswordLabel,
       newPasswordTextField,
       checkPasswordLabel,
-      checkPasswordTextField
+      checkPasswordTextField,
+      saveButton
     ].forEach { view.addSubview($0) }
     
     nowPasswordLabel.snp.makeConstraints {
@@ -108,6 +116,13 @@ class ChangePasswordViewController: UIViewController {
     
     checkPasswordTextField.snp.makeConstraints {
       $0.top.equalTo(checkPasswordLabel.snp.bottom).offset(8)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
+      $0.height.equalTo(48)
+    }
+    
+    saveButton.snp.makeConstraints {
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)

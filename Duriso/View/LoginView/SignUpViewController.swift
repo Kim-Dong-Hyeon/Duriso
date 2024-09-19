@@ -8,7 +8,6 @@
 import UIKit
 
 import FirebaseAuth
-import FirebaseCore
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -191,30 +190,20 @@ class SignUpViewController: UIViewController {
       .bind(to: viewModel.passwordText)
       .disposed(by: disposeBag)
     
-    // 아직 viewmodel에서 선언을 안해둠..
-//    checkpasswordTextField.rx.text.orEmpty
-//      .bind(to: viewModel.passwordText)
-//      .disposed(by: disposeBag)
-    
-    Observable.combineLatest(
-      passwordTextField.rx.text.orEmpty,
-      checkpasswordTextField.rx.text.orEmpty
-    )
-    .map { $0.0 == $0.1 }
-    .bind(to: saveButton.rx.isEnabled)
-    .disposed(by: disposeBag)
-    
-    saveButton.rx.tap
-      .subscribe(onNext: { [weak self] in
-        self?.viewModel.createUser()
-      })
+    checkpasswordTextField.rx.text.orEmpty
+      .bind(to: viewModel.checkPasswordText)
       .disposed(by: disposeBag)
     
-    viewModel.createUserResult
-      .observe(on: MainScheduler.instance)
+    saveButton.rx.tap
+      .flatMapLatest { [weak self] _ -> Observable<Result<AuthDataResult, Error>> in
+        guard let self = self else { return Observable.empty() }
+        return self.viewModel.performUserCreation()
+          .map { Result.success($0) }
+          .catch { error in Observable.just(Result.failure(error)) }
+      }
       .subscribe(onNext: { [weak self] result in
         switch result {
-        case .success:
+        case .success(_):
           self?.showSuccessAlert()
         case .failure(let error):
           self?.showErrorAlert(error: error)
@@ -261,6 +250,8 @@ class SignUpViewController: UIViewController {
       return "네트워크 오류가 발생했습니다. 다시 시도해주세요."
     case 1001: // 닉네임 중복에 관한 에러코드가 따로 없음
       return "이미 사용 중인 닉네임입니다. 다른 닉네임을 사용해주세요."
+    case 1002:
+      return "비밀번호가 일치하지 않습니다."
     default:
       return error.localizedDescription
     }

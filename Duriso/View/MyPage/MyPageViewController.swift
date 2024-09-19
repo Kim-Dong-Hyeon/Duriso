@@ -127,7 +127,9 @@ class MyPageViewController: UIViewController {
         
         switch item.title {
         case "로그아웃":
-          return self.handleLogout()
+          return self.tappedLogout()
+        case "회원탈퇴":
+          return self.tappedWithdrawal()
         case "공지사항":
           noticeViewController.title = item.title
           navigationController?.pushViewController(noticeViewController, animated: true)
@@ -153,7 +155,7 @@ class MyPageViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
-  private func handleLogout() -> Observable<Void> {
+  private func tappedLogout() -> Observable<Void> {
     return Observable.create { observer in
       let alert = UIAlertController(
         title: "로그아웃",
@@ -162,6 +164,39 @@ class MyPageViewController: UIViewController {
       )
       
       let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+        let loginVC = LoginViewController()
+        let navController = UINavigationController(rootViewController: loginVC)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+          let window = windowScene.windows.first
+          window?.rootViewController = navController
+          window?.makeKeyAndVisible()
+        }
+        observer.onNext(())
+        observer.onCompleted()
+      }
+      
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+        observer.onCompleted()
+      }
+      alert.addAction(logoutAction)
+      alert.addAction(cancelAction)
+      
+      self.present(alert, animated: true, completion: nil)
+      return Disposables.create()
+    }
+  }
+  
+  
+  // 회원 탈퇴 임시
+  private func tappedWithdrawal() -> Observable<Void> {
+    return Observable.create { observer in
+      let alert = UIAlertController(
+        title: "회원탈퇴",
+        message: "정말로 회원탈퇴 하시겠습니까?",
+        preferredStyle: .alert
+      )
+      
+      let logoutAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {

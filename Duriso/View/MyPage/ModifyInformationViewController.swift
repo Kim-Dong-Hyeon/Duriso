@@ -104,6 +104,7 @@ class ModifyInformationViewController: UIViewController {
       $0.top.equalTo(nicknameTextField.snp.bottom).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
+      $0.height.equalTo(48)
     }
     
     saveButton.snp.makeConstraints {
@@ -119,7 +120,6 @@ class ModifyInformationViewController: UIViewController {
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         self.navigationController?.pushViewController(self.changePasswordViewController, animated: true)
-        print("선택됨")
       })
       .disposed(by: disposeBag)
   }
