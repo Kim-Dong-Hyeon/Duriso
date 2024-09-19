@@ -228,7 +228,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
       let poiOption = PoiOptions(styleID: "currentLocationStyle")
       
       currentLocationMarker = layer?.addPoi(option: poiOption, at: currentPosition)
-//      print("POI added at position: (\(latitude), \(longitude))")
+      //      print("POI added at position: (\(latitude), \(longitude))")
     } else {
       print("Updating current location marker position")
       currentLocationMarker?.position = currentPosition

@@ -71,7 +71,7 @@
 		76EFE8BD2C8F3CBB0077D75B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 76EFE8BC2C8F3CBB0077D75B /* IQKeyboardManagerSwift */; };
 		76EFE8CE2C904D0B0077D75B /* OfflineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8CD2C904D0B0077D75B /* OfflineViewController.swift */; };
 		D61268992C8A81D50031114E /* PoiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268982C8A81D50031114E /* PoiViewModel.swift */; };
-		D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportData.swift */; };
+		D61268A12C8A82060031114E /* EmergencyReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689A2C8A82050031114E /* EmergencyReportModel.swift */; };
 		D61268A52C8A82060031114E /* OnlineMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612689E2C8A82050031114E /* OnlineMapModel.swift */; };
 		D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A82C8A82320031114E /* OnlineViewController.swift */; };
 		D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61268A92C8A82320031114E /* KakaoMapViewController.swift */; };
@@ -156,7 +156,7 @@
 		76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		76EFE8CD2C904D0B0077D75B /* OfflineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineViewController.swift; sourceTree = "<group>"; };
 		D61268982C8A81D50031114E /* PoiViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiViewModel.swift; sourceTree = "<group>"; };
-		D612689A2C8A82050031114E /* EmergencyReportData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportData.swift; sourceTree = "<group>"; };
+		D612689A2C8A82050031114E /* EmergencyReportModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyReportModel.swift; sourceTree = "<group>"; };
 		D612689E2C8A82050031114E /* OnlineMapModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineMapModel.swift; sourceTree = "<group>"; };
 		D61268A82C8A82320031114E /* OnlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineViewController.swift; sourceTree = "<group>"; };
 		D61268A92C8A82320031114E /* KakaoMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KakaoMapViewController.swift; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				D612689E2C8A82050031114E /* OnlineMapModel.swift */,
-				D612689A2C8A82050031114E /* EmergencyReportData.swift */,
+				D612689A2C8A82050031114E /* EmergencyReportModel.swift */,
 				76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */,
 			);
 			path = OnlineMap;
@@ -732,7 +732,7 @@
 				149EEFB32C871B000088FDB2 /* GuidelineKitView.swift in Sources */,
 				D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */,
 				E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */,
-				D61268A12C8A82060031114E /* EmergencyReportData.swift in Sources */,
+				D61268A12C8A82060031114E /* EmergencyReportModel.swift in Sources */,
 				E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */,
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				76EFE8CE2C904D0B0077D75B /* OfflineViewController.swift in Sources */,

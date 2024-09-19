@@ -287,7 +287,7 @@ class PoiViewModel {
         
         _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
           return { param in
-//            print("POI tapped: \(param.poiItem.itemID)")
+            //            print("POI tapped: \(param.poiItem.itemID)")
             self.poiTapped(param)
           }
         }
@@ -386,10 +386,10 @@ class PoiViewModel {
     if let layer = labelManager.getLabelLayer(layerID: layerID) {
       if show {
         layer.showAllPois() // 모든 POI를 표시
-//        print("\(layerID) POIs 표시 완료")
+        //        print("\(layerID) POIs 표시 완료")
       } else {
         layer.hideAllPois() // 모든 POI를 숨김
-//        print("\(layerID) POIs 숨김 완료")
+        //        print("\(layerID) POIs 숨김 완료")
       }
     } else {
       print("Error: Failed to get layer with ID \(layerID)")
@@ -481,29 +481,29 @@ class PoiViewModel {
   }
   
   func fetchDataForLocation(latitude: Double, longitude: Double) {
-         let boundingBox = calculateBoundingBox(for: CLLocation(latitude: latitude, longitude: longitude), radius: 2000) // 2km 반경
-         
-         // 쉘터 데이터 요청
-         shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
-             .subscribe(onNext: { shelterResponse in
-                 let shelters = shelterResponse.body
-                 self.shelterPois.onNext(shelters)
-             }, onError: { error in
-                 print("Error fetching shelters: \(error)")
-             }).disposed(by: disposeBag)
-         
-         // AED 데이터 요청 및 처리
-         aedDataManager.fetchAllAeds()
-             .subscribe(onNext: { [weak self] response in
-                 let aeds = response.body
-                 let filteredAeds = self?.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
-                 self?.aedPois.onNext(filteredAeds ?? []) // 필터링된 데이터 전달
-             }, onError: { error in
-                 print("Error fetching AEDs: \(error)")
-             }).disposed(by: disposeBag)
-         
-         // 긴급 보고 데이터 처리
-         let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
-         emergencyReportPois.onNext(emergencyReports)
-     }
+    let boundingBox = calculateBoundingBox(for: CLLocation(latitude: latitude, longitude: longitude), radius: 2000) // 2km 반경
+    
+    // 쉘터 데이터 요청
+    shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
+      .subscribe(onNext: { shelterResponse in
+        let shelters = shelterResponse.body
+        self.shelterPois.onNext(shelters)
+      }, onError: { error in
+        print("Error fetching shelters: \(error)")
+      }).disposed(by: disposeBag)
+    
+    // AED 데이터 요청 및 처리
+    aedDataManager.fetchAllAeds()
+      .subscribe(onNext: { [weak self] response in
+        let aeds = response.body
+        let filteredAeds = self?.filterAedsInBoundingBox(aeds: aeds, boundingBox: boundingBox)
+        self?.aedPois.onNext(filteredAeds ?? []) // 필터링된 데이터 전달
+      }, onError: { error in
+        print("Error fetching AEDs: \(error)")
+      }).disposed(by: disposeBag)
+    
+    // 긴급 보고 데이터 처리
+    let emergencyReports = EmergencyReportData.shared.setEmergencyReports()
+    emergencyReportPois.onNext(emergencyReports)
+  }
 }

@@ -25,12 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let aedDataManager = AedDataManager()
     DispatchQueue.global(qos: .background).async {
-        aedDataManager.fetchAllAeds()
-            .subscribe(onNext: { response in },
-                       onError: { error in
-                print("Error fetching AEDs: \(error)")
-            })
-            .disposed(by: aedDataManager.disposeBag)
+      aedDataManager.fetchAllAeds()
+        .subscribe(onNext: { response in },
+                   onError: { error in
+          print("Error fetching AEDs: \(error)")
+        })
+        .disposed(by: aedDataManager.disposeBag)
     }
     
     // 네트워크 모니터링 시작
