@@ -14,7 +14,6 @@ struct CategoryTableViewModel {
   
   func fetchItem() {
     let category = [
-      Category(title: "긴급제보"),
       Category(title: "태풍"),
       Category(title: "지진"),
       Category(title: "홍수"),
