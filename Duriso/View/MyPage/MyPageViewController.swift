@@ -27,8 +27,20 @@ class MyPageViewController: UIViewController {
   }
   
   private let nickNameLabel = UILabel().then {
-    $0.text = "조수환" // 테스트용 텍스트
+    $0.text = "test" // 테스트용 텍스트
     $0.font = CustomFont.Body.font()
+    $0.textColor = .CBlack
+  }
+  
+  private let postCountLabel = UILabel().then {
+    $0.text = "게시글 수"
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .CBlack
+  }
+  
+  private let postCount = UILabel().then {
+    $0.text = "0"
+    $0.font = CustomFont.Body2.font()
     $0.textColor = .CBlack
   }
   
@@ -41,7 +53,7 @@ class MyPageViewController: UIViewController {
   
   private let myPageTableView = UITableView().then {
     $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
-    $0.isScrollEnabled = false
+    $0.isScrollEnabled = true
   }
   
   private let infoLabel = UILabel().then {
@@ -72,6 +84,8 @@ class MyPageViewController: UIViewController {
     [
       profileImage,
       nickNameLabel,
+      postCountLabel,
+      postCount,
       profileButton,
       myPageTableView,
       infoLabel
@@ -85,12 +99,22 @@ class MyPageViewController: UIViewController {
     }
     
     nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
       $0.leading.equalTo(profileImage.snp.trailing).offset(40)
     }
     
+    postCountLabel.snp.makeConstraints {
+      $0.top.equalTo(nickNameLabel.snp.bottom).offset(16)
+      $0.leading.equalTo(profileImage.snp.trailing).offset(40)
+    }
+    
+    postCount.snp.makeConstraints {
+      $0.centerY.equalTo(postCountLabel)
+      $0.leading.equalTo(postCountLabel.snp.trailing).offset(32)
+    }
+    
     profileButton.snp.makeConstraints {
-      $0.top.equalTo(profileImage.snp.bottom).offset(16)
+      $0.top.equalTo(profileImage.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -110,6 +134,16 @@ class MyPageViewController: UIViewController {
     }
   }
   private func bindViewModel() {
+    
+    viewModel.nickname
+      .bind(to: nickNameLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    viewModel.postcount
+      .map { "\($0)" }
+      .bind(to: postCount.rx.text)
+      .disposed(by: disposeBag)
+    
     viewModel.items
       .bind(
         to: myPageTableView.rx.items(
@@ -164,8 +198,10 @@ class MyPageViewController: UIViewController {
       )
       
       let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)
+        
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
           let window = windowScene.windows.first
           window?.rootViewController = navController
@@ -186,8 +222,6 @@ class MyPageViewController: UIViewController {
     }
   }
   
-  
-  // 회원 탈퇴 임시
   private func tappedWithdrawal() -> Observable<Void> {
     return Observable.create { observer in
       let alert = UIAlertController(
@@ -196,9 +230,11 @@ class MyPageViewController: UIViewController {
         preferredStyle: .alert
       )
       
-      let logoutAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
+      let withdrawAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
+        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)
+        
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
           let window = windowScene.windows.first
           window?.rootViewController = navController
@@ -211,7 +247,7 @@ class MyPageViewController: UIViewController {
       let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         observer.onCompleted()
       }
-      alert.addAction(logoutAction)
+      alert.addAction(withdrawAction)
       alert.addAction(cancelAction)
       
       self.present(alert, animated: true, completion: nil)

@@ -23,7 +23,7 @@ class LegalNoticeViewController: UIViewController {
     view.backgroundColor = .systemBackground
     self.tabBarController?.tabBar.isHidden = true
 
-    legalNoticeTableView.rowHeight = 64
+    legalNoticeTableView.rowHeight = 48
     
     configureUI()
     bindViewModel()
