@@ -48,12 +48,12 @@ class BoardViewController: UIViewController {
     $0.setTitle("글쓰기", for: .normal)
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Deco4.font()
+    $0.titleLabel?.font = CustomFont.Body3.font()
     // 코너 둥글게
-    $0.layer.cornerRadius = 25
+    $0.layer.cornerRadius = 17
     $0.clipsToBounds = true
     // 패딩 설정
-    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
+    $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
     // 그림자 추가
     $0.layer.shadowColor = UIColor.black.cgColor
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
@@ -65,7 +65,7 @@ class BoardViewController: UIViewController {
     $0.tintColor = .CWhite
     $0.imageView?.contentMode = .scaleAspectFit
     
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
   }
   
   private let notificationCollectionView: UICollectionView = {
@@ -395,10 +395,10 @@ class BoardViewController: UIViewController {
     }
     
     writingButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(100)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
       $0.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(30)
-      $0.width.equalTo(80)
+      $0.height.equalTo(34)
+      $0.width.greaterThanOrEqualTo(100)
     }
   }
 }

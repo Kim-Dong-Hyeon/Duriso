@@ -34,13 +34,15 @@ class GuidelineViewController: UIViewController {
   private let urgentMessageContainer = UIView().then {
     $0.isHidden = false
     $0.alpha = 1.0
-    $0.backgroundColor = .lightGray
+    $0.backgroundColor = .CLightBlue2
+    $0.layer.borderColor = UIColor.CBlue.cgColor
+    $0.layer.borderWidth = 0.5
     $0.layer.cornerRadius = 10
   }
   
   private let urgentMessageContainerLabel = UILabel().then {
     $0.text = ""
-    $0.font = CustomFont.Head4.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 3
   }
   
@@ -174,13 +176,13 @@ class GuidelineViewController: UIViewController {
     urgentMessageContainer.snp.makeConstraints {
       $0.top.equalTo(urgentMessage.snp.bottom).offset(8)
       $0.centerX.equalToSuperview()
-      $0.height.equalTo(60)
+      $0.height.equalTo(80)
       $0.width.equalTo(350)
     }
     
     urgentMessageContainerLabel.snp.makeConstraints {
       $0.centerY.equalTo(urgentMessageContainer.snp.centerY)
-      $0.leading.equalTo(10)
+      $0.leading.trailing.equalTo(10)
       $0.width.equalTo(340)
     }
     
