@@ -65,10 +65,10 @@ class MainTabBarViewController: UITabBarController {
   
   /// 탭바 아이템 설정
   private func setupTaps() {
-    let mapIcon = resizeImage(image: UIImage(named: "MapIcon")!, targetSize: CGSize(width: 20, height: 20))
-    let communityIcon = resizeImage(image: UIImage(named: "communityIcon")!, targetSize: CGSize(width: 20, height: 20))
-    let docsIcon = resizeImage(image: UIImage(named: "DocsIcon")!, targetSize: CGSize(width: 16, height: 20))
-    let userIcon = resizeImage(image: UIImage(named: "UserIcon")!, targetSize: CGSize(width: 20, height: 20))
+    let mapIcon = resizeImage(image: UIImage(named: "MapIcon")!, targetSize: CGSize(width: 24, height: 24))
+    let communityIcon = resizeImage(image: UIImage(named: "communityIcon")!, targetSize: CGSize(width: 24, height: 24))
+    let docsIcon = resizeImage(image: UIImage(named: "DocsIcon")!, targetSize: CGSize(width: 20, height: 24))
+    let userIcon = resizeImage(image: UIImage(named: "UserIcon")!, targetSize: CGSize(width: 24, height: 24))
     
     let mapVC = UINavigationController(rootViewController: OnlineViewController())
     mapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), tag: 0)
@@ -98,7 +98,7 @@ class MainTabBarViewController: UITabBarController {
     offlineDataDevVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 4)
     
     //    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
-    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineDataDevVC]
+    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC/*, offlineDataDevVC*/]
     
     //    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     offlineViewControllers = [offlineDataVC, offlineboardVC, guidelineVC, offlinemypageVC]

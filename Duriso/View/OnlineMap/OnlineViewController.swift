@@ -8,12 +8,14 @@
 import UIKit
 
 import FirebaseFirestore
+import KakaoMapsSDK
 import RxCocoa
 import RxSwift
 import SnapKit
-import KakaoMapsSDK
 
 class OnlineViewController: UIViewController, PoiViewModelDelegate {
+  
+  // MARK: - Properties
   
   private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
@@ -24,11 +26,11 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private let firestore = Firestore.firestore()
   
   var mapContainer: KMViewContainer?
-  
   public var si: String = ""
   public var gu: String = ""
   public var dong: String = ""
   
+  // UI 요소
   let addressView = UIStackView().then {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
@@ -95,13 +97,14 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     selectedColor: .CBlue
   )
   
+  // MARK: - Lifecycle Methods
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
-    setupViews()
-    setupConstraints()
-    setupButtonBindings()
+    setupViews()  // 뷰 설정
+    setupConstraints()  // 제약 조건 설정
+    setupButtonBindings()  // 버튼 바인딩 설정
     poiViewModel.delegate = self
     
     // 위치 업데이트 콜백 설정
@@ -112,15 +115,12 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    // 위치 업데이트 시작
-    LocationManager.shared.startUpdatingLocation()
-    
+    LocationManager.shared.startUpdatingLocation()  // 위치 업데이트 시작
   }
   
+  // MARK: - View Setup
   
   func setupViews() {
-    
     addChild(onlineMapViewController)
     view.addSubview(onlineMapViewController.view)
     onlineMapViewController.didMove(toParent: self)
@@ -143,6 +143,8 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       addressRefreshButton
     ].forEach { addressView.addSubview($0) }
   }
+  
+  // MARK: - Constraints Setup
   
   func setupConstraints() {
     onlineMapViewController.view.snp.makeConstraints {
@@ -168,12 +170,13 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       $0.width.height.equalTo(16)
     }
     
-    currentLocationButton.snp.makeConstraints{
+    currentLocationButton.snp.makeConstraints {
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(writingButton.snp.top).offset(-8)
       $0.width.height.equalTo(40)
     }
-    writingButton.snp.makeConstraints{
+    
+    writingButton.snp.makeConstraints {
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
       $0.width.height.equalTo(40)
@@ -185,24 +188,22 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(13)
     }
     
-    shelterButton.snp.makeConstraints{
+    shelterButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
     
-    aedButton.snp.makeConstraints{
+    aedButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
     
-    emergencyReportButton.snp.makeConstraints{
+    emergencyReportButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
   }
   
+  // MARK: - Button Creation & Bindings
   
-  
-  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
-  -> UIButton {
-    
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) -> UIButton {
     let button = UIButton(type: .custom)
     button.setImage(UIImage(systemName: symbolName), for: .normal)
     button.tintColor = .CWhite
@@ -210,70 +211,34 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     button.titleLabel?.font = CustomFont.Body3.font()
     button.setTitleColor(.CWhite, for: .normal)
     button.backgroundColor = selectedColor
-    
-    button.isSelected = false
     button.layer.cornerRadius = 17
-    
     button.layer.shadowColor = UIColor.black.cgColor
     button.layer.shadowOffset = CGSize(width: 0, height: 4)
     button.layer.shadowRadius = 4
     button.layer.shadowOpacity = 0.2
     button.layer.masksToBounds = false
-    
     button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-    
     button.isSelected = false
     return button
   }
   
-  // 위치에 따라 주소 레이블을 업데이트하는 메서드
-  func updatePlaceNameLabel(latitude: Double, longitude: Double) {
-    let regionFetcher = RegionFetcher()
-    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) {
-      [weak self] documents, error in guard let self = self else { return }
-      if let document = documents?.first {
-        si = document.region1DepthName
-        gu = document.region2DepthName
-        dong = document.region3DepthName
-        DispatchQueue.main.async {
-          let region = "\(document.region1DepthName) \(document.region2DepthName) \(document.region3DepthName)"
-          self.addressLabel.text = region
-          
-          print("Your Location is: \(region)")
-        }
-      }
-      if let error = error {
-        print("Error fetching region: \(error)")
-        return
-      }
-    }
-  }
-  
   private func setupButtonBindings() {
-    
-    // Shelter 버튼
     bindButtonTap(for: shelterButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleShelterButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // AED 버튼
     bindButtonTap(for: aedButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleAedButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // emergencyReportButton
     bindButtonTap(for: emergencyReportButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleEmergencyReportButton(mapController: self.onlineMapViewController.mapController!)
     }
   }
   
-  /// 버튼의 tap 이벤트와 액션을 바인딩하는 함수
-  /// - Parameters:
-  ///   - button: Rx 이벤트를 바인딩할 UIButton
-  ///   - toggleAction: 버튼이 눌렸을 때 실행할 액션
   private func bindButtonTap(for button: UIButton, toggleAction: @escaping () -> Void) {
     button.rx.tap
       .bind {
@@ -282,6 +247,27 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       .disposed(by: disposeBag)
   }
   
+  // MARK: - Location and Address Handling
+  
+  func updatePlaceNameLabel(latitude: Double, longitude: Double) {
+    let regionFetcher = RegionFetcher()
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
+      guard let self = self else { return }
+      if let document = documents?.first {
+        self.si = document.region1DepthName
+        self.gu = document.region2DepthName
+        self.dong = document.region3DepthName
+        DispatchQueue.main.async {
+          let region = "\(self.si) \(self.gu) \(self.dong)"
+          self.addressLabel.text = region
+          print("Your Location is: \(region)")
+        }
+      }
+      if let error = error {
+        print("Error fetching region: \(error)")
+      }
+    }
+  }
   
   @objc private func didTapAddressRefreshButton() {
     print("AddressRefreshButton clicked")
@@ -289,35 +275,23 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       print("Error: Failed to get mapView")
       return
     }
-    
-    // 중앙 좌표에 해당하는 실제 지도상의 위치(MapPoint)를 가져옵니다.
     let centerMapPoint = mapView.getPosition(CGPoint(x: 0.5, y: 0.5))
-    
-    // `MapPoint` 객체의 `wgsCoord` 속성에서 위도와 경도를 추출합니다.
     let latitude = centerMapPoint.wgsCoord.latitude
     let longitude = centerMapPoint.wgsCoord.longitude
-    
-    // 위치 기반 데이터 요청
     poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
     updatePlaceNameLabel(latitude: latitude, longitude: longitude)
-    
-    // 위도와 경도 출력 (디버깅용)
     print("Latitude: \(latitude), Longitude: \(longitude)")
   }
   
   @objc private func didTapCurrentLocationButton() {
-    // Handle the writing button tap action here
     print("CurrentLocation button tapped")
-    // 현재 위치로 이동하는 메서드
     if let currentLocation = LocationManager.shared.currentLocation {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
       onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
       onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
-      
       poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
       updatePlaceNameLabel(latitude: latitude, longitude: longitude)
-      
     } else {
       LocationManager.shared.startUpdatingLocation()
     }
@@ -325,36 +299,16 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   @objc private func didTapWritingButton() {
     let emergencyWrittingVC = EmergencyWrittingViewController()
-    
-    // OnlineViewController의 인스턴스를 emergencyWrittingVC에 전달
     emergencyWrittingVC.setOnlineViewController(self)
-    
-    // OnlineViewController의 위도와 경도 값을 emergencyWrittingVC에 전달
     emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
     emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
-    
-    // 디버깅용 프린트
-    print("OnlineViewController si: \(si), gu: \(gu), dong: \(dong)")
-    print("OnlineViewController latitude: \(emergencyWrittingVC.latitude), longitude: \(emergencyWrittingVC.longitude)")
-    
     let bottomSheetVC = MapBottomSheetViewController()
     bottomSheetVC.configureContentViewController(emergencyWrittingVC)
     present(bottomSheetVC, animated: true)
-    
     print("Emergency Writing button tapped")
   }
   
-  
-  func didTapShelter(poiID: String, shelterType: String, address: String) {
-    let shelterVC = ShelterViewController()
-    shelterVC.poiName = poiID
-    shelterVC.poiAddress = address
-    shelterVC.poiType = shelterType
-    
-    let bottomSheetVC = MapBottomSheetViewController()
-    bottomSheetVC.configureContentViewController(shelterVC)
-    present(bottomSheetVC, animated: true)
-  }
+  // MARK: - POI Interactions
   
   func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String, location: String) {
     let aedVC = AedViewController()
@@ -364,7 +318,6 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     aedVC.adminNumber = adminNumber
     aedVC.managementAgency = managementAgency
     aedVC.location = location
-    
     let bottomSheetVC = MapBottomSheetViewController()
     bottomSheetVC.configureContentViewController(aedVC)
     present(bottomSheetVC, animated: true)
@@ -372,20 +325,14 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
   func didTapEmergencyReport(poiID: String, address: String) {
     let emergencyReportVC = EmergencyReportViewController()
-    
-    // Firestore에서 데이터를 가져옵니다.
     firestore.collection("posts").document(poiID).getDocument { document, error in
       if let document = document, document.exists {
         let data = document.data()
-        
-        // Firestore에서 데이터를 가져와 EmergencyReportViewController에 전달
         emergencyReportVC.reportName = data?["title"] as? String ?? "Unknown"
         emergencyReportVC.reportAddress = "\(data?["si"] ?? "") \(data?["gu"] ?? "") \(data?["dong"] ?? "")"
         emergencyReportVC.authorName = data?["author"] as? String ?? "Unknown Author"
-        emergencyReportVC.postTime = (data?["posttime"] as? Timestamp)?.dateValue()  // Timestamp -> Date 변환
+        emergencyReportVC.postTime = (data?["posttime"] as? Timestamp)?.dateValue()
         emergencyReportVC.postContent = data?["contents"] as? String ?? "No content available"
-        
-        // 데이터 전달 후, BottomSheet로 화면 전환
         let bottomSheetVC = MapBottomSheetViewController()
         bottomSheetVC.configureContentViewController(emergencyReportVC)
         self.present(bottomSheetVC, animated: true)
@@ -394,6 +341,17 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       }
     }
   }
+  
+  func didTapShelter(poiID: String, shelterType: String, address: String) {
+    let shelterVC = ShelterViewController()
+    shelterVC.poiName = poiID
+    shelterVC.poiAddress = address
+    shelterVC.poiType = shelterType
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(shelterVC)
+    present(bottomSheetVC, animated: true)
+  }
+  
 }
 
 @available(iOS 17.0, *)

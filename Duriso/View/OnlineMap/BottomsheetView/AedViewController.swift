@@ -1,9 +1,18 @@
+//
+//  AedViewController.swift
+//  Duriso
+//
+//  Created by 이주희 on 9/4/24.
+//
+
 import UIKit
 
 import SnapKit
 import Then
 
 class AedViewController: UIViewController {
+  
+  // MARK: - Properties
   
   var poiName: String?
   var poiAddress: String?
@@ -12,8 +21,7 @@ class AedViewController: UIViewController {
   var managementAgency: String?
   var location: String?
   
-  
-  /// <#Description#>
+  // AED 타입 스택 뷰 (로고와 라벨)
   private let typeStackView = UIStackView().then {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
@@ -85,6 +93,8 @@ class AedViewController: UIViewController {
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
+  // MARK: - Lifecycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
@@ -92,9 +102,10 @@ class AedViewController: UIViewController {
     setupView()
     setupConstraints()
     
-    // POI 데이터 업데이트
     updatePoiData()
   }
+  
+  // MARK: - View Setup
   
   func setupView() {
     [
@@ -109,9 +120,11 @@ class AedViewController: UIViewController {
       adminInfoLabel,
       adminNameLabel,
       adminNumberLabel,
-      cancelButton,
+      cancelButton
     ].forEach { view.addSubview($0) }
   }
+  
+  // MARK: - Constraints Setup
   
   func setupConstraints() {
     typeStackView.snp.makeConstraints {
@@ -158,24 +171,31 @@ class AedViewController: UIViewController {
     
     cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)
+      $0.width.height.equalTo(32)  
     }
   }
   
-  // 전달받은 POI 데이터를 UILabel에 반영
+  // MARK: - POI Data Update
+  
+  // 전달받은 POI 데이터를 UI에 반영
   func updatePoiData() {
     aedName.text = "\(location ?? "제공된 데이터가 없습니다.")"
+    
     if let poiAddress = poiAddress {
       let formattedAddress = poiAddress.replacingOccurrences(of: "(", with: "\n(")
       aedAddress.text = "주소: \(formattedAddress)"
     } else {
       aedAddress.text = "주소: 제공된 데이터가 없습니다."
     }
+    
     adminInfoLabel.text = "관리기관: \(managementAgency ?? "제공된 데이터가 없습니다.")"
     adminNameLabel.text = "관리자 이름: \(adminName ?? "제공된 데이터가 없습니다.")"
     adminNumberLabel.text = " (\(adminNumber ?? "제공된 데이터가 없습니다."))"
   }
   
+  // MARK: - Actions
+  
+  // 취소 버튼 클릭 시 호출되는 함수
   @objc func didTapCancelButton() {
     dismiss(animated: true)
   }
