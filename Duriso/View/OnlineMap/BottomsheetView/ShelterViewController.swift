@@ -21,7 +21,7 @@ class ShelterViewController: UIViewController {
   
   // UI 요소들
   private let typeStackView = UIStackView().then {
-
+    
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
@@ -163,7 +163,7 @@ class ShelterViewController: UIViewController {
     } else {
       shelterAddress.text = "주소: 제공받은 데이터가 없습니다."
     }
-  
+    
     shelterType.text = poiType ?? "제공받은 데이터가 없습니다."
   }
   
