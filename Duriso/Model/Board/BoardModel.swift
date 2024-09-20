@@ -66,7 +66,7 @@ struct SomeDataModel {
     static func getDataSource() -> [SomeDataModel] {
       return [
         SomeDataModel(type: .allPerson, name: "전체"),
-        SomeDataModel(type: .atipoff, name: "긴급제보", imageName: "light.beacon.max"),
+        SomeDataModel(type: .atipoff, name: "긴급제보"/*, imageName: "light.beacon.max"*/),
         SomeDataModel(type: .typhoon, name: "태풍"),
         SomeDataModel(type: .earthquake, name: "지진"),
         SomeDataModel(type: .flood, name: "홍수"),
