@@ -52,21 +52,13 @@ class MyPageViewController: UIViewController {
   private let profileButton = UIButton().then {
     $0.setTitle("내 정보", for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head5.font()
     $0.layer.cornerRadius = 10
   }
   
   private let myPageTableView = UITableView().then {
     $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
     $0.isScrollEnabled = true
-  }
-  
-  private let infoLabel = UILabel().then {
-    $0.text = "두리소 \n관리자: 김신이조 \n사업자 번호: \n전화번호"   // 테스트용
-    $0.font = CustomFont.Body3.font()
-    $0.textColor = .lightGray
-    $0.numberOfLines = 0
-    $0.textAlignment = .left
   }
   
   override func viewDidLoad() {
@@ -94,12 +86,11 @@ class MyPageViewController: UIViewController {
       postCount,
       profileButton,
       myPageTableView,
-      infoLabel
     ].forEach { view.addSubview($0) }
     
     profileImage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.width.height.equalTo(80)
     }
     
@@ -119,23 +110,17 @@ class MyPageViewController: UIViewController {
     }
     
     profileButton.snp.makeConstraints {
-      $0.top.equalTo(profileImage.snp.bottom).offset(24)
+      $0.top.equalTo(profileImage.snp.bottom).offset(30)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
     myPageTableView.snp.makeConstraints {
-      $0.top.equalTo(profileButton.snp.bottom).offset(8)
+      $0.top.equalTo(profileButton.snp.bottom).offset(20)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
-      $0.bottom.equalTo(infoLabel.snp.top).offset(-16)
-    }
-    
-    infoLabel.snp.makeConstraints {
-      $0.top.equalTo(myPageTableView.snp.bottom).offset(16)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
     }
   }
   private func bindViewModel() {
