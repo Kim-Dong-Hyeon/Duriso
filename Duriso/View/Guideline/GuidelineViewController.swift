@@ -141,7 +141,7 @@ class GuidelineViewController: UIViewController {
       .bind(to: urgentMessageContainerLabel.rx.text)
       .disposed(by: disposeBag)
     
-    timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+    timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
       self?.updateMessageContent()
     }
   }

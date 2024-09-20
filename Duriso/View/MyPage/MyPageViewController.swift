@@ -17,6 +17,7 @@ class MyPageViewController: UIViewController {
   
   let noticeViewController = NoticeViewController()
   let legalNoticeViewController = LegalNoticeViewController()
+  let copyrightViewController = CopyrightViewController()
   let modifyInformationViewController = ModifyInformationViewController()
   
   private let titleLabel = UILabel().then {
@@ -161,6 +162,10 @@ class MyPageViewController: UIViewController {
         case "법적고지":
           legalNoticeViewController.title = item.title
           navigationController?.pushViewController(legalNoticeViewController, animated: true)
+          return .just(())
+        case "저작권 표시":
+          copyrightViewController.title = item.title
+          navigationController?.pushViewController(copyrightViewController, animated: true)
           return .just(())
         default:
           return .empty()
