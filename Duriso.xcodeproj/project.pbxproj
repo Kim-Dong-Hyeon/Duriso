@@ -85,6 +85,15 @@
 		768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A82C8B530300A92ED6 /* PostViewController.swift */; };
 		768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */; };
 		768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */; };
+		76DFBBD62C9DA3DB00C676CF /* notoSans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76DFBBD52C9DA3DB00C676CF /* notoSans.txt */; };
+		76DFBBD92C9DAB0A00C676CF /* maplibre.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76DFBBD82C9DAB0A00C676CF /* maplibre.txt */; };
+		76DFBBDD2C9DABF300C676CF /* api.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76DFBBDC2C9DABF300C676CF /* api.txt */; };
+		76DFBBDF2C9DAC2C00C676CF /* imagedocument.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76DFBBDE2C9DAC2C00C676CF /* imagedocument.txt */; };
+		76DFBBE12C9DAD4B00C676CF /* CopyrightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE02C9DAD4B00C676CF /* CopyrightModel.swift */; };
+		76DFBBE32C9DADA700C676CF /* CopyrightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE22C9DADA700C676CF /* CopyrightDetailViewController.swift */; };
+		76DFBBE72C9DAE4300C676CF /* CopyrightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */; };
+		76DFBBE92C9DAF7000C676CF /* CopyrightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */; };
+		76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */; };
 		76E370652C93CCB9005724E9 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E370642C93CCB9005724E9 /* LocationModel.swift */; };
 		76E3706B2C947676005724E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76E3706A2C947676005724E9 /* FirebaseFirestore */; };
 		76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */; };
@@ -197,6 +206,15 @@
 		768F50A82C8B530300A92ED6 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
+		76DFBBD52C9DA3DB00C676CF /* notoSans.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = notoSans.txt; sourceTree = "<group>"; };
+		76DFBBD82C9DAB0A00C676CF /* maplibre.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = maplibre.txt; sourceTree = "<group>"; };
+		76DFBBDC2C9DABF300C676CF /* api.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = api.txt; sourceTree = "<group>"; };
+		76DFBBDE2C9DAC2C00C676CF /* imagedocument.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = imagedocument.txt; sourceTree = "<group>"; };
+		76DFBBE02C9DAD4B00C676CF /* CopyrightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightModel.swift; sourceTree = "<group>"; };
+		76DFBBE22C9DADA700C676CF /* CopyrightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightDetailViewController.swift; sourceTree = "<group>"; };
+		76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightTableViewCell.swift; sourceTree = "<group>"; };
+		76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightViewController.swift; sourceTree = "<group>"; };
+		76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightViewModel.swift; sourceTree = "<group>"; };
 		76E370642C93CCB9005724E9 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFetcher.swift; sourceTree = "<group>"; };
@@ -290,6 +308,7 @@
 			children = (
 				76174BEC2C9C333D00909EDC /* OfflineData */,
 				E20C3A5E2C873A8600AD5AA4 /* LegalNotice */,
+				76DFBBD72C9DAA0C00C676CF /* Copyrights */,
 				76174BF72C9C33B700909EDC /* GuidelinePDF */,
 			);
 			path = Data;
@@ -402,6 +421,9 @@
 				E219EAF22C8860DF00A1E3F7 /* NoticeTableViewCell.swift */,
 				E2DAB85A2C85EA2A0037BCA2 /* NoticeViewController.swift */,
 				E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */,
+				76DFBBE22C9DADA700C676CF /* CopyrightDetailViewController.swift */,
+				76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */,
+				76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -451,6 +473,7 @@
 				7622D05D2C7C1F9F00B1AEB2 /* MyPageViewModel.swift */,
 				E2DAB8612C863AE00037BCA2 /* LegalNoticeViewModel.swift */,
 				E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */,
+				76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -470,6 +493,7 @@
 				7622D0792C7C21DA00B1AEB2 /* MyPageModel.swift */,
 				E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */,
 				E2334CF82C947300003D9612 /* NoticeModel.swift */,
+				76DFBBE02C9DAD4B00C676CF /* CopyrightModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -606,6 +630,17 @@
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		76DFBBD72C9DAA0C00C676CF /* Copyrights */ = {
+			isa = PBXGroup;
+			children = (
+				76DFBBD52C9DA3DB00C676CF /* notoSans.txt */,
+				76DFBBD82C9DAB0A00C676CF /* maplibre.txt */,
+				76DFBBDC2C9DABF300C676CF /* api.txt */,
+				76DFBBDE2C9DAC2C00C676CF /* imagedocument.txt */,
+			);
+			path = Copyrights;
 			sourceTree = "<group>";
 		};
 		76EFE8B42C8F1EF80077D75B /* SignUp */ = {
@@ -762,6 +797,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76DFBBD92C9DAB0A00C676CF /* maplibre.txt in Resources */,
 				E20C3A762C874A3600AD5AA4 /* notice1.txt in Resources */,
 				E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */,
 				E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */,
@@ -776,12 +812,15 @@
 				76174BFF2C9C33B700909EDC /* Heavysnow.pdf in Resources */,
 				76174C002C9C33B700909EDC /* HeatWave.pdf in Resources */,
 				76174C012C9C33B700909EDC /* NuclearAttack.pdf in Resources */,
+				76DFBBDF2C9DAC2C00C676CF /* imagedocument.txt in Resources */,
 				7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */,
 				7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */,
 				7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */,
+				76DFBBD62C9DA3DB00C676CF /* notoSans.txt in Resources */,
 				7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */,
 				7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */,
 				7622D08A2C7EB32900B1AEB2 /* GoogleService-Info.plist in Resources */,
+				76DFBBDD2C9DABF300C676CF /* api.txt in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
@@ -801,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */,
+				76DFBBE32C9DADA700C676CF /* CopyrightDetailViewController.swift in Sources */,
 				768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */,
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
 				768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */,
@@ -815,6 +855,7 @@
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
 				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
+				76DFBBE92C9DAF7000C676CF /* CopyrightViewController.swift in Sources */,
 				D61268A52C8A82060031114E /* OnlineMapModel.swift in Sources */,
 				768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */,
 				E2DAB85E2C86380D0037BCA2 /* LegalNoticeViewController.swift in Sources */,
@@ -827,6 +868,7 @@
 				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
 				D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
+				76DFBBE12C9DAD4B00C676CF /* CopyrightModel.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
 				76174BD82C9AA66700909EDC /* OfflineDataModel.swift in Sources */,
 				76174BDE2C9AAB4300909EDC /* OfflineDataViewController.swift in Sources */,
@@ -839,6 +881,7 @@
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */,
 				D62E9CCA2C944B2E00829FB8 /* EmergencyReportViewController.swift in Sources */,
+				76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
@@ -856,6 +899,7 @@
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
+				76DFBBE72C9DAE4300C676CF /* CopyrightTableViewCell.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,

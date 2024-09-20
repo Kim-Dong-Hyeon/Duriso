@@ -26,6 +26,7 @@ class MyPageViewModel {
       MyPageModel(title: "푸시알림", type: .toggle, selected: false),
       MyPageModel(title: "공지사항", type: .disclosure, selected: true),
       MyPageModel(title: "법적고지", type: .disclosure, selected: true),
+      MyPageModel(title: "저작권 표시", type: .disclosure, selected: true),
       MyPageModel(title: "오프라인 정보 다운로드", type: .disclosure, selected: true),
       MyPageModel(title: "버전 정보", type: .version(version), selected: false),
       MyPageModel(title: "로그아웃", type: .disclosure, selected: true),

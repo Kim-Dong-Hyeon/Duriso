@@ -90,7 +90,7 @@ class GuidelineViewModel {
   
   private func startDisplayingMessages() {
     var messageIndex = 0
-    Observable<Int>.interval(.seconds(2), scheduler: MainScheduler.instance)
+    Observable<Int>.interval(.seconds(5), scheduler: MainScheduler.instance)
       .subscribe(onNext: { [weak self] _ in
         guard let self = self else { return }
         if self.recentMessages.isEmpty {

@@ -1,0 +1,7 @@
+[API]
+
+* 긴급재난문자: 재난안전데이터공유플랫폼 - 행정안전부_긴급재난문자 (https://www.safetydata.go.kr/disaster-data/view?dataSn=228)
+* 통합대피소: 재난안전데이터공유플랫폼 - 통합대피소 (https://www.safetydata.go.kr/disaster-data/view?dataSn=1346)
+* 민방위대피소: 재난안전데이터공유플랫폼 - 행정안전부_민방위_대피소 (https://www.safetydata.go.kr/disaster-data/view?dataSn=184)
+* AED: 재난안전데이터공유플랫폼 - 행정안전부_자동심장충격기_AED (https://www.safetydata.go.kr/disaster-data/view?dataSn=59)
+* 카카오 API - 카카오 Developers (https://developers.kakao.com/docs/latest/ko/local/dev-guide)
