@@ -24,16 +24,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // MARK: - 개발용 : 로그인 페이지 건너뛰고 MainTabBar로 바로 이동
     
-    let mainTabBarViewModel = MainTabBarViewModel()
-    let mainTabBarViewController = MainTabBarViewController(viewModel: mainTabBarViewModel)
-    
-    window.rootViewController = mainTabBarViewController
+//    let mainTabBarViewModel = MainTabBarViewModel()
+//    let mainTabBarViewController = MainTabBarViewController(viewModel: mainTabBarViewModel)
+//    
+//    window.rootViewController = mainTabBarViewController
     
     // MARK: - 실 서비스용 : 로그인 페이지를 첫 화면으로 할 경우
     
-//    let rootVC = LoginViewController()
-//    let introNavigationVC = UINavigationController(rootViewController: rootVC)
-//    window.rootViewController = introNavigationVC
+    let rootVC = LoginViewController()
+    let introNavigationVC = UINavigationController(rootViewController: rootVC)
+    window.rootViewController = introNavigationVC
     
     // MARK: - window 적용 부분
     
