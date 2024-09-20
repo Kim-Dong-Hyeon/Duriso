@@ -8,19 +8,22 @@
 import CoreLocation
 
 import FirebaseFirestore
-import RxSwift
 import KakaoMapsSDK
+import RxSwift
 
+
+// MARK: - Protocol for Delegate
 protocol PoiViewModelDelegate: AnyObject {
   func didTapShelter(poiID: String, shelterType: String, address: String)
   func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String, location: String)
   func didTapEmergencyReport(poiID: String, address: String)
 }
 
+// MARK: - PoiViewModel Class
 class PoiViewModel {
   
   // MARK: - Properties
-  static let shared = PoiViewModel()
+  static let shared = PoiViewModel()  // Singleton 패턴
   weak var delegate: PoiViewModelDelegate?
   
   private let boardFirebaseService = BoardFirebaseService()
@@ -34,6 +37,8 @@ class PoiViewModel {
   let emergencyReportPois = PublishSubject<[Posts]>()
   
   // MARK: - POI 데이터 설정 및 바운딩 박스 계산
+  
+  /// 현재 위치 기반으로 POI 데이터를 설정하고 바운딩 박스를 계산
   func setupPoiData() {
     guard let currentLocation = LocationManager.shared.currentLocation else { return }
     
@@ -45,6 +50,7 @@ class PoiViewModel {
     fetchEmergencyReportData()
   }
   
+  // MARK: - Shelter Data Fetching
   private func fetchShelterData(boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) {
     shelterNetworkManager.fetchShelters(boundingBox: boundingBox)
       .subscribe(onNext: { shelterResponse in
@@ -54,6 +60,7 @@ class PoiViewModel {
       }).disposed(by: disposeBag)
   }
   
+  // MARK: - AED Data Fetching
   private func fetchAedData(boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) {
     if let aedResponse = aedDataManager.loadAeds() {
       let filteredAeds = filterAedsInBoundingBox(aeds: aedResponse.body, boundingBox: boundingBox)
@@ -69,6 +76,7 @@ class PoiViewModel {
     }
   }
   
+  // MARK: - Emergency Report Data Fetching
   private func fetchEmergencyReportData() {
     boardFirebaseService.fetchPosts()
       .subscribe(onNext: { [weak self] posts in
@@ -78,6 +86,7 @@ class PoiViewModel {
       }).disposed(by: disposeBag)
   }
   
+  // MARK: - Bounding Box 계산
   func calculateBoundingBox(for location: CLLocation, radius: Double) -> (startLat: Double, endLat: Double, startLot: Double, endLot: Double) {
     let earthRadius = 6371000.0
     let deltaLat = (radius / earthRadius) * (180.0 / .pi)
@@ -91,6 +100,7 @@ class PoiViewModel {
     return (startLat, endLat, startLot, endLot)
   }
   
+  // MARK: - AED 필터링
   private func filterAedsInBoundingBox(aeds: [Aed], boundingBox: (startLat: Double, endLat: Double, startLot: Double, endLot: Double)) -> [Aed] {
     return aeds.filter { aed in
       return aed.latitude >= boundingBox.startLat && aed.latitude <= boundingBox.endLat &&
@@ -128,7 +138,7 @@ class PoiViewModel {
                    mapController: mapController)
   }
   
-  
+  // MARK: - POI 생성 및 바인딩
   private func bindLodPoiType<T>(
     poiObservable: Observable<[T]>,
     styleID: String,
@@ -144,7 +154,6 @@ class PoiViewModel {
           print("Error receiving LodPOIs for \(styleID): \(error)")
         }).disposed(by: disposeBag)
     }
-  
   
   // MARK: - POI 스타일 생성
   private func createLodPoiStyle(styleID: String, imageName: String, mapController: KMController) {
@@ -165,65 +174,70 @@ class PoiViewModel {
   }
   
   // MARK: - POI 생성 및 이벤트 핸들링
-  private func createLodPoi<T>(
-    items: [T],
-    layerID: String,
-    styleID: String,
-    mapController: KMController,
-    getPoiID: (T) -> String = { _ in UUID().uuidString },
-    getCoordinates: (T) -> (latitude: Double, longitude: Double),
-    getAddress: (T) -> String?,
-    getAdditionalInfo: (T) -> String?,
-    getAdditionalInfo2: (T) -> String?,
-    getAdditionalInfo3: (T) -> String?,
-    getAdditionalInfo4: (T) -> String?
-  ) {
-    guard let mapView = mapController.getView("mapview") as? KakaoMap else {
-      print("Error: mapView is nil")
-      return
-    }
-    
-    let labelManager = mapView.getLabelManager()
-    guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
-      print("Error: Failed to get layer with ID \(layerID)")
-      return
-    }
-    
-    layer.clearAllItems()
-    
-    for item in items {
-      let coordinates = getCoordinates(item)
-      let poiID = getPoiID(item)
-      let address = getAddress(item) ?? "제공받은 데이터가 없습니다."
-      let additionalInfo1 = getAdditionalInfo(item) ?? "제공받은 데이터가 없습니다."
-      let additionalInfo2 = getAdditionalInfo2(item) ?? "제공받은 데이터가 없습니다."
-      let additionalInfo3 = getAdditionalInfo3(item) ?? "제공받은 데이터가 없습니다."
-      let additionalInfo4 = getAdditionalInfo4(item) ?? "제공받은 데이터가 없습니다."
-      
-      if let poiItem = layer.addPoi(option: PoiOptions(styleID: styleID, poiID: poiID), at: MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)) {
-        poiItem.show()
-        poiItem.clickable = true
-        
-        poiItem.userObject = NSDictionary(dictionary: [
-          "poiID": poiID,
-          "latitude": coordinates.latitude,
-          "longitude": coordinates.longitude,
-          "address": address,
-          "additionalInfo1": additionalInfo1,
-          "additionalInfo2": additionalInfo2,
-          "additionalInfo3": additionalInfo3,
-          "additionalInfo4": additionalInfo4
-        ])
-        
-        _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
-          return { param in
-            self.poiTapped(param)
-          }
-        }
-      }
-    }
-  }
   
+  // MARK: - POI 생성 함수
+  private func createLodPoi<T>(
+      items: [T],
+      layerID: String,
+      styleID: String,
+      mapController: KMController,
+      getPoiID: (T) -> String,
+      getCoordinates: (T) -> (latitude: Double, longitude: Double),
+      getAddress: (T) -> String?,
+      getAdditionalInfo: (T) -> String?,
+      getAdditionalInfo2: (T) -> String?,
+      getAdditionalInfo3: (T) -> String?,
+      getAdditionalInfo4: (T) -> String?
+  ) {
+      guard let mapView = mapController.getView("mapview") as? KakaoMap else {
+          print("Error: mapView is nil")
+          return
+      }
+
+      let labelManager = mapView.getLabelManager()
+      guard let layer = labelManager.getLabelLayer(layerID: layerID) else {
+          print("Error: Failed to get layer with ID \(layerID)")
+          return
+      }
+
+      // 기존 레이어의 POI를 모두 삭제
+      layer.clearAllItems()
+
+      for item in items {
+          let coordinates = getCoordinates(item)
+          let poiID = getPoiID(item)
+          let address = getAddress(item) ?? "제공받은 데이터가 없습니다."
+          let additionalInfo1 = getAdditionalInfo(item) ?? "제공받은 데이터가 없습니다."
+          let additionalInfo2 = getAdditionalInfo2(item) ?? "제공받은 데이터가 없습니다."
+          let additionalInfo3 = getAdditionalInfo3(item) ?? "제공받은 데이터가 없습니다."
+          let additionalInfo4 = getAdditionalInfo4(item) ?? "제공받은 데이터가 없습니다."
+
+          // POI를 레이어에 추가
+          if let poiItem = layer.addPoi(option: PoiOptions(styleID: styleID, poiID: poiID), at: MapPoint(longitude: coordinates.longitude, latitude: coordinates.latitude)) {
+              poiItem.show()
+              poiItem.clickable = true
+
+              // POI에 사용자 정의 데이터를 저장
+              poiItem.userObject = NSDictionary(dictionary: [
+                  "poiID": poiID,
+                  "latitude": coordinates.latitude,
+                  "longitude": coordinates.longitude,
+                  "address": address,
+                  "additionalInfo1": additionalInfo1,
+                  "additionalInfo2": additionalInfo2,
+                  "additionalInfo3": additionalInfo3,
+                  "additionalInfo4": additionalInfo4
+              ])
+
+              // POI 클릭 이벤트 핸들러 설정
+              _ = poiItem.addPoiTappedEventHandler(target: self) { (self) in
+                  return { param in
+                      self.poiTapped(param)
+                  }
+              }
+          }
+      }
+  }
   private func aedCreateLodPoi(aeds: [Aed], layerID: String, styleID: String, mapController: KMController) {
     createLodPoi(
       items: aeds,
@@ -272,6 +286,7 @@ class PoiViewModel {
     )
   }
   
+  // MARK: - POI 터치 이벤트 처리
   func poiTapped(_ param: PoiInteractionEventParam) {
     let poiItem = param.poiItem
     guard let userObject = poiItem.userObject as? [String: Any],
@@ -292,6 +307,7 @@ class PoiViewModel {
     }
   }
   
+  // MARK: - 각 POI 타입에 따른 터치 이벤트 처리
   private func handleAedPoi(poiID: String, userObject: [String: Any]) {
     let location = userObject["additionalInfo1"] as? String ?? "제공받은 데이터가 없습니다."
     let adminName = userObject["additionalInfo2"] as? String ?? "제공받은 데이터가 없습니다."
@@ -310,7 +326,7 @@ class PoiViewModel {
   }
   
   private func handleEmergencyReportPoi(poiID: String, userObject: [String: Any]) {
-    let reportName = userObject["name"] as? String ?? "제공받은 데이터가 없습니다."
+    _ = userObject["name"] as? String ?? "제공받은 데이터가 없습니다."
     let reportAddress = userObject["address"] as? String ?? "제공받은 데이터가 없습니다."
     
     delegate?.didTapEmergencyReport(poiID: poiID, address: reportAddress)

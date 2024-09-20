@@ -12,12 +12,16 @@ import Then
 
 class ShelterViewController: UIViewController {
   
+  // MARK: -property
+  
+  // POI 데이터를 저장할 변수
   var poiName: String?
   var poiAddress: String?
   var poiType: String?
   
+  // UI 요소들
   private let typeStackView = UIStackView().then {
-    //타입 로고 및 타입명
+
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
@@ -55,7 +59,6 @@ class ShelterViewController: UIViewController {
     $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    
     $0.font = CustomFont.Body2.font()
     $0.numberOfLines = 0
   }
@@ -70,11 +73,11 @@ class ShelterViewController: UIViewController {
   private let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
     $0.tintColor = .CLightBlue
-    $0.contentMode = .scaleAspectFit  
+    $0.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
-  // MARK: - view Lifecycle
+  // MARK: - View Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -83,17 +86,20 @@ class ShelterViewController: UIViewController {
     setupView()
     setupConstraints()
     
-    // POI 데이터 업데이트
     updatePoiData()
   }
   
-  // MARK: - View setup & Constraints
+  // MARK: - View Setup
+  
+  // UI 요소들을 서브뷰에 추가하는 함수
   func setupView() {
+    // 타입 로고와 라벨을 스택 뷰에 추가
     [
       typeLogo,
       typeLabel
     ].forEach { typeStackView.addSubview($0) }
     
+    // 스택 뷰와 라벨들을 메인 뷰에 추가
     [
       shelterName,
       typeStackView,
@@ -103,13 +109,15 @@ class ShelterViewController: UIViewController {
     ].forEach { view.addSubview($0) }
   }
   
+  // MARK: - Constraints Setup
+  
+  // UI 요소들의 제약 조건 설정 함수
   func setupConstraints() {
-    
     typeStackView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-      $0.width.equalTo(85)  // 적절한 너비 설정
-      $0.height.equalTo(26)  // 적절한 높이 설정
+      $0.width.equalTo(85)   // 스택 뷰 너비 설정
+      $0.height.equalTo(26)  // 스택 뷰 높이 설정
     }
     
     typeLogo.snp.makeConstraints {
@@ -139,28 +147,32 @@ class ShelterViewController: UIViewController {
     
     cancelButton.snp.makeConstraints {
       $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)
+      $0.width.height.equalTo(32)  // 취소 버튼 크기 설정
     }
   }
   
+  // MARK: - POI Data Update
+  
+  // 전달받은 POI 데이터를 UI에 반영하는 함수
   func updatePoiData() {
-    // 전달받은 POI 데이터를 UILabel에 반영
     shelterName.text = poiName ?? "제공받은 데이터가 없습니다."
+    
     if let poiAddress = poiAddress {
       let formattedAddress = poiAddress.replacingOccurrences(of: "(", with: "\n(")
       shelterAddress.text = "주소: \(formattedAddress)"
     } else {
       shelterAddress.text = "주소: 제공받은 데이터가 없습니다."
     }
+  
     shelterType.text = poiType ?? "제공받은 데이터가 없습니다."
   }
   
+  // MARK: - Actions
+  
+  // 취소 버튼 클릭 시 호출되는 함수
   @objc func didTapCancelButton() {
     dismiss(animated: true)
   }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-  ShelterViewController()
-}
+

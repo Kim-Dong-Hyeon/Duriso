@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Firebase
 import FirebaseFirestore
 import FirebaseStorage
@@ -15,6 +16,7 @@ import Then
 class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   // MARK: - Properties
+  
   private let firestore = Firestore.firestore()
   var latitude: Double = 0.0
   var longitude: Double = 0.0
@@ -24,7 +26,9 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   func setOnlineViewController(_ viewController: OnlineViewController) {
     self.onlineViewController = viewController
   }
+  
   // MARK: - UI Components
+  
   internal let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
     $0.textColor = .CBlack
@@ -56,19 +60,28 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   private let placeholderLabel = UILabel().then {
-    $0.text = "꼭 필요한 정보만 남겨주세요.\n발생 지역을 상세히 적어주시면 큰 도움이 됩니다!"
+    $0.text = "꼭 필요한 정보만 50자 이내로 남겨주세요.\n발생 지역을 상세히 적어주시면 큰 도움이 됩니다!"
     $0.font = CustomFont.Body2.font()
     $0.textColor = .gray
     $0.numberOfLines = 0
   }
   
   private let addPostButton = UIButton().then {
-    $0.setTitle("완료", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.setTitleColor(.CWhite, for: .normal)
-    $0.backgroundColor = .CBlue
-    $0.layer.cornerRadius = 12
-    $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
+      $0.setTitle("완료", for: .normal)
+      $0.titleLabel?.font = CustomFont.Body3.font()
+      $0.setTitleColor(.CWhite, for: .normal)
+      $0.backgroundColor = .CBlue
+      $0.layer.cornerRadius = 12
+      $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
+      $0.isEnabled = false  // 처음에 비활성화
+      $0.alpha = 0.5  // 비활성화 상태일 때 반투명
+  }
+  
+  private let characterLimitLabel = UILabel().then {
+      $0.text = "50자 이내로 작성해주세요."
+      $0.textColor = .CRed
+      $0.font = CustomFont.Body3.font()
+      $0.isHidden = true // 처음에는 숨김 상태
   }
   
   // MARK: - Lifecycle
@@ -84,7 +97,15 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   // MARK: - Setup
   private func setupView() {
-    [poiViewTitle, megaphoneLabel, cancelButton, messageInputTextView, addPostButton].forEach { view.addSubview($0) }
+    [
+      poiViewTitle,
+      megaphoneLabel,
+      cancelButton,
+      messageInputTextView,
+      addPostButton,
+      characterLimitLabel
+    ].forEach { view.addSubview($0) }
+    
     messageInputTextView.addSubview(placeholderLabel)
   }
   
@@ -114,13 +135,18 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     
     addPostButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(messageInputTextView.snp.bottom).offset(16)
+      $0.top.equalTo(messageInputTextView.snp.bottom).offset(28)
       $0.width.equalTo(60)
       $0.height.equalTo(24)
     }
     
     placeholderLabel.snp.makeConstraints {
       $0.edges.equalTo(messageInputTextView).inset(UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
+    }
+    
+    characterLimitLabel.snp.makeConstraints {
+        $0.top.equalTo(messageInputTextView.snp.bottom).offset(4) // 텍스트뷰 바로 아래에 배치
+        $0.leading.equalTo(messageInputTextView.snp.leading)
     }
   }
   
@@ -139,12 +165,12 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   @objc private func didTapAddPostButton() {
-    guard let content = messageInputTextView.text, !content.isEmpty else {
-      print("내용을 입력해주세요.")
-      return
+    guard let content = messageInputTextView.text, 
+            !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        print("내용을 입력해주세요.")
+        return
     }
     
-    let title = ""
     let category = "긴급제보"
     
     guard latitude != 0.0, longitude != 0.0 else {
@@ -211,18 +237,36 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   // MARK: - UITextViewDelegate
   func textViewDidChange(_ textView: UITextView) {
-    placeholderLabel.isHidden = !textView.text.isEmpty
-  }
-  
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    placeholderLabel.isHidden = true
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text.isEmpty {
-      placeholderLabel.isHidden = false
+      // 텍스트가 비어있지 않으면 placeholder 숨김, 비어있으면 표시
+      placeholderLabel.isHidden = !textView.text.isEmpty
+      
+      // 빈값 방지 (공백 또는 줄바꿈만 입력된 경우 텍스트를 빈 문자열로 설정)
+      if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+          textView.text = ""
+      }
+      
+      // 글자 수가 50자를 넘지 않도록 제한
+    if textView.text.count > 50 {
+        textView.text = String(textView.text.prefix(50))
+        characterLimitLabel.isHidden = false // 경고 표시
+    } else {
+        characterLimitLabel.isHidden = true // 경고 숨김
     }
+    
+    let isValidInput = !textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    addPostButton.isEnabled = isValidInput
+    addPostButton.alpha = isValidInput ? 1.0 : 0.5
+  }
+
+  func textViewDidBeginEditing(_ textView: UITextView) {
+      // 텍스트뷰 편집 시작 시 placeholder 숨김
+      placeholderLabel.isHidden = true
+  }
+
+  func textViewDidEndEditing(_ textView: UITextView) {
+      // 텍스트뷰 편집 종료 시 텍스트가 비어있으면 placeholder 표시
+      if textView.text.isEmpty {
+          placeholderLabel.isHidden = false
+      }
   }
 }
-
-
