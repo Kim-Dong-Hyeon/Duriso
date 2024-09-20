@@ -21,6 +21,11 @@ class GuidelineViewController: UIViewController {
   private var messageIndex = 0
   private var timer: Timer?
   
+  private let titleLabel = UILabel().then {
+    $0.text = "행동요령"
+    $0.font = CustomFont.Head.font()
+  }
+  
   private let urgentMessage = UILabel().then {
     $0.text = "긴급재난문자"
     $0.font = CustomFont.Head2.font()
@@ -64,7 +69,7 @@ class GuidelineViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
-    self.title = "행동요령"
+    self.navigationItem.titleView = titleLabel
     guidelineLayout()
     bindCollectionView()
     bindTableView()
@@ -162,8 +167,8 @@ class GuidelineViewController: UIViewController {
     ].forEach { view.addSubview($0) }
     
     urgentMessage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-      $0.leading.equalTo(30)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     urgentMessageContainer.snp.makeConstraints {
@@ -181,7 +186,7 @@ class GuidelineViewController: UIViewController {
     
     atrickcollectionLabel.snp.makeConstraints {
       $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(64)
-      $0.leading.equalTo(30)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     atrickcollectionView.snp.makeConstraints {
@@ -193,7 +198,7 @@ class GuidelineViewController: UIViewController {
     
     atrickTableLabel.snp.makeConstraints {
       $0.top.equalTo(atrickcollectionView.snp.bottom).offset(40)
-      $0.leading.equalTo(30)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     atrickTableView.snp.makeConstraints {
