@@ -75,7 +75,6 @@
 		767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflinePageViewModel.swift */; };
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
 		7676228A2C85CDB50075B09E /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 767622892C85CDB50075B09E /* Then */; };
-		7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7676228B2C85E6710075B09E /* Secrets.xcconfig */; };
 		7676228E2C85F2190075B09E /* OfflinePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622822C85C8610075B09E /* OfflinePageViewController.swift */; };
 		768F50972C881F9A00A92ED6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50962C881F9A00A92ED6 /* Environment.swift */; };
 		768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F509E2C89DC0D00A92ED6 /* LocationManager.swift */; };
@@ -815,7 +814,6 @@
 				76DFBBDF2C9DAC2C00C676CF /* imagedocument.txt in Resources */,
 				7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */,
 				7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */,
-				7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */,
 				76DFBBD62C9DA3DB00C676CF /* notoSans.txt in Resources */,
 				7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */,
 				7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */,
@@ -943,6 +941,7 @@
 /* Begin XCBuildConfiguration section */
 		763C0A322C7B125C006BC4E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7676228B2C85E6710075B09E /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1006,6 +1005,7 @@
 		};
 		763C0A332C7B125C006BC4E7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7676228B2C85E6710075B09E /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1062,7 +1062,6 @@
 		};
 		763C0A352C7B125C006BC4E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7676228B2C85E6710075B09E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1095,21 +1094,22 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		763C0A362C7B125C006BC4E7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7676228B2C85E6710075B09E /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Duriso/Duriso.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -1135,10 +1135,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_Duriso;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = adhoc_Duriso;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
