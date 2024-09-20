@@ -26,24 +26,23 @@ class LoginViewModel {
     
     loginTap
       .withLatestFrom(credentials)
-      .do(onNext: { email, password in
-        print("Credentials Received - Email: \(email), Password: \(password)")
-      })
-      .flatMapLatest { email, password in
+      .flatMapLatest { [weak self] email, password -> Observable<AuthDataResult> in
+        guard let self = self else { return .empty() }
         return Auth.auth().rx.signIn(withEmail: email, password: password)
           .do(onNext: { result in
             print("Firebase Sign In Result: \(result)")
+            self.loginSuccess.onNext(())
           }, onError: { error in
             print("Firebase Sign In Error: \(error.localizedDescription)")
+            self.loginError.onNext(self.translateFirebaseError(error))
           })
+          .catch { [weak self] error -> Observable<AuthDataResult> in
+            self?.loginError.onNext(self?.translateFirebaseError(error) ?? "로그인 실패")
+            return .empty()
+          }
       }
-      .subscribe(onNext: { [weak self] _ in
-        self?.loginSuccess.onNext(())
-      }, onError: { [weak self] error in
-        self?.loginError.onNext(self?.translateFirebaseError(error) ?? "로그인 실패")
-      })
+      .subscribe()
       .disposed(by: disposeBag)
-    
   }
   
   private func translateFirebaseError(_ error: Error) -> String {
