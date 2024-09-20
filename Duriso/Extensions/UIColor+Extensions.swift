@@ -27,8 +27,9 @@ extension UIColor {
   }
   
   static let colors: [String: String] = [
-    "CBlue" : "#0B7199",
-    "CLightBlue" : "#A7C5D1",
+    "CBlue" : "#007092",
+    "CLightBlue" : "#93CBDC",
+    "CLightBlue2" : "#D5E5EB",
     "CRed" : "#EB362A",
     "CYellow" : "#F0A22D",
     "CGreen" : "#0B9966",
@@ -43,6 +44,7 @@ extension UIColor {
   
   static var CBlue: UIColor { return color(named: "CBlue")! }
   static var CLightBlue: UIColor { return color(named: "CLightBlue")! }
+  static var CLightBlue2: UIColor { return color(named: "CLightBlue2")! }
   static var CRed: UIColor { return color(named: "CRed")! }
   static var CYellow: UIColor { return color(named: "CYellow")! }
   static var CGreen: UIColor { return color(named: "CGreen")! }
