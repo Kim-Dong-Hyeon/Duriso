@@ -53,7 +53,8 @@ class PostChangeViewController: UIViewController, UIImagePickerControllerDelegat
   
   private let userTextSet = UITextView().then {
     $0.text = "내용을 작성해주세요"
-    $0.textColor = .black
+    $0.textColor = .CBlack
+    $0.font = CustomFont.sub.font()
   }
   
   private let pictureButton = UIButton().then {

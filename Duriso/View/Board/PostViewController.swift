@@ -25,7 +25,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.setTitle("카테고리", for: .normal)
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.layer.cornerRadius = 20
+    $0.layer.cornerRadius = 17
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
   
@@ -69,6 +69,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   private let userTextSet = UITextView().then {
     $0.text = "내용을 작성해주세요"
     $0.textColor = .placeholderText
+    $0.font = CustomFont.sub.font()
   }
   
   private let pictureButton = UIButton().then {
@@ -80,7 +81,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
   
   private let deleteButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "trash.circle"), for: .normal)
+    $0.setImage(UIImage(named: "trash"), for: .normal)
     $0.tintColor = .red
     $0.isHidden = true
   }
@@ -93,6 +94,9 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   private let categoryTableView = UITableView().then {
     $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.categoryCell)
     $0.isHidden = true
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.gray.cgColor
+    $0.layer.cornerRadius = 15
   }
   
   func updateLocationNames(latitude: Double, longitude: Double) {
@@ -335,23 +339,23 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
-      $0.height.equalTo(40)
+      $0.height.equalTo(34)
     }
     
     categoryTouch.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
       $0.centerY.equalTo(categoryButton.snp.centerY)
       $0.centerX.equalToSuperview()
     }
     
     categoryTableView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
       $0.leading.equalTo(categoryButton.snp.trailing).offset(10)
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
-      $0.width.equalTo(200)
-      $0.height.equalTo(150)
+      $0.width.equalTo(100)
+      $0.height.equalTo(115)
     }
     
     titleName.snp.makeConstraints {

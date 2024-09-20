@@ -16,7 +16,7 @@ class GuidelineFlowLayout: UICollectionViewFlowLayout {
     super.init()
     scrollDirection = .horizontal
     minimumLineSpacing = 10
-    itemSize = CGSize(width: 220, height: 120)
+    itemSize = CGSize(width: 220, height: 100)
   }
   
   required init?(coder: NSCoder) {

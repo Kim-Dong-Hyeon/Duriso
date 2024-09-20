@@ -28,7 +28,7 @@ class BoardTableViewCell: UITableViewCell {
   }
   
   private let contentLabel = UILabel().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body2.font()
     $0.numberOfLines = 2
   }
   
@@ -41,8 +41,9 @@ class BoardTableViewCell: UITableViewCell {
   }
   
   private let categorysLabel = UILabel().then {
-    $0.font = CustomFont.Head3.font()
-    $0.textAlignment = .center
+    $0.font = CustomFont.sub.font()
+    $0.textColor = .gray
+    $0.textAlignment = .left
   }
   
   private let postImageView = UIImageView()
@@ -71,13 +72,16 @@ class BoardTableViewCell: UITableViewCell {
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(contentView).offset(10)
       $0.leading.equalTo(contentView).offset(10)
-      $0.trailing.lessThanOrEqualTo(contentView).offset(-100)
-      $0.width.equalTo(140)
+      $0.trailing.lessThanOrEqualTo(contentView).offset(-100) // trailing 제약으로 너비 유동성 처리
     }
     
+    // 여기서 hugging priority와 compression resistance 설정
+    titleLabel.setContentHuggingPriority(.required, for: .horizontal)
+    titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+    
     categorysLabel.snp.makeConstraints {
-      $0.top.equalTo(contentView).offset(10)
-      $0.leading.equalTo(210)
+      $0.centerY.equalTo(titleLabel.snp.centerY)
+      $0.leading.equalTo(titleLabel.snp.trailing).offset(4)
       $0.width.equalTo(70)
     }
     
@@ -101,8 +105,9 @@ class BoardTableViewCell: UITableViewCell {
     }
     
     timeLabel.snp.makeConstraints {
-      $0.leading.equalTo(220)
+      $0.trailing.equalTo(postImageView.snp.leading).offset(8)
       $0.centerY.equalTo(addressLabel)
+      $0.width.equalTo(80)
     }
   }
   
@@ -124,7 +129,7 @@ class BoardTableViewCell: UITableViewCell {
     contentLabel.text = post.contents
     addressLabel.text = "\(post.si) \(post.gu) \(post.dong)"
     timeLabel.text = timeAgo(from: post.posttime)
-    categorysLabel.text = post.category
+    categorysLabel.text = "#\(post.category)"
     
     // 이미지 URL이 있는 경우 비동기로 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
