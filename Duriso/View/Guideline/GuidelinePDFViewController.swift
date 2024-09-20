@@ -40,7 +40,7 @@ class GuidelinePDFViewController: UIViewController {
       return
     }
     
-    if let path = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf", subdirectory: "GuidelinePDF") {
+    if let path = Bundle.main.url(forResource: pdfFileName, withExtension: "pdf") {
       print("PDF path: \(path)") // 경로 확인
       if FileManager.default.fileExists(atPath: path.path) {
         print("PDF file exists at path")
