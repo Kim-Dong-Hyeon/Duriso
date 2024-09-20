@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */; };
+		14653CAE2C9D15E600850949 /* Alertcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA32C9D15E600850949 /* Alertcon.pdf */; };
+		14653CAF2C9D15E600850949 /* earthquake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA42C9D15E600850949 /* earthquake.pdf */; };
+		14653CB02C9D15E600850949 /* EmergencyKit.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA52C9D15E600850949 /* EmergencyKit.pdf */; };
+		14653CB12C9D15E600850949 /* Fire.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA62C9D15E600850949 /* Fire.pdf */; };
+		14653CB22C9D15E600850949 /* HeatWave.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA72C9D15E600850949 /* HeatWave.pdf */; };
+		14653CB32C9D15E600850949 /* Heavysnow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA82C9D15E600850949 /* Heavysnow.pdf */; };
+		14653CB42C9D15E600850949 /* Landslide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CA92C9D15E600850949 /* Landslide.pdf */; };
+		14653CB52C9D15E600850949 /* NuclearAttack.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CAA2C9D15E600850949 /* NuclearAttack.pdf */; };
+		14653CB62C9D15E600850949 /* TorrentialRain.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CAB2C9D15E600850949 /* TorrentialRain.pdf */; };
+		14653CB72C9D15E600850949 /* Typhoon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 14653CAC2C9D15E600850949 /* Typhoon.pdf */; };
 		146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */; };
 		14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */; };
 		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
@@ -30,16 +40,6 @@
 		76174BE62C9B4D7C00909EDC /* aeds.csv in Resources */ = {isa = PBXBuildFile; fileRef = 76174BE52C9B4D7C00909EDC /* aeds.csv */; };
 		76174BE82C9B4D8400909EDC /* disastershelters.csv in Resources */ = {isa = PBXBuildFile; fileRef = 76174BE72C9B4D8400909EDC /* disastershelters.csv */; };
 		76174BEA2C9C1D2900909EDC /* OfflineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BE92C9C1D2900909EDC /* OfflineDetailViewController.swift */; };
-		76174BF82C9C33B700909EDC /* Landslide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF32C9C33B700909EDC /* Landslide.pdf */; };
-		76174BF92C9C33B700909EDC /* TorrentialRain.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF52C9C33B700909EDC /* TorrentialRain.pdf */; };
-		76174BFA2C9C33B700909EDC /* Fire.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF02C9C33B700909EDC /* Fire.pdf */; };
-		76174BFB2C9C33B700909EDC /* earthquake.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BEE2C9C33B700909EDC /* earthquake.pdf */; };
-		76174BFC2C9C33B700909EDC /* Alertcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BED2C9C33B700909EDC /* Alertcon.pdf */; };
-		76174BFD2C9C33B700909EDC /* EmergencyKit.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BEF2C9C33B700909EDC /* EmergencyKit.pdf */; };
-		76174BFE2C9C33B700909EDC /* Typhoon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF62C9C33B700909EDC /* Typhoon.pdf */; };
-		76174BFF2C9C33B700909EDC /* Heavysnow.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF22C9C33B700909EDC /* Heavysnow.pdf */; };
-		76174C002C9C33B700909EDC /* HeatWave.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF12C9C33B700909EDC /* HeatWave.pdf */; };
-		76174C012C9C33B700909EDC /* NuclearAttack.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF42C9C33B700909EDC /* NuclearAttack.pdf */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -131,6 +131,16 @@
 
 /* Begin PBXFileReference section */
 		1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinePDFViewController.swift; sourceTree = "<group>"; };
+		14653CA32C9D15E600850949 /* Alertcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Alertcon.pdf; sourceTree = "<group>"; };
+		14653CA42C9D15E600850949 /* earthquake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = earthquake.pdf; sourceTree = "<group>"; };
+		14653CA52C9D15E600850949 /* EmergencyKit.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EmergencyKit.pdf; sourceTree = "<group>"; };
+		14653CA62C9D15E600850949 /* Fire.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Fire.pdf; sourceTree = "<group>"; };
+		14653CA72C9D15E600850949 /* HeatWave.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = HeatWave.pdf; sourceTree = "<group>"; };
+		14653CA82C9D15E600850949 /* Heavysnow.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Heavysnow.pdf; sourceTree = "<group>"; };
+		14653CA92C9D15E600850949 /* Landslide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Landslide.pdf; sourceTree = "<group>"; };
+		14653CAA2C9D15E600850949 /* NuclearAttack.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NuclearAttack.pdf; sourceTree = "<group>"; };
+		14653CAB2C9D15E600850949 /* TorrentialRain.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = TorrentialRain.pdf; sourceTree = "<group>"; };
+		14653CAC2C9D15E600850949 /* Typhoon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Typhoon.pdf; sourceTree = "<group>"; };
 		146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChangeViewController.swift; sourceTree = "<group>"; };
 		14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineCollectionViewCell.swift; sourceTree = "<group>"; };
 		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
@@ -266,6 +276,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14653CAD2C9D15E600850949 /* GuidelinePDF */ = {
+			isa = PBXGroup;
+			children = (
+				14653CA32C9D15E600850949 /* Alertcon.pdf */,
+				14653CA42C9D15E600850949 /* earthquake.pdf */,
+				14653CA52C9D15E600850949 /* EmergencyKit.pdf */,
+				14653CA62C9D15E600850949 /* Fire.pdf */,
+				14653CA72C9D15E600850949 /* HeatWave.pdf */,
+				14653CA82C9D15E600850949 /* Heavysnow.pdf */,
+				14653CA92C9D15E600850949 /* Landslide.pdf */,
+				14653CAA2C9D15E600850949 /* NuclearAttack.pdf */,
+				14653CAB2C9D15E600850949 /* TorrentialRain.pdf */,
+				14653CAC2C9D15E600850949 /* Typhoon.pdf */,
+			);
+			path = GuidelinePDF;
+			sourceTree = "<group>";
+		};
 		149EEFB62C87246A0088FDB2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -483,6 +510,7 @@
 		7622D0622C7C203600B1AEB2 /* Board */ = {
 			isa = PBXGroup;
 			children = (
+				14653CAD2C9D15E600850949 /* GuidelinePDF */,
 				7622D0752C7C21C700B1AEB2 /* BoardModel.swift */,
 			);
 			path = Board;
@@ -760,31 +788,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				E20C3A762C874A3600AD5AA4 /* notice1.txt in Resources */,
+				14653CAF2C9D15E600850949 /* earthquake.pdf in Resources */,
 				E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */,
 				E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */,
 				76174BE82C9B4D8400909EDC /* disastershelters.csv in Resources */,
-				76174BF82C9C33B700909EDC /* Landslide.pdf in Resources */,
-				76174BF92C9C33B700909EDC /* TorrentialRain.pdf in Resources */,
-				76174BFA2C9C33B700909EDC /* Fire.pdf in Resources */,
-				76174BFB2C9C33B700909EDC /* earthquake.pdf in Resources */,
-				76174BFC2C9C33B700909EDC /* Alertcon.pdf in Resources */,
-				76174BFD2C9C33B700909EDC /* EmergencyKit.pdf in Resources */,
-				76174BFE2C9C33B700909EDC /* Typhoon.pdf in Resources */,
-				76174BFF2C9C33B700909EDC /* Heavysnow.pdf in Resources */,
-				76174C002C9C33B700909EDC /* HeatWave.pdf in Resources */,
-				76174C012C9C33B700909EDC /* NuclearAttack.pdf in Resources */,
 				7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */,
 				7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */,
 				7676228C2C85E6710075B09E /* Secrets.xcconfig in Resources */,
 				7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */,
+				14653CAE2C9D15E600850949 /* Alertcon.pdf in Resources */,
+				14653CB22C9D15E600850949 /* HeatWave.pdf in Resources */,
 				7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */,
+				14653CB72C9D15E600850949 /* Typhoon.pdf in Resources */,
 				7622D08A2C7EB32900B1AEB2 /* GoogleService-Info.plist in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
 				76174BE62C9B4D7C00909EDC /* aeds.csv in Resources */,
+				14653CB32C9D15E600850949 /* Heavysnow.pdf in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
+				14653CB52C9D15E600850949 /* NuclearAttack.pdf in Resources */,
+				14653CB02C9D15E600850949 /* EmergencyKit.pdf in Resources */,
+				14653CB42C9D15E600850949 /* Landslide.pdf in Resources */,
+				14653CB12C9D15E600850949 /* Fire.pdf in Resources */,
 				76174BE42C9B4D4100909EDC /* civildefenseshelters.csv in Resources */,
+				14653CB62C9D15E600850949 /* TorrentialRain.pdf in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
 			);
