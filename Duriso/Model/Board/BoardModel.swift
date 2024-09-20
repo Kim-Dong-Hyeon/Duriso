@@ -46,6 +46,7 @@ struct SomeDataModel {
     case fire
     case alandslide
     case hot
+    case bigSnow
   }
   
   let type: DataModelType
@@ -75,7 +76,7 @@ struct SomeDataModel {
         SomeDataModel(type: .fire, name: "산불"),
         SomeDataModel(type: .alandslide, name: "산사태"),
         SomeDataModel(type: .hot, name: "폭염"),
-        SomeDataModel(type: .hot, name: "대설")
+        SomeDataModel(type: .bigSnow, name: "대설")
       ]
     }
   }

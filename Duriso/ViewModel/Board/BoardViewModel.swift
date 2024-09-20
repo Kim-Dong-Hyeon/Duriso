@@ -21,7 +21,8 @@ struct CategoryTableViewModel {
       Category(title: "핵폭발"),
       Category(title: "산불"),
       Category(title: "산사태"),
-      Category(title: "폭염")
+      Category(title: "폭염"),
+      Category(title: "대설")
     ]
     
     items.onNext(category)
