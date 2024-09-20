@@ -81,10 +81,11 @@ class MainTabBarViewController: UITabBarController {
     
     let mypageVC = UINavigationController(rootViewController: MyPageViewController())
     mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: userIcon.withRenderingMode(.alwaysOriginal), tag: 3)
-    //    let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
-    //    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 0)
-    let offlineDataVC = UINavigationController(rootViewController: OfflineDataViewController())
-    offlineDataVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 0)
+    
+    let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
+    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 0)
+//    let offlineDataVC = UINavigationController(rootViewController: OfflineDataViewController())
+//    offlineDataVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 0)
     
     let offlineboardVC = UINavigationController(rootViewController: OfflinePageViewController(viewModel: OfflinePageViewModel(), viewName: "게시판"))
     offlineboardVC.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(systemName: "exclamationmark.triangle.fill"), tag: 1)
@@ -97,11 +98,10 @@ class MainTabBarViewController: UITabBarController {
     let offlineDataDevVC = UINavigationController(rootViewController: OfflineDataViewController())
     offlineDataDevVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 4)
     
-    //    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
-    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC/*, offlineDataDevVC*/]
+//    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
+    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC]
     
-    //    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
-    offlineViewControllers = [offlineDataVC, offlineboardVC, guidelineVC, offlinemypageVC]
+    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     
     setViewControllers(onlineViewControllers, animated: true)
   }
