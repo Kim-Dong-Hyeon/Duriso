@@ -29,7 +29,6 @@ class BoardTableViewCell: UITableViewCell {
   
   private let contentLabel = UILabel().then {
     $0.font = CustomFont.Body2.font()
-    $0.numberOfLines = 2
   }
   
   private let addressLabel = UILabel().then {
