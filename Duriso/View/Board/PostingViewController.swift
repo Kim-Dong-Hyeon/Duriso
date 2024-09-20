@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import RxCocoa
@@ -16,7 +17,10 @@ import SnapKit
 class PostingViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
+  private let firestore = Firestore.firestore()
+  private let nickname: BehaviorSubject<String> = BehaviorSubject(value: "")
   
+  var userId: String?
   var postTitle: String?
   var postContent: String?
   var postImage: UIImage?
@@ -30,6 +34,8 @@ class PostingViewController: UIViewController {
   
   private var isLiked = false
   private var likeCount = 0
+  
+  private var currentNickname: String = ""
   
   let db = Firestore.firestore()
   var documentRef: DocumentReference?
@@ -121,6 +127,7 @@ class PostingViewController: UIViewController {
     
     setupView()
     alertButtonTap()
+    fetchUserId()
     self.title = postTitleTop
     likeButtonTap()
     configureUI()
@@ -128,11 +135,16 @@ class PostingViewController: UIViewController {
     removalButtonTap()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    fetchLikesStatus()
+  }
+  
   //MARK: - 버튼 텝 이벤트
   private func changeButtonTap() {
     changeButton.rx.tap
       .bind { [weak self] in
-        self?.presentEditViewController()
+        self?.checkIfUserCanEdit()
       }
       .disposed(by: disposeBag)
   }
@@ -162,6 +174,22 @@ class PostingViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  //MARK: - 게시글 수정
+  private func checkIfUserCanEdit() {
+    guard let postUserNickname = post?.author else { return }
+    
+    if postUserNickname == self.currentNickname {
+      presentEditViewController()
+    } else {
+      let alert = UIAlertController(
+        title: "수정 권한 없음",
+        message: "이 포스트를 수정할 수 있는 권한이 없습니다.",
+        preferredStyle: .alert
+      )
+      alert.addAction(UIAlertAction(title: "확인", style: .default))
+      present(alert, animated: true)
+    }
+  }
   
   private func presentEditViewController() {
     guard let post = self.post else { return }
@@ -179,30 +207,47 @@ class PostingViewController: UIViewController {
   }
   
   //MARK: - 좋아요 만들기
+  private func fetchLikesStatus() {
+    guard let documentRef = documentRef, let userId = userId else { return }
+    
+    documentRef.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let likedUsers = data?["likedUsers"] as? [String] ?? []
+        
+        // 사용자가 좋아요를 눌렀는지 확인
+        self?.isLiked = likedUsers.contains(userId)
+        self?.likeCount = (data?["likescount"] as? Int) ?? 0
+        
+        // UI 업데이트
+        self?.updateLikeButton()
+      }
+    }
+  }
+  
+  private func updateLikeButton() {
+    likeNumberLabel.text = "\(likeCount)"
+    likeButton.tintColor = isLiked ? .red : .lightGray
+  }
   
   private func toggleLike() {
     isLiked.toggle()
     
-    if isLiked {
-      likeCount += 1
-      likeButton.tintColor = .red
-    } else {
-      likeCount -= 1
-      likeButton.tintColor = .lightGray
-    }
-    
+    likeCount += isLiked ? 1 : -1
     likeNumberLabel.text = "\(likeCount)"
+    likeButton.tintColor = isLiked ? .red : .lightGray
   }
   
-  // 좋아요수 저장 메서드
   private func updateLikesCount(increment: Bool) {
-    guard let documentRef = documentRef else { return }
+    guard let documentRef = documentRef, let userId = userId else { return }
     
     let incrementValue: Int = increment ? 1 : -1
+    let updateData: [String: Any] = [
+      "likescount": FieldValue.increment(Int64(incrementValue)),
+      "likedUsers": increment ? FieldValue.arrayUnion([userId]) : FieldValue.arrayRemove([userId])
+    ]
     
-    documentRef.updateData([
-      "likescount": FieldValue.increment(Int64(incrementValue))
-    ]) { error in
+    documentRef.updateData(updateData) { error in
       if let error = error {
         print("좋아요 수 업데이트 실패: \(error.localizedDescription)")
       } else {
@@ -211,8 +256,23 @@ class PostingViewController: UIViewController {
     }
   }
   
-  // MARK: - 데이터 확인
+  //MARK: - 유저확인
+  private func fetchUserId() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
+        self.currentNickname = nicknameFromFirestore
+      }
+    }
+  }
   
+  // MARK: - 데이터 확인
   func setPostData(post: Posts) {
     self.post = post  // 추가: Post 객체 설정
     self.postTitle = post.title
@@ -225,14 +285,47 @@ class PostingViewController: UIViewController {
     // 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
       loadImage(from: url)
+    } else {
+      // 이미지가 없으면 configureUI를 호출
+      configureUI()
     }
-    
-    // UI 업데이트
-    configureUI()
+  }
+  
+  // 이미지 로드
+  private func loadImage(from url: URL) {
+    URLSession.shared.dataTask(with: url) { data, response, error in
+      if let data = data, let image = UIImage(data: data) {
+        DispatchQueue.main.async {
+          self.postImage = image
+          self.configureUI() // 이미지 로드가 완료된 후 UI 업데이트
+        }
+      } else {
+        DispatchQueue.main.async {
+          // 이미지 로드 실패 시 UI를 업데이트할 수 있습니다.
+          self.postImage = nil
+          self.configureUI() // 이미지가 없으니 UI 업데이트
+        }
+      }
+    }.resume()
   }
   
   // MARK: - 삭제 확인 및 실행
   private func confirmDeletion() {
+    guard let postUserNickname = post?.author else { return }
+    
+    // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
+    if postUserNickname != self.currentNickname {
+      let alert = UIAlertController(
+        title: "삭제 권한 없음",
+        message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
+        preferredStyle: .alert
+      )
+      alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+      present(alert, animated: true, completion: nil)
+      return
+    }
+    
+    // 닉네임이 일치할 때 삭제 확인 알림 표시
     let alertController = UIAlertController(
       title: "삭제 확인",
       message: "이 포스트를 삭제하시겠습니까?",
@@ -259,6 +352,110 @@ class PostingViewController: UIViewController {
         self?.navigationController?.popViewController(animated: true)
       }
     }
+  }
+  
+  // MARK: -  타입명시
+  private func configureUI() {
+    postingTitleText.text = postTitle
+    postingUserTextLabel.text = postContent
+    postingLocationeName1.text = postAddress
+    self.title = postTitleTop
+    
+    if let image = postImage {
+      postingImage.image = image
+      postingImage.alpha = 1
+      postingImage.snp.updateConstraints {
+        $0.height.equalTo(200) // 이미지가 있을 때 높이 200
+      }
+    } else {
+      postingImage.alpha = 0
+      postingImage.snp.updateConstraints {
+        $0.height.equalTo(0) // 이미지가 없을 때 높이를 0
+      }
+    }
+    
+    if let time = postTimes {
+      postingTimeLabel.text = formatTime(from: time)
+    }
+    
+    view.layoutIfNeeded()
+  }
+  
+  // MARK: -  timeStamp 변환
+  private func formatTime(from date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return formatter.string(from: date)
+  }
+  
+  
+  // MARK: -  신고하기
+  private func showReportAlert() {
+    
+    let reportAlert = UIAlertController(
+      title: "신고하기",
+      message: "해당 이용자를 신고 하시겠습니까?",
+      preferredStyle: .alert
+    )
+    
+    reportAlert.addAction(UIAlertAction(title: "신고하기", style: .destructive, handler: { [weak self] _ in
+      self?.checkIfUserCanReport()
+    }))
+    
+    reportAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+    
+    present(reportAlert, animated: true, completion: nil)
+  }
+  
+  private func checkIfUserCanReport() {
+    guard let user = Auth.auth().currentUser else { return }
+    let userId = user.uid
+    
+    documentRef?.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let reportedUsers = data?["reportedUsers"] as? [String] ?? []
+        
+        if reportedUsers.contains(userId) {
+          self?.showAlreadyReportedAlert()
+        } else {
+          self?.updateReportCount()
+        }
+      }
+    }
+  }
+  
+  private func showAlreadyReportedAlert() {
+    let alert = UIAlertController(title: "알림", message: "이미 신고한 사용자입니다.", preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    present(alert, animated: true, completion: nil)
+  }
+  
+  private func updateReportCount() {
+    guard let user = Auth.auth().currentUser, let documentRef = documentRef else { return }
+    let userId = user.uid
+    
+    documentRef.updateData([
+      "reportcount": FieldValue.increment(Int64(1)),
+      "reportedUsers": FieldValue.arrayUnion([userId])
+    ]) { error in
+      if let error = error {
+        print("신고 수 업데이트 실패: \(error.localizedDescription)")
+      } else {
+        print("신고 수 업데이트 성공")
+        self.showReportConfirmationAlert()
+      }
+    }
+  }
+  
+  private func showReportConfirmationAlert() {
+    let confirmationAlert = UIAlertController(
+      title: "신고",
+      message: "신고가 완료되었습니다.",
+      preferredStyle: .alert
+    )
+    confirmationAlert.addAction(UIAlertAction(title: "확인", style: .default))
+    present(confirmationAlert, animated: true, completion: nil)
   }
   
   // MARK: - 레이아웃
@@ -373,93 +570,6 @@ class PostingViewController: UIViewController {
       $0.width.equalToSuperview().inset(30)
       $0.height.equalTo(50)
       $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
-    }
-  }
-  
-  // MARK: -  타입명시
-  private func configureUI() {
-    postingTitleText.text = postTitle
-    postingUserTextLabel.text = postContent
-    postingLocationeName1.text = postAddress
-    self.title = postTitleTop
-    
-    if let image = postImage {
-      postingImage.image = image
-      postingImage.alpha = 1
-    } else {
-      postingImage.alpha = 0
-    }
-    
-    if let time = postTimes {
-      postingTimeLabel.text = formatTime(from: time)
-    }
-    
-    view.layoutIfNeeded()
-  }
-  
-  private func loadImage(from url: URL) {
-    URLSession.shared.dataTask(with: url) { data, response, error in
-      if let data = data, let image = UIImage(data: data) {
-        DispatchQueue.main.async {
-          self.postImage = image
-          self.configureUI()
-        }
-      }
-    }.resume()
-  }
-  
-  // MARK: -  timeStamp 변환
-  private func formatTime(from date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    return formatter.string(from: date)
-  }
-  
-  // MARK: -  신고 Alert
-  
-  private func showReportAlert() {
-    let reportAlert = UIAlertController(
-      title: "신고하기",
-      message: "해당 이용자를 신고 하시겠습니까?",
-      preferredStyle: .alert
-    )
-    
-    reportAlert.addAction(UIAlertAction(title: "신고하기", style: .destructive, handler: { [weak self] _ in
-      self?.showReportConfirmationAlert()
-    }))
-    
-    reportAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-    
-    present(reportAlert, animated: true, completion: nil)
-  }
-  
-  private func showReportConfirmationAlert() {
-    let confirmationAlert = UIAlertController(
-      title: "신고",
-      message: "신고가 완료되었습니다.",
-      preferredStyle: .alert
-    )
-    
-    confirmationAlert.addAction(UIAlertAction(title: "확인", style: .cancel, handler: { [weak self] _ in
-      self?.updateReportCount()
-    }))
-    present(confirmationAlert, animated: true, completion: nil)
-  }
-  
-  // 신고수 Firebase에 저장 메서드
-  private func updateReportCount() {
-    guard let documentRef = documentRef else { return }
-    
-    let incrementValue: Int = 1
-    
-    documentRef.updateData([
-      "reportcount": FieldValue.increment(Int64(incrementValue))
-    ]) { error in
-      if let error = error {
-        print("신고 수 업데이트 실패: \(error.localizedDescription)")
-      } else {
-        print("신고 수 업데이트 성공")
-      }
     }
   }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-import Firebase
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import RxCocoa
@@ -24,6 +24,8 @@ class BoardViewController: UIViewController {
   private let onlineViewController = OnlineViewController()
   private let firestore = Firestore.firestore()
   private let regionFetcher = RegionFetcher()
+  private let nickname: BehaviorSubject<String> = BehaviorSubject(value: "")
+  private var currentNickname: String = ""
   
   private var latitude: Double = 0.0
   private var longitude: Double = 0.0
@@ -90,8 +92,10 @@ class BoardViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
+    fetchUserData()
     notificationTableView.delegate = self
     
+    fetchUserNickname()
     setupLayout()
     fetchPosts()
     bindBoardTableView()
@@ -103,6 +107,36 @@ class BoardViewController: UIViewController {
       self?.longitude = longitude
       print("Updated Location: Latitude \(latitude), Longitude \(longitude)")
       self?.updateLocationNames(latitude: latitude, longitude: longitude)
+    }
+  }
+  
+  private func fetchUserNickname() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
+        self.currentNickname = nicknameFromFirestore
+        
+        // 사용자 displayName 업데이트
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.displayName = nicknameFromFirestore
+        changeRequest.commitChanges { error in
+          if let error = error {
+            print("displayName 업데이트 실패: \(error.localizedDescription)")
+          } else {
+            print("displayName 업데이트 성공: \(nicknameFromFirestore)")
+          }
+        }
+        
+        print("사용자 닉네임: \(self.currentNickname)")
+      } else {
+        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
+      }
     }
   }
   
@@ -122,6 +156,23 @@ class BoardViewController: UIViewController {
     }
   }
   
+  //MARK: - 유저확인
+  private func fetchUserData() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        self.currentNickname = data?["nickname"] as? String ?? "닉네임 없음"
+      } else {
+        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
+      }
+    }
+  }
+  
+  //MARK: - 지역정보 가져오기
   private func updateLocationNames(latitude: Double, longitude: Double) {
     regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
       guard let self = self else { return }
@@ -140,6 +191,7 @@ class BoardViewController: UIViewController {
     }
   }
   
+  //MARK: - 상단 스크롤 카테고리 콜랙션 뷰
   private func bindCollectionView() {
     Observable.just(dataSource)
       .bind(to: notificationCollectionView.rx.items(cellIdentifier: BoardCollectionViewCell.boardCell, cellType: BoardCollectionViewCell.self)) { index, model, cell in
@@ -194,6 +246,8 @@ class BoardViewController: UIViewController {
       filteredPosts = allPosts.filter { $0.category == "산사태" }
     case .hot:
       filteredPosts = allPosts.filter { $0.category == "폭염" }
+    case. bigSnow:
+      filteredPosts = allPosts.filter { $0.category == "대설" }
     }
     let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
     tableItems.accept(filteredPosts)
@@ -219,10 +273,19 @@ class BoardViewController: UIViewController {
     }
   }
   
+  //MARK: - 게시글 쓰기
   private func reportNavigation() {
     let postViewController = PostViewController()
     postViewController.onPostAdded = { [weak self] title, content, settingImage, categorys in
       guard let self = self else { return }
+      
+      // 사용자 확인
+      guard let user = Auth.auth().currentUser else {
+        print("No user is currently logged in.")
+        return
+      }
+      
+      print("User is logged in: \(user.email ?? "No email")")
       
       // 위치 정보 확인
       print("Current Location in Report Navigation: Latitude \(self.latitude), Longitude \(self.longitude)")
@@ -230,7 +293,7 @@ class BoardViewController: UIViewController {
       self.uploadImageAndGetURL(settingImage) { imageUrl in
         // 게시글 생성
         let newPost = Posts(
-          author: "작성자 이름",  // 작성자 이름을 설정
+          author: self.currentNickname,  // 작성자 이름
           contents: content,
           category: categorys,
           dong: self.onlineViewController.dong,
@@ -265,6 +328,7 @@ class BoardViewController: UIViewController {
     self.navigationController?.pushViewController(postViewController, animated: true)
   }
   
+  //MARK: - 테이블 뷰
   private func bindBoardTableView() {
     tableItems
       .bind(to: notificationTableView.rx.items(cellIdentifier: BoardTableViewCell.boardTableCell, cellType: BoardTableViewCell.self)) { index, post, cell in
@@ -280,9 +344,11 @@ class BoardViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  //MARK: - 제약조건
   private func setupLayout() {
     [
       notificationHeadLabel,
+      notificationHeadImage,
       notificationLineView,
       notificationCollectionView,
       notificationLineView1,
@@ -291,12 +357,18 @@ class BoardViewController: UIViewController {
     ].forEach { view.addSubview($0) }
     
     notificationHeadLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-30)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+      $0.leading.equalTo(30)
+    }
+    
+    notificationHeadImage.snp.makeConstraints {
+      $0.leading.equalTo(notificationHeadLabel.snp.trailing).offset(8)
+      $0.centerY.equalTo(notificationHeadLabel)
+      $0.size.equalTo(25)
     }
     
     notificationLineView.snp.makeConstraints {
-      $0.top.equalTo(notificationHeadLabel.snp.bottom).offset(20)
+      $0.top.equalTo(notificationHeadLabel.snp.bottom).offset(8)
       $0.centerX.equalToSuperview()
       $0.height.equalTo(1)
       $0.width.equalTo(350)
@@ -318,15 +390,15 @@ class BoardViewController: UIViewController {
     notificationTableView.snp.makeConstraints {
       $0.top.equalTo(notificationLineView1.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview().inset(10)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalToSuperview().inset(150)
       $0.height.greaterThanOrEqualTo(100)
     }
     
     writingButton.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(100)
       $0.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(50)
-      $0.width.greaterThanOrEqualTo(120)
+      $0.height.equalTo(30)
+      $0.width.equalTo(80)
     }
   }
 }
