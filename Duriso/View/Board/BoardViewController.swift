@@ -43,11 +43,27 @@ class BoardViewController: UIViewController {
   }
   
   private let writingButton = UIButton().then {
-    $0.setTitle("+글쓰기", for: .normal)
+    $0.setTitle("글쓰기", for: .normal)
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.layer.cornerRadius = 15
     $0.titleLabel?.font = CustomFont.Deco4.font()
+    // 코너 둥글게
+    $0.layer.cornerRadius = 25
+    $0.clipsToBounds = true
+    // 패딩 설정
+    $0.contentEdgeInsets = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
+    // 그림자 추가
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOffset = CGSize(width: 0, height: 4)
+    $0.layer.shadowOpacity = 0.2
+    $0.layer.shadowRadius = 4
+    // 버튼에 아이콘 추가
+    let plusIcon = UIImage(systemName: "plus.circle.fill")?.withRenderingMode(.alwaysTemplate)
+    $0.setImage(plusIcon, for: .normal)
+    $0.tintColor = .CWhite
+    $0.imageView?.contentMode = .scaleAspectFit
+    
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
   }
   
   private let notificationCollectionView: UICollectionView = {
@@ -73,6 +89,8 @@ class BoardViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    
+    notificationTableView.delegate = self
     
     setupLayout()
     fetchPosts()
@@ -132,6 +150,26 @@ class BoardViewController: UIViewController {
         }
       }
       .disposed(by: disposeBag)
+  }
+  
+  // UICollectionViewDelegateFlowLayout: 셀 크기 계산
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardCollectionViewCell.boardCell, for: indexPath) as? BoardCollectionViewCell else {
+      return CGSize(width: 100, height: 50)  // 기본 크기
+    }
+    
+    let width = cell.calculateCellWidth()  // 셀 안의 버튼 크기에 맞는 너비 계산
+    return CGSize(width: width, height: 50)  // 버튼 크기에 맞게 셀 크기 반환
+  }
+  
+  // 셀 간의 좌우 여백 설정
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 10
+  }
+  
+  // 섹션 간의 여백 설정
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 10
   }
   
   private func handleButtonTap(for model: SomeDataModel) {
@@ -245,7 +283,6 @@ class BoardViewController: UIViewController {
   private func setupLayout() {
     [
       notificationHeadLabel,
-      notificationHeadImage,
       notificationLineView,
       notificationCollectionView,
       notificationLineView1,
@@ -254,18 +291,12 @@ class BoardViewController: UIViewController {
     ].forEach { view.addSubview($0) }
     
     notificationHeadLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-      $0.leading.equalTo(30)
-    }
-    
-    notificationHeadImage.snp.makeConstraints {
-      $0.leading.equalTo(notificationHeadLabel.snp.trailing).offset(8)
-      $0.centerY.equalTo(notificationHeadLabel)
-      $0.size.equalTo(25)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-30)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
     }
     
     notificationLineView.snp.makeConstraints {
-      $0.top.equalTo(notificationHeadLabel.snp.bottom).offset(8)
+      $0.top.equalTo(notificationHeadLabel.snp.bottom).offset(20)
       $0.centerX.equalToSuperview()
       $0.height.equalTo(1)
       $0.width.equalTo(350)
@@ -287,16 +318,23 @@ class BoardViewController: UIViewController {
     notificationTableView.snp.makeConstraints {
       $0.top.equalTo(notificationLineView1.snp.bottom).offset(8)
       $0.leading.trailing.equalToSuperview().inset(10)
-      $0.bottom.equalToSuperview().inset(150)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
       $0.height.greaterThanOrEqualTo(100)
     }
     
     writingButton.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(100)
       $0.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(30)
-      $0.width.equalTo(80)
+      $0.height.equalTo(50)
+      $0.width.greaterThanOrEqualTo(120)
     }
+  }
+}
+
+extension BoardViewController: UITableViewDelegate {
+  // UITableViewDelegate 메서드 추가
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 110  // 고정된 셀 높이 설정 (필요한 높이로 수정 가능)
   }
 }
 

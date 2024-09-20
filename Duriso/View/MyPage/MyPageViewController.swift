@@ -19,6 +19,11 @@ class MyPageViewController: UIViewController {
   let legalNoticeViewController = LegalNoticeViewController()
   let modifyInformationViewController = ModifyInformationViewController()
   
+  private let titleLabel = UILabel().then {
+    $0.text = "마이페이지"
+    $0.font = CustomFont.Head.font()
+  }
+  
   private let profileImage = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 40
@@ -68,6 +73,7 @@ class MyPageViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
+    self.navigationItem.titleView = titleLabel
     myPageTableView.rowHeight = 56
     
     configureUI()
@@ -91,21 +97,20 @@ class MyPageViewController: UIViewController {
       infoLabel
     ].forEach { view.addSubview($0) }
     
-    
     profileImage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
       $0.width.height.equalTo(80)
     }
     
     nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
+      $0.top.equalTo(profileImage.snp.top)
       $0.leading.equalTo(profileImage.snp.trailing).offset(40)
     }
     
     postCountLabel.snp.makeConstraints {
-      $0.top.equalTo(nickNameLabel.snp.bottom).offset(16)
-      $0.leading.equalTo(profileImage.snp.trailing).offset(40)
+      $0.top.equalTo(nickNameLabel.snp.bottom).offset(20)
+      $0.leading.equalTo(nickNameLabel.snp.leading)
     }
     
     postCount.snp.makeConstraints {
