@@ -28,8 +28,8 @@ class BoardCollectionViewCell: UICollectionViewCell {
     $0.titleLabel?.adjustsFontSizeToFitWidth = true
     $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
     $0.titleLabel?.textAlignment = .center
-//    $0.isUserInteractionEnabled = true
-//    $0.titleLabel?.minimumScaleFactor = 0.5
+    //    $0.isUserInteractionEnabled = true
+    //    $0.titleLabel?.minimumScaleFactor = 0.5
     $0.imageView?.contentMode = .scaleAspectFill
   }
   
@@ -55,7 +55,7 @@ class BoardCollectionViewCell: UICollectionViewCell {
   
   func configure(with model: SomeDataModel) {
     notificationButton.setTitle(model.name, for: .normal)
-//    notificationButton.setImage(nil, for: .normal)
+    //    notificationButton.setImage(nil, for: .normal)
     
     if let image = model.image {
       let tintedImage = image.withRenderingMode(.alwaysTemplate)

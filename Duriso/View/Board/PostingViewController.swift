@@ -177,33 +177,33 @@ class PostingViewController: UIViewController {
   //MARK: - 게시글 수정
   private func checkIfUserCanEdit() {
     guard let postUserNickname = post?.author else { return }
-
+    
     if postUserNickname == self.currentNickname {
-          presentEditViewController()
-      } else {
-          let alert = UIAlertController(
-              title: "수정 권한 없음",
-              message: "이 포스트를 수정할 수 있는 권한이 없습니다.",
-              preferredStyle: .alert
-          )
-          alert.addAction(UIAlertAction(title: "확인", style: .default))
-          present(alert, animated: true)
-      }
+      presentEditViewController()
+    } else {
+      let alert = UIAlertController(
+        title: "수정 권한 없음",
+        message: "이 포스트를 수정할 수 있는 권한이 없습니다.",
+        preferredStyle: .alert
+      )
+      alert.addAction(UIAlertAction(title: "확인", style: .default))
+      present(alert, animated: true)
+    }
   }
-
+  
   private func presentEditViewController() {
-      guard let post = self.post else { return }
-      let postChangeViewController = PostChangeViewController()
-      postChangeViewController.currentPost = post
-      postChangeViewController.onPostUpdated = { [weak self] title, content, image, category in
-          self?.postTitle = title
-          self?.postContent = content
-          self?.postImage = image
-          self?.postTitleTop = category
-          self?.configureUI()
-      }
-      let navigationController = UINavigationController(rootViewController: postChangeViewController)
-      self.navigationController?.pushViewController(postChangeViewController, animated: true)
+    guard let post = self.post else { return }
+    let postChangeViewController = PostChangeViewController()
+    postChangeViewController.currentPost = post
+    postChangeViewController.onPostUpdated = { [weak self] title, content, image, category in
+      self?.postTitle = title
+      self?.postContent = content
+      self?.postImage = image
+      self?.postTitleTop = category
+      self?.configureUI()
+    }
+    let navigationController = UINavigationController(rootViewController: postChangeViewController)
+    self.navigationController?.pushViewController(postChangeViewController, animated: true)
   }
   
   //MARK: - 좋아요 만들기
@@ -258,18 +258,18 @@ class PostingViewController: UIViewController {
   
   //MARK: - 유저확인
   private func fetchUserId() {
-      guard let user = Auth.auth().currentUser else { return }
-
-      let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-
-      firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
-          guard let self = self else { return }
-          if let document = document, document.exists {
-              let data = document.data()
-              let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
-              self.currentNickname = nicknameFromFirestore
-          }
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
+        self.currentNickname = nicknameFromFirestore
       }
+    }
   }
   
   // MARK: - 데이터 확인
@@ -311,49 +311,49 @@ class PostingViewController: UIViewController {
   
   // MARK: - 삭제 확인 및 실행
   private func confirmDeletion() {
-      guard let postUserNickname = post?.author else { return }
-
-      // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
-      if postUserNickname != self.currentNickname {
-          let alert = UIAlertController(
-              title: "삭제 권한 없음",
-              message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
-              preferredStyle: .alert
-          )
-          alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-          present(alert, animated: true, completion: nil)
-          return
-      }
-
-      // 닉네임이 일치할 때 삭제 확인 알림 표시
-      let alertController = UIAlertController(
-          title: "삭제 확인",
-          message: "이 포스트를 삭제하시겠습니까?",
-          preferredStyle: .alert
+    guard let postUserNickname = post?.author else { return }
+    
+    // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
+    if postUserNickname != self.currentNickname {
+      let alert = UIAlertController(
+        title: "삭제 권한 없음",
+        message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
+        preferredStyle: .alert
       )
-
-      alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-      alertController.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
-          self?.deletePost()
-      }))
-
-      present(alertController, animated: true, completion: nil)
+      alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+      present(alert, animated: true, completion: nil)
+      return
+    }
+    
+    // 닉네임이 일치할 때 삭제 확인 알림 표시
+    let alertController = UIAlertController(
+      title: "삭제 확인",
+      message: "이 포스트를 삭제하시겠습니까?",
+      preferredStyle: .alert
+    )
+    
+    alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { [weak self] _ in
+      self?.deletePost()
+    }))
+    
+    present(alertController, animated: true, completion: nil)
   }
-
+  
   private func deletePost() {
-      guard let documentRef = documentRef else { return }
-
-      // Firestore에서 데이터 삭제
-      documentRef.delete { [weak self] error in
-          if let error = error {
-              print("포스트 삭제 실패: \(error.localizedDescription)")
-          } else {
-              print("포스트 삭제 성공")
-              self?.navigationController?.popViewController(animated: true)
-          }
+    guard let documentRef = documentRef else { return }
+    
+    // Firestore에서 데이터 삭제
+    documentRef.delete { [weak self] error in
+      if let error = error {
+        print("포스트 삭제 실패: \(error.localizedDescription)")
+      } else {
+        print("포스트 삭제 성공")
+        self?.navigationController?.popViewController(animated: true)
       }
+    }
   }
-   
+  
   // MARK: -  타입명시
   private func configureUI() {
     postingTitleText.text = postTitle
