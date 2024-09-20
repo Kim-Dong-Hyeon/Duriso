@@ -13,18 +13,26 @@ import SnapKit
 
 class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
-  private let boardViewController = BoardViewController()
-  private let boardTableViewCell = BoardTableViewCell()
   private let disposeBag = DisposeBag()
-  private let mainTabBarViewModel = MainTabBarViewModel()
-  var onPostAdded: ((String, String, UIImage?) -> Void)?
+  var onPostAdded: ((String, String, UIImage?, String) -> Void)?
+  private let regionFetcher = RegionFetcher()
+  private let kakaoMap = KakaoMapViewController()
+  private let tableItems = BehaviorRelay<[Category]>(value: [])
+  var currentPost: Posts?
+  
   
   private let categoryButton = UIButton().then {
     $0.setTitle("카테고리", for: .normal)
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.layer.cornerRadius = 20
+    $0.layer.cornerRadius = 17
     $0.titleLabel?.font = CustomFont.Head4.font()
+  }
+  
+  private let categoryTouch = UILabel().then {
+    $0.text = ""
+    $0.font = CustomFont.Head2.font()
+    $0.textColor = .black
   }
   
   private let titleName = UILabel().then {
@@ -48,8 +56,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.textColor = .black
   }
   
-  private let locationeName1 = UILabel().then {
-    $0.text = "사랑시 고백구 행복동"
+  private var locationeName1 = UILabel().then {
+    $0.text = "위치 읽는중..."
     $0.font = CustomFont.Body2.font()
     $0.textColor = .black
   }
@@ -61,6 +69,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   private let userTextSet = UITextView().then {
     $0.text = "내용을 작성해주세요"
     $0.textColor = .placeholderText
+    $0.font = CustomFont.sub.font()
   }
   
   private let pictureButton = UIButton().then {
@@ -70,17 +79,48 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     $0.layer.cornerRadius = 20
     $0.titleLabel?.font = CustomFont.Head4.font()
   }
-
+  
   private let deleteButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "trash.circle"), for: .normal)
+    $0.setImage(UIImage(named: "trash"), for: .normal)
     $0.tintColor = .red
     $0.isHidden = true
   }
   
-  
   private let pickerImage = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.isHidden = true
+  }
+  
+  private let categoryTableView = UITableView().then {
+    $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.categoryCell)
+    $0.isHidden = true
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.gray.cgColor
+    $0.layer.cornerRadius = 15
+  }
+  
+  func updateLocationNames(latitude: Double, longitude: Double) {
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
+      guard let self = self else { return }
+      if let document = documents?.first {
+        let si = document.region1DepthName
+        let gu = document.region2DepthName
+        let dong = document.region3DepthName
+        
+        DispatchQueue.main.async {
+          self.locationeName1.text = "\(si) \(gu) \(dong)"
+          if var currentPost = self.currentPost {
+            currentPost.si = document.region1DepthName
+            currentPost.gu = document.region2DepthName
+            currentPost.dong = document.region3DepthName
+            currentPost.postlatitude = self.kakaoMap.latitude
+            currentPost.postlongitude = self.kakaoMap.longitude
+            
+            self.onPostAdded?(currentPost.title, currentPost.contents, UIImage(), currentPost.category)
+          }
+        }
+      }
+    }
   }
   
   override func viewDidLoad() {
@@ -91,8 +131,16 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     reportViewLayOut()
     pictureButtonTap()
     deleteButtonTap()
+    categoryButtonTap()
+    bindCategoryTableView()
+    bindCategoryTableViewModel()
     userTextSet.delegate = self
     deleteButton.isHidden = true
+    categoryTableView.isHidden = true
+    LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
+      print("LocationManager에서 위치 업데이트 수신: \(latitude), \(longitude)")
+      self?.updateLocationNames(latitude: latitude, longitude: longitude)
+    }
   }
   
   // 글쓰기뷰에서 탭바 없애기
@@ -120,8 +168,10 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         if let title = self.titleText.text,
-           let content = self.userTextSet.text {
-          self.onPostAdded?(title, content, self.pickerImage.image)
+           let content = self.userTextSet.text,
+           let category = self.categoryTouch.text
+        {
+          self.onPostAdded?(title, content, self.pickerImage.image ?? UIImage(), category)
         }
         self.navigationController?.popViewController(animated: true)
       })
@@ -223,10 +273,58 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
   }
   
+  private func bindCategoryTableView() {
+    categoryTableView.delegate = nil
+    categoryTableView.dataSource = nil
+    
+    // 셀을 테이블 뷰에 바인딩
+    tableItems
+      .bind(to: categoryTableView.rx.items(cellIdentifier: CategoryCell.categoryCell, cellType: CategoryCell.self)) { index, category, cell in
+        let viewModel = CategoryViewModel(categoryTitle: Observable.just(category.title))
+        cell.configure(with: viewModel)
+      }
+      .disposed(by: disposeBag)
+    
+    categoryTableView.rx.modelSelected(Category.self)
+      .subscribe(onNext: { [weak self] category in
+        guard let self = self else { return }
+        self.categoryTouch.text = category.title
+        self.categoryTableView.isHidden = true
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func categoryButtonTap() {
+    categoryButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        let isHidden = self.categoryTableView.isHidden
+        
+        UIView.animate(withDuration: 0.3) {
+          self.categoryTableView.isHidden = !isHidden
+        }
+        
+        if !isHidden {
+          self.bindCategoryTableView()
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindCategoryTableViewModel() {
+    let viewModel = CategoryTableViewModel()
+    viewModel.items
+      .bind(to: tableItems)
+      .disposed(by: disposeBag)
+    viewModel.fetchItem()
+  }
+  
   // 레이아웃
   private func reportViewLayOut() {
     [
       categoryButton,
+      categoryTouch,
       titleName,
       titleText,
       lineView,
@@ -236,14 +334,28 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       userTextSet,
       pictureButton,
       pickerImage,
-      deleteButton
+      deleteButton,
+      categoryTableView
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
-      $0.top.equalToSuperview().offset(100)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
-      $0.height.equalTo(40)
+      $0.height.equalTo(34)
+    }
+    
+    categoryTouch.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
+      $0.centerY.equalTo(categoryButton.snp.centerY)
+      $0.centerX.equalToSuperview()
+    }
+    
+    categoryTableView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
+      $0.leading.equalTo(categoryButton.snp.trailing).offset(10)
+      $0.width.equalTo(100)
+      $0.height.equalTo(115)
     }
     
     titleName.snp.makeConstraints {
@@ -269,8 +381,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     locationeName1.snp.makeConstraints {
-      $0.centerY.equalTo(locationeName1.snp.centerY)
-      $0.leading.equalTo(locationeName1.snp.trailing).offset(8)
+      $0.centerY.equalTo(locationeName.snp.centerY)
+      $0.leading.equalTo(locationeName.snp.trailing).offset(8)
     }
     
     lineView1.snp.makeConstraints {
@@ -288,7 +400,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     pictureButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().offset(-100)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-100)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(40)
@@ -308,18 +420,18 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
 }
 
-extension PostViewController: UITextViewDelegate {
-  
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    guard textView.textColor == .placeholderText else { return }
-    textView.textColor = .label
-    textView.text = nil
-  }
-  
-  func textViewDidEndEditing(_ textView: UITextView) {
-    if textView.text.isEmpty {
-      textView.text = "텍스트 입력"
-      textView.textColor = .placeholderText
+  extension PostViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+      guard textView.textColor == .placeholderText else { return }
+      textView.textColor = .label
+      textView.text = nil
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+      if textView.text.isEmpty {
+        textView.text = "텍스트 입력"
+        textView.textColor = .placeholderText
+      }
     }
   }
-}

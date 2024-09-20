@@ -22,9 +22,9 @@ class LegalNoticeViewModel {
       LegalNotice(title: "서비스 이용약관",
                   content: loadContent(for: "notice1") ?? " "),
       LegalNotice(title: "개인정보 처리방침",
-                  content: loadContent(for: "notice3") ?? " "),
+                  content: loadContent(for: "notice2") ?? " "),
       LegalNotice(title: "위치기반 서비스 이용약관",
-                  content: loadContent(for: "notice2") ?? " ")
+                  content: loadContent(for: "notice3") ?? " ")
     ]
     self.items = Observable.just(notices)
   }

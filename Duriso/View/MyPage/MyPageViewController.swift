@@ -17,7 +17,13 @@ class MyPageViewController: UIViewController {
   
   let noticeViewController = NoticeViewController()
   let legalNoticeViewController = LegalNoticeViewController()
+  let copyrightViewController = CopyrightViewController()
+  let modifyInformationViewController = ModifyInformationViewController()
   
+  private let titleLabel = UILabel().then {
+    $0.text = "마이페이지"
+    $0.font = CustomFont.Head.font()
+  }
   
   private let profileImage = UIImageView().then {
     $0.contentMode = .scaleAspectFit
@@ -27,83 +33,108 @@ class MyPageViewController: UIViewController {
   }
   
   private let nickNameLabel = UILabel().then {
-    $0.text = "조수환" // 테스트용 텍스트
+    $0.text = "test" // 테스트용 텍스트
     $0.font = CustomFont.Body.font()
+    $0.textColor = .CBlack
+  }
+  
+  private let postCountLabel = UILabel().then {
+    $0.text = "게시글 수"
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .CBlack
+  }
+  
+  private let postCount = UILabel().then {
+    $0.text = "0"
+    $0.font = CustomFont.Body2.font()
     $0.textColor = .CBlack
   }
   
   private let profileButton = UIButton().then {
     $0.setTitle("내 정보", for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head5.font()
     $0.layer.cornerRadius = 10
   }
   
   private let myPageTableView = UITableView().then {
     $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
-    $0.isScrollEnabled = false
-  }
-  
-  private let infoLabel = UILabel().then {
-    $0.text = "두리소 \n관리자: 김신이조 \n사업자 번호: \n전화번호"   // 테스트용
-    $0.font = CustomFont.Body3.font()
-    $0.textColor = .lightGray
-    $0.numberOfLines = 0
-    $0.textAlignment = .left
+    $0.isScrollEnabled = true
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
+    self.navigationItem.titleView = titleLabel
+    myPageTableView.rowHeight = 56
+    
     configureUI()
     bindViewModel()
+    bindProfileButton()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tabBarController?.tabBar.isHidden = false
   }
   
   private func configureUI() {
     [
       profileImage,
       nickNameLabel,
+      postCountLabel,
+      postCount,
       profileButton,
       myPageTableView,
-      infoLabel
     ].forEach { view.addSubview($0) }
     
-    myPageTableView.delegate = self
-    
-    
     profileImage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.width.height.equalTo(80)
     }
     
     nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
+      $0.top.equalTo(profileImage.snp.top)
       $0.leading.equalTo(profileImage.snp.trailing).offset(40)
     }
     
+    postCountLabel.snp.makeConstraints {
+      $0.top.equalTo(nickNameLabel.snp.bottom).offset(20)
+      $0.leading.equalTo(nickNameLabel.snp.leading)
+    }
+    
+    postCount.snp.makeConstraints {
+      $0.centerY.equalTo(postCountLabel)
+      $0.leading.equalTo(postCountLabel.snp.trailing).offset(32)
+    }
+    
     profileButton.snp.makeConstraints {
-      $0.top.equalTo(profileImage.snp.bottom).offset(16)
+      $0.top.equalTo(profileImage.snp.bottom).offset(30)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
     myPageTableView.snp.makeConstraints {
-      $0.top.equalTo(profileButton.snp.bottom).offset(8)
+      $0.top.equalTo(profileButton.snp.bottom).offset(20)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
-      $0.bottom.equalTo(infoLabel.snp.top).offset(-16)
-    }
-    
-    infoLabel.snp.makeConstraints {
-      $0.top.equalTo(myPageTableView.snp.bottom).offset(16)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
     }
   }
   private func bindViewModel() {
+    
+    viewModel.nickname
+      .bind(to: nickNameLabel.rx.text)
+      .disposed(by: disposeBag)
+    
+    viewModel.postcount
+      .map { "\($0)" }
+      .bind(to: postCount.rx.text)
+      .disposed(by: disposeBag)
+    
     viewModel.items
       .bind(
         to: myPageTableView.rx.items(
@@ -121,7 +152,9 @@ class MyPageViewController: UIViewController {
         
         switch item.title {
         case "로그아웃":
-          return self.handleLogout()
+          return self.tappedLogout()
+        case "회원탈퇴":
+          return self.tappedWithdrawal()
         case "공지사항":
           noticeViewController.title = item.title
           navigationController?.pushViewController(noticeViewController, animated: true)
@@ -129,6 +162,10 @@ class MyPageViewController: UIViewController {
         case "법적고지":
           legalNoticeViewController.title = item.title
           navigationController?.pushViewController(legalNoticeViewController, animated: true)
+          return .just(())
+        case "저작권 표시":
+          copyrightViewController.title = item.title
+          navigationController?.pushViewController(copyrightViewController, animated: true)
           return .just(())
         default:
           return .empty()
@@ -138,8 +175,16 @@ class MyPageViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
-  // 로그아웃 처리 메서드
-  private func handleLogout() -> Observable<Void> {
+  private func bindProfileButton() {
+    profileButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.navigationController?.pushViewController(self.modifyInformationViewController, animated: true)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func tappedLogout() -> Observable<Void> {
     return Observable.create { observer in
       let alert = UIAlertController(
         title: "로그아웃",
@@ -148,9 +193,19 @@ class MyPageViewController: UIViewController {
       )
       
       let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
+        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
+        let loginVC = LoginViewController()
+        let navController = UINavigationController(rootViewController: loginVC)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+          let window = windowScene.windows.first
+          window?.rootViewController = navController
+          window?.makeKeyAndVisible()
+        }
         observer.onNext(())
         observer.onCompleted()
       }
+      
       let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
         observer.onCompleted()
       }
@@ -161,11 +216,37 @@ class MyPageViewController: UIViewController {
       return Disposables.create()
     }
   }
-}
-
-extension MyPageViewController: UITableViewDelegate {
   
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 56
+  private func tappedWithdrawal() -> Observable<Void> {
+    return Observable.create { observer in
+      let alert = UIAlertController(
+        title: "회원탈퇴",
+        message: "정말로 회원탈퇴 하시겠습니까?",
+        preferredStyle: .alert
+      )
+      
+      let withdrawAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
+        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
+        let loginVC = LoginViewController()
+        let navController = UINavigationController(rootViewController: loginVC)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+          let window = windowScene.windows.first
+          window?.rootViewController = navController
+          window?.makeKeyAndVisible()
+        }
+        observer.onNext(())
+        observer.onCompleted()
+      }
+      
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+        observer.onCompleted()
+      }
+      alert.addAction(withdrawAction)
+      alert.addAction(cancelAction)
+      
+      self.present(alert, animated: true, completion: nil)
+      return Disposables.create()
+    }
   }
 }

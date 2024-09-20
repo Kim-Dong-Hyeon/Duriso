@@ -9,12 +9,16 @@ import Foundation
 
 struct User {
   let email: String
-  let password: String
   let nickname: String
+  let uuid: String
+  let postcount: Int
+  let reportedpostcount: Int
   
-  init(email: String, password: String, nickname: String) {
+  init(email: String, nickname: String, uuid: String, postcount: Int = 0, reportedpostcount: Int = 0) {
     self.email = email
-    self.password = password
     self.nickname = nickname
+    self.uuid = uuid
+    self.postcount = postcount
+    self.reportedpostcount = reportedpostcount
   }
 }

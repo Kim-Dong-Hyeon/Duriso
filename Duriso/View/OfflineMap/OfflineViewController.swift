@@ -2,78 +2,102 @@
 //  OfflineViewController.swift
 //  Duriso
 //
-//  Created by 김동현 on 9/2/24.
+//  Created by 김동현 on 9/10/24.
 //
 
 import UIKit
 
-import RxCocoa
 import RxSwift
 import SnapKit
-import Then
 
-/// 오프라인 상태를 표시하는 뷰 컨트롤러
 class OfflineViewController: UIViewController {
+  private let offlineMapViewController = OfflineMapViewController(viewModel: OfflineMapViewModel())
   
-  // MARK: - Properties
-  
-  private let viewName: String
-  private let viewModel: OfflineViewModel
-  private let disposeBag = DisposeBag()
-  
-  /// 오프라인 메시지를 표시하는 레이블
-  private let messageLabel = UILabel().then {
-    $0.numberOfLines = 0
-    $0.textAlignment = .center
-    $0.font = UIFont.systemFont(ofSize: 16)
+  let buttonStackView = UIStackView().then {
+    $0.alignment = .center
+    $0.distribution = .fillEqually
+    $0.axis = .horizontal
+    $0.spacing = 8
   }
   
-  // MARK: - Initialization
+  lazy var shelterButton: UIButton = createButton(
+    title: "대피소",
+    symbolName: "figure.run",
+    baseColor: .CLightBlue,
+    selectedColor: .CGreen
+  )
   
-  /// ViewModel을 넘겨받아 초기화
-  init(viewModel: OfflineViewModel, viewName: String) {
-    self.viewModel = viewModel
-    self.viewName = viewName
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  // MARK: - Lifecycle
+  lazy var aedButton: UIButton = createButton(
+    title: "제세동기",
+    symbolName: "bolt.heart.fill",
+    baseColor: .CLightBlue,
+    selectedColor: .CRed
+  )
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBackground
-    self.title = self.viewName
-    setupUI()
-    bindViewModel()
+    
+    setupViews()
+    setupConstraints()
   }
   
-  // MARK: - UI Setup
-  
-  /// UI 요소를 설정하고 제약 조건을 추가
-  private func setupUI() {
-    [messageLabel].forEach { view.addSubview($0) }
+  private func setupViews() {
+    addChild(offlineMapViewController)
+    view.addSubview(offlineMapViewController.view)
+    offlineMapViewController.didMove(toParent: self)
     
-    messageLabel.snp.makeConstraints {
-      $0.center.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(20)
+    [
+      buttonStackView
+    ].forEach { view.addSubview($0) }
+    
+    [
+      shelterButton,
+      aedButton
+    ].forEach { buttonStackView.addArrangedSubview($0) }
+  }
+  
+  private func setupConstraints() {
+    buttonStackView.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(100)
+      $0.trailing.equalToSuperview().inset(100)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(13)
+    }
+    
+    shelterButton.snp.makeConstraints{
+      $0.height.equalTo(34)
+    }
+    
+    aedButton.snp.makeConstraints{
+      $0.height.equalTo(34)
     }
   }
   
-  // MARK: - Binding
-  
-  /// ViewModel과 View를 바인딩
-  private func bindViewModel() {
-    viewModel.message
-      .bind(to: messageLabel.rx.text)
-      .disposed(by: disposeBag)
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
+  -> UIButton {
+    
+    let button = UIButton(type: .custom)
+    button.setImage(UIImage(systemName: symbolName), for: .normal)
+    button.tintColor = .CWhite
+    button.setTitle(title, for: .normal)
+    button.titleLabel?.font = CustomFont.Body3.font()
+    button.setTitleColor(.CWhite, for: .normal)
+    button.backgroundColor = selectedColor
+    
+    button.isSelected = false
+    button.layer.cornerRadius = 17
+    
+    button.layer.shadowColor = UIColor.black.cgColor
+    button.layer.shadowOffset = CGSize(width: 0, height: 4)
+    button.layer.shadowRadius = 4
+    button.layer.shadowOpacity = 0.2
+    button.layer.masksToBounds = false
+    
+    button.isSelected = false
+    return button
   }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-  OfflineMapViewController()
-}
+//@available(iOS 17.0, *)
+//#Preview {
+//  OfflineViewController()
+//}

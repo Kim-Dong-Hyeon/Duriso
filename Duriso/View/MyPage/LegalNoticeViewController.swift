@@ -21,16 +21,13 @@ class LegalNoticeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.tabBarController?.tabBar.isHidden = true
+
+    legalNoticeTableView.rowHeight = 48
     
     configureUI()
     bindViewModel()
   }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    hidesBottomBarWhenPushed = true
-  }
-  
   
   private func configureUI() {
     [

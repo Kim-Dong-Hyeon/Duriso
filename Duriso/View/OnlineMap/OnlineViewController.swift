@@ -7,32 +7,39 @@
 
 import UIKit
 
+import FirebaseFirestore
+import KakaoMapsSDK
 import RxCocoa
 import RxSwift
 import SnapKit
-import KakaoMapsSDK
 
-class OnlineViewController: UIViewController {
+class OnlineViewController: UIViewController, PoiViewModelDelegate {
   
+  // MARK: - Properties
+  
+  private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
   private let viewModel = OnlineViewModel()
-  private let poiViewModel = PoiViewModel()
-  
+  private let emergencyWrittingViewController = EmergencyWrittingViewController()
   private var mapBottomSheetViewController: MapBottomSheetViewController?
-  var mapContainer: KMViewContainer?
+  private let firestore = Firestore.firestore()
   
+  var mapContainer: KMViewContainer?
+  public var si: String = ""
+  public var gu: String = ""
+  public var dong: String = ""
+  
+  // UI 요소
   let addressView = UIStackView().then {
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
     $0.distribution = .fill
-    $0.layer.borderColor = UIColor.CBlack.cgColor
-    $0.layer.borderWidth = 1.0
-    $0.layer.cornerRadius = 10
+    $0.layer.cornerRadius = 20
     $0.layer.shadowOffset = CGSize(width: 0, height: 4)
     $0.layer.shadowOpacity = 0.15
     $0.layer.shadowColor = UIColor.CBlack.cgColor
-    $0.layer.shadowRadius = 8
+    $0.layer.shadowRadius = 4
     $0.layer.masksToBounds = false
   }
   
@@ -41,23 +48,26 @@ class OnlineViewController: UIViewController {
     $0.text = "위치 확인 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .center
+    $0.adjustsFontSizeToFitWidth = true
     $0.font = CustomFont.Head3.font()
   }
   
   let addressRefreshButton = UIButton().then {
     $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
     $0.tintColor = .CBlack
+    $0.addTarget(self, action: #selector(didTapAddressRefreshButton), for: .touchUpInside)
   }
   
   let buttonStackView = UIStackView().then {
     $0.alignment = .center
-    $0.distribution = .fillProportionally
+    $0.distribution = .fillEqually
     $0.axis = .horizontal
     $0.spacing = 8
   }
   
   lazy var currentLocationButton = UIButton().then {
     $0.setImage(UIImage(named: "locationButton"), for: .normal)
+    $0.imageView?.contentMode = .scaleAspectFit
     $0.addTarget(self, action: #selector(didTapCurrentLocationButton), for: .touchUpInside)
   }
   
@@ -87,39 +97,30 @@ class OnlineViewController: UIViewController {
     selectedColor: .CBlue
   )
   
-  //  private let gasMaskButton: UIButton = createButton(
-  //    title: "방독면",
-  //    symbolName: "location.fill",
-  //    baseColor: .CLightBlue,
-  //    selectedColor: .CYellow,
-  //initiallySelected: false
-  //  )
+  // MARK: - Lifecycle Methods
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
-    setupViews()
-    setupConstraints()
-    setupButtonBindings()
+    setupViews()  // 뷰 설정
+    setupConstraints()  // 제약 조건 설정
+    setupButtonBindings()  // 버튼 바인딩 설정
+    poiViewModel.delegate = self
     
     // 위치 업데이트 콜백 설정
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
       self?.updatePlaceNameLabel(latitude: latitude, longitude: longitude)
-//      self?.goToCurrentLocation()
     }
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    // 위치 업데이트 시작
-    LocationManager.shared.startUpdatingLocation()
-
+    LocationManager.shared.startUpdatingLocation()  // 위치 업데이트 시작
   }
   
+  // MARK: - View Setup
   
   func setupViews() {
-    
     addChild(onlineMapViewController)
     view.addSubview(onlineMapViewController.view)
     onlineMapViewController.didMove(toParent: self)
@@ -133,7 +134,7 @@ class OnlineViewController: UIViewController {
     
     [
       shelterButton,
-      aedButton, /*gasMaskButton,*/
+      aedButton,
       emergencyReportButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
     
@@ -143,6 +144,8 @@ class OnlineViewController: UIViewController {
     ].forEach { addressView.addSubview($0) }
   }
   
+  // MARK: - Constraints Setup
+  
   func setupConstraints() {
     onlineMapViewController.view.snp.makeConstraints {
       $0.edges.equalToSuperview()
@@ -150,29 +153,30 @@ class OnlineViewController: UIViewController {
     
     addressView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview().offset(80)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-16)
       $0.width.equalTo(280)
       $0.height.equalTo(40)
     }
     
     addressLabel.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
-      $0.leading.equalTo(addressView).offset(20)
-      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-20)
+      $0.leading.equalTo(addressView).offset(8)
+      $0.trailing.equalTo(addressRefreshButton.snp.leading).offset(-8)
     }
     
     addressRefreshButton.snp.makeConstraints {
       $0.centerY.equalTo(addressView)
       $0.trailing.equalTo(addressView).offset(-10)
-      $0.width.height.equalTo(30)
+      $0.width.height.equalTo(16)
     }
     
-    currentLocationButton.snp.makeConstraints{
+    currentLocationButton.snp.makeConstraints {
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(writingButton.snp.top).offset(-8)
       $0.width.height.equalTo(40)
     }
-    writingButton.snp.makeConstraints{
+    
+    writingButton.snp.makeConstraints {
       $0.trailing.equalToSuperview().offset(-16)
       $0.bottom.equalTo(buttonStackView.snp.top).offset(-16)
       $0.width.height.equalTo(40)
@@ -181,30 +185,25 @@ class OnlineViewController: UIViewController {
     buttonStackView.snp.makeConstraints {
       $0.centerX.equalToSuperview()
       $0.leading.trailing.equalToSuperview().inset(16)
-      $0.bottom.equalToSuperview().offset(-96)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(13)
     }
     
-    shelterButton.snp.makeConstraints{
+    shelterButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
     
-    aedButton.snp.makeConstraints{
+    aedButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
     
-    emergencyReportButton.snp.makeConstraints{
+    emergencyReportButton.snp.makeConstraints {
       $0.height.equalTo(34)
     }
   }
   
-  //    gasMaskButton.snp.makeConstraints{
-  //      $0.height.equalTo(34)
-  //    }
+  // MARK: - Button Creation & Bindings
   
-  
-  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)
-  -> UIButton {
-    
+  func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor) -> UIButton {
     let button = UIButton(type: .custom)
     button.setImage(UIImage(systemName: symbolName), for: .normal)
     button.tintColor = .CWhite
@@ -212,65 +211,34 @@ class OnlineViewController: UIViewController {
     button.titleLabel?.font = CustomFont.Body3.font()
     button.setTitleColor(.CWhite, for: .normal)
     button.backgroundColor = selectedColor
-    
-    button.isSelected = false
     button.layer.cornerRadius = 17
-    
     button.layer.shadowColor = UIColor.black.cgColor
     button.layer.shadowOffset = CGSize(width: 0, height: 4)
     button.layer.shadowRadius = 4
     button.layer.shadowOpacity = 0.2
     button.layer.masksToBounds = false
-    
     button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-    
     button.isSelected = false
     return button
   }
   
-  // 위치에 따라 주소 레이블을 업데이트하는 메서드
-  func updatePlaceNameLabel(latitude: Double, longitude: Double) {
-    let regionFetcher = RegionFetcher()
-    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) {
-      [weak self] documents, error in guard let self = self else { return }
-      if let document = documents?.first {
-        DispatchQueue.main.async {
-          self.addressLabel.text = document.addressName
-        }
-        print("Your Location is: \(document.addressName)")
-      }
-      if let error = error {
-        print("Error fetching region: \(error)")
-        return
-      }
-    }
-  }
-  
   private func setupButtonBindings() {
-    
-    // Shelter 버튼
     bindButtonTap(for: shelterButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleShelterButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // AED 버튼
     bindButtonTap(for: aedButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleAedButton(mapController: self.onlineMapViewController.mapController!)
     }
     
-    // Notification 버튼
     bindButtonTap(for: emergencyReportButton) { [weak self] in
       guard let self = self else { return }
       self.viewModel.toggleEmergencyReportButton(mapController: self.onlineMapViewController.mapController!)
     }
   }
   
-  /// 버튼의 tap 이벤트와 액션을 바인딩하는 함수
-  /// - Parameters:
-  ///   - button: Rx 이벤트를 바인딩할 UIButton
-  ///   - toggleAction: 버튼이 눌렸을 때 실행할 액션
   private func bindButtonTap(for button: UIButton, toggleAction: @escaping () -> Void) {
     button.rx.tap
       .bind {
@@ -279,15 +247,50 @@ class OnlineViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  // MARK: - Location and Address Handling
+  
+  func updatePlaceNameLabel(latitude: Double, longitude: Double) {
+    let regionFetcher = RegionFetcher()
+    regionFetcher.fetchRegion(longitude: longitude, latitude: latitude) { [weak self] documents, error in
+      guard let self = self else { return }
+      if let document = documents?.first {
+        self.si = document.region1DepthName
+        self.gu = document.region2DepthName
+        self.dong = document.region3DepthName
+        DispatchQueue.main.async {
+          let region = "\(self.si) \(self.gu) \(self.dong)"
+          self.addressLabel.text = region
+          print("Your Location is: \(region)")
+        }
+      }
+      if let error = error {
+        print("Error fetching region: \(error)")
+      }
+    }
+  }
+  
+  @objc private func didTapAddressRefreshButton() {
+    print("AddressRefreshButton clicked")
+    guard let mapView = onlineMapViewController.mapController?.getView("mapview") as? KakaoMap else {
+      print("Error: Failed to get mapView")
+      return
+    }
+    let centerMapPoint = mapView.getPosition(CGPoint(x: 0.5, y: 0.5))
+    let latitude = centerMapPoint.wgsCoord.latitude
+    let longitude = centerMapPoint.wgsCoord.longitude
+    poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
+    updatePlaceNameLabel(latitude: latitude, longitude: longitude)
+    print("Latitude: \(latitude), Longitude: \(longitude)")
+  }
+  
   @objc private func didTapCurrentLocationButton() {
-    // Handle the writing button tap action here
     print("CurrentLocation button tapped")
-    // 현재 위치로 이동하는 메서드
     if let currentLocation = LocationManager.shared.currentLocation {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
-//      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
-//      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.updateCurrentLocation(latitude: latitude, longitude: longitude)
+      onlineMapViewController.moveCameraToCurrentLocation(latitude: latitude, longitude: longitude)
+      poiViewModel.fetchDataForLocation(latitude: latitude, longitude: longitude)
       updatePlaceNameLabel(latitude: latitude, longitude: longitude)
     } else {
       LocationManager.shared.startUpdatingLocation()
@@ -295,21 +298,63 @@ class OnlineViewController: UIViewController {
   }
   
   @objc private func didTapWritingButton() {
-    presentMapBottomSheet()
-    print("Writing button tapped")
+    let emergencyWrittingVC = EmergencyWrittingViewController()
+    emergencyWrittingVC.setOnlineViewController(self)
+    emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
+    emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(emergencyWrittingVC)
+    present(bottomSheetVC, animated: true)
+    print("Emergency Writing button tapped")
   }
   
-  func presentMapBottomSheet() {
-    // MapBottomSheetViewController를 인스턴스화합니다
+  // MARK: - POI Interactions
+  
+  func didTapAed(poiID: String, address: String, adminName: String, adminNumber: String, managementAgency: String, location: String) {
+    let aedVC = AedViewController()
+    aedVC.poiName = poiID
+    aedVC.poiAddress = address
+    aedVC.adminName = adminName
+    aedVC.adminNumber = adminNumber
+    aedVC.managementAgency = managementAgency
+    aedVC.location = location
     let bottomSheetVC = MapBottomSheetViewController()
-    
-    // FloatingPanelController와 함께 bottomSheetVC를 설정합니다
-    mapBottomSheetViewController = bottomSheetVC
-    present(mapBottomSheetViewController!, animated: true, completion: nil)
+    bottomSheetVC.configureContentViewController(aedVC)
+    present(bottomSheetVC, animated: true)
+  }
+  
+  func didTapEmergencyReport(poiID: String, address: String) {
+    let emergencyReportVC = EmergencyReportViewController()
+    firestore.collection("posts").document(poiID).getDocument { document, error in
+      if let document = document, document.exists {
+        let data = document.data()
+        emergencyReportVC.reportName = data?["title"] as? String ?? "Unknown"
+        emergencyReportVC.reportAddress = "\(data?["si"] ?? "") \(data?["gu"] ?? "") \(data?["dong"] ?? "")"
+        emergencyReportVC.authorName = data?["author"] as? String ?? "Unknown Author"
+        emergencyReportVC.postTime = (data?["posttime"] as? Timestamp)?.dateValue()
+        emergencyReportVC.postContent = data?["contents"] as? String ?? "No content available"
+        let bottomSheetVC = MapBottomSheetViewController()
+        bottomSheetVC.configureContentViewController(emergencyReportVC)
+        self.present(bottomSheetVC, animated: true)
+      } else {
+        print("Error fetching document: \(error?.localizedDescription ?? "Unknown error")")
+      }
+    }
+  }
+  
+  func didTapShelter(poiID: String, shelterType: String, address: String) {
+    let shelterVC = ShelterViewController()
+    shelterVC.poiName = poiID
+    shelterVC.poiAddress = address
+    shelterVC.poiType = shelterType
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(shelterVC)
+    present(bottomSheetVC, animated: true)
   }
   
 }
 
-
 @available(iOS 17.0, *)
-#Preview { OnlineViewController() }
+#Preview {
+  OnlineViewController()
+}

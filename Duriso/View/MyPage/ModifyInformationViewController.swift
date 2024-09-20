@@ -7,9 +7,13 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 
 class ModifyInformationViewController: UIViewController {
+  
+  private let disposeBag = DisposeBag()
+  private let changePasswordViewController = ChangePasswordViewController()
   
   private let profileImage = UIImageView().then {
     $0.backgroundColor = .lightGray
@@ -25,13 +29,13 @@ class ModifyInformationViewController: UIViewController {
     $0.layer.cornerRadius = 10
   }
   
-  private let changeNickNameLabel = UILabel().then {
+  private let changenicknameLabel = UILabel().then {
     $0.text = "닉네임 변경"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
-  private let nickNameTextField = UITextField().then {
+  private let nicknameTextField = UITextField().then {
     $0.placeholder = "변경할 닉네임을 입력해주세요"
     $0.font = CustomFont.Body3.font()
     $0.borderStyle = .roundedRect
@@ -39,18 +43,11 @@ class ModifyInformationViewController: UIViewController {
     $0.autocorrectionType = .no
   }
   
-  private let changePassWordLabel = UILabel().then {
-    $0.text = "비밀번호 변경"
-    $0.font = CustomFont.Body3.font()
-    $0.textColor = .CBlack
-  }
-  
-  private let passWordTextField = UITextField().then {
-    $0.placeholder = "변경할 비밀번호를 입력해주세요"
-    $0.font = CustomFont.Body3.font()
-    $0.borderStyle = .roundedRect
-    $0.backgroundColor = .lightGray
-    $0.autocorrectionType = .no
+  private let changePasswordButton = UIButton().then {
+    $0.setTitle("비밀번호 변경", for: .normal)
+    $0.backgroundColor = .CLightBlue
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.layer.cornerRadius = 10
   }
   
   private let saveButton = UIButton().then {
@@ -63,18 +60,19 @@ class ModifyInformationViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    self.tabBarController?.tabBar.isHidden = true
     
     configureUI()
+    bindChangePasswordButton()
   }
   
   private func configureUI(){
     [
       profileImage,
       changeImageButton,
-      changeNickNameLabel,
-      nickNameTextField,
-      changePassWordLabel,
-      passWordTextField,
+      changenicknameLabel,
+      nicknameTextField,
+      changePasswordButton,
       saveButton
     ].forEach { view.addSubview($0) }
     
@@ -90,26 +88,20 @@ class ModifyInformationViewController: UIViewController {
       $0.width.equalTo(80)
     }
     
-    changeNickNameLabel.snp.makeConstraints {
+    changenicknameLabel.snp.makeConstraints {
       $0.top.equalTo(changeImageButton.snp.bottom).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
-    nickNameTextField.snp.makeConstraints {
-      $0.top.equalTo(changeNickNameLabel.snp.bottom).offset(16)
+    nicknameTextField.snp.makeConstraints {
+      $0.top.equalTo(changenicknameLabel.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
-    changePassWordLabel.snp.makeConstraints {
-      $0.top.equalTo(nickNameTextField.snp.bottom).offset(32)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
-      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
-    }
-    
-    passWordTextField.snp.makeConstraints {
-      $0.top.equalTo(changePassWordLabel.snp.bottom).offset(16)
+    changePasswordButton.snp.makeConstraints {
+      $0.top.equalTo(nicknameTextField.snp.bottom).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -121,5 +113,14 @@ class ModifyInformationViewController: UIViewController {
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
+  }
+  
+  private func bindChangePasswordButton() {
+    changePasswordButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.navigationController?.pushViewController(self.changePasswordViewController, animated: true)
+      })
+      .disposed(by: disposeBag)
   }
 }

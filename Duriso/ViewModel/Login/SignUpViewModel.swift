@@ -5,10 +5,8 @@
 //  Created by t2023-m0102 on 9/5/24.
 //
 
-import Foundation
-
 import FirebaseAuth
-import FirebaseDatabase
+import FirebaseFirestore
 import RxCocoa
 import RxSwift
 
@@ -16,65 +14,73 @@ class SignUpViewModel {
   
   let emailText = BehaviorRelay<String>(value: "")
   let passwordText = BehaviorRelay<String>(value: "")
+  let checkPasswordText = BehaviorRelay<String>(value: "")
   let nicknameText = BehaviorRelay<String>(value: "")
   
   let createUserResult = PublishRelay<Result<AuthDataResult, Error>>()
   
-  private let emailPattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$"
-  private let passwordPattern = "^.*(?=^.{8,16}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$"
-  private let nicknamePattern = "^[a-zA-Z0-9가-힣]{3,10}$"
-  
   private let disposeBag = DisposeBag()
-  private let db = Database.database().reference()
+  private let firestore = Firestore.firestore()
   
-  init() {
-    setupBindings()
-  }
-  
-  private func setupBindings() {
-    let validEmail = createValidationObservable(for: emailText, pattern: emailPattern)
-    let validPassword = createValidationObservable(for: passwordText, pattern: passwordPattern)
-    let validNickname = createValidationObservable(for: nicknameText, pattern: nicknamePattern)
+  func performUserCreation() -> Observable<AuthDataResult> {
+    let email = emailText.value
+    let password = passwordText.value
+    let nickname = nicknameText.value
     
-    let validForm = Observable.combineLatest(validEmail, validPassword, validNickname) {
-      emailValid, passwordValid, nicknameValid in
-      return emailValid && passwordValid && nicknameValid
+    guard password == checkPasswordText.value else {
+      return Observable.error(NSError(domain: "", code: 1002, userInfo: nil))
     }
-  }
-  
-  private func createValidationObservable(for text: BehaviorRelay<String>, pattern: String) -> Observable<Bool> {
-    return text
-      .map { input in
-        let pred = NSPredicate(format: "SELF MATCHES %@", pattern)
-        return pred.evaluate(with: input)
+    
+    return nicknameCheckObservable()
+      .flatMap { [weak self] isAvailable -> Observable<AuthDataResult> in
+        guard let self = self else { return Observable.empty() }
+        if isAvailable {
+          return self.createFirebaseUser(email: email, password: password, nickname: nickname)
+        } else {
+          return Observable.error(NSError(domain: "", code: 1001, userInfo: nil))  // 닉네임 중복 에러
+        }
       }
   }
   
   private func nicknameCheckObservable() -> Observable<Bool> {
-    let nickname = nicknameText.value
-    return Observable<Bool>.create { [weak self] observer in
-      self?.db.child("users").queryOrdered(byChild: "nickname").queryEqual(toValue: nickname)
-        .observeSingleEvent(of: .value) { snapshot in
-          if snapshot.exists() {
-            observer.onNext(false)  // 닉네임이 이미 존재하는 경우
+    return Observable.create { [weak self] observer in
+      guard let self = self else {
+        observer.onCompleted()
+        return Disposables.create()
+      }
+      
+      let nickname = self.nicknameText.value
+      
+      guard !nickname.isEmpty else {
+        observer.onNext(false)
+        observer.onCompleted()
+        return Disposables.create()
+      }
+      
+      self.firestore.collection("users")
+        .whereField("nickname", isEqualTo: nickname)
+        .getDocuments { snapshot, error in
+          if let error = error {
+            observer.onError(error)
+          } else if let snapshot = snapshot, !snapshot.isEmpty {
+            observer.onNext(false)
           } else {
-            observer.onNext(true)   // 닉네임이 사용 가능한 경우
+            observer.onNext(true)
           }
           observer.onCompleted()
-        } withCancel: { error in
-          observer.onError(error)
         }
+      
       return Disposables.create()
     }
   }
   
   private func createFirebaseUser(email: String, password: String, nickname: String) -> Observable<AuthDataResult> {
-    return Observable<AuthDataResult>.create { [weak self] observer in
+    return Observable.create { observer in
       Auth.auth().createUser(withEmail: email, password: password) { result, error in
         if let error = error {
           observer.onError(error)
         } else if let result = result {
-          self?.saveUserData(uid: result.user.uid, nickname: nickname)
+          self.saveUserData(uid: result.user.uid, nickname: nickname)
           observer.onNext(result)
           observer.onCompleted()
         }
@@ -83,42 +89,70 @@ class SignUpViewModel {
     }
   }
   
-  func createUser() {
-    let email = emailText.value
-    let password = passwordText.value
-    let nickname = nicknameText.value
-    
-    nicknameCheckObservable()
-      .flatMap { [weak self] isAvailable -> Observable<AuthDataResult> in
-        guard let self = self else { return Observable.empty() }
-        if isAvailable {
-          return self.createFirebaseUser(email: email, password: password, nickname: nickname)
-        } else {
-          return Observable.error(NSError(domain: "", code: 1001, userInfo: nil))  // 닉네임 중복 에러 발생
-        }
-      }
-      .subscribe(onNext: { [weak self] result in
-        self?.createUserResult.accept(.success(result))
-      }, onError: { [weak self] error in
-        self?.createUserResult.accept(.failure(error))
-      })
-      .disposed(by: disposeBag)
-  }
-  
   private func saveUserData(uid: String, nickname: String) {
-    let databaseRef = Database.database().reference(withPath: "users/\(uid)")
-    
-    let userData: [String: String] = [
+    let email = emailText.value
+    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
+    let userData: [String: Any] = [
       "nickname": nickname,
-      "email": emailText.value
+      "email": emailText.value,
+      "uuid": uid,
+      "postcount": 0,
+      "reportedpostcount": 0
     ]
     
-    databaseRef.setValue(userData) { error, _ in
+    firestore.collection("users").document(safeEmail).setData(userData) { error in
       if let error = error {
         print("계정 생성 실패: \(error.localizedDescription)")
       } else {
         print("계정 생성 완료")
       }
     }
+  }
+  
+  private func isValidEmail(_ email: String) -> Bool {
+    let emailPattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$"
+    let pred = NSPredicate(format: "SELF MATCHES %@", emailPattern)
+    let result = pred.evaluate(with: email)
+    return result
+  }
+  
+  private func isValidPassword(_ password: String) -> Bool {
+    let passwordPattern = "^.*(?=^.{8,16}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$"
+    let pred = NSPredicate(format: "SELF MATCHES %@", passwordPattern)
+    let result = pred.evaluate(with: password)
+    return result
+  }
+  
+  private func isValidNickname(_ nickname: String) -> Bool {
+    let nicknamePattern = "^[a-zA-Z0-9가-힣]{3,10}$"
+    let pred = NSPredicate(format: "SELF MATCHES %@", nicknamePattern)
+    let result = pred.evaluate(with: nickname)
+    return result
+  }
+  
+  func isValidEmailObservable() -> Observable<Bool> {
+    return emailText.asObservable()
+      .map { [weak self] email in
+        return self?.isValidEmail(email) ?? false
+      }
+  }
+  
+  func isValidPasswordObservable() -> Observable<Bool> {
+    return passwordText.asObservable()
+      .map { [weak self] password in
+        return self?.isValidPassword(password) ?? false
+      }
+  }
+  
+  func isValidNicknameObservable() -> Observable<Bool> {
+    return nicknameText.asObservable()
+      .map { [weak self] nickname in
+        return self?.isValidNickname(nickname) ?? false
+      }
+  }
+  
+  func isPasswordMatchObservable() -> Observable<Bool> {
+    return Observable.combineLatest(passwordText.asObservable(), checkPasswordText.asObservable())
+      .map { $0 == $1 }
   }
 }

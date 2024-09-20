@@ -65,12 +65,14 @@ class LoginViewController: UIViewController {
     $0.setImage(UIImage(named: "kakaoLogin"), for: .normal)
     $0.layer.cornerRadius = 10
     $0.clipsToBounds = true
+    $0.isHidden = true // 기능 구현 후 제거
   }
   
   private let appleLoginButton = UIButton().then {
     $0.setImage(UIImage(named: "appleLogin"), for: .normal)
     $0.layer.cornerRadius = 10
     $0.clipsToBounds = true
+    $0.isHidden = true // 기능 구현 후 제거
   }
   
   private let signUpButton = UIButton().then {
@@ -86,6 +88,11 @@ class LoginViewController: UIViewController {
     
     configureUI()
     bindUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.navigationController?.setNavigationBarHidden(true, animated: false)
   }
   
   private func configureUI() {
