@@ -69,6 +69,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   private let userTextSet = UITextView().then {
     $0.text = "내용을 작성해주세요"
     $0.textColor = .placeholderText
+    $0.font = CustomFont.sub.font()
   }
   
   private let pictureButton = UIButton().then {
@@ -80,7 +81,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
   
   private let deleteButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "trash.circle"), for: .normal)
+    $0.setImage(UIImage(named: "trash"), for: .normal)
     $0.tintColor = .red
     $0.isHidden = true
   }
@@ -338,14 +339,14 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     ].forEach { view.addSubview($0) }
     
     categoryButton.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
       $0.leading.equalTo(30)
       $0.width.equalTo(80)
       $0.height.equalTo(34)
     }
     
     categoryTouch.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12)
       $0.centerY.equalTo(categoryButton.snp.centerY)
       $0.centerX.equalToSuperview()
     }

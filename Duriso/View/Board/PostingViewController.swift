@@ -50,7 +50,7 @@ class PostingViewController: UIViewController {
   }
   
   private let postingLocationeName1 = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .black
   }
   
@@ -61,7 +61,7 @@ class PostingViewController: UIViewController {
   
   private let postingTimeLabel = UILabel().then {
     $0.text = "00시 00분 00초"
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Body3.font()
   }
   
   private let postingStackView = UIStackView().then {
@@ -81,21 +81,27 @@ class PostingViewController: UIViewController {
   }
   
   private let ripotButton = UIButton().then {
-    $0.setTitle("🚨신고하기", for: .normal)
+    $0.setTitle("신고하기", for: .normal)
     $0.setTitleColor(.red, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
   }
   
-  private let changeButton = UIButton().then {
-    $0.setTitle("수정하기", for: .normal)
-    $0.setTitleColor(.lightGray, for: .normal)
+  private let editButton = UIButton().then {
+    $0.setTitle("Edit", for: .normal)
+    $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.setImage(UIImage(named: "edit"), for: .normal) // 이미지 추가
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
-  private let removalButton = UIButton().then {
-    $0.setTitle("삭제하기", for: .normal)
-    $0.setTitleColor(.lightGray, for: .normal)
+  private let deleteButton = UIButton().then {
+    $0.setTitle("Delete", for: .normal)
+    $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.setImage(UIImage(named: "delete"), for: .normal) // 이미지 추가
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
   private let bottomStackView = UIStackView().then {
@@ -104,7 +110,7 @@ class PostingViewController: UIViewController {
   }
   
   private let likeButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    $0.setImage(UIImage(systemName: "cloud.fill"), for: .normal)
     $0.backgroundColor = .clear
     $0.tintColor = .lightGray
   }
@@ -142,7 +148,7 @@ class PostingViewController: UIViewController {
   
   //MARK: - 버튼 텝 이벤트
   private func changeButtonTap() {
-    changeButton.rx.tap
+    editButton.rx.tap
       .bind { [weak self] in
         self?.checkIfUserCanEdit()
       }
@@ -167,7 +173,7 @@ class PostingViewController: UIViewController {
   }
   
   private func removalButtonTap() {
-    removalButton.rx.tap
+    deleteButton.rx.tap
       .bind { [weak self] in
         self?.confirmDeletion()
       }
@@ -486,8 +492,8 @@ class PostingViewController: UIViewController {
     [
       ripotButton,
       spacerView,
-      changeButton,
-      removalButton
+      editButton,
+      deleteButton
     ].forEach { bottomStackView.addArrangedSubview($0) }
     
     [
@@ -510,7 +516,7 @@ class PostingViewController: UIViewController {
     
     postingTitleText.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
+      $0.top.equalToSuperview()
       $0.height.equalTo(30)
     }
     
@@ -523,13 +529,13 @@ class PostingViewController: UIViewController {
     
     postingLocationeName1.snp.makeConstraints {
       $0.top.equalTo(postingLineView.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
       $0.height.equalTo(30)
     }
     
     postingStackView.snp.makeConstraints {
       $0.top.equalTo(postingLocationeName1.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
       $0.height.equalTo(30)
     }
     
@@ -548,14 +554,14 @@ class PostingViewController: UIViewController {
     
     likeStackView.snp.makeConstraints {
       $0.top.equalTo(postingUserTextLabel.snp.bottom).offset(16)
-      $0.trailing.equalToSuperview().inset(30)
+      $0.leading.equalToSuperview().offset(16)
       $0.height.equalTo(30)
       $0.width.greaterThanOrEqualTo(60)
     }
     
     likeButton.snp.makeConstraints {
-      $0.leading.equalToSuperview()
-      $0.centerY.equalToSuperview()
+      $0.leading.equalTo(likeStackView.snp.leading)
+      $0.centerY.equalTo(likeStackView.snp.centerY)
       $0.width.height.equalTo(30)
     }
     
@@ -570,6 +576,16 @@ class PostingViewController: UIViewController {
       $0.width.equalToSuperview().inset(30)
       $0.height.equalTo(50)
       $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
+    }
+    
+    deleteButton.snp.makeConstraints {
+      $0.centerY.equalTo(bottomStackView.snp.centerY)
+      $0.width.equalTo(80)
+    }
+    
+    editButton.snp.makeConstraints {
+      $0.centerY.equalTo(bottomStackView.snp.centerY)
+      $0.width.equalTo(80)
     }
   }
 }

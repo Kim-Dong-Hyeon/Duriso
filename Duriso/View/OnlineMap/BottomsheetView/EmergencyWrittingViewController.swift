@@ -129,7 +129,8 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     messageInputTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(poiViewTitle.snp.bottom).offset(24)
-      $0.width.equalTo(360)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+//      $0.width.equalTo(360)
       $0.height.equalTo(88)
     }
     
@@ -165,7 +166,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   @objc private func didTapAddPostButton() {
-    guard let content = messageInputTextView.text, 
+    guard let content = messageInputTextView.text,
             !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
         print("내용을 입력해주세요.")
         return

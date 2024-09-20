@@ -169,25 +169,25 @@ class GuidelineViewController: UIViewController {
     ].forEach { view.addSubview($0) }
     
     urgentMessage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     urgentMessageContainer.snp.makeConstraints {
       $0.top.equalTo(urgentMessage.snp.bottom).offset(8)
       $0.centerX.equalToSuperview()
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
       $0.height.equalTo(80)
-      $0.width.equalTo(350)
     }
     
     urgentMessageContainerLabel.snp.makeConstraints {
       $0.centerY.equalTo(urgentMessageContainer.snp.centerY)
-      $0.leading.trailing.equalTo(10)
+      $0.edges.equalTo(urgentMessageContainer.snp.edges).inset(8)
       $0.width.equalTo(340)
     }
     
     atrickcollectionLabel.snp.makeConstraints {
-      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(64)
+      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
@@ -195,19 +195,19 @@ class GuidelineViewController: UIViewController {
       $0.top.equalTo(atrickcollectionLabel.snp.bottom).offset(8)
       $0.centerX.equalToSuperview()
       $0.width.equalTo(400)
-      $0.height.equalTo(200)
+      $0.height.equalTo(160)
     }
     
     atrickTableLabel.snp.makeConstraints {
-      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(40)
+      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     atrickTableView.snp.makeConstraints {
       $0.top.equalTo(atrickTableLabel.snp.bottom).offset(8)
-      $0.leading.equalToSuperview().offset(20)
-      $0.width.equalTo(350)
-      $0.height.equalTo(250)
+      $0.centerX.equalToSuperview()
+      $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+//      $0.height.equalTo(250)
     }
   }
 }
