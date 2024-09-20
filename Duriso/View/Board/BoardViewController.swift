@@ -246,7 +246,7 @@ class BoardViewController: UIViewController {
       filteredPosts = allPosts.filter { $0.category == "산사태" }
     case .hot:
       filteredPosts = allPosts.filter { $0.category == "폭염" }
-    case. bigSnow:
+    case .bigSnow:
       filteredPosts = allPosts.filter { $0.category == "대설" }
     }
     let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
