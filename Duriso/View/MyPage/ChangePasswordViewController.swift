@@ -8,9 +8,12 @@
 import UIKit
 
 import FirebaseFirestore
+import RxSwift
 import SnapKit
 
 class ChangePasswordViewController: UIViewController {
+  
+  private let disposeBag = DisposeBag()
   
   private let nowPasswordLabel = UILabel().then {
     $0.text = "현재 비밀번호"
@@ -72,6 +75,7 @@ class ChangePasswordViewController: UIViewController {
     view.backgroundColor = .systemBackground
     
     configureUI()
+    bindUi()
   }
   
   private func configureUI() {
@@ -127,5 +131,19 @@ class ChangePasswordViewController: UIViewController {
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
+  }
+  
+  private func bindUi() {
+    saveButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        let alert = UIAlertController(title: "비밀번호 변경", message: "비밀번호가 변경되었습니다.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+          self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
+      })
+      .disposed(by: disposeBag)
   }
 }

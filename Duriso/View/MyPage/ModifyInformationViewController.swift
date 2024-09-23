@@ -21,13 +21,13 @@ class ModifyInformationViewController: UIViewController {
     $0.clipsToBounds = true
   }
   
-  private let changeImageButton = UIButton().then {
-    $0.setTitle("사진 변경", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.titleLabel?.textColor = .CWhite
-    $0.backgroundColor = .CBlue
-    $0.layer.cornerRadius = 10
-  }
+  //  private let changeImageButton = UIButton().then {
+  //    $0.setTitle("사진 변경", for: .normal)
+  //    $0.titleLabel?.font = CustomFont.Body3.font()
+  //    $0.titleLabel?.textColor = .CWhite
+  //    $0.backgroundColor = .CBlue
+  //    $0.layer.cornerRadius = 10
+  //  }
   
   private let changenicknameLabel = UILabel().then {
     $0.text = "닉네임 변경"
@@ -63,13 +63,13 @@ class ModifyInformationViewController: UIViewController {
     self.tabBarController?.tabBar.isHidden = true
     
     configureUI()
-    bindChangePasswordButton()
+    bindUi()
   }
   
   private func configureUI(){
     [
       profileImage,
-      changeImageButton,
+      //      changeImageButton,
       changenicknameLabel,
       nicknameTextField,
       changePasswordButton,
@@ -82,14 +82,14 @@ class ModifyInformationViewController: UIViewController {
       $0.width.height.equalTo(160)
     }
     
-    changeImageButton.snp.makeConstraints {
-      $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(profileImage.snp.bottom).offset(16)
-      $0.width.equalTo(80)
-    }
+    //    changeImageButton.snp.makeConstraints {
+    //      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+    //      $0.top.equalTo(profileImage.snp.bottom).offset(16)
+    //      $0.width.equalTo(80)
+    //    }
     
     changenicknameLabel.snp.makeConstraints {
-      $0.top.equalTo(changeImageButton.snp.bottom).offset(32)
+      $0.top.equalTo(profileImage.snp.bottom).offset(48)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
@@ -115,11 +115,23 @@ class ModifyInformationViewController: UIViewController {
     }
   }
   
-  private func bindChangePasswordButton() {
+  private func bindUi() {
     changePasswordButton.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         self.navigationController?.pushViewController(self.changePasswordViewController, animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        let alert = UIAlertController(title: "저장 완료", message: "변경 사항이 저장되었습니다.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+          self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(confirmAction)
+        self.present(alert, animated: true, completion: nil)
       })
       .disposed(by: disposeBag)
   }
