@@ -29,7 +29,8 @@ class MyPageViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 40
     $0.clipsToBounds = true
-    $0.backgroundColor = .lightGray // 테스트용 배경색
+//    $0.backgroundColor = .lightGray // 테스트용 배경색
+    $0.image = UIImage(named: "AppIcon")
   }
   
   private let nickNameLabel = UILabel().then {
@@ -226,7 +227,6 @@ class MyPageViewController: UIViewController {
       )
       
       let withdrawAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
-        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)
         
