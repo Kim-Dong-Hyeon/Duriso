@@ -35,7 +35,7 @@ class PostingViewController: UIViewController {
   private var isLiked = false
   private var likeCount = 0
   
-  private var currentNickname: String = ""
+  private var currentUUID: String = ""
   
   let db = Firestore.firestore()
   var documentRef: DocumentReference?
@@ -184,7 +184,7 @@ class PostingViewController: UIViewController {
   private func checkIfUserCanEdit() {
     guard let postUserNickname = post?.author else { return }
     
-    if postUserNickname == self.currentNickname {
+    if postUserNickname == self.currentUUID {
       presentEditViewController()
     } else {
       let alert = UIAlertController(
@@ -272,8 +272,8 @@ class PostingViewController: UIViewController {
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()
-        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
-        self.currentNickname = nicknameFromFirestore
+        let nicknameFromFirestore = data?["uuid"] as? String ?? "닉네임 없음"
+        self.currentUUID = nicknameFromFirestore
       }
     }
   }
@@ -320,7 +320,7 @@ class PostingViewController: UIViewController {
     guard let postUserNickname = post?.author else { return }
     
     // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
-    if postUserNickname != self.currentNickname {
+    if postUserNickname != self.currentUUID {
       let alert = UIAlertController(
         title: "삭제 권한 없음",
         message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
