@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseFirestore
 import RxSwift
 import SnapKit
 
@@ -19,6 +20,7 @@ class ModifyInformationViewController: UIViewController {
     $0.backgroundColor = .lightGray
     $0.layer.cornerRadius = 80
     $0.clipsToBounds = true
+    $0.image = UIImage(named: "AppIcon")
   }
   
   //  private let changeImageButton = UIButton().then {
@@ -41,6 +43,13 @@ class ModifyInformationViewController: UIViewController {
     $0.borderStyle = .roundedRect
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
+  }
+  
+  private let checkNicknameDuplicationButton = UIButton().then {
+    $0.setTitle("중복 확인", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CLightBlue
+    $0.layer.cornerRadius = 10
   }
   
   private let changePasswordButton = UIButton().then {
@@ -72,6 +81,7 @@ class ModifyInformationViewController: UIViewController {
       //      changeImageButton,
       changenicknameLabel,
       nicknameTextField,
+      checkNicknameDuplicationButton,
       changePasswordButton,
       saveButton
     ].forEach { view.addSubview($0) }
@@ -96,6 +106,13 @@ class ModifyInformationViewController: UIViewController {
     nicknameTextField.snp.makeConstraints {
       $0.top.equalTo(changenicknameLabel.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.trailing.equalTo(checkNicknameDuplicationButton.snp.leading).offset(-16)
+      $0.height.equalTo(48)
+    }
+    
+    checkNicknameDuplicationButton.snp.makeConstraints{
+      $0.top.equalTo(changenicknameLabel.snp.bottom).offset(16)
+      $0.leading.equalTo(nicknameTextField.snp.trailing).offset(16)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
