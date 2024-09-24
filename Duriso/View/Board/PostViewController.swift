@@ -7,6 +7,8 @@
 
 import UIKit
 
+import AVFoundation
+import Photos
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -141,6 +143,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       print("LocationManager에서 위치 업데이트 수신: \(latitude), \(longitude)")
       self?.updateLocationNames(latitude: latitude, longitude: longitude)
     }
+    
   }
   
   // 글쓰기뷰에서 탭바 없애기
@@ -193,8 +196,10 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       .subscribe(onNext: { [weak self] actionType in
         switch actionType {
         case .camera:
+          self?.presentImagePickerForCameraOrLibrary(sourceType: .camera)
           self?.presentImagePicker(sourceType: .camera)
         case .library:
+          self?.presentImagePickerForCameraOrLibrary(sourceType: .photoLibrary)
           self?.presentImagePicker(sourceType: .photoLibrary)
         case .cancel:
           print("취소 선택됨")
@@ -214,6 +219,8 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
       .disposed(by: disposeBag)
   }
   
+  
+  //MARK: - 카메라
   // 카메라 추가
   private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
     let imagePicker = UIImagePickerController()
@@ -271,6 +278,87 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         alertController.dismiss(animated: true, completion: nil)
       }
     }
+  }
+  
+  private func checkCameraAuthorization(completion: @escaping (Bool) -> Void) {
+      let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: .video)
+      switch cameraAuthStatus {
+      case .authorized: // 이미 권한이 있음
+          completion(true)
+      case .denied, .restricted: // 권한이 거부됨
+          completion(false)
+      case .notDetermined: // 아직 권한 요청 전
+          AVCaptureDevice.requestAccess(for: .video) { granted in
+              DispatchQueue.main.async {
+                  completion(granted)
+              }
+          }
+      @unknown default:
+          completion(false)
+      }
+  }
+  
+  private func checkPhotoLibraryAuthorization(completion: @escaping (Bool) -> Void) {
+    let photoAuthStatus = PHPhotoLibrary.authorizationStatus()
+    switch photoAuthStatus {
+    case .authorized, .limited:
+      completion(true)
+    case .denied, .restricted:
+      completion(false)
+    case .notDetermined:
+      PHPhotoLibrary.requestAuthorization { status in
+        DispatchQueue.main.async {
+          completion(status == .authorized || status == .limited)
+        }
+      }
+    @unknown default:
+      completion(false)
+    }
+  }
+  
+  private func presentImagePickerForCameraOrLibrary(sourceType: UIImagePickerController.SourceType) {
+      switch sourceType {
+      case .camera:
+          checkCameraAuthorization { granted in
+              if granted {
+                  self.presentImagePicker(sourceType: .camera)
+              } else {
+                  self.showSettingsAlert(message: "카메라 접근 권한이 필요합니다.")
+              }
+          }
+      case .photoLibrary:
+          checkPhotoLibraryAuthorization { granted in
+              if granted {
+                  self.presentImagePicker(sourceType: .photoLibrary)
+              } else {
+                  self.showSettingsAlert(message: "사진첩 접근 권한이 필요합니다.")
+              }
+          }
+      default:
+          break
+      }
+  }
+  
+  private func showSettingsAlert(message: String) {
+      let alertController = UIAlertController(
+          title: "권한 필요",
+          message: message,
+          preferredStyle: .alert
+      )
+      
+      let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+          guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+          if UIApplication.shared.canOpenURL(settingsURL) {
+              UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+          }
+      }
+      
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+      
+      alertController.addAction(settingsAction)
+      alertController.addAction(cancelAction)
+      
+      present(alertController, animated: true, completion: nil)
   }
   
   private func bindCategoryTableView() {

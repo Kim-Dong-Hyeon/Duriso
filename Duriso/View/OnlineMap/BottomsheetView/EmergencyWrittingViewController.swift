@@ -8,6 +8,7 @@
 import UIKit
 
 import Firebase
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import SnapKit
@@ -20,6 +21,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private let firestore = Firestore.firestore()
   var latitude: Double = 0.0
   var longitude: Double = 0.0
+  private var currentUUID: String = ""
   private var onlineViewController: OnlineViewController?
   private let regionFetcher = RegionFetcher()
   
@@ -184,7 +186,15 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
       return
     }
     
-    let newPost = createPost(content: content, category: category, onlineVC: onlineVC)
+    // 현재 로그인된 사용자의 uid 가져오기 (UUID)
+    guard let user = Auth.auth().currentUser else {
+      print("사용자 정보가 없습니다.")
+      return
+    }
+    
+    let authorUUID = user.uid  // Firebase Authentication에서 제공하는 사용자의 고유 ID
+    
+    let newPost = createPost(content: content, category: category, onlineVC: onlineVC, authorUUID: authorUUID)
     
     firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) { [weak self] error in
       guard let self = self else { return }
@@ -198,9 +208,9 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     }
   }
   
-  private func createPost(content: String, category: String, onlineVC: OnlineViewController) -> Posts {
+  private func createPost(content: String, category: String, onlineVC: OnlineViewController, authorUUID: String) -> Posts {
     return Posts(
-      author: "작성자 이름",
+      author: authorUUID,  // 사용자의 고유 UUID를 author에 저장
       contents: content,
       category: category,
       dong: onlineVC.dong,
@@ -215,6 +225,22 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
       title: "",
       imageUrl: ""
     )
+  }
+  
+  //MARK: - 유저확인
+  private func fetchUserId() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    
+    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nicknameFromFirestore = data?["uuid"] as? String ?? "닉네임 없음"
+        self.currentUUID = nicknameFromFirestore
+      }
+    }
   }
   
   // MARK: - Helper Methods
