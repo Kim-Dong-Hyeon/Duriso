@@ -144,11 +144,12 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     }
     
     placeholderLabel.snp.makeConstraints {
-      $0.edges.equalTo(messageInputTextView).inset(UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
+      $0.edges.equalTo(messageInputTextView)
+        .inset(UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))
     }
     
     characterLimitLabel.snp.makeConstraints {
-      $0.top.equalTo(messageInputTextView.snp.bottom).offset(4) // 텍스트뷰 바로 아래에 배치
+      $0.top.equalTo(messageInputTextView.snp.bottom).offset(4)
       $0.leading.equalTo(messageInputTextView.snp.leading)
     }
   }
@@ -196,9 +197,10 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     
     let newPost = createPost(content: content, category: category, onlineVC: onlineVC, authorUUID: authorUUID)
     
-    firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) { [weak self] error in
+    firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) {
+      [weak self] error in
       guard let self = self else { return }
-      if let error = error {
+     if let error = error {
         print("Firestore에 데이터 저장 실패: \(error.localizedDescription)")
       } else {
         print("게시글 저장 성공")
@@ -264,25 +266,29 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   // MARK: - UITextViewDelegate
   func textViewDidChange(_ textView: UITextView) {
-    // 텍스트가 비어있지 않으면 placeholder 숨김, 비어있으면 표시
-    placeholderLabel.isHidden = !textView.text.isEmpty
-    
-    // 빈값 방지 (공백 또는 줄바꿈만 입력된 경우 텍스트를 빈 문자열로 설정)
-    if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-      textView.text = ""
-    }
-    
-    // 글자 수가 50자를 넘지 않도록 제한
-    if textView.text.count > 50 {
-      textView.text = String(textView.text.prefix(50))
-      characterLimitLabel.isHidden = false // 경고 표시
-    } else {
-      characterLimitLabel.isHidden = true // 경고 숨김
-    }
-    
-    let isValidInput = !textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    addPostButton.isEnabled = isValidInput
-    addPostButton.alpha = isValidInput ? 1.0 : 0.5
+      placeholderLabel.isHidden = !textView.text.isEmpty
+
+      let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+      if trimmedText.isEmpty {
+        textView.text = ""
+      }
+
+      let characterCount = textView.text.count
+      if characterCount > 50 {
+        textView.text = String(textView.text.prefix(50))
+        if characterLimitLabel.isHidden {
+          characterLimitLabel.isHidden = false
+        }
+      } else {
+        if !characterLimitLabel.isHidden {
+          characterLimitLabel.isHidden = true
+        }
+      }
+
+      let isValidInput = !trimmedText.isEmpty
+      addPostButton.isEnabled = isValidInput
+      addPostButton.alpha = isValidInput ? 1.0 : 0.5
   }
   
   func textViewDidBeginEditing(_ textView: UITextView) {

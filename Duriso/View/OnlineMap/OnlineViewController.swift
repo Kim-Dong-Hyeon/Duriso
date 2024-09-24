@@ -91,7 +91,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   )
   
   lazy var emergencyReportButton: UIButton = createButton(
-    title: "긴급제보",
+    title: "사용자제보",
     symbolName: "megaphone.fill",
     baseColor: .CLightBlue,
     selectedColor: .CBlue
@@ -328,6 +328,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     firestore.collection("posts").document(poiID).getDocument { document, error in
       if let document = document, document.exists {
         let data = document.data()
+        emergencyReportVC.postCategory = data?["category"] as? String ?? "Unknown"
         emergencyReportVC.reportName = data?["title"] as? String ?? "Unknown"
         emergencyReportVC.reportAddress = "\(data?["si"] ?? "") \(data?["gu"] ?? "") \(data?["dong"] ?? "")"
         emergencyReportVC.authorName = data?["author"] as? String ?? "Unknown Author"
