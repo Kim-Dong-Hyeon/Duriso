@@ -16,14 +16,13 @@ class LegalNoticeViewController: UIViewController {
   
   private let legalNoticeTableView = UITableView().then {
     $0.register(LegalNoticeTableViewCell.self, forCellReuseIdentifier: "LegalNoticeCell")
+    $0.rowHeight = 48
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     self.tabBarController?.tabBar.isHidden = true
-
-    legalNoticeTableView.rowHeight = 48
     
     configureUI()
     bindViewModel()

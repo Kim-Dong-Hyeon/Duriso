@@ -15,6 +15,10 @@
 	</dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>스냅샷을 사진 앱에 저장하기 위해 접근 권한이 필요합니다.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>재난정보 제보시 카메라로 직접 촬영하여 게시글을 작성하기 위해 필요한 권한입니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>재난정보 제보시 사진보관함에 저장된 사진을 첨부하여 게시글을 작성하기 위해 필요한 권한입니다.</string>
 	<key>AED_API_KEY</key>
 	<string>$(AED_API_KEY)</string>
 	<key>KAKAO_DEV_API_KEY</key>

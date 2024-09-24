@@ -84,15 +84,27 @@ class SignUpViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
+  private let legalNoticeTableView = UITableView().then {
+    $0.register(SignUptableViewCell.self, forCellReuseIdentifier: "LegalNoticeCell")
+    $0.backgroundColor = .CWhite
+    $0.rowHeight = 32
+    $0.isScrollEnabled = false
+  }
+  
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
-    $0.backgroundColor = .CLightBlue
+    $0.backgroundColor = .lightGray
     $0.titleLabel?.font = CustomFont.Body3.font()
     $0.layer.cornerRadius = 10
+    $0.isEnabled = false
   }
   
   private let disposeBag = DisposeBag()
   private let viewModel = SignUpViewModel()
+  private let viewModel2 = LegalNoticeViewModel()
+  
+  private var checkedCount = 0
+  private let totalCheckboxes = 3
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -118,16 +130,17 @@ class SignUpViewController: UIViewController {
       passwordTextField,
       checkpasswordLabel,
       checkpasswordTextField,
+      legalNoticeTableView,
       saveButton
     ].forEach { view.addSubview($0) }
     
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(64)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
     emailLabel.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(64)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
@@ -174,8 +187,15 @@ class SignUpViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
+    legalNoticeTableView.snp.makeConstraints{
+      $0.top.equalTo(checkpasswordTextField.snp.bottom).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
+      $0.bottom.equalTo(saveButton.snp.top).offset(-16)
+    }
+    
     saveButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -197,6 +217,32 @@ class SignUpViewController: UIViewController {
     
     checkpasswordTextField.rx.text.orEmpty
       .bind(to: viewModel.checkPasswordText)
+      .disposed(by: disposeBag)
+    
+    viewModel2.items
+      .bind(to: legalNoticeTableView.rx.items(
+        cellIdentifier: "LegalNoticeCell",
+        cellType: SignUptableViewCell.self)
+      ) { [weak self] row, item, cell in
+        cell.configure(with: item.title)
+        cell.onCheckboxStateChange = { isChecked in
+          if isChecked {
+            self?.checkedCount += 1
+          } else {
+            self?.checkedCount -= 1
+          }
+          let isEnabled = self?.checkedCount == self?.totalCheckboxes
+          self?.saveButton.isEnabled = isEnabled
+          self?.saveButton.backgroundColor = isEnabled ? .CBlue : .lightGray
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    legalNoticeTableView.rx.modelSelected(LegalNotice.self)
+      .subscribe(onNext: { [weak self] item in
+        let detailVC = LegalNoticeDetailViewController(notice: item)
+        self?.navigationController?.pushViewController(detailVC, animated: true)
+      })
       .disposed(by: disposeBag)
     
     saveButton.rx.tap

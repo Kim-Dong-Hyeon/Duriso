@@ -35,7 +35,7 @@ class PostingViewController: UIViewController {
   private var isLiked = false
   private var likeCount = 0
   
-  private var currentNickname: String = ""
+  private var currentUUID: String = ""
   
   let db = Firestore.firestore()
   var documentRef: DocumentReference?
@@ -127,6 +127,11 @@ class PostingViewController: UIViewController {
     $0.spacing = 8
   }
   
+  private let nickNameLabel = UILabel().then {
+    $0.text = "닉네임"
+    $0.font = CustomFont.Head3.font()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
@@ -139,6 +144,10 @@ class PostingViewController: UIViewController {
     configureUI()
     changeButtonTap()
     removalButtonTap()
+    
+    if let post = post {
+        fetchNickname(forPostOwnerUUID: post.author)
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -184,7 +193,7 @@ class PostingViewController: UIViewController {
   private func checkIfUserCanEdit() {
     guard let postUserNickname = post?.author else { return }
     
-    if postUserNickname == self.currentNickname {
+    if postUserNickname == self.currentUUID {
       presentEditViewController()
     } else {
       let alert = UIAlertController(
@@ -272,10 +281,31 @@ class PostingViewController: UIViewController {
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()
-        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
-        self.currentNickname = nicknameFromFirestore
+        let nicknameFromFirestore = data?["uuid"] as? String ?? "닉네임 없음"
+        self.currentUUID = nicknameFromFirestore
       }
     }
+  }
+  
+  private func fetchNickname(forPostOwnerUUID uuid: String) {
+      firestore.collection("users").whereField("uuid", isEqualTo: uuid).getDocuments { [weak self] (querySnapshot, error) in
+          guard let self = self else { return }
+          if let error = error {
+              print("닉네임을 가져오는 데 실패했습니다: \(error.localizedDescription)")
+              return
+          }
+
+          if let document = querySnapshot?.documents.first {
+              let data = document.data()
+              let nickname = data["nickname"] as? String ?? "닉네임 없음"
+              
+              DispatchQueue.main.async {
+                  self.nickNameLabel.text = nickname
+              }
+          } else {
+              print("해당 UUID에 대한 닉네임을 찾을 수 없습니다.")
+          }
+      }
   }
   
   // MARK: - 데이터 확인
@@ -288,11 +318,9 @@ class PostingViewController: UIViewController {
     self.postTitleTop = post.category
     self.documentRef = db.collection("posts").document(post.postid)
     
-    // 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
       loadImage(from: url)
     } else {
-      // 이미지가 없으면 configureUI를 호출
       configureUI()
     }
   }
@@ -303,13 +331,12 @@ class PostingViewController: UIViewController {
       if let data = data, let image = UIImage(data: data) {
         DispatchQueue.main.async {
           self.postImage = image
-          self.configureUI() // 이미지 로드가 완료된 후 UI 업데이트
+          self.configureUI()
         }
       } else {
         DispatchQueue.main.async {
-          // 이미지 로드 실패 시 UI를 업데이트할 수 있습니다.
           self.postImage = nil
-          self.configureUI() // 이미지가 없으니 UI 업데이트
+          self.configureUI()
         }
       }
     }.resume()
@@ -320,7 +347,7 @@ class PostingViewController: UIViewController {
     guard let postUserNickname = post?.author else { return }
     
     // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
-    if postUserNickname != self.currentNickname {
+    if postUserNickname != self.currentUUID {
       let alert = UIAlertController(
         title: "삭제 권한 없음",
         message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
@@ -371,12 +398,12 @@ class PostingViewController: UIViewController {
       postingImage.image = image
       postingImage.alpha = 1
       postingImage.snp.updateConstraints {
-        $0.height.equalTo(200) // 이미지가 있을 때 높이 200
+        $0.height.equalTo(200)
       }
     } else {
       postingImage.alpha = 0
       postingImage.snp.updateConstraints {
-        $0.height.equalTo(0) // 이미지가 없을 때 높이를 0
+        $0.height.equalTo(0)
       }
     }
     
@@ -397,23 +424,41 @@ class PostingViewController: UIViewController {
   
   // MARK: -  신고하기
   private func showReportAlert() {
-    
     let reportAlert = UIAlertController(
-      title: "신고하기",
-      message: "해당 이용자를 신고 하시겠습니까?",
-      preferredStyle: .alert
+      title: "신고 사유 선택",
+      message: "신고 사유를 선택해 주세요.",
+      preferredStyle: .actionSheet
     )
     
-    reportAlert.addAction(UIAlertAction(title: "신고하기", style: .destructive, handler: { [weak self] _ in
-      self?.checkIfUserCanReport()
-    }))
+    // 신고 사유 추가
+    let reasons = [
+      "스팸성 콘텐츠",
+      "불법 또는 유해한 콘텐츠",
+      "명예 훼손 또는 모욕",
+      "폭력 또는 혐오 발언",
+      "부적절한 콘텐츠"
+    ]
     
+    for reason in reasons {
+      reportAlert.addAction(UIAlertAction(title: reason, style: .default, handler: { [weak self] _ in
+        self?.checkIfUserCanReport(withReason: reason)
+      }))
+    }
+    
+    // 취소 버튼
     reportAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+    
+    // iPad에서 ActionSheet가 crash 되는 문제 방지
+    if let popoverController = reportAlert.popoverPresentationController {
+      popoverController.sourceView = self.view
+      popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+      popoverController.permittedArrowDirections = []
+    }
     
     present(reportAlert, animated: true, completion: nil)
   }
   
-  private func checkIfUserCanReport() {
+  private func checkIfUserCanReport(withReason reason: String) {
     guard let user = Auth.auth().currentUser else { return }
     let userId = user.uid
     
@@ -425,7 +470,7 @@ class PostingViewController: UIViewController {
         if reportedUsers.contains(userId) {
           self?.showAlreadyReportedAlert()
         } else {
-          self?.updateReportCount()
+          self?.updateReportCount(withReason: reason)
         }
       }
     }
@@ -437,13 +482,14 @@ class PostingViewController: UIViewController {
     present(alert, animated: true, completion: nil)
   }
   
-  private func updateReportCount() {
+  private func updateReportCount(withReason reason: String) {
     guard let user = Auth.auth().currentUser, let documentRef = documentRef else { return }
     let userId = user.uid
     
     documentRef.updateData([
       "reportcount": FieldValue.increment(Int64(1)),
-      "reportedUsers": FieldValue.arrayUnion([userId])
+      "reportedUsers": FieldValue.arrayUnion([userId]),
+      "reportReasons": FieldValue.arrayUnion([reason])
     ]) { error in
       if let error = error {
         print("신고 수 업데이트 실패: \(error.localizedDescription)")
@@ -456,8 +502,8 @@ class PostingViewController: UIViewController {
   
   private func showReportConfirmationAlert() {
     let confirmationAlert = UIAlertController(
-      title: "신고",
-      message: "신고가 완료되었습니다.",
+      title: "신고가 완료되었습니다.",
+      message: "검토까지 최대 24시간 소요 될 예정입니다.",
       preferredStyle: .alert
     )
     confirmationAlert.addAction(UIAlertAction(title: "확인", style: .default))
@@ -475,6 +521,7 @@ class PostingViewController: UIViewController {
     [
       postingTitleText,
       postingLineView,
+      nickNameLabel,
       postingLocationeName1,
       postingStackView,
       postingImage,
@@ -527,14 +574,20 @@ class PostingViewController: UIViewController {
       $0.width.equalToSuperview().inset(30)
     }
     
-    postingLocationeName1.snp.makeConstraints {
+    nickNameLabel.snp.makeConstraints {
       $0.top.equalTo(postingLineView.snp.bottom).offset(16)
       $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
       $0.height.equalTo(30)
     }
     
+    postingLocationeName1.snp.makeConstraints {
+      $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
+      $0.height.equalTo(30)
+    }
+    
     postingStackView.snp.makeConstraints {
-      $0.top.equalTo(postingLocationeName1.snp.bottom).offset(16)
+      $0.top.equalTo(postingLocationeName1.snp.bottom)
       $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
       $0.height.equalTo(30)
     }

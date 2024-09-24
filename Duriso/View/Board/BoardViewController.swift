@@ -25,7 +25,8 @@ class BoardViewController: UIViewController {
   private let firestore = Firestore.firestore()
   private let regionFetcher = RegionFetcher()
   private let nickname: BehaviorSubject<String> = BehaviorSubject(value: "")
-  private var currentNickname: String = ""
+  private var currentUUID: String = ""
+  private let refreshControl = UIRefreshControl()
   
   private var latitude: Double = 0.0
   private var longitude: Double = 0.0
@@ -101,6 +102,7 @@ class BoardViewController: UIViewController {
     bindBoardTableView()
     bindCollectionView()
     writingButtonTap()
+    setupRefreshControl()
     
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
       self?.latitude = latitude
@@ -119,8 +121,8 @@ class BoardViewController: UIViewController {
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()
-        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
-        self.currentNickname = nicknameFromFirestore
+        let nicknameFromFirestore = data?["uuid"] as? String ?? "닉네임 없음"
+        self.currentUUID = nicknameFromFirestore
         
         // 사용자 displayName 업데이트
         let changeRequest = user.createProfileChangeRequest()
@@ -133,7 +135,7 @@ class BoardViewController: UIViewController {
           }
         }
         
-        print("사용자 닉네임: \(self.currentNickname)")
+        print("사용자 닉네임: \(self.currentUUID)")
       } else {
         print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
       }
@@ -165,7 +167,7 @@ class BoardViewController: UIViewController {
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()
-        self.currentNickname = data?["nickname"] as? String ?? "닉네임 없음"
+        self.currentUUID = data?["uuid"] as? String ?? "닉네임 없음"
       } else {
         print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
       }
@@ -293,7 +295,7 @@ class BoardViewController: UIViewController {
       self.uploadImageAndGetURL(settingImage) { imageUrl in
         // 게시글 생성
         let newPost = Posts(
-          author: self.currentNickname,  // 작성자 이름
+          author: self.currentUUID,  // 작성자 이름
           contents: content,
           category: categorys,
           dong: self.onlineViewController.dong,
@@ -343,6 +345,33 @@ class BoardViewController: UIViewController {
       })
       .disposed(by: disposeBag)
   }
+  
+  private func fetchPostsd() {
+      firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
+        if let error = error {
+          print("데이터 가져오기 실패: \(error.localizedDescription)")
+          self?.refreshControl.endRefreshing()  // 새로 고침 종료
+        } else {
+          guard let documents = snapshot?.documents else { return }
+          let posts = documents.compactMap { document -> Posts? in
+            try? document.data(as: Posts.self)
+          }
+          self?.allPosts = posts
+          let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
+          self?.tableItems.accept(sortedPosts)
+          self?.refreshControl.endRefreshing()  // 새로 고침 종료
+        }
+      }
+    }
+  
+  private func setupRefreshControl() {
+      refreshControl.addTarget(self, action: #selector(refreshPosts), for: .valueChanged)
+      notificationTableView.refreshControl = refreshControl
+  }
+  
+  @objc private func refreshPosts() {
+      fetchPostsd()
+    }
   
   //MARK: - 제약조건
   private func setupLayout() {
