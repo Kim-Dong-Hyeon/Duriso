@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAuth
 import FirebaseFirestore
 import KakaoMapsSDK
 import RxCocoa
@@ -298,14 +299,20 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-    let emergencyWrittingVC = EmergencyWrittingViewController()
-    emergencyWrittingVC.setOnlineViewController(self)
-    emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
-    emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
-    let bottomSheetVC = MapBottomSheetViewController()
-    bottomSheetVC.configureContentViewController(emergencyWrittingVC)
-    present(bottomSheetVC, animated: true)
-    print("Emergency Writing button tapped")
+      if let currentUser = Auth.auth().currentUser {
+          // 사용자가 로그인된 상태이면 글쓰기 화면으로 이동
+          let emergencyWrittingVC = EmergencyWrittingViewController()
+          emergencyWrittingVC.setOnlineViewController(self)
+          emergencyWrittingVC.latitude = LocationManager.shared.currentLocation?.coordinate.latitude ?? 0.0
+          emergencyWrittingVC.longitude = LocationManager.shared.currentLocation?.coordinate.longitude ?? 0.0
+          let bottomSheetVC = MapBottomSheetViewController()
+          bottomSheetVC.configureContentViewController(emergencyWrittingVC)
+          present(bottomSheetVC, animated: true)
+          print("Emergency Writing button tapped")
+      } else {
+          // 로그인되지 않은 상태일 때 알림창 표시
+//          showLoginAlert()
+      }
   }
   
   // MARK: - POI Interactions
@@ -353,6 +360,28 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     present(bottomSheetVC, animated: true)
   }
   
+  // 논의 후 사용 : LoginAlert()
+//  private func showLoginAlert() {
+//      let alert = UIAlertController(title: "로그인 필요", message: "회원가입 후 글쓰기가 가능합니다.", preferredStyle: .alert)
+//      
+//      // 회원가입 버튼
+//      let signUpAction = UIAlertAction(title: "회원가입", style: .default) { [weak self] _ in
+//          self?.navigateToSignUp()
+//      }
+//      alert.addAction(signUpAction)
+//      
+//      // 취소 버튼
+//      let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+//      alert.addAction(cancelAction)
+//      
+//      // 알림창 표시
+//      present(alert, animated: true, completion: nil)
+//  }
+//  
+//  private func navigateToSignUp() {
+//      let signUpViewController = SignUpViewController()
+//      self.navigationController?.pushViewController(signUpViewController, animated: true)
+//  }
 }
 
 @available(iOS 17.0, *)
