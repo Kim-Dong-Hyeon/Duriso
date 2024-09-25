@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAuth
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -63,6 +64,13 @@ class MyPageViewController: UIViewController {
     $0.isScrollEnabled = true
   }
   
+  private let contactLabel = UILabel().then {
+    $0.text = "문의: durisoapp@google.com"
+    $0.font = CustomFont.Body3.font()
+    $0.textAlignment = .left
+    $0.textColor = .lightGray
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
@@ -88,6 +96,7 @@ class MyPageViewController: UIViewController {
       postCount,
       profileButton,
       myPageTableView,
+      contactLabel
     ].forEach { view.addSubview($0) }
     
     profileImage.snp.makeConstraints {
@@ -122,9 +131,16 @@ class MyPageViewController: UIViewController {
       $0.top.equalTo(profileButton.snp.bottom).offset(20)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+      $0.bottom.equalTo(contactLabel.snp.top).offset(-10)
+    }
+    
+    contactLabel.snp.makeConstraints{
+      $0.top.equalTo(myPageTableView.snp.bottom)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-30)
     }
   }
+  
   private func bindViewModel() {
     
     viewModel.nickname
@@ -194,7 +210,18 @@ class MyPageViewController: UIViewController {
       )
       
       let logoutAction = UIAlertAction(title: "로그아웃", style: .destructive) { _ in
-        // LoginViewController를 NavigationController로 감싸고, rootViewController로 설정
+        let firebaseAuth = Auth.auth()
+        do {
+          try firebaseAuth.signOut()
+          if Auth.auth().currentUser == nil {
+            print("현재 로그인 된 사용자가 없습니다")
+          } else {
+            print("현재 로그인 된 사용자가 있습니다")
+          }
+        } catch let signOutError as NSError {
+          print("Error signing out: %@", signOutError)
+        }
+        
         let loginVC = LoginViewController()
         let navController = UINavigationController(rootViewController: loginVC)
         
