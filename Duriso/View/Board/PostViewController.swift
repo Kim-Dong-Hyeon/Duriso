@@ -69,7 +69,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
   
   private let userTextSet = UITextView().then {
-    $0.text = "내용을 작성해주세요"
+    $0.text = "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다."
     $0.textColor = .placeholderText
     $0.font = CustomFont.sub.font()
   }
@@ -518,7 +518,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func textViewDidEndEditing(_ textView: UITextView) {
       if textView.text.isEmpty {
-        textView.text = "텍스트 입력"
+        textView.text = "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다."
         textView.textColor = .placeholderText
       }
     }

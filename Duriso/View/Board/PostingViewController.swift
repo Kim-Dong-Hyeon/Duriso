@@ -146,7 +146,7 @@ class PostingViewController: UIViewController {
     removalButtonTap()
     
     if let post = post {
-        fetchNickname(forPostOwnerUUID: post.author)
+      fetchNickname(forPostOwnerUUID: post.author)
     }
   }
   
@@ -168,7 +168,6 @@ class PostingViewController: UIViewController {
     likeButton.rx.tap
       .subscribe(onNext: { [weak self] in
         self?.toggleLike()
-        self?.updateLikesCount(increment: self?.isLiked ?? false)
       })
       .disposed(by: disposeBag)
   }
@@ -221,54 +220,57 @@ class PostingViewController: UIViewController {
     self.navigationController?.pushViewController(postChangeViewController, animated: true)
   }
   
-  //MARK: - 좋아요 만들기
+  // MARK: - 좋아요 만들기
+  private func toggleLike() {
+    guard let user = Auth.auth().currentUser else { return }
+    let userId = user.uid
+    isLiked.toggle()
+    updateLikesCount(increment: isLiked)
+  }
+  
+  // 좋아요 수 업데이트
+  private func updateLikesCount(increment: Bool) {
+    guard let documentRef = documentRef, let userId = Auth.auth().currentUser?.uid else { return }
+    
+    let updateData: [String: Any] = [
+      "likescount": FieldValue.increment(Int64(increment ? 1 : -1)),
+      "likedUsers": increment ? FieldValue.arrayUnion([userId]) : FieldValue.arrayRemove([userId])
+    ]
+    
+    documentRef.updateData(updateData) { [weak self] error in
+      if let error = error {
+        print("좋아요 수 업데이트 실패: \(error.localizedDescription)")
+      } else {
+        print("좋아요 수 업데이트 성공")
+        self?.fetchLikesStatus()
+      }
+    }
+  }
+  
+  // MARK: - 좋아요 상태 가져오기
   private func fetchLikesStatus() {
-    guard let documentRef = documentRef, let userId = userId else { return }
+    guard let user = Auth.auth().currentUser else { return }
+    let userId = user.uid
+    
+    guard let documentRef = documentRef else { return }
     
     documentRef.getDocument { [weak self] (document, error) in
       if let document = document, document.exists {
         let data = document.data()
         let likedUsers = data?["likedUsers"] as? [String] ?? []
         
-        // 사용자가 좋아요를 눌렀는지 확인
         self?.isLiked = likedUsers.contains(userId)
         self?.likeCount = (data?["likescount"] as? Int) ?? 0
         
-        // UI 업데이트
         self?.updateLikeButton()
       }
     }
   }
   
+  // 좋아요 버튼 UI 업데이트
   private func updateLikeButton() {
     likeNumberLabel.text = "\(likeCount)"
     likeButton.tintColor = isLiked ? .red : .lightGray
-  }
-  
-  private func toggleLike() {
-    isLiked.toggle()
-    
-    likeCount += isLiked ? 1 : -1
-    likeNumberLabel.text = "\(likeCount)"
-    likeButton.tintColor = isLiked ? .red : .lightGray
-  }
-  
-  private func updateLikesCount(increment: Bool) {
-    guard let documentRef = documentRef, let userId = userId else { return }
-    
-    let incrementValue: Int = increment ? 1 : -1
-    let updateData: [String: Any] = [
-      "likescount": FieldValue.increment(Int64(incrementValue)),
-      "likedUsers": increment ? FieldValue.arrayUnion([userId]) : FieldValue.arrayRemove([userId])
-    ]
-    
-    documentRef.updateData(updateData) { error in
-      if let error = error {
-        print("좋아요 수 업데이트 실패: \(error.localizedDescription)")
-      } else {
-        print("좋아요 수 업데이트 성공")
-      }
-    }
   }
   
   //MARK: - 유저확인
@@ -288,24 +290,24 @@ class PostingViewController: UIViewController {
   }
   
   private func fetchNickname(forPostOwnerUUID uuid: String) {
-      firestore.collection("users").whereField("uuid", isEqualTo: uuid).getDocuments { [weak self] (querySnapshot, error) in
-          guard let self = self else { return }
-          if let error = error {
-              print("닉네임을 가져오는 데 실패했습니다: \(error.localizedDescription)")
-              return
-          }
-
-          if let document = querySnapshot?.documents.first {
-              let data = document.data()
-              let nickname = data["nickname"] as? String ?? "닉네임 없음"
-              
-              DispatchQueue.main.async {
-                  self.nickNameLabel.text = nickname
-              }
-          } else {
-              print("해당 UUID에 대한 닉네임을 찾을 수 없습니다.")
-          }
+    firestore.collection("users").whereField("uuid", isEqualTo: uuid).getDocuments { [weak self] (querySnapshot, error) in
+      guard let self = self else { return }
+      if let error = error {
+        print("닉네임을 가져오는 데 실패했습니다: \(error.localizedDescription)")
+        return
       }
+      
+      if let document = querySnapshot?.documents.first {
+        let data = document.data()
+        let nickname = data["nickname"] as? String ?? "닉네임 없음"
+        
+        DispatchQueue.main.async {
+          self.nickNameLabel.text = nickname
+        }
+      } else {
+        print("해당 UUID에 대한 닉네임을 찾을 수 없습니다.")
+      }
+    }
   }
   
   // MARK: - 데이터 확인
