@@ -65,7 +65,7 @@ class MyPageViewController: UIViewController {
   }
   
   private let contactLabel = UILabel().then {
-    $0.text = "문의: durisoapp@google.com"
+    $0.text = "문의: durisoapp@gmail.com"
     $0.font = CustomFont.Body3.font()
     $0.textAlignment = .left
     $0.textColor = .lightGray
