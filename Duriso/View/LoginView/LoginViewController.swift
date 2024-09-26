@@ -55,6 +55,18 @@ class LoginViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
+  private let checkboxButton = UIButton().then {
+    $0.setImage(UIImage(systemName: "square"), for: .normal)
+    $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  private let autoLoginLabel = UILabel().then {
+    $0.text = "자동 로그인"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+  }
+  
   private let idLoginButton = UIButton().then {
     $0.setImage(UIImage(named: "idLogin"), for: .normal)
     $0.layer.cornerRadius = 10
@@ -93,6 +105,13 @@ class LoginViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.navigationController?.setNavigationBarHidden(true, animated: false)
+    
+    let isautoLogin = UserDefaults.standard.bool(forKey: "autoLogin")
+    if isautoLogin {
+      let mainTabBarViewModel = MainTabBarViewModel()
+      let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+      self.navigationController?.setViewControllers([mainTabBarVC], animated: false)
+    }
   }
   
   private func configureUI() {
@@ -106,6 +125,8 @@ class LoginViewController: UIViewController {
       kakaoLoginButton,
       appleLoginButton,
       idLoginButton,
+      checkboxButton,
+      autoLoginLabel,
       signUpButton
     ].forEach { view.addSubview($0) }
     
@@ -115,7 +136,7 @@ class LoginViewController: UIViewController {
     }
     
     idLabel.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(64)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(48)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
     }
     
@@ -138,9 +159,19 @@ class LoginViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
+    checkboxButton.snp.makeConstraints {
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(64)
+    }
+    
+    autoLoginLabel.snp.makeConstraints {
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(16)
+      $0.leading.equalTo(checkboxButton.snp.trailing).offset(16)
+    }
+    
     idLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(passwordTextField.snp.bottom).offset(48)
+      $0.top.equalTo(checkboxButton.snp.bottom).offset(32)
       $0.width.equalTo(320)
       $0.height.equalTo(48)
     }
@@ -178,11 +209,23 @@ class LoginViewController: UIViewController {
       .bind(to: viewModel.loginTap)
       .disposed(by: disposeBag)
     
+    checkboxButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.checkboxButton.isSelected.toggle()
+        UserDefaults.standard.set(self.checkboxButton.isSelected, forKey: "autoLogin")
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.loginSuccess
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         
-        print("로그인 성공")
+        if self.checkboxButton.isSelected {
+          UserDefaults.standard.set(true, forKey: "autoLogin")
+        } else {
+          UserDefaults.standard.set(false, forKey: "autoLogin")
+        }
         
         let mainTabBarViewModel = MainTabBarViewModel()
         let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
