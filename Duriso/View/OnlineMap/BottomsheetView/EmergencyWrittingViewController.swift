@@ -200,7 +200,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) {
       [weak self] error in
       guard let self = self else { return }
-     if let error = error {
+      if let error = error {
         print("Firestore에 데이터 저장 실패: \(error.localizedDescription)")
       } else {
         print("게시글 저장 성공")
@@ -266,29 +266,29 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   // MARK: - UITextViewDelegate
   func textViewDidChange(_ textView: UITextView) {
-      placeholderLabel.isHidden = !textView.text.isEmpty
-
-      let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-
-      if trimmedText.isEmpty {
-        textView.text = ""
+    placeholderLabel.isHidden = !textView.text.isEmpty
+    
+    let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    if trimmedText.isEmpty {
+      textView.text = ""
+    }
+    
+    let characterCount = textView.text.count
+    if characterCount > 50 {
+      textView.text = String(textView.text.prefix(50))
+      if characterLimitLabel.isHidden {
+        characterLimitLabel.isHidden = false
       }
-
-      let characterCount = textView.text.count
-      if characterCount > 50 {
-        textView.text = String(textView.text.prefix(50))
-        if characterLimitLabel.isHidden {
-          characterLimitLabel.isHidden = false
-        }
-      } else {
-        if !characterLimitLabel.isHidden {
-          characterLimitLabel.isHidden = true
-        }
+    } else {
+      if !characterLimitLabel.isHidden {
+        characterLimitLabel.isHidden = true
       }
-
-      let isValidInput = !trimmedText.isEmpty
-      addPostButton.isEnabled = isValidInput
-      addPostButton.alpha = isValidInput ? 1.0 : 0.5
+    }
+    
+    let isValidInput = !trimmedText.isEmpty
+    addPostButton.isEnabled = isValidInput
+    addPostButton.alpha = isValidInput ? 1.0 : 0.5
   }
   
   func textViewDidBeginEditing(_ textView: UITextView) {

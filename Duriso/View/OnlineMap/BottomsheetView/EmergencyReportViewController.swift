@@ -25,7 +25,7 @@ class EmergencyReportViewController: UIViewController {
   var currentNickname: String = ""
   
   private let firestore = Firestore.firestore()
-
+  
   // MARK: - UI Components
   private let poiViewTitle = UILabel().then {
     $0.text = "우리 동네 한줄 제보"
@@ -121,7 +121,7 @@ class EmergencyReportViewController: UIViewController {
     }
     
     categoryImageView.snp.makeConstraints {
-
+      
       $0.centerY.equalTo(poiViewTitle.snp.centerY)
       $0.leading.equalTo(megaphoneLabel.snp.trailing)
       $0.width.equalTo(80)
@@ -159,7 +159,7 @@ class EmergencyReportViewController: UIViewController {
   // MARK: - Data Update
   private func updatePoiData() {
     fetchCurrentUserNickname { [weak self] nickname in
-        self?.authorLabel.text = nickname ?? "알 수 없는 사용자"
+      self?.authorLabel.text = nickname ?? "알 수 없는 사용자"
     }
     
     if let category = postCategory {
@@ -214,66 +214,66 @@ class EmergencyReportViewController: UIViewController {
   }
   
   private func fetchCurrentUserNickname(completion: @escaping (String?) -> Void) {
-      guard let user = Auth.auth().currentUser else {
-          completion(nil)
-          return
-      }
-      
-      let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-      
-      firestore.collection("users").document(safeEmail).getDocument { (document, error) in
-          if let document = document, document.exists {
-              let data = document.data()
-              let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
-              completion(nicknameFromFirestore)
-              
-              // 사용자 displayName 업데이트 (선택적으로 수행)
-              let changeRequest = user.createProfileChangeRequest()
-              changeRequest.displayName = nicknameFromFirestore
-              changeRequest.commitChanges { error in
-                  if let error = error {
-                      print("displayName 업데이트 실패: \(error.localizedDescription)")
-                  } else {
-                      print("displayName 업데이트 성공: \(nicknameFromFirestore)")
-                  }
-              }
+    guard let user = Auth.auth().currentUser else {
+      completion(nil)
+      return
+    }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    
+    firestore.collection("users").document(safeEmail).getDocument { (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
+        completion(nicknameFromFirestore)
+        
+        // 사용자 displayName 업데이트 (선택적으로 수행)
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.displayName = nicknameFromFirestore
+        changeRequest.commitChanges { error in
+          if let error = error {
+            print("displayName 업데이트 실패: \(error.localizedDescription)")
           } else {
-              print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "Unknown error")")
-              completion(nil)
+            print("displayName 업데이트 성공: \(nicknameFromFirestore)")
           }
+        }
+      } else {
+        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "Unknown error")")
+        completion(nil)
       }
+    }
   }
   private func updateCategoryImageView(with category: String) {
-     let imageName: String
+    let imageName: String
     print("카테고리 값 확인: \(category)")
-     // 카테고리에 따른 이미지 지정
-     switch category {
-     case "긴급제보":
-       imageName = "EmergencyReporttag"
-     case "태풍":
-       imageName = "Typhoontag"
-     case "지진":
-       imageName = "Earthquaketag"
-     case "홍수":
-       imageName = "Floodtag"
-     case "쓰나미":
-       imageName = "Tsunamitag"
-     case "핵폭발":
-       imageName = "Nucleartag"
-     case "산불":
-       imageName = "ForestFirestag"
-     case "산사태":
-       imageName = "Landslidetag"
-     case "폭염":
-       imageName = "Heatwavetag"
-     case "대설":
-       imageName = "HeavySnowtag"
-     default:
-       imageName = "tag.fill" // 기본 이미지
-     }
+    // 카테고리에 따른 이미지 지정
+    switch category {
+    case "긴급제보":
+      imageName = "EmergencyReporttag"
+    case "태풍":
+      imageName = "Typhoontag"
+    case "지진":
+      imageName = "Earthquaketag"
+    case "홍수":
+      imageName = "Floodtag"
+    case "쓰나미":
+      imageName = "Tsunamitag"
+    case "핵폭발":
+      imageName = "Nucleartag"
+    case "산불":
+      imageName = "ForestFirestag"
+    case "산사태":
+      imageName = "Landslidetag"
+    case "폭염":
+      imageName = "Heatwavetag"
+    case "대설":
+      imageName = "HeavySnowtag"
+    default:
+      imageName = "tag.fill" // 기본 이미지
+    }
     print("이미지 설정 확인: \(imageName)")
     categoryImageView.image = UIImage(named: imageName) ?? UIImage(systemName: "tag.fill")
-   }
+  }
   
   // MARK: - Helper Method for Time Ago
   private func timeAgo(from date: Date) -> String {
