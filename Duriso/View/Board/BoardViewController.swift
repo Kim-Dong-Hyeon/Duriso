@@ -103,6 +103,7 @@ class BoardViewController: UIViewController {
     bindCollectionView()
     writingButtonTap()
     setupRefreshControl()
+    fetchFilteredPosts()
     
     LocationManager.shared.onLocationUpdate = { [weak self] latitude, longitude in
       self?.latitude = latitude
@@ -142,6 +143,7 @@ class BoardViewController: UIViewController {
     }
   }
   
+  //글정렬
   private func fetchPosts() {
     firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
       if let error = error {
@@ -154,6 +156,35 @@ class BoardViewController: UIViewController {
         self?.allPosts = posts
         let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
         self?.tableItems.accept(sortedPosts)
+      }
+    }
+  }
+  
+  //차단
+  private func fetchFilteredPosts() {
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let userRef = firestore.collection("users").document(safeEmail)
+    
+    userRef.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let blockedUsers = document.data()?["blockedusers"] as? [String] ?? []  // 현재 사용자의 blockedusers 배열 가져오기
+        
+        self?.firestore.collection("posts").getDocuments { (querySnapshot, error) in
+          if let querySnapshot = querySnapshot {
+            let posts = querySnapshot.documents.compactMap { document -> Posts? in
+              try? document.data(as: Posts.self)   // 모든 게시물 가져오기
+            }
+            
+            let filteredPosts = posts.filter { post in
+              let authorUID = post.author
+              return !blockedUsers.contains(authorUID)  // 차단된 사용자의 게시물을 필터링
+            }
+            
+            self?.tableItems.accept(filteredPosts) // 필터링된 게시물을 테이블 뷰에 반영
+          }
+        }
       }
     }
   }
@@ -227,32 +258,46 @@ class BoardViewController: UIViewController {
   }
   
   private func handleButtonTap(for model: SomeDataModel) {
-    switch model.type {
-    case .allPerson:
-      filteredPosts = allPosts
-    case .atipoff:
-      filteredPosts = allPosts.filter { $0.category == "긴급제보" }
-    case .typhoon:
-      filteredPosts = allPosts.filter { $0.category == "태풍" }
-    case .earthquake:
-      filteredPosts = allPosts.filter { $0.category == "지진" }
-    case .flood:
-      filteredPosts = allPosts.filter { $0.category == "홍수" }
-    case .tsunami:
-      filteredPosts = allPosts.filter { $0.category == "쓰나미" }
-    case .nuclear:
-      filteredPosts = allPosts.filter { $0.category == "핵폭발" }
-    case .fire:
-      filteredPosts = allPosts.filter { $0.category == "산불" }
-    case .alandslide:
-      filteredPosts = allPosts.filter { $0.category == "산사태" }
-    case .hot:
-      filteredPosts = allPosts.filter { $0.category == "폭염" }
-    case .bigSnow:
-      filteredPosts = allPosts.filter { $0.category == "대설" }
+    guard let user = Auth.auth().currentUser else { return }
+    
+    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let userRef = firestore.collection("users").document(safeEmail)
+    
+    userRef.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let blockedUsers = document.data()?["blockedusers"] as? [String] ?? []  // 현재 사용자의 blockedusers 배열 가져오기
+        
+        switch model.type {
+        case .allPerson:
+          self?.filteredPosts = self?.allPosts.filter { post in
+            !blockedUsers.contains(post.author)  // 차단된 사용자의 게시물 제외
+          } ?? []
+        case .atipoff:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "긴급제보" && !blockedUsers.contains($0.author) } ?? []
+        case .typhoon:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "태풍" && !blockedUsers.contains($0.author) } ?? []
+        case .earthquake:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "지진" && !blockedUsers.contains($0.author) } ?? []
+        case .flood:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "홍수" && !blockedUsers.contains($0.author) } ?? []
+        case .tsunami:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "쓰나미" && !blockedUsers.contains($0.author) } ?? []
+        case .nuclear:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "핵폭발" && !blockedUsers.contains($0.author) } ?? []
+        case .fire:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "산불" && !blockedUsers.contains($0.author) } ?? []
+        case .alandslide:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "산사태" && !blockedUsers.contains($0.author) } ?? []
+        case .hot:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "폭염" && !blockedUsers.contains($0.author) } ?? []
+        case .bigSnow:
+          self?.filteredPosts = self?.allPosts.filter { $0.category == "대설" && !blockedUsers.contains($0.author) } ?? []
+        }
+        
+        let sortedFilteredPosts = self?.filteredPosts.sorted { $0.posttime > $1.posttime }
+        self?.tableItems.accept(sortedFilteredPosts ?? [])  // 필터링된 게시물을 테이블 뷰에 반영
+      }
     }
-    let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
-    tableItems.accept(filteredPosts)
   }
   
   private func writingButtonTap() {
@@ -347,31 +392,33 @@ class BoardViewController: UIViewController {
   }
   
   private func fetchPostsd() {
-      firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
-        if let error = error {
-          print("데이터 가져오기 실패: \(error.localizedDescription)")
-          self?.refreshControl.endRefreshing()  // 새로 고침 종료
-        } else {
-          guard let documents = snapshot?.documents else { return }
-          let posts = documents.compactMap { document -> Posts? in
-            try? document.data(as: Posts.self)
-          }
-          self?.allPosts = posts
-          let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
-          self?.tableItems.accept(sortedPosts)
-          self?.refreshControl.endRefreshing()  // 새로 고침 종료
+    firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
+      if let error = error {
+        print("데이터 가져오기 실패: \(error.localizedDescription)")
+        self?.refreshControl.endRefreshing()  // 새로 고침 종료
+      } else {
+        guard let documents = snapshot?.documents else { return }
+        let posts = documents.compactMap { document -> Posts? in
+          try? document.data(as: Posts.self)
         }
+        self?.allPosts = posts
+        let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
+        self?.tableItems.accept(sortedPosts)
+        self?.refreshControl.endRefreshing()  // 새로 고침 종료
+        self?.fetchFilteredPosts()
       }
     }
+  }
   
   private func setupRefreshControl() {
-      refreshControl.addTarget(self, action: #selector(refreshPosts), for: .valueChanged)
-      notificationTableView.refreshControl = refreshControl
+    refreshControl.addTarget(self, action: #selector(refreshPosts), for: .valueChanged)
+    notificationTableView.refreshControl = refreshControl
   }
   
   @objc private func refreshPosts() {
-      fetchPostsd()
-    }
+    fetchPostsd()
+    fetchFilteredPosts()
+  }
   
   //MARK: - 제약조건
   private func setupLayout() {

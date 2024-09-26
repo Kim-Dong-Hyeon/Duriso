@@ -86,6 +86,12 @@ class PostingViewController: UIViewController {
     $0.titleLabel?.font = CustomFont.Body3.font()
   }
   
+  private let cutoffUser = UIButton().then {
+    $0.setTitle("차단하기", for: .normal)
+    $0.setTitleColor(.red, for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+  }
+  
   private let editButton = UIButton().then {
     $0.setTitle("Edit", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
@@ -144,6 +150,7 @@ class PostingViewController: UIViewController {
     configureUI()
     changeButtonTap()
     removalButtonTap()
+    cutoffUserTap()
     
     if let post = post {
       fetchNickname(forPostOwnerUUID: post.author)
@@ -184,6 +191,14 @@ class PostingViewController: UIViewController {
     deleteButton.rx.tap
       .bind { [weak self] in
         self?.confirmDeletion()
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func cutoffUserTap() {
+    cutoffUser.rx.tap
+      .bind { [weak self] in
+        self?.blockUser()
       }
       .disposed(by: disposeBag)
   }
@@ -428,12 +443,13 @@ class PostingViewController: UIViewController {
   private func showReportAlert() {
     let reportAlert = UIAlertController(
       title: "신고 사유 선택",
-      message: "신고 사유를 선택해 주세요.",
+      message: "신고 사유에 맞지 않는 신고일 경우,\n해당 신고는 처리되지. 않습니다.\n누적 신고횟수가 3회 이상인 유저는 게시글 작성을 할 수 없습니다.",
       preferredStyle: .actionSheet
     )
     
     // 신고 사유 추가
     let reasons = [
+      "잘못된 정보",
       "스팸성 콘텐츠",
       "불법 또는 유해한 콘텐츠",
       "명예 훼손 또는 모욕",
@@ -512,6 +528,57 @@ class PostingViewController: UIViewController {
     present(confirmationAlert, animated: true, completion: nil)
   }
   
+  // MARK: - 유저 차단 기능
+  private func blockUser() {
+    guard let postUserUUID = post?.author else { return }
+    let alertController = UIAlertController(
+      title: "차단 확인",
+      message: "이 사용자를 차단하시겠습니까?",
+      preferredStyle: .alert
+    )
+    
+    alertController.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: "차단", style: .destructive, handler: { [weak self] _ in
+      self?.addUserToBlockList(blockedUserUUID: postUserUUID)
+    }))
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  private func addUserToBlockList(blockedUserUUID: String) {
+    guard let currentUser = Auth.auth().currentUser else { return }
+    
+    let safeEmail = currentUser.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let userRef = firestore.collection("users").document(safeEmail)
+    
+    userRef.getDocument { (document, error) in
+      if let error = error { return }
+      
+      if let document = document, document.exists {
+        userRef.updateData([
+          "blockedusers": FieldValue.arrayUnion([blockedUserUUID])
+        ]) { error in
+          if let error = error {
+          } else {
+            self.showBlockConfirmationAlert()
+          }
+        }
+      }
+    }
+  }
+  
+  private func showBlockConfirmationAlert() {
+    let confirmationAlert = UIAlertController(
+      title: "차단 완료",
+      message: "차단된 사용자의 게시물은 더 이상 표시되지 않습니다.",
+      preferredStyle: .alert  
+    )
+    confirmationAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
+      self?.navigationController?.popViewController(animated: true)
+    }))
+    present(confirmationAlert, animated: true, completion: nil)
+  }
+  
   // MARK: - 레이아웃
   private func setupView() {
     [
@@ -539,6 +606,7 @@ class PostingViewController: UIViewController {
     let spacerView = UIView()
     
     [
+      cutoffUser,
       ripotButton,
       spacerView,
       editButton,

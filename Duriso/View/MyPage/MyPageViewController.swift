@@ -30,7 +30,7 @@ class MyPageViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 40
     $0.clipsToBounds = true
-//    $0.backgroundColor = .lightGray // 테스트용 배경색
+    //    $0.backgroundColor = .lightGray // 테스트용 배경색
     $0.image = UIImage(named: "AppIcon")
   }
   
@@ -213,6 +213,8 @@ class MyPageViewController: UIViewController {
         let firebaseAuth = Auth.auth()
         do {
           try firebaseAuth.signOut()
+          UserDefaults.standard.removeObject(forKey: "autoLoginEnabled")
+          
           if Auth.auth().currentUser == nil {
             print("현재 로그인 된 사용자가 없습니다")
           } else {
