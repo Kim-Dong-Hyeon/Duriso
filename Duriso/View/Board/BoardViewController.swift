@@ -169,20 +169,25 @@ class BoardViewController: UIViewController {
     
     userRef.getDocument { [weak self] (document, error) in
       if let document = document, document.exists {
-        let blockedUsers = document.data()?["blockedusers"] as? [String] ?? []  // 현재 사용자의 blockedusers 배열 가져오기
+        let blockedUsers = document.data()?["blockedusers"] as? [String] ?? []
         
         self?.firestore.collection("posts").getDocuments { (querySnapshot, error) in
           if let querySnapshot = querySnapshot {
             let posts = querySnapshot.documents.compactMap { document -> Posts? in
-              try? document.data(as: Posts.self)   // 모든 게시물 가져오기
+              try? document.data(as: Posts.self)
             }
             
+            // 차단된 사용자를 제외한 게시글 필터링
             let filteredPosts = posts.filter { post in
               let authorUID = post.author
-              return !blockedUsers.contains(authorUID)  // 차단된 사용자의 게시물을 필터링
+              return !blockedUsers.contains(authorUID)
             }
             
-            self?.tableItems.accept(filteredPosts) // 필터링된 게시물을 테이블 뷰에 반영
+            // 최신순으로 정렬
+            let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
+            
+            // 테이블 뷰에 반영
+            self?.tableItems.accept(sortedFilteredPosts)
           }
         }
       }
