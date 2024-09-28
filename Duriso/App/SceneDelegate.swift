@@ -10,13 +10,19 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
-
+  let viewModel = FirebaseDataViewModel()
   
   /// 새로운 UIWindow를 생성하고 rootViewController를 설저
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // 이 메서드를 사용하면 제공된 UIWindowScene `scene`에 선택적으로 UIWindow `window`를 구성하고 첨부할 수 있습니다.
     // 스토리보드를 사용하는 경우 `window` 프로퍼티가 자동으로 초기화되어 씬에 첨부됩니다.
     // 이 델리게이트는 연결 장면이나 세션이 새로운 것을 의미하지 않습니다(대신 `application:configurationForConnectingSceneSession` 참조).
+    
+    // 네트워크 모니터링 시작
+    NetworkMonitor.shared.startMonitoring()
+    
+    // Core Data에 데이터가 있는지 확인하고 없을 경우 Firebase에서 데이터 가져오기
+    viewModel.fetchDataFromCoreData()
     
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
@@ -40,9 +46,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window.makeKeyAndVisible()
     
     self.window = window
-    
-    /// 네트워크 모니터링 시작
-    NetworkMonitor.shared.startMonitoring()
   }
   
   /// scene이 연결 해제될 때 호출되는 메서드
