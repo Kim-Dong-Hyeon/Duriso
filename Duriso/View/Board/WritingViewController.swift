@@ -13,7 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class PostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class WritingViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   private let disposeBag = DisposeBag()
   var onPostAdded: ((String, String, UIImage?, String) -> Void)?
@@ -508,7 +508,7 @@ class PostViewController: UIViewController, UIImagePickerControllerDelegate, UIN
   }
 }
 
-  extension PostViewController: UITextViewDelegate {
+  extension WritingViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
       guard textView.textColor == .placeholderText else { return }

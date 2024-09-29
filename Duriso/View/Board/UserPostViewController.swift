@@ -14,7 +14,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class PostingViewController: UIViewController {
+class UserPostViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let firestore = Firestore.firestore()
@@ -222,7 +222,7 @@ class PostingViewController: UIViewController {
   
   private func presentEditViewController() {
     guard let post = self.post else { return }
-    let postChangeViewController = PostChangeViewController()
+    let postChangeViewController = EditPostViewController()
     postChangeViewController.currentPost = post
     postChangeViewController.onPostUpdated = { [weak self] title, content, image, category in
       self?.postTitle = title
@@ -358,6 +358,7 @@ class PostingViewController: UIViewController {
       }
     }.resume()
   }
+
   
   // MARK: - 삭제 확인 및 실행
   private func confirmDeletion() {

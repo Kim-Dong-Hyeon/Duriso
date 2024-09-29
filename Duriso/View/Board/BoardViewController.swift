@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import Kingfisher
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -31,6 +32,7 @@ class BoardViewController: UIViewController {
   private var latitude: Double = 0.0
   private var longitude: Double = 0.0
   
+  //MARK: - UI
   private let notificationHeadLabel = UILabel().then {
     $0.text = "우리동네 알리미"
     $0.font = CustomFont.Deco.font()
@@ -93,7 +95,7 @@ class BoardViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
-    fetchUserData()
+//    fetchUserData()
     notificationTableView.delegate = self
     
     fetchUserNickname()
@@ -112,36 +114,35 @@ class BoardViewController: UIViewController {
       self?.updateLocationNames(latitude: latitude, longitude: longitude)
     }
   }
-  
+  //MARK: - Firebase
+  //uuid추출
   private func fetchUserNickname() {
     guard let user = Auth.auth().currentUser else { return }
     
     let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    
     firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
-      guard let self = self else { return }
-      if let document = document, document.exists {
-        let data = document.data()
-        let nicknameFromFirestore = data?["uuid"] as? String ?? "닉네임 없음"
-        self.currentUUID = nicknameFromFirestore
-        
-        // 사용자 displayName 업데이트
-        let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = nicknameFromFirestore
-        changeRequest.commitChanges { error in
-          if let error = error {
-            print("displayName 업데이트 실패: \(error.localizedDescription)")
-          } else {
-            print("displayName 업데이트 성공: \(nicknameFromFirestore)")
-          }
+        guard let self = self else { return }
+        if let document = document, document.exists {
+            let data = document.data()
+            let nickname = data?["uuid"] as? String ?? "닉네임 없음"
+            self.currentUUID = nickname
+            
+            // displayName 업데이트
+            let changeRequest = user.createProfileChangeRequest()
+            changeRequest.displayName = nickname
+            changeRequest.commitChanges { error in
+                if let error = error {
+                    print("업데이트 실패: \(error.localizedDescription)")
+                } else {
+                    print("업데이트 성공: \(nickname)")
+                }
+            }
+            print("사용자 닉네임: \(self.currentUUID)")
+        } else {
+            print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
         }
-        
-        print("사용자 닉네임: \(self.currentUUID)")
-      } else {
-        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
-      }
     }
-  }
+}
   
   //글정렬
   private func fetchPosts() {
@@ -177,16 +178,12 @@ class BoardViewController: UIViewController {
               try? document.data(as: Posts.self)
             }
             
-            // 차단된 사용자를 제외한 게시글 필터링
             let filteredPosts = posts.filter { post in
               let authorUID = post.author
               return !blockedUsers.contains(authorUID)
             }
             
-            // 최신순으로 정렬
             let sortedFilteredPosts = filteredPosts.sorted { $0.posttime > $1.posttime }
-            
-            // 테이블 뷰에 반영
             self?.tableItems.accept(sortedFilteredPosts)
           }
         }
@@ -194,21 +191,6 @@ class BoardViewController: UIViewController {
     }
   }
   
-  //MARK: - 유저확인
-  private func fetchUserData() {
-    guard let user = Auth.auth().currentUser else { return }
-    
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
-      guard let self = self else { return }
-      if let document = document, document.exists {
-        let data = document.data()
-        self.currentUUID = data?["uuid"] as? String ?? "닉네임 없음"
-      } else {
-        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
-      }
-    }
-  }
   
   //MARK: - 지역정보 가져오기
   private func updateLocationNames(latitude: Double, longitude: Double) {
@@ -262,6 +244,7 @@ class BoardViewController: UIViewController {
     return 10
   }
   
+  //MARK: - 재난별 버튼
   private func handleButtonTap(for model: SomeDataModel) {
     guard let user = Auth.auth().currentUser else { return }
     
@@ -305,45 +288,60 @@ class BoardViewController: UIViewController {
     }
   }
   
+  //MARK: - 글쓰기 버튼
   private func writingButtonTap() {
-    writingButton.rx.tap
-      .subscribe(onNext: { [weak self] in
-        self?.reportNavigation()
-      })
-      .disposed(by: disposeBag)
+      writingButton.rx.tap
+        .subscribe(onNext: { [weak self] in
+          if Auth.auth().currentUser == nil {
+            self?.showLoginAlert()
+          } else {
+            self?.writingNavigation()
+          }
+        })
+        .disposed(by: disposeBag)
+  }
+  
+  private func showLoginAlert() {
+      let alert = UIAlertController(title: "회원가입 필요", message: "게시글을 작성하려면 회원가입이 필요합니다.", preferredStyle: .alert)
+      
+      let signUpAction = UIAlertAction(title: "확인", style: .default) { _ in
+          self.navigateToLogin()
+      }
+      
+      let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+      
+      alert.addAction(signUpAction)
+      alert.addAction(cancelAction)
+      
+      self.present(alert, animated: true, completion: nil)
+  }
+  
+  private func navigateToLogin() {
+      let loginViewController = LoginViewController()
+      self.navigationController?.pushViewController(loginViewController, animated: true)
   }
   
   private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
     FirebaseFirestoreManager.shared.uploadImage(image ?? UIImage()) { result in
       switch result {
       case .success(let imageUrl):
-        completion(imageUrl) // 성공적으로 얻은 URL을 반환
+        completion(imageUrl)
       case .failure(let error):
         print("Error uploading image: \(error.localizedDescription)")
-        completion(nil) // 실패 시 nil 반환
+        completion(nil)
       }
     }
   }
   
   //MARK: - 게시글 쓰기
-  private func reportNavigation() {
-    let postViewController = PostViewController()
+  private func writingNavigation() {
+    let postViewController = WritingViewController()
     postViewController.onPostAdded = { [weak self] title, content, settingImage, categorys in
       guard let self = self else { return }
       
-      // 사용자 확인
-      guard let user = Auth.auth().currentUser else {
-        print("No user is currently logged in.")
-        return
-      }
-      
-      print("User is logged in: \(user.email ?? "No email")")
-      
-      // 위치 정보 확인
-      print("Current Location in Report Navigation: Latitude \(self.latitude), Longitude \(self.longitude)")
+      guard let user = Auth.auth().currentUser else { return }
       
       self.uploadImageAndGetURL(settingImage) { imageUrl in
-        // 게시글 생성
         let newPost = Posts(
           author: self.currentUUID,  // 작성자 이름
           contents: content,
@@ -360,8 +358,6 @@ class BoardViewController: UIViewController {
           title: title,
           imageUrl: imageUrl
         )
-        
-        print("New Post to Save: \(newPost)") // 디버깅 로그 추가
         
         self.firestore.collection("posts").document(newPost.postid).setData(newPost.toDictionary()) { error in
           if let error = error {
@@ -399,17 +395,16 @@ class BoardViewController: UIViewController {
   private func fetchPostsd() {
     firestore.collection("posts").addSnapshotListener { [weak self] snapshot, error in
       if let error = error {
-        print("데이터 가져오기 실패: \(error.localizedDescription)")
-        self?.refreshControl.endRefreshing()  // 새로 고침 종료
+        self?.refreshControl.endRefreshing()
       } else {
         guard let documents = snapshot?.documents else { return }
         let posts = documents.compactMap { document -> Posts? in
           try? document.data(as: Posts.self)
         }
         self?.allPosts = posts
-        let sortedPosts = posts.sorted { $0.posttime > $1.posttime } // 최신순으로 정렬
+        let sortedPosts = posts.sorted { $0.posttime > $1.posttime }
         self?.tableItems.accept(sortedPosts)
-        self?.refreshControl.endRefreshing()  // 새로 고침 종료
+        self?.refreshControl.endRefreshing()
         self?.fetchFilteredPosts()
       }
     }
@@ -494,7 +489,7 @@ extension BoardViewController: UITableViewDelegate {
 extension BoardViewController: BoardTableViewCellDelegate {
   func didTapCell(with post: Posts) {
     print("didTapCell called with post: \(post)")
-    let postingViewController = PostingViewController()
+    let postingViewController = UserPostViewController()
     postingViewController.setPostData(post: post) // 전달된 post 데이터를 기반으로 설정
     self.navigationController?.pushViewController(postingViewController, animated: true)
   }

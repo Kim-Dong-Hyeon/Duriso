@@ -13,7 +13,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class PostChangeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditPostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   private let disposeBag = DisposeBag()
   var onPostUpdated: ((String, String, UIImage?, String) -> Void)?
