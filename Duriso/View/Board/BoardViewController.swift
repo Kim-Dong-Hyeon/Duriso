@@ -304,8 +304,8 @@ class BoardViewController: UIViewController {
   private func showLoginAlert() {
       let alert = UIAlertController(title: "회원가입 필요", message: "게시글을 작성하려면 회원가입이 필요합니다.", preferredStyle: .alert)
       
-      let signUpAction = UIAlertAction(title: "회원가입", style: .default) { _ in
-          self.navigateToSignUp()
+      let signUpAction = UIAlertAction(title: "확인", style: .default) { _ in
+          self.navigateToLogin()
       }
       
       let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -316,9 +316,9 @@ class BoardViewController: UIViewController {
       self.present(alert, animated: true, completion: nil)
   }
   
-  private func navigateToSignUp() {
-      let signUpViewController = SignUpViewController()
-      self.navigationController?.pushViewController(signUpViewController, animated: true)
+  private func navigateToLogin() {
+      let loginViewController = LoginViewController()
+      self.navigationController?.pushViewController(loginViewController, animated: true)
   }
   
   private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
