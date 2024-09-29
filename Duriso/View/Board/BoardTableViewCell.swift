@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -132,19 +133,16 @@ class BoardTableViewCell: UITableViewCell {
     
     // 이미지 URL이 있는 경우 비동기로 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
-      URLSession.shared.dataTask(with: url) { data, _, _ in
-        if let data = data, let image = UIImage(data: data) {
-          DispatchQueue.main.async {
-            self.postImageView.image = image
-          }
-        } else {
-          DispatchQueue.main.async {
-            self.postImageView.image = UIImage(named: "AppIcon")
-          }
-        }
-      }.resume()
+      postImageView.kf.setImage(
+        with: url,
+        placeholder: UIImage(named: "AppIcon"),
+        options: [
+          .transition(.fade(0.2)),
+          .cacheOriginalImage
+        ]
+      )
     } else {
-      self.postImageView.image = UIImage(named: "AppIcon")
+      postImageView.image = UIImage(named: "AppIcon")
     }
   }
   

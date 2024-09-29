@@ -47,9 +47,8 @@ class BoardCollectionViewCell: UICollectionViewCell {
     
     notificationButton.snp.makeConstraints {
       $0.centerY.equalToSuperview()
-      $0.leading.trailing.equalToSuperview().inset(10)
-      $0.height.greaterThanOrEqualTo(40)
       $0.width.greaterThanOrEqualToSuperview()
+      $0.height.greaterThanOrEqualTo(40)
     }
   }
   
