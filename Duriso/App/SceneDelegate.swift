@@ -10,7 +10,6 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   var window: UIWindow?
-  let viewModel = FirebaseDataViewModel()
   
   /// 새로운 UIWindow를 생성하고 rootViewController를 설저
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,9 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // 네트워크 모니터링 시작
     NetworkMonitor.shared.startMonitoring()
-    
-    // Core Data에 데이터가 있는지 확인하고 없을 경우 Firebase에서 데이터 가져오기
-    viewModel.fetchDataFromCoreData()
     
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
