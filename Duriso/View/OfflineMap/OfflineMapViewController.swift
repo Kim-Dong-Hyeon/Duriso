@@ -8,234 +8,233 @@
 import UIKit
 
 import MapLibre
-import Photos
 import RxCocoa
 import RxSwift
+import SnapKit
 import Then
 
 class OfflineMapViewController: UIViewController {
-  
+  let viewModel = OfflineMapViewModel()
   private var mapView: MLNMapView!
-  private let viewModel: OfflineMapViewModel
-  private var pannedToUserLocation = false
   private let disposeBag = DisposeBag()
+  private var hasSetInitialZoom = false // 초기 줌 레벨 설정 여부를 추적
   
-//  private let requestButton = UIButton(type: .system).then {
-//    $0.setTitle("Request Precise Location", for: .normal)
-//    $0.backgroundColor = .CBlue
-//    $0.setTitleColor(.CWhite, for: .normal)
-//    $0.layer.cornerRadius = 8
-//  }
-  
-  private let snapshotButton = UIButton(type: .system).then {
-    $0.backgroundColor = .CWhite
-    $0.isUserInteractionEnabled = true
-    $0.layer.borderColor = UIColor.CBlack.cgColor
-    $0.layer.borderWidth = 1.0
-    $0.layer.cornerRadius = 10
-    $0.setImage(UIImage(systemName: "camera"), for: .normal)
-    $0.tintColor = .CBlack
-  }
-  
-  private let imageView = UIImageView().then {
-    $0.backgroundColor = .CBlack
-    $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-  }
-  
-  private let activityIndicator = UIActivityIndicatorView(style: .large).then {
-    $0.hidesWhenStopped = true
-  }
-  
-  init(viewModel: OfflineMapViewModel) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  // 현재 위치 버튼 추가
+  private lazy var currentLocationButton = UIButton(type: .custom).then {
+    $0.setImage(UIImage(named: "locationButton"), for: .normal) // 적절한 위치 아이콘 이미지 사용
+    $0.addTarget(self, action: #selector(didTapCurrentLocationButton), for: .touchUpInside)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     setupMapView()
-    setupUI()
-    setupBindings()
-  }
-  
-  private func setupUI() {
-    [
-      mapView,
-//      requestButton,
-      snapshotButton,
-      imageView,
-      activityIndicator
-    ].forEach { view.addSubview($0) }
-    
-//    requestButton.snp.makeConstraints {
-//      $0.centerX.equalToSuperview()
-//      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
-//      $0.width.equalTo(200)
-//      $0.height.equalTo(44)
-//    }
-    
-    snapshotButton.snp.makeConstraints {
-      $0.trailing.equalToSuperview().offset(-16)
-      $0.bottom.equalTo(mapView.snp.bottom).offset(-150)
-      $0.width.height.equalTo(40)
-    }
-    
-    imageView.snp.makeConstraints {
-      $0.top.equalTo(mapView.snp.bottom)
-      $0.leading.trailing.bottom.equalToSuperview()
-    }
-    
-    activityIndicator.snp.makeConstraints {
-      $0.center.equalTo(imageView)
-    }
-    
-    snapshotButton.frame(forAlignmentRect: CGRect(x: mapView.bounds.width / 2 - 40, y: mapView.bounds.height - 40, width: 80, height: 30))
-    
-    imageView.frame(forAlignmentRect: CGRect(x: 0, y: view.bounds.height / 2, width: view.bounds.width, height: view.bounds.height / 2))
-    
-    activityIndicator.center = imageView.center
+    setupCurrentLocationButton()
+    bindViewModel()
   }
   
   private func setupMapView() {
-    let styleURL = URL(string: "https://api.maptiler.com/maps/streets/style.json?key=\(Environment.mapTilerApiKey)")
     
-    mapView = MLNMapView(frame: view.bounds, styleURL: styleURL)
-    mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    mapView.delegate = self
-    mapView.setCenter(CLLocationCoordinate2D(latitude: 37.566535, longitude: 126.977969), zoomLevel: 6, animated: false)
-    mapView.showsUserLocation = true
-  }
-  
-  private func setupBindings() {
-//    viewModel.shouldShowRequestButton
-//      .observe(on: MainScheduler.asyncInstance)
-//      .bind(to: requestButton.rx.isHidden)
-//      .disposed(by: disposeBag)
+    mapView = MLNMapView().then {
+      $0.styleURL = URL(string: "https://api.maptiler.com/maps/streets/style.json?key=\(Environment.mapTilerApiKey)") // 스타일 URL 설정
+      $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+      $0.setCenter(CLLocationCoordinate2D(latitude: 37.566535, longitude: 126.977969), zoomLevel: 13, animated: false)
+      $0.showsUserLocation = true
+      $0.delegate = self
+    }
     
-//    requestButton.rx.tap
-//      .observe(on: MainScheduler.asyncInstance)
-//      .bind(to: viewModel.didTapRequestPreciseLocation)
-//      .disposed(by: disposeBag)
-    
-    snapshotButton.rx.tap
-      .observe(on: MainScheduler.asyncInstance)
-      .do(onNext: { [weak self] in
-        print("Snapshot button tapped")
-        self?.view.endEditing(true)
-      })
-      .bind(to: viewModel.didTapCreateSnapshot)
-      .disposed(by: disposeBag)
-    
-    viewModel.showTemporaryLocationAuthorization
-      .observe(on: MainScheduler.asyncInstance)
-      .filter { $0 }
-      .subscribe(onNext: { [weak self] _ in
-        self?.requestTemporaryFullAccuracyAuthorization()
-      })
-      .disposed(by: disposeBag)
-    
-    viewModel.currentLocation
-      .observe(on: MainScheduler.asyncInstance)
-      .compactMap { $0 }
-      .take(1)
-      .subscribe(onNext: { [weak self] location in
-        self?.mapView.setCenter(location, zoomLevel: 14, animated: true)
-      })
-      .disposed(by: disposeBag)
-    
-    viewModel.didTapCreateSnapshot
-      .observe(on: MainScheduler.asyncInstance)
-      .subscribe(onNext: { [weak self] in
-        print("Creating snapshot")
-        guard let self = self else { return }
-        let options = MLNMapSnapshotOptions(styleURL: self.mapView.styleURL, camera: self.mapView.camera, size: self.mapView.bounds.size)
-        options.zoomLevel = self.mapView.zoomLevel
-        self.viewModel.createSnapshot(with: options)
-      })
-      .disposed(by: disposeBag)
-    
-    viewModel.isloadingSnapshot
-      .observe(on: MainScheduler.asyncInstance)
-      .bind(to: activityIndicator.rx.isAnimating)
-      .disposed(by: disposeBag)
-    
-    viewModel.mapSnapshot
-      .observe(on: MainScheduler.asyncInstance)
-      .subscribe(onNext: { [weak self] snapshot in
-        print("Updating image view with new snapshot")
-        self?.imageView.image = snapshot.image
-        self?.imageView.isHidden = false
-        self?.saveSnapshotToPhotos(snapshot.image)
-      })
-      .disposed(by: disposeBag)
-  }
-  
-  private func requestTemporaryFullAccuracyAuthorization() {
-    let purposeKey = "MLNAccuracyAuthorizationDescription"
-    mapView.locationManager?.requestTemporaryFullAccuracyAuthorization!(withPurposeKey: purposeKey)
-    viewModel.showTemporaryLocationAuthorization.accept(false)
-  }
-  
-  func saveSnapshotToPhotos(_ image: UIImage) {
-    PHPhotoLibrary.requestAuthorization { status in
-      guard status == .authorized else {
-        print("사진 라이브러리 접근 권한이 없습니다.")
-        return
-      }
-      
-      UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+    [ mapView ].forEach { view.addSubview($0) }
+    mapView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
     }
   }
   
-  @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-    if let error = error {
-      print("스냅샷 저장 중 오류 발생: \(error.localizedDescription)")
-    } else {
-      print("스냅샷이 사진 앱에 성공적으로 저장되었습니다.")
+  private func setupCurrentLocationButton() {
+    [ currentLocationButton ].forEach { view.addSubview($0) }
+    
+    currentLocationButton.snp.makeConstraints {
+      $0.width.height.equalTo(40)
+      $0.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(110)
     }
+  }
+  
+  private func bindViewModel() {
+    
+    // AEDs 데이터 바인딩
+    viewModel.aedAnnotations
+      .observe(on: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] annotations in
+        self?.updateMapAnnotations(annotations: annotations, poiType: .aed)
+      })
+      .disposed(by: disposeBag)
+    
+    // CivilDefenseShelters 데이터 바인딩
+    viewModel.civilDefenseAnnotations
+      .observe(on: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] annotations in
+        self?.updateMapAnnotations(annotations: annotations, poiType: .civilDefenseShelter)
+      })
+      .disposed(by: disposeBag)
+    
+    // DisasterShelters 데이터 바인딩
+    viewModel.disasterAnnotations
+      .observe(on: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] annotations in
+        self?.updateMapAnnotations(annotations: annotations, poiType: .disasterShelter)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func updateMapAnnotations(annotations: [CustomPointAnnotation], poiType: POIType) {
+    // 먼저 기존의 해당 POIType에 대한 Annotation을 제거
+    mapView.annotations?.compactMap { $0 as? CustomPointAnnotation }
+      .filter { $0.poiType == poiType }
+      .forEach { mapView.removeAnnotation($0) }
+    
+    // 새로 추가된 Annotation을 지도에 표시
+    annotations.forEach { mapView.addAnnotation($0) }
+  }
+  
+  private func showAedDetails(annotation: CustomPointAnnotation) {
+    // CoreData에서 AED 정보를 가져옴
+    guard let aed = CoreDataManager.shared.searchAED(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude) else {
+      print("AED 정보를 찾을 수 없습니다.")
+      return
+    }
+    
+    // AedViewController 인스턴스 생성 및 데이터 설정
+    let aedViewController = OfflineAEDViewController()
+    aedViewController.poiName = aed.buildPlace
+    aedViewController.poiAddress = aed.buildAddress
+    aedViewController.adminName = aed.manager
+    aedViewController.adminNumber = aed.managerTel
+    aedViewController.managementAgency = aed.org
+    aedViewController.location = aed.buildPlace
+    
+    // BottomSheet로 표시
+    presentBottomSheet(viewController: aedViewController)
+  }
+  
+  private func showCivilDefenseShelterDetails(annotation: CustomPointAnnotation) {
+    // CoreData에서 CivilDefenseShelters 정보를 가져옴
+    guard let shelter = CoreDataManager.shared.searchCivilDefenseShelter(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude) else {
+      print("Civil Defense Shelter 정보를 찾을 수 없습니다.")
+      return
+    }
+    
+    // ShelterViewController 인스턴스 생성 및 데이터 설정
+    let shelterViewController = OfflineCivilDefenseShelterViewController()
+    shelterViewController.poiName = shelter.fcltNm
+    shelterViewController.poiAddress = shelter.fcltAddrLotno
+    shelterViewController.typeStackView.layer.borderColor = UIColor.CYellow.cgColor
+    shelterViewController.typeStackView.distribution = .fillProportionally
+    shelterViewController.typeLogo.image = UIImage(systemName: "figure.run")
+    shelterViewController.typeLogo.tintColor = .CYellow
+    shelterViewController.typeLabel.text = "민방위대피소"
+    shelterViewController.typeLabel.textColor = .CYellow
+    shelterViewController.poiType = "민방위대피소"
+    shelterViewController.poiLat = shelter.latitude
+    shelterViewController.poiLon = shelter.longitude
+    shelterViewController.poiScale = Int(shelter.fcltScl)
+    shelterViewController.poiUnit = shelter.sclUnit
+    shelterViewController.poiUsualType = shelter.ortmUtlzType
+    shelterViewController.poiInstName = shelter.mngInstNm
+    shelterViewController.poiInstTel = shelter.mngInstTelno
+    
+    
+    
+    // BottomSheet로 표시
+    presentBottomSheet(viewController: shelterViewController)
+  }
+  
+  private func showDisasterShelterDetails(annotation: CustomPointAnnotation) {
+    // CoreData에서 DisasterShelters 정보를 가져옴
+    guard let shelter = CoreDataManager.shared.searchDisasterShelter(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude) else {
+      print("Disaster Shelter 정보를 찾을 수 없습니다.")
+      return
+    }
+    
+    // ShelterViewController 인스턴스 생성 및 데이터 설정
+    let shelterViewController = OfflineDisasterShelterViewController()
+    shelterViewController.poiName = shelter.reareNm
+    shelterViewController.poiAddress = shelter.ronaDaddr
+    shelterViewController.poiType = shelter.shltSeNm
+    shelterViewController.poiLat = shelter.lat
+    shelterViewController.poiLon = shelter.lot
+    
+    // BottomSheet로 표시
+    presentBottomSheet(viewController: shelterViewController)
+  }
+  
+  private func presentBottomSheet(viewController: UIViewController) {
+    let bottomSheetVC = MapBottomSheetViewController()
+    bottomSheetVC.configureContentViewController(viewController)
+    present(bottomSheetVC, animated: true)
+  }
+  
+  @objc private func didTapCurrentLocationButton() {
+    guard let coordinate = viewModel.currentLocation.value else {
+      print("현재 위치를 가져올 수 없습니다.")
+      return
+    }
+    
+    // 버튼을 눌렀을 때 현재 위치로 카메라 이동
+    mapView.setCenter(coordinate, zoomLevel: 16, animated: false)
   }
 }
 
 extension OfflineMapViewController: MLNMapViewDelegate {
-  func mapView(_: MLNMapView, didFinishLoading style: MLNStyle) {
-    let point = MLNPointAnnotation()
-    point.coordinate = mapView.centerCoordinate
-    
-    let shapeSource = MLNShapeSource(identifier: "marker-source", shape: point, options: nil)
-    let shapeLayer = MLNSymbolStyleLayer(identifier: "marker-style", source: shapeSource)
-    
-    if let image = UIImage(named: "house-icon") {
-      style.setImage(image, forName: "home-symbol")
+  // 커스텀 이미지로 POI 표시
+  func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
+    guard let customAnnotation = annotation as? CustomPointAnnotation,
+          let poiType = customAnnotation.poiType else {
+      return nil
     }
     
-    shapeLayer.iconImageName = NSExpression(forConstantValue: "home-symbol")
+    var imageName: String
     
-    style.addSource(shapeSource)
-    style.addLayer(shapeLayer)
+    switch poiType {
+    case .aed:
+      imageName = "AEDMarker"
+    case .civilDefenseShelter:
+      imageName = "CivilDefenseMarker"
+    case .disasterShelter:
+      imageName = "ShelterMarker"
+    }
+    
+    var annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: imageName)
+    
+    if annotationImage == nil {
+      if let image = UIImage(named: imageName)?.resized(to: CGSize(width: 37, height: 50)) {
+        annotationImage = MLNAnnotationImage(image: image, reuseIdentifier: imageName)
+      }
+    }
+    
+    return annotationImage
   }
   
+  func mapView(_ mapView: MLNMapView, didSelect annotation: MLNAnnotation) {
+    guard let customAnnotation = annotation as? CustomPointAnnotation else { return }
+    
+    switch customAnnotation.poiType {
+    case .aed:
+      showAedDetails(annotation: customAnnotation)
+    case .civilDefenseShelter:
+      showCivilDefenseShelterDetails(annotation: customAnnotation)
+    case .disasterShelter:
+      showDisasterShelterDetails(annotation: customAnnotation)
+    default:
+      break
+    }
+  }
+  
+  // 사용자의 위치 업데이트 시 호출되는 메서드
   func mapView(_ mapView: MLNMapView, didUpdate userLocation: MLNUserLocation?) {
-    guard let location = userLocation?.location?.coordinate else { return }
-    viewModel.updateCurrentLocation(location)
-  }
-  
-  func mapView(_ mapView: MLNMapView, didChangeLocationManagerAuthorization manager: MLNLocationManager) {
-    guard let accuracyAuthorization = manager.accuracyAuthorization else { return }
+    guard let location = userLocation?.location?.coordinate, !hasSetInitialZoom else { return }
     
-    let newAccuracy: LocationAccuracyState
-    switch accuracyAuthorization() {
-    case .fullAccuracy:
-      newAccuracy = .fullAccuracy
-    case .reducedAccuracy:
-      newAccuracy = .reducedAccuracy
-    @unknown default:
-      newAccuracy = .unknown
-    }
-    
-    viewModel.updateLocationAccuracy(newAccuracy)
+    // 초기 줌 레벨을 16으로 설정
+    mapView.setCenter(location, zoomLevel: 16, animated: false)
+    hasSetInitialZoom = true // 초기 줌 레벨이 설정되었음을 기록
   }
 }
