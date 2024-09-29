@@ -67,9 +67,6 @@
 		766DD9FA2CA5E4FD001C100A /* AEDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9F92CA5E4FD001C100A /* AEDDataManager.swift */; };
 		766DD9FC2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9FB2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift */; };
 		766DDA002CA5EFCA001C100A /* DisasterShelterDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9FF2CA5EFCA001C100A /* DisasterShelterDataManager.swift */; };
-		766DDA042CA609C2001C100A /* MapDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA032CA609C2001C100A /* MapDownloadManager.swift */; };
-		766DDA062CA60AB9001C100A /* DownloadOfflineMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA052CA60AB9001C100A /* DownloadOfflineMapViewController.swift */; };
-		766DDA082CA60D84001C100A /* DownloadOfflineMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA072CA60D84001C100A /* DownloadOfflineMapViewModel.swift */; };
 		766DDA0F2CA75BEC001C100A /* AEDs+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA092CA75BEC001C100A /* AEDs+CoreDataClass.swift */; };
 		766DDA102CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0D2CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift */; };
 		766DDA112CA75BEC001C100A /* AEDs+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0A2CA75BEC001C100A /* AEDs+CoreDataProperties.swift */; };
@@ -78,6 +75,12 @@
 		766DDA142CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0B2CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift */; };
 		766DDA152CA76B21001C100A /* Duriso.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9F42CA4AA2C001C100A /* Duriso.xcdatamodeld */; };
 		766DDA182CA78486001C100A /* CustomDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA172CA78486001C100A /* CustomDecodable.swift */; };
+		766DDA1A2CA7FF42001C100A /* POIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA192CA7FF42001C100A /* POIType.swift */; };
+		766DDA1C2CA80261001C100A /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */; };
+		766DDA1E2CA80B8A001C100A /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */; };
+		766DDA272CA88E2A001C100A /* OfflineAEDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */; };
+		766DDA292CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */; };
+		766DDA2B2CA88E72001C100A /* OfflineDisasterShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
 		767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflinePageViewModel.swift */; };
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
@@ -203,9 +206,6 @@
 		766DD9F92CA5E4FD001C100A /* AEDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEDDataManager.swift; sourceTree = "<group>"; };
 		766DD9FB2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilDefenseShelterDataManager.swift; sourceTree = "<group>"; };
 		766DD9FF2CA5EFCA001C100A /* DisasterShelterDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisasterShelterDataManager.swift; sourceTree = "<group>"; };
-		766DDA032CA609C2001C100A /* MapDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDownloadManager.swift; sourceTree = "<group>"; };
-		766DDA052CA60AB9001C100A /* DownloadOfflineMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadOfflineMapViewController.swift; sourceTree = "<group>"; };
-		766DDA072CA60D84001C100A /* DownloadOfflineMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadOfflineMapViewModel.swift; sourceTree = "<group>"; };
 		766DDA092CA75BEC001C100A /* AEDs+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AEDs+CoreDataClass.swift"; sourceTree = "<group>"; };
 		766DDA0A2CA75BEC001C100A /* AEDs+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AEDs+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		766DDA0B2CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CivilDefenseShelters+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -213,6 +213,12 @@
 		766DDA0D2CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DisasterShelters+CoreDataClass.swift"; sourceTree = "<group>"; };
 		766DDA0E2CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DisasterShelters+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		766DDA172CA78486001C100A /* CustomDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDecodable.swift; sourceTree = "<group>"; };
+		766DDA192CA7FF42001C100A /* POIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIType.swift; sourceTree = "<group>"; };
+		766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPointAnnotation.swift; sourceTree = "<group>"; };
+		766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineAEDViewController.swift; sourceTree = "<group>"; };
+		766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineCivilDefenseShelterViewController.swift; sourceTree = "<group>"; };
+		766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDisasterShelterViewController.swift; sourceTree = "<group>"; };
 		767622802C85AE740075B09E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		767622822C85C8610075B09E /* OfflinePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePageViewController.swift; sourceTree = "<group>"; };
 		767622842C85CA790075B09E /* OfflinePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePageViewModel.swift; sourceTree = "<group>"; };
@@ -542,6 +548,7 @@
 		7622D0642C7C20A300B1AEB2 /* OfflineMap */ = {
 			isa = PBXGroup;
 			children = (
+				766DDA252CA88DD5001C100A /* Bottomsheet */,
 				767622822C85C8610075B09E /* OfflinePageViewController.swift */,
 				76EFE8CD2C904D0B0077D75B /* OfflineViewController.swift */,
 				7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */,
@@ -556,6 +563,8 @@
 				7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */,
 				76DFBBEC2CA184FE00C676CF /* FirebaseDataModel.swift */,
 				76E370642C93CCB9005724E9 /* LocationModel.swift */,
+				766DDA192CA7FF42001C100A /* POIType.swift */,
+				766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */,
 			);
 			path = OfflineMap;
 			sourceTree = "<group>";
@@ -565,6 +574,7 @@
 			children = (
 				7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */,
 				D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */,
+				766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -658,6 +668,16 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		766DDA252CA88DD5001C100A /* Bottomsheet */ = {
+			isa = PBXGroup;
+			children = (
+				766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */,
+				766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */,
+				766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */,
+			);
+			path = Bottomsheet;
+			sourceTree = "<group>";
+		};
 		7676227F2C85AE500075B09E /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -668,7 +688,6 @@
 				76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 				766DD9FE2CA5EF9A001C100A /* CoreData */,
-				766DDA032CA609C2001C100A /* MapDownloadManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -881,10 +900,12 @@
 			files = (
 				766DDA152CA76B21001C100A /* Duriso.xcdatamodeld in Sources */,
 				768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */,
+				766DDA2B2CA88E72001C100A /* OfflineDisasterShelterViewController.swift in Sources */,
 				76DFBBE32C9DADA700C676CF /* CopyrightDetailViewController.swift in Sources */,
 				768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */,
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
 				768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */,
+				766DDA1A2CA7FF42001C100A /* POIType.swift in Sources */,
 				D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */,
 				D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */,
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
@@ -910,7 +931,6 @@
 				7622D05E2C7C1F9F00B1AEB2 /* MyPageViewModel.swift in Sources */,
 				76EFE8BA2C8F20BC0077D75B /* SignUpViewModel.swift in Sources */,
 				7622D0462C7C1CDC00B1AEB2 /* MainTabBarViewController.swift in Sources */,
-				766DDA062CA60AB9001C100A /* DownloadOfflineMapViewController.swift in Sources */,
 				E2792E242C7F4BAB00AD6C0E /* SetNickNameViewController.swift in Sources */,
 				D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
@@ -931,9 +951,11 @@
 				76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */,
+				766DDA292CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
 				D60A81652C9CF49F00589AD3 /* AedDataManager.swift in Sources */,
 				E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */,
+				766DDA1E2CA80B8A001C100A /* UIImage+Resize.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
 				14E916202C956E3100020670 /* BoardFirebaseService.swift in Sources */,
 				D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */,
@@ -951,13 +973,14 @@
 				D61268AF2C8A82320031114E /* EmergencyWrittingViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
+				766DDA1C2CA80261001C100A /* CustomPointAnnotation.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
 				76DFBBE72C9DAE4300C676CF /* CopyrightTableViewCell.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
-				766DDA042CA609C2001C100A /* MapDownloadManager.swift in Sources */,
+				766DDA272CA88E2A001C100A /* OfflineAEDViewController.swift in Sources */,
 				D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */,
@@ -972,7 +995,6 @@
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
 				766DD9FC2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift in Sources */,
 				76EFE8CE2C904D0B0077D75B /* OfflineViewController.swift in Sources */,
-				766DDA082CA60D84001C100A /* DownloadOfflineMapViewModel.swift in Sources */,
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */,
 				14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */,
