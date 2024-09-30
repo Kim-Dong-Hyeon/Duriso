@@ -21,11 +21,6 @@ class GuidelineViewController: UIViewController {
   private var messageIndex = 0
   private var timer: Timer?
   
-  private let titleLabel = UILabel().then {
-    $0.text = "행동요령"
-    $0.font = CustomFont.Head.font()
-  }
-  
   private let urgentMessage = UILabel().then {
     $0.text = "긴급재난문자"
     $0.font = CustomFont.Head2.font()
@@ -71,7 +66,6 @@ class GuidelineViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
-    self.navigationItem.titleView = titleLabel
     guidelineLayout()
     bindCollectionView()
     bindTableView()
@@ -93,7 +87,8 @@ class GuidelineViewController: UIViewController {
   
   private func bindTableView() {
     tableViewModel.items.bind(to: atrickTableView.rx.items(cellIdentifier: GuidelineTableViewCell.guidelineTableId, cellType: GuidelineTableViewCell.self)) { row, product, cell in
-      cell.configure(with: product.title, imageName: product.imageName)
+      cell.configure(with: product.title)
+      cell.accessoryType = .disclosureIndicator
     }.disposed(by: disposeBag)
     
     // 테이블 셀 선택 시
@@ -169,7 +164,7 @@ class GuidelineViewController: UIViewController {
     ].forEach { view.addSubview($0) }
     
     urgentMessage.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(-8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
@@ -187,20 +182,22 @@ class GuidelineViewController: UIViewController {
     }
     
     atrickcollectionLabel.snp.makeConstraints {
-      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(24)
+      $0.top.equalTo(urgentMessageContainer.snp.bottom).offset(32)
       $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
     }
     
     atrickcollectionView.snp.makeConstraints {
       $0.top.equalTo(atrickcollectionLabel.snp.bottom).offset(8)
-      $0.centerX.equalToSuperview()
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.width.equalTo(400)
       $0.height.equalTo(160)
     }
     
     atrickTableLabel.snp.makeConstraints {
-      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(24)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+      $0.top.equalTo(atrickcollectionView.snp.bottom).offset(32)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
     }
     
     atrickTableView.snp.makeConstraints {

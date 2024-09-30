@@ -23,6 +23,10 @@ struct VideoThumbnailItem {
   let videoItem: VideoItem
 }
 
+struct Product {
+  let title: String
+}
+
 struct ApiResponse: Decodable {
   let body: [Item]?
   

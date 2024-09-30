@@ -15,11 +15,6 @@ struct Category {
   let title: String
 }
 
-struct Product {
-  let imageName: String
-  let title: String
-}
-
 // 카메라 알럿
 enum ActionType {
   case camera

@@ -14,16 +14,16 @@ struct GuidelineTableViewModel {
   
   func fetchItem() {
     let products = [
-      Product(imageName: "arrowshape.right", title: "재난키트 체크리스트"),
-      Product(imageName: "arrowshape.right", title: "국민행동요령"),
-      Product(imageName: "arrowshape.right", title: "지진"),
-      Product(imageName: "arrowshape.right", title: "핵공격"),
-      Product(imageName: "arrowshape.right", title: "화재"),
-      Product(imageName: "arrowshape.right", title: "집중호우"),
-      Product(imageName: "arrowshape.right", title: "태풍"),
-      Product(imageName: "arrowshape.right", title: "대설"),
-      Product(imageName: "arrowshape.right", title: "산사태"),
-      Product(imageName: "arrowshape.right", title: "폭염")
+      Product(title: "재난키트 체크리스트"),
+      Product(title: "국민행동요령"),
+      Product(title: "지진"),
+      Product(title: "핵공격"),
+      Product(title: "화재"),
+      Product(title: "집중호우"),
+      Product(title: "태풍"),
+      Product(title: "대설"),
+      Product(title: "산사태"),
+      Product(title: "폭염")
     ]
     
     items.onNext(products)
