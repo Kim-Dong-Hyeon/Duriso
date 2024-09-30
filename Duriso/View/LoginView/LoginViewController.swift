@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAuth
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -279,6 +280,14 @@ class LoginViewController: UIViewController {
     nonMemeberButton.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
+        
+        let firebaseAuth = Auth.auth()
+        do {
+          try firebaseAuth.signOut()
+          UserDefaults.standard.removeObject(forKey: "autoLogin")
+        } catch let signOutError as NSError {
+          print("Error signing out: %@", signOutError)
+        }
         
         let mainTabBarViewModel = MainTabBarViewModel()
         let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
