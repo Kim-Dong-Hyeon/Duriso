@@ -45,9 +45,12 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    $0.tintColor = .CLightBlue
-    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+      let largeConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)  // 심볼 크기 설정
+      let largeImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)
+      
+      $0.setImage(largeImage, for: .normal)
+      $0.tintColor = .CLightBlue
+      $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
   private let messageInputTextView = UITextView().then {
@@ -124,8 +127,9 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     }
     
     cancelButton.snp.makeConstraints {
-      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)
+      $0.centerY.equalTo(poiViewTitle)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.width.height.equalTo(30)
     }
     
     messageInputTextView.snp.makeConstraints {
@@ -139,8 +143,8 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     addPostButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(messageInputTextView.snp.bottom).offset(28)
-      $0.width.equalTo(60)
-      $0.height.equalTo(24)
+      $0.width.equalTo(80)
+      $0.height.equalTo(34)
     }
     
     placeholderLabel.snp.makeConstraints {
@@ -233,7 +237,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private func fetchUserId() {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     
     firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
