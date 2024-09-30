@@ -359,6 +359,7 @@ class MyPageViewController: UIViewController {
                   observer.onCompleted()
                 } else {
                   print("Firebase 계정 삭제 성공")
+                  UserDefaults.standard.removeObject(forKey: "autoLogin")
                   
                   let userUID = currentUser.uid
                   let db = Firestore.firestore()
