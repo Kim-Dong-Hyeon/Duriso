@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */; };
-		146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */; };
+		14334FCA2CA7B1420092E9C8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 14334FC92CA7B1420092E9C8 /* Kingfisher */; };
+		146A28E52C9804BC00AF2C97 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A28E42C9804BC00AF2C97 /* EditPostViewController.swift */; };
 		14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */; };
 		14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */; };
 		14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */; };
@@ -16,20 +17,11 @@
 		149EEFB52C8723610088FDB2 /* GuidelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB42C8723610088FDB2 /* GuidelineViewModel.swift */; };
 		149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */; };
 		14DE812F2C900BAD002E26FD /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE812E2C900BAD002E26FD /* CategoryCell.swift */; };
-		14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81312C9029EE002E26FD /* PostingViewController.swift */; };
+		14DE81322C9029EE002E26FD /* UserPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81312C9029EE002E26FD /* UserPostViewController.swift */; };
 		14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE81362C91BC9B002E26FD /* FirebaseFirestore */; };
 		14DE81432C9490B9002E26FD /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE81422C9490B9002E26FD /* FirebaseFirestoreManager.swift */; };
 		14E916202C956E3100020670 /* BoardFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E9161F2C956E3100020670 /* BoardFirebaseService.swift */; };
-		76174BD82C9AA66700909EDC /* OfflineDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BD72C9AA66700909EDC /* OfflineDataModel.swift */; };
 		76174BDA2C9AA7C200909EDC /* FirebaseRealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */; };
-		76174BDC2C9AAA8500909EDC /* OfflineDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BDB2C9AAA8500909EDC /* OfflineDataViewModel.swift */; };
-		76174BDE2C9AAB4300909EDC /* OfflineDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BDD2C9AAB4300909EDC /* OfflineDataViewController.swift */; };
-		76174BE02C9ACE6000909EDC /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BDF2C9ACE6000909EDC /* RegionModel.swift */; };
-		76174BE22C9B1DB500909EDC /* CSVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BE12C9B1DB500909EDC /* CSVManager.swift */; };
-		76174BE42C9B4D4100909EDC /* civildefenseshelters.csv in Resources */ = {isa = PBXBuildFile; fileRef = 76174BE32C9B4D4100909EDC /* civildefenseshelters.csv */; };
-		76174BE62C9B4D7C00909EDC /* aeds.csv in Resources */ = {isa = PBXBuildFile; fileRef = 76174BE52C9B4D7C00909EDC /* aeds.csv */; };
-		76174BE82C9B4D8400909EDC /* disastershelters.csv in Resources */ = {isa = PBXBuildFile; fileRef = 76174BE72C9B4D8400909EDC /* disastershelters.csv */; };
-		76174BEA2C9C1D2900909EDC /* OfflineDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76174BE92C9C1D2900909EDC /* OfflineDetailViewController.swift */; };
 		76174BF82C9C33B700909EDC /* Landslide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF32C9C33B700909EDC /* Landslide.pdf */; };
 		76174BF92C9C33B700909EDC /* TorrentialRain.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF52C9C33B700909EDC /* TorrentialRain.pdf */; };
 		76174BFA2C9C33B700909EDC /* Fire.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF02C9C33B700909EDC /* Fire.pdf */; };
@@ -71,6 +63,24 @@
 		763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A442C7B1AFB006BC4E7 /* Alamofire */; };
 		763C0A4B2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 763C0A4A2C7B1B70006BC4E7 /* KakaoMapsSDK-SPM */; };
 		7663B7EB2C92D0250066FE91 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = 7663B7EA2C92D0250066FE91 /* MapLibre */; };
+		766DD9F82CA5E4AF001C100A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9F72CA5E4AF001C100A /* CoreDataManager.swift */; };
+		766DD9FA2CA5E4FD001C100A /* AEDDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9F92CA5E4FD001C100A /* AEDDataManager.swift */; };
+		766DD9FC2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9FB2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift */; };
+		766DDA002CA5EFCA001C100A /* DisasterShelterDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9FF2CA5EFCA001C100A /* DisasterShelterDataManager.swift */; };
+		766DDA0F2CA75BEC001C100A /* AEDs+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA092CA75BEC001C100A /* AEDs+CoreDataClass.swift */; };
+		766DDA102CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0D2CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift */; };
+		766DDA112CA75BEC001C100A /* AEDs+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0A2CA75BEC001C100A /* AEDs+CoreDataProperties.swift */; };
+		766DDA122CA75BEC001C100A /* CivilDefenseShelters+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0C2CA75BEC001C100A /* CivilDefenseShelters+CoreDataProperties.swift */; };
+		766DDA132CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0E2CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift */; };
+		766DDA142CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA0B2CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift */; };
+		766DDA152CA76B21001C100A /* Duriso.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 766DD9F42CA4AA2C001C100A /* Duriso.xcdatamodeld */; };
+		766DDA182CA78486001C100A /* CustomDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA172CA78486001C100A /* CustomDecodable.swift */; };
+		766DDA1A2CA7FF42001C100A /* POIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA192CA7FF42001C100A /* POIType.swift */; };
+		766DDA1C2CA80261001C100A /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */; };
+		766DDA1E2CA80B8A001C100A /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */; };
+		766DDA272CA88E2A001C100A /* OfflineAEDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */; };
+		766DDA292CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */; };
+		766DDA2B2CA88E72001C100A /* OfflineDisasterShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */; };
 		767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622802C85AE740075B09E /* NetworkMonitor.swift */; };
 		767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622842C85CA790075B09E /* OfflinePageViewModel.swift */; };
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
@@ -81,7 +91,7 @@
 		768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
 		768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7648A3152C843627000357D0 /* SceneDelegate.swift */; };
 		768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7622D0752C7C21C700B1AEB2 /* BoardModel.swift */; };
-		768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A82C8B530300A92ED6 /* PostViewController.swift */; };
+		768F50AC2C8B530400A92ED6 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A82C8B530300A92ED6 /* WritingViewController.swift */; };
 		768F50AD2C8B530400A92ED6 /* BoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */; };
 		768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */; };
 		76DFBBD62C9DA3DB00C676CF /* notoSans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76DFBBD52C9DA3DB00C676CF /* notoSans.txt */; };
@@ -93,6 +103,8 @@
 		76DFBBE72C9DAE4300C676CF /* CopyrightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */; };
 		76DFBBE92C9DAF7000C676CF /* CopyrightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */; };
 		76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */; };
+		76DFBBED2CA184FE00C676CF /* FirebaseDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBEC2CA184FE00C676CF /* FirebaseDataModel.swift */; };
+		76DFBBEF2CA1FEB700C676CF /* FirebaseDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFBBEE2CA1FEB700C676CF /* FirebaseDataViewModel.swift */; };
 		76E370652C93CCB9005724E9 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E370642C93CCB9005724E9 /* LocationModel.swift */; };
 		76E3706B2C947676005724E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76E3706A2C947676005724E9 /* FirebaseFirestore */; };
 		76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */; };
@@ -137,11 +149,14 @@
 		E2E4F0992C96BD00004808CC /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */; };
 		E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */; };
 		E2E4F0A22CA2C6D1004808CC /* SignUptableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A12CA2C6D1004808CC /* SignUptableViewCell.swift */; };
+		E2E4F0A42CA6AB1E004808CC /* MuteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */; };
+		E2E4F0A72CA6CBBB004808CC /* MuteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */; };
+		E2E4F0A92CA9081F004808CC /* MuteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1426761E2C99C629004C56D5 /* GuidelinePDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelinePDFViewController.swift; sourceTree = "<group>"; };
-		146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostChangeViewController.swift; sourceTree = "<group>"; };
+		146A28E42C9804BC00AF2C97 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		14960A282C7C84A400E706C9 /* GuidelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineCollectionViewCell.swift; sourceTree = "<group>"; };
 		14960A2A2C7DACB800E706C9 /* GuidelineFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineFlowLayout.swift; sourceTree = "<group>"; };
 		14960A2C2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineTableViewCell.swift; sourceTree = "<group>"; };
@@ -149,19 +164,10 @@
 		149EEFB42C8723610088FDB2 /* GuidelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineViewModel.swift; sourceTree = "<group>"; };
 		149EEFB72C8724930088FDB2 /* GuidelineNetWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidelineNetWork.swift; sourceTree = "<group>"; };
 		14DE812E2C900BAD002E26FD /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
-		14DE81312C9029EE002E26FD /* PostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingViewController.swift; sourceTree = "<group>"; };
+		14DE81312C9029EE002E26FD /* UserPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostViewController.swift; sourceTree = "<group>"; };
 		14DE81422C9490B9002E26FD /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		14E9161F2C956E3100020670 /* BoardFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardFirebaseService.swift; sourceTree = "<group>"; };
-		76174BD72C9AA66700909EDC /* OfflineDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDataModel.swift; sourceTree = "<group>"; };
 		76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRealtimeManager.swift; sourceTree = "<group>"; };
-		76174BDB2C9AAA8500909EDC /* OfflineDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDataViewModel.swift; sourceTree = "<group>"; };
-		76174BDD2C9AAB4300909EDC /* OfflineDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDataViewController.swift; sourceTree = "<group>"; };
-		76174BDF2C9ACE6000909EDC /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
-		76174BE12C9B1DB500909EDC /* CSVManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVManager.swift; sourceTree = "<group>"; };
-		76174BE32C9B4D4100909EDC /* civildefenseshelters.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = civildefenseshelters.csv; path = Duriso/Data/OfflineData/civildefenseshelters.csv; sourceTree = SOURCE_ROOT; };
-		76174BE52C9B4D7C00909EDC /* aeds.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = aeds.csv; path = Duriso/Data/OfflineData/aeds.csv; sourceTree = SOURCE_ROOT; };
-		76174BE72C9B4D8400909EDC /* disastershelters.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = disastershelters.csv; path = Duriso/Data/OfflineData/disastershelters.csv; sourceTree = SOURCE_ROOT; };
-		76174BE92C9C1D2900909EDC /* OfflineDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDetailViewController.swift; sourceTree = "<group>"; };
 		76174BED2C9C33B700909EDC /* Alertcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Alertcon.pdf; path = Duriso/Data/GuidelinePDF/Alertcon.pdf; sourceTree = SOURCE_ROOT; };
 		76174BEE2C9C33B700909EDC /* earthquake.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = earthquake.pdf; path = Duriso/Data/GuidelinePDF/earthquake.pdf; sourceTree = SOURCE_ROOT; };
 		76174BEF2C9C33B700909EDC /* EmergencyKit.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = EmergencyKit.pdf; path = Duriso/Data/GuidelinePDF/EmergencyKit.pdf; sourceTree = SOURCE_ROOT; };
@@ -195,6 +201,24 @@
 		763C0A372C7B17AE006BC4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		763C0A392C7B180A006BC4E7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7648A3152C843627000357D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		766DD9F52CA4AA2C001C100A /* Duriso.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Duriso.xcdatamodel; sourceTree = "<group>"; };
+		766DD9F72CA5E4AF001C100A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		766DD9F92CA5E4FD001C100A /* AEDDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEDDataManager.swift; sourceTree = "<group>"; };
+		766DD9FB2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CivilDefenseShelterDataManager.swift; sourceTree = "<group>"; };
+		766DD9FF2CA5EFCA001C100A /* DisasterShelterDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisasterShelterDataManager.swift; sourceTree = "<group>"; };
+		766DDA092CA75BEC001C100A /* AEDs+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AEDs+CoreDataClass.swift"; sourceTree = "<group>"; };
+		766DDA0A2CA75BEC001C100A /* AEDs+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AEDs+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		766DDA0B2CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CivilDefenseShelters+CoreDataClass.swift"; sourceTree = "<group>"; };
+		766DDA0C2CA75BEC001C100A /* CivilDefenseShelters+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CivilDefenseShelters+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		766DDA0D2CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DisasterShelters+CoreDataClass.swift"; sourceTree = "<group>"; };
+		766DDA0E2CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DisasterShelters+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		766DDA172CA78486001C100A /* CustomDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDecodable.swift; sourceTree = "<group>"; };
+		766DDA192CA7FF42001C100A /* POIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIType.swift; sourceTree = "<group>"; };
+		766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPointAnnotation.swift; sourceTree = "<group>"; };
+		766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineAEDViewController.swift; sourceTree = "<group>"; };
+		766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineCivilDefenseShelterViewController.swift; sourceTree = "<group>"; };
+		766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineDisasterShelterViewController.swift; sourceTree = "<group>"; };
 		767622802C85AE740075B09E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		767622822C85C8610075B09E /* OfflinePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePageViewController.swift; sourceTree = "<group>"; };
 		767622842C85CA790075B09E /* OfflinePageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflinePageViewModel.swift; sourceTree = "<group>"; };
@@ -203,7 +227,7 @@
 		768F50962C881F9A00A92ED6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		768F509E2C89DC0D00A92ED6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Duriso.entitlements; sourceTree = "<group>"; };
-		768F50A82C8B530300A92ED6 /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		768F50A82C8B530300A92ED6 /* WritingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
 		768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		76DFBBD52C9DA3DB00C676CF /* notoSans.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = notoSans.txt; sourceTree = "<group>"; };
@@ -215,6 +239,8 @@
 		76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightTableViewCell.swift; sourceTree = "<group>"; };
 		76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightViewController.swift; sourceTree = "<group>"; };
 		76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightViewModel.swift; sourceTree = "<group>"; };
+		76DFBBEC2CA184FE00C676CF /* FirebaseDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataModel.swift; sourceTree = "<group>"; };
+		76DFBBEE2CA1FEB700C676CF /* FirebaseDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDataViewModel.swift; sourceTree = "<group>"; };
 		76E370642C93CCB9005724E9 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		76EFE8B22C8DC8390077D75B /* RegionFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionFetcher.swift; sourceTree = "<group>"; };
@@ -261,6 +287,9 @@
 		E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
 		E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		E2E4F0A12CA2C6D1004808CC /* SignUptableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUptableViewCell.swift; sourceTree = "<group>"; };
+		E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteViewController.swift; sourceTree = "<group>"; };
+		E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteTableViewCell.swift; sourceTree = "<group>"; };
+		E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +299,7 @@
 			files = (
 				763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */,
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
+				14334FCA2CA7B1420092E9C8 /* Kingfisher in Frameworks */,
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
 				14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */,
@@ -307,24 +337,12 @@
 		76174BEB2C9C332600909EDC /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				76174BEC2C9C333D00909EDC /* OfflineData */,
 				E20C3A5E2C873A8600AD5AA4 /* LegalNotice */,
 				76DFBBD72C9DAA0C00C676CF /* Copyrights */,
 				76174BF72C9C33B700909EDC /* GuidelinePDF */,
 			);
 			path = Data;
 			sourceTree = "<group>";
-		};
-		76174BEC2C9C333D00909EDC /* OfflineData */ = {
-			isa = PBXGroup;
-			children = (
-				76174BE72C9B4D8400909EDC /* disastershelters.csv */,
-				76174BE52C9B4D7C00909EDC /* aeds.csv */,
-				76174BE32C9B4D4100909EDC /* civildefenseshelters.csv */,
-			);
-			name = OfflineData;
-			path = Duriso/Data/OfflineData;
-			sourceTree = SOURCE_ROOT;
 		};
 		76174BF72C9C33B700909EDC /* GuidelinePDF */ = {
 			isa = PBXGroup;
@@ -401,10 +419,10 @@
 				768F50A92C8B530400A92ED6 /* BoardCollectionViewCell.swift */,
 				768F50AA2C8B530400A92ED6 /* BoardTableViewCell.swift */,
 				76EFE8B02C8B5E5A0077D75B /* BoardViewController.swift */,
-				768F50A82C8B530300A92ED6 /* PostViewController.swift */,
+				768F50A82C8B530300A92ED6 /* WritingViewController.swift */,
 				14DE812E2C900BAD002E26FD /* CategoryCell.swift */,
-				14DE81312C9029EE002E26FD /* PostingViewController.swift */,
-				146A28E42C9804BC00AF2C97 /* PostChangeViewController.swift */,
+				14DE81312C9029EE002E26FD /* UserPostViewController.swift */,
+				146A28E42C9804BC00AF2C97 /* EditPostViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -425,6 +443,8 @@
 				76DFBBE22C9DADA700C676CF /* CopyrightDetailViewController.swift */,
 				76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */,
 				76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */,
+				E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */,
+				E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -475,6 +495,7 @@
 				E2DAB8612C863AE00037BCA2 /* LegalNoticeViewModel.swift */,
 				E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */,
 				76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */,
+				E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -527,11 +548,10 @@
 		7622D0642C7C20A300B1AEB2 /* OfflineMap */ = {
 			isa = PBXGroup;
 			children = (
-				76174BDD2C9AAB4300909EDC /* OfflineDataViewController.swift */,
+				766DDA252CA88DD5001C100A /* Bottomsheet */,
 				767622822C85C8610075B09E /* OfflinePageViewController.swift */,
 				76EFE8CD2C904D0B0077D75B /* OfflineViewController.swift */,
 				7622D0652C7C20C200B1AEB2 /* OfflineMapViewController.swift */,
-				76174BE92C9C1D2900909EDC /* OfflineDetailViewController.swift */,
 			);
 			path = OfflineMap;
 			sourceTree = "<group>";
@@ -539,11 +559,12 @@
 		7622D0672C7C20E400B1AEB2 /* OfflineMap */ = {
 			isa = PBXGroup;
 			children = (
-				76174BE12C9B1DB500909EDC /* CSVManager.swift */,
-				76174BDF2C9ACE6000909EDC /* RegionModel.swift */,
+				766DDA162CA76C0E001C100A /* CoreData */,
 				7622D0732C7C21BE00B1AEB2 /* OfflineMapModel.swift */,
-				76174BD72C9AA66700909EDC /* OfflineDataModel.swift */,
+				76DFBBEC2CA184FE00C676CF /* FirebaseDataModel.swift */,
 				76E370642C93CCB9005724E9 /* LocationModel.swift */,
+				766DDA192CA7FF42001C100A /* POIType.swift */,
+				766DDA1B2CA80261001C100A /* CustomPointAnnotation.swift */,
 			);
 			path = OfflineMap;
 			sourceTree = "<group>";
@@ -553,6 +574,7 @@
 			children = (
 				7622D06A2C7C215E00B1AEB2 /* UIColor+Extensions.swift */,
 				D61B611F2C7C386E00C5E69D /* Font+Extensions.swift */,
+				766DDA1D2CA80B8A001C100A /* UIImage+Resize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -571,7 +593,7 @@
 			children = (
 				767622842C85CA790075B09E /* OfflinePageViewModel.swift */,
 				7622D06F2C7C218E00B1AEB2 /* OfflineMapViewModel.swift */,
-				76174BDB2C9AAA8500909EDC /* OfflineDataViewModel.swift */,
+				76DFBBEE2CA1FEB700C676CF /* FirebaseDataViewModel.swift */,
 			);
 			path = OfflineMap;
 			sourceTree = "<group>";
@@ -603,6 +625,7 @@
 		763C0A222C7B125B006BC4E7 /* Duriso */ = {
 			isa = PBXGroup;
 			children = (
+				766DD9F42CA4AA2C001C100A /* Duriso.xcdatamodeld */,
 				768F50A02C8A99FF00A92ED6 /* Duriso.entitlements */,
 				7622D05F2C7C1FA800B1AEB2 /* App */,
 				7676227F2C85AE500075B09E /* Common */,
@@ -621,14 +644,50 @@
 			path = Duriso;
 			sourceTree = "<group>";
 		};
+		766DD9FE2CA5EF9A001C100A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				766DD9F72CA5E4AF001C100A /* CoreDataManager.swift */,
+				766DD9F92CA5E4FD001C100A /* AEDDataManager.swift */,
+				766DD9FB2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift */,
+				766DD9FF2CA5EFCA001C100A /* DisasterShelterDataManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		766DDA162CA76C0E001C100A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				766DDA092CA75BEC001C100A /* AEDs+CoreDataClass.swift */,
+				766DDA0A2CA75BEC001C100A /* AEDs+CoreDataProperties.swift */,
+				766DDA0B2CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift */,
+				766DDA0C2CA75BEC001C100A /* CivilDefenseShelters+CoreDataProperties.swift */,
+				766DDA0D2CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift */,
+				766DDA0E2CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		766DDA252CA88DD5001C100A /* Bottomsheet */ = {
+			isa = PBXGroup;
+			children = (
+				766DDA262CA88E2A001C100A /* OfflineAEDViewController.swift */,
+				766DDA282CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift */,
+				766DDA2A2CA88E72001C100A /* OfflineDisasterShelterViewController.swift */,
+			);
+			path = Bottomsheet;
+			sourceTree = "<group>";
+		};
 		7676227F2C85AE500075B09E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				766DDA172CA78486001C100A /* CustomDecodable.swift */,
 				768F509E2C89DC0D00A92ED6 /* LocationManager.swift */,
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
 				14DE81422C9490B9002E26FD /* FirebaseFirestoreManager.swift */,
 				76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
+				766DD9FE2CA5EF9A001C100A /* CoreData */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -746,6 +805,7 @@
 				7663B7EA2C92D0250066FE91 /* MapLibre */,
 				76E3706A2C947676005724E9 /* FirebaseFirestore */,
 				14DE81362C91BC9B002E26FD /* FirebaseFirestore */,
+				14334FC92CA7B1420092E9C8 /* Kingfisher */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -784,6 +844,7 @@
 				767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */,
 				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				7663B7E92C92D0250066FE91 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+				14334FC82CA7B1420092E9C8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -803,7 +864,6 @@
 				E20C3A762C874A3600AD5AA4 /* notice1.txt in Resources */,
 				E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */,
 				E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */,
-				76174BE82C9B4D8400909EDC /* disastershelters.csv in Resources */,
 				76174BF82C9C33B700909EDC /* Landslide.pdf in Resources */,
 				76174BF92C9C33B700909EDC /* TorrentialRain.pdf in Resources */,
 				76174BFA2C9C33B700909EDC /* Fire.pdf in Resources */,
@@ -825,9 +885,7 @@
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
 				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
-				76174BE62C9B4D7C00909EDC /* aeds.csv in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
-				76174BE42C9B4D4100909EDC /* civildefenseshelters.csv in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
 			);
@@ -840,21 +898,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				766DDA152CA76B21001C100A /* Duriso.xcdatamodeld in Sources */,
 				768F50AE2C8B530400A92ED6 /* BoardTableViewCell.swift in Sources */,
+				766DDA2B2CA88E72001C100A /* OfflineDisasterShelterViewController.swift in Sources */,
 				76DFBBE32C9DADA700C676CF /* CopyrightDetailViewController.swift in Sources */,
 				768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */,
 				768F50A32C8B524000A92ED6 /* SceneDelegate.swift in Sources */,
 				768F50A42C8B524000A92ED6 /* BoardModel.swift in Sources */,
+				766DDA1A2CA7FF42001C100A /* POIType.swift in Sources */,
 				D61268AE2C8A82320031114E /* MapBottomSheetViewController.swift in Sources */,
 				D69CF2B52C8F142100B4E546 /* AedViewController.swift in Sources */,
 				E2DAB85C2C85F4A20037BCA2 /* NoticeViewController.swift in Sources */,
-				76174BDC2C9AAA8500909EDC /* OfflineDataViewModel.swift in Sources */,
 				7676228E2C85F2190075B09E /* OfflinePageViewController.swift in Sources */,
-				146A28E52C9804BC00AF2C97 /* PostChangeViewController.swift in Sources */,
+				146A28E52C9804BC00AF2C97 /* EditPostViewController.swift in Sources */,
+				766DD9FA2CA5E4FD001C100A /* AEDDataManager.swift in Sources */,
 				E2E4F0A22CA2C6D1004808CC /* SignUptableViewCell.swift in Sources */,
 				1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */,
+				E2E4F0A42CA6AB1E004808CC /* MuteViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
+				E2E4F0A92CA9081F004808CC /* MuteViewModel.swift in Sources */,
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
+				76DFBBEF2CA1FEB700C676CF /* FirebaseDataViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
 				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
 				76DFBBE92C9DAF7000C676CF /* CopyrightViewController.swift in Sources */,
@@ -871,24 +935,27 @@
 				D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				76DFBBE12C9DAD4B00C676CF /* CopyrightModel.swift in Sources */,
+				E2E4F0A72CA6CBBB004808CC /* MuteTableViewCell.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
-				76174BD82C9AA66700909EDC /* OfflineDataModel.swift in Sources */,
-				76174BDE2C9AAB4300909EDC /* OfflineDataViewController.swift in Sources */,
 				76174BDA2C9AA7C200909EDC /* FirebaseRealtimeManager.swift in Sources */,
 				E2792E1D2C7F4B7300AD6C0E /* MyPageTableViewCell.swift in Sources */,
-				14DE81322C9029EE002E26FD /* PostingViewController.swift in Sources */,
+				14DE81322C9029EE002E26FD /* UserPostViewController.swift in Sources */,
+				76DFBBED2CA184FE00C676CF /* FirebaseDataModel.swift in Sources */,
 				76EFE8B32C8DC8390077D75B /* RegionFetcher.swift in Sources */,
+				766DDA182CA78486001C100A /* CustomDecodable.swift in Sources */,
 				7622D05A2C7C1F8B00B1AEB2 /* BoardViewModel.swift in Sources */,
-				768F50AC2C8B530400A92ED6 /* PostViewController.swift in Sources */,
+				768F50AC2C8B530400A92ED6 /* WritingViewController.swift in Sources */,
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */,
 				D62E9CCA2C944B2E00829FB8 /* EmergencyReportViewController.swift in Sources */,
 				76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */,
+				766DDA292CA88E60001C100A /* OfflineCivilDefenseShelterViewController.swift in Sources */,
 				76EFE8B12C8B5E5B0077D75B /* BoardViewController.swift in Sources */,
 				D60A81652C9CF49F00589AD3 /* AedDataManager.swift in Sources */,
 				E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */,
+				766DDA1E2CA80B8A001C100A /* UIImage+Resize.swift in Sources */,
 				7622D0782C7C21D100B1AEB2 /* GuidelineModel.swift in Sources */,
 				14E916202C956E3100020670 /* BoardFirebaseService.swift in Sources */,
 				D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */,
@@ -896,29 +963,37 @@
 				E2E4F0992C96BD00004808CC /* NoticeViewModel.swift in Sources */,
 				E2792E222C7F4BAB00AD6C0E /* LoginViewController.swift in Sources */,
 				E2792E1E2C7F4B7300AD6C0E /* ModifyInformationViewController.swift in Sources */,
+				766DDA0F2CA75BEC001C100A /* AEDs+CoreDataClass.swift in Sources */,
+				766DDA102CA75BEC001C100A /* DisasterShelters+CoreDataClass.swift in Sources */,
+				766DDA112CA75BEC001C100A /* AEDs+CoreDataProperties.swift in Sources */,
+				766DDA122CA75BEC001C100A /* CivilDefenseShelters+CoreDataProperties.swift in Sources */,
+				766DDA132CA75BEC001C100A /* DisasterShelters+CoreDataProperties.swift in Sources */,
+				766DDA142CA75BEC001C100A /* CivilDefenseShelters+CoreDataClass.swift in Sources */,
 				D61268AC2C8A82320031114E /* OnlineViewController.swift in Sources */,
 				D61268AF2C8A82320031114E /* EmergencyWrittingViewController.swift in Sources */,
 				14960A332C80207400E706C9 /* GuidelineTableViewModel.swift in Sources */,
 				767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */,
+				766DDA1C2CA80261001C100A /* CustomPointAnnotation.swift in Sources */,
 				767622812C85AE740075B09E /* NetworkMonitor.swift in Sources */,
 				76DFBBE72C9DAE4300C676CF /* CopyrightTableViewCell.swift in Sources */,
 				D61B61202C7C386E00C5E69D /* Font+Extensions.swift in Sources */,
 				767622852C85CA790075B09E /* OfflinePageViewModel.swift in Sources */,
 				7622D0662C7C20C200B1AEB2 /* OfflineMapViewController.swift in Sources */,
 				768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */,
+				766DDA272CA88E2A001C100A /* OfflineAEDViewController.swift in Sources */,
 				D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */,
-				76174BEA2C9C1D2900909EDC /* OfflineDetailViewController.swift in Sources */,
 				7622D07A2C7C21DA00B1AEB2 /* MyPageModel.swift in Sources */,
 				76EFE8B82C8F1F580077D75B /* SignUpModel.swift in Sources */,
 				14DE81432C9490B9002E26FD /* FirebaseFirestoreManager.swift in Sources */,
+				766DD9F82CA5E4AF001C100A /* CoreDataManager.swift in Sources */,
 				E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */,
 				149EEFB82C8724930088FDB2 /* GuidelineNetWork.swift in Sources */,
 				D69CF2B12C8E7D4300B4E546 /* ShelterNetworkManager.swift in Sources */,
 				E219EAF32C8860DF00A1E3F7 /* NoticeTableViewCell.swift in Sources */,
-				76174BE02C9ACE6000909EDC /* RegionModel.swift in Sources */,
-				76174BE22C9B1DB500909EDC /* CSVManager.swift in Sources */,
 				E219EAF12C8860BB00A1E3F7 /* NoticeDetailViewController.swift in Sources */,
+				766DDA002CA5EFCA001C100A /* DisasterShelterDataManager.swift in Sources */,
 				14960A2B2C7DACB800E706C9 /* GuidelineFlowLayout.swift in Sources */,
+				766DD9FC2CA5EF8C001C100A /* CivilDefenseShelterDataManager.swift in Sources */,
 				76EFE8CE2C904D0B0077D75B /* OfflineViewController.swift in Sources */,
 				768F50972C881F9A00A92ED6 /* Environment.swift in Sources */,
 				D61412FE2C8B01CC007BA568 /* OnlineViewModel.swift in Sources */,
@@ -1073,7 +1148,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1090,7 +1165,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1112,7 +1187,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4LTNHNC3S6;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1129,7 +1204,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donghyeon.Duriso;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1166,6 +1241,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		14334FC82CA7B1420092E9C8 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.3;
+			};
+		};
 		7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1233,6 +1316,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		14334FC92CA7B1420092E9C8 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14334FC82CA7B1420092E9C8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		14DE81362C91BC9B002E26FD /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7622D0392C7C178400B1AEB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1299,6 +1387,19 @@
 			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		766DD9F42CA4AA2C001C100A /* Duriso.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				766DD9F52CA4AA2C001C100A /* Duriso.xcdatamodel */,
+			);
+			currentVersion = 766DD9F52CA4AA2C001C100A /* Duriso.xcdatamodel */;
+			path = Duriso.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 763C0A182C7B125B006BC4E7 /* Project object */;
 }

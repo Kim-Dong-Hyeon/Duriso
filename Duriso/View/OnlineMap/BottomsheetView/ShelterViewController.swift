@@ -20,7 +20,7 @@ class ShelterViewController: UIViewController {
   var poiType: String?
   
   // UI 요소들
-  private let typeStackView = UIStackView().then {
+  let typeStackView = UIStackView().then {
     
     $0.backgroundColor = .CWhite
     $0.axis = .horizontal
@@ -36,41 +36,42 @@ class ShelterViewController: UIViewController {
     $0.layer.masksToBounds = false
   }
   
-  private let typeLogo = UIImageView().then {
+  let typeLogo = UIImageView().then {
     $0.image = UIImage(named: "figure.run")
     $0.contentMode = .scaleAspectFit
   }
   
-  private let typeLabel = UILabel().then {
+  let typeLabel = UILabel().then {
     $0.text = "대피소"
     $0.textColor = .CGreen
     $0.textAlignment = .center
     $0.font = CustomFont.Deco4.font()
   }
   
-  private let shelterName = UILabel().then {
+  let shelterName = UILabel().then {
     $0.text = "대피소 이름"
     $0.textColor = .CBlack
     $0.textAlignment = .left
     $0.font = CustomFont.Head2.font()
   }
   
-  private let shelterAddress = UILabel().then {
+  let shelterAddress = UILabel().then {
     $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
     $0.font = CustomFont.Body2.font()
     $0.numberOfLines = 0
+    $0.adjustsFontSizeToFitWidth = true
   }
   
-  private let shelterType = UILabel().then {
+  let shelterType = UILabel().then {
     $0.text = "000 대피소"
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancelButton = UIButton().then {
+  let cancelButton = UIButton().then {
     $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
     $0.tintColor = .CLightBlue
     $0.contentMode = .scaleAspectFit

@@ -7,11 +7,13 @@
 
 import UIKit
 
+import RxCocoa
 import RxSwift
 import SnapKit
 
 class OfflineViewController: UIViewController {
-  private let offlineMapViewController = OfflineMapViewController(viewModel: OfflineMapViewModel())
+  private let offlineMapViewController = OfflineMapViewController()
+  private let disposeBag = DisposeBag()
   
   let buttonStackView = UIStackView().then {
     $0.alignment = .center
@@ -34,11 +36,19 @@ class OfflineViewController: UIViewController {
     selectedColor: .CRed
   )
   
+  lazy var civilDefenseButton: UIButton = createButton(
+    title: "민방위대피소",
+    symbolName: "figure.run",
+    baseColor: .CLightBlue,
+    selectedColor: .CYellow
+  )
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     setupViews()
     setupConstraints()
+    bindButtonsToViewModel()
   }
   
   private func setupViews() {
@@ -52,24 +62,59 @@ class OfflineViewController: UIViewController {
     
     [
       shelterButton,
-      aedButton
+      aedButton,
+      civilDefenseButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
   }
   
   private func setupConstraints() {
     buttonStackView.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(100)
-      $0.trailing.equalToSuperview().inset(100)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(13)
+      $0.centerX.equalToSuperview()
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
     }
     
-    shelterButton.snp.makeConstraints{
-      $0.height.equalTo(34)
+    [
+      shelterButton,
+      aedButton,
+      civilDefenseButton
+    ].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(34)
+      }
     }
+  }
+  
+  private func bindButtonsToViewModel() {
+    // AED 버튼
+    aedButton.rx.tap
+      .map { [unowned self] in !self.aedButton.isSelected }
+      .do(onNext: { [unowned self] isSelected in
+        self.aedButton.isSelected = isSelected
+        self.aedButton.backgroundColor = isSelected ? .CRed : .CLightBlue
+      })
+      .bind(to: offlineMapViewController.viewModel.aedVisible)
+      .disposed(by: disposeBag)
     
-    aedButton.snp.makeConstraints{
-      $0.height.equalTo(34)
-    }
+    // Civil Defense 버튼
+    civilDefenseButton.rx.tap
+      .map { [unowned self] in !self.civilDefenseButton.isSelected }
+      .do(onNext: { [unowned self] isSelected in
+        self.civilDefenseButton.isSelected = isSelected
+        self.civilDefenseButton.backgroundColor = isSelected ? .CYellow : .CLightBlue
+      })
+      .bind(to: offlineMapViewController.viewModel.civilDefenseVisible)
+      .disposed(by: disposeBag)
+    
+    // Shelter 버튼
+    shelterButton.rx.tap
+      .map { [unowned self] in !self.shelterButton.isSelected }
+      .do(onNext: { [unowned self] isSelected in
+        self.shelterButton.isSelected = isSelected
+        self.shelterButton.backgroundColor = isSelected ? .CGreen : .CLightBlue
+      })
+      .bind(to: offlineMapViewController.viewModel.disasterVisible)
+      .disposed(by: disposeBag)
   }
   
   func createButton(title: String, symbolName: String, baseColor: UIColor, selectedColor: UIColor)

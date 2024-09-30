@@ -158,7 +158,7 @@ class EmergencyReportViewController: UIViewController {
   
   // MARK: - Data Update
   private func updatePoiData() {
-    fetchCurrentUserNickname { [weak self] nickname in
+    fetchAuthorNickname { [weak self] nickname in
       self?.authorLabel.text = nickname ?? "알 수 없는 사용자"
     }
     
@@ -166,9 +166,8 @@ class EmergencyReportViewController: UIViewController {
       print("카테고리 확인: \(category)")
       updateCategoryImageView(with: category)
     } else {
-      categoryImageView.image = UIImage(systemName: "tag") 
+      categoryImageView.image = UIImage(systemName: "tag")
     }
-    
     
     // 주소 업데이트
     if let address = reportAddress {
@@ -213,36 +212,26 @@ class EmergencyReportViewController: UIViewController {
     updateLabelWithSymbol(label: poiViewAddress, symbolName: "map.fill", text: address)
   }
   
-  private func fetchCurrentUserNickname(completion: @escaping (String?) -> Void) {
-    guard let user = Auth.auth().currentUser else {
+  // Firestore에서 작성자의 닉네임을 가져오는 메서드
+  private func fetchAuthorNickname(completion: @escaping (String?) -> Void) {
+    guard let authorName = authorName else {
       completion(nil)
       return
     }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    
-    firestore.collection("users").document(safeEmail).getDocument { (document, error) in
+    // Firestore에서 작성자의 UID를 통해 닉네임을 가져옴
+    firestore.collection("users").document(authorName).getDocument { (document, error) in
       if let document = document, document.exists {
         let data = document.data()
         let nicknameFromFirestore = data?["nickname"] as? String ?? "닉네임 없음"
         completion(nicknameFromFirestore)
-        
-        // 사용자 displayName 업데이트 (선택적으로 수행)
-        let changeRequest = user.createProfileChangeRequest()
-        changeRequest.displayName = nicknameFromFirestore
-        changeRequest.commitChanges { error in
-          if let error = error {
-            print("displayName 업데이트 실패: \(error.localizedDescription)")
-          } else {
-            print("displayName 업데이트 성공: \(nicknameFromFirestore)")
-          }
-        }
       } else {
-        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "Unknown error")")
+        print("작성자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "Unknown error")")
         completion(nil)
       }
     }
   }
+  
   private func updateCategoryImageView(with category: String) {
     let imageName: String
     print("카테고리 값 확인: \(category)")

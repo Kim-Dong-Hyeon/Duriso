@@ -23,7 +23,7 @@ class MyPageViewModel {
     //앱의 버전을 앱의 설정파일에서 불러옴 (빌드나 배포에 따라 버전 정보가 자동 업데이트)
     
     items = Observable.just([
-      MyPageModel(title: "푸시알림", type: .toggle, selected: false),
+      MyPageModel(title: "차단 목록", type: .disclosure, selected: true),
       MyPageModel(title: "공지사항", type: .disclosure, selected: true),
       MyPageModel(title: "법적고지", type: .disclosure, selected: true),
       MyPageModel(title: "저작권 표시", type: .disclosure, selected: true),
@@ -37,10 +37,13 @@ class MyPageViewModel {
   }
   
   private func fetchUserData() {
+    
     guard let user = Auth.auth().currentUser else { return }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+    let uid = user.uid
+    
+//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()

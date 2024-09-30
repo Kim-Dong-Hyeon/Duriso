@@ -13,8 +13,6 @@
 		<key>MLNAccuracyAuthorizationDescription</key>
 		<string>사용자의 현재 위치를 기반으로 대피소 및 AED 정보를 제공하고 제보하기 위해 필요한 권한입니다.</string>
 	</dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>스냅샷을 사진 앱에 저장하기 위해 접근 권한이 필요합니다.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>재난정보 제보시 카메라로 직접 촬영하여 게시글을 작성하기 위해 필요한 권한입니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
