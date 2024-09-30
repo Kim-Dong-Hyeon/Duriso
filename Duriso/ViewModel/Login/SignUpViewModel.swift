@@ -90,8 +90,8 @@ class SignUpViewModel {
   }
   
   private func saveUserData(uid: String, nickname: String) {
-    let email = emailText.value
-    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
+//    let email = emailText.value
+//    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
     let userData: [String: Any] = [
       "nickname": nickname,
       "email": emailText.value,
@@ -100,7 +100,7 @@ class SignUpViewModel {
       "reportedpostcount": 0
     ]
     
-    firestore.collection("users").document(safeEmail).setData(userData) { error in
+    firestore.collection("users").document(uid).setData(userData) { error in
       if let error = error {
         print("계정 생성 실패: \(error.localizedDescription)")
       } else {

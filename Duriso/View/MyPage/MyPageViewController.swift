@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseAuth
+import FirebaseFirestore
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -20,6 +21,7 @@ class MyPageViewController: UIViewController {
   let legalNoticeViewController = LegalNoticeViewController()
   let copyrightViewController = CopyrightViewController()
   let modifyInformationViewController = ModifyInformationViewController()
+  let muteViewController = MuteViewController()
   
   private let titleLabel = UILabel().then {
     $0.text = "마이페이지"
@@ -30,12 +32,10 @@ class MyPageViewController: UIViewController {
     $0.contentMode = .scaleAspectFit
     $0.layer.cornerRadius = 40
     $0.clipsToBounds = true
-    //    $0.backgroundColor = .lightGray // 테스트용 배경색
     $0.image = UIImage(named: "AppIcon")
   }
   
   private let nickNameLabel = UILabel().then {
-    $0.text = "test" // 테스트용 텍스트
     $0.font = CustomFont.Body.font()
     $0.textColor = .CBlack
   }
@@ -59,14 +59,28 @@ class MyPageViewController: UIViewController {
     $0.layer.cornerRadius = 10
   }
   
+  private let loginGuideLabel = UILabel().then {
+    $0.text = "로그인 후 사용 가능합니다."
+    $0.font = CustomFont.Body2.font()
+    $0.textColor = .CBlack
+  }
+  
+  private let loginGuideButton = UIButton().then {
+    $0.setTitle("로그인 및 회원가입 페이지로 이동하기", for: .normal)
+    $0.backgroundColor = .CLightBlue
+    $0.titleLabel?.font = CustomFont.Head5.font()
+    $0.layer.cornerRadius = 10
+  }
+  
   private let myPageTableView = UITableView().then {
     $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: "MyPageCell")
     $0.isScrollEnabled = true
   }
   
   private let contactLabel = UILabel().then {
-    $0.text = "문의: durisoapp@gmail.com"
+    $0.text = "문의: durisoapp@gmail.com \n개발자: 김동현, 신상규, 이주희, 조수환"
     $0.font = CustomFont.Body3.font()
+    $0.numberOfLines = 0
     $0.textAlignment = .left
     $0.textColor = .lightGray
   }
@@ -86,8 +100,16 @@ class MyPageViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.tabBarController?.tabBar.isHidden = false
+    
+    if Auth.auth().currentUser == nil {
+      hideProfileSection(isHidden: true)
+      hideloginGuideSection(isHidden: false)
+    } else {
+      hideProfileSection(isHidden: false)
+      hideloginGuideSection(isHidden: true)
+      
+    }
   }
-  
   private func configureUI() {
     [
       profileImage,
@@ -95,6 +117,8 @@ class MyPageViewController: UIViewController {
       postCountLabel,
       postCount,
       profileButton,
+      loginGuideLabel,
+      loginGuideButton,
       myPageTableView,
       contactLabel
     ].forEach { view.addSubview($0) }
@@ -125,6 +149,17 @@ class MyPageViewController: UIViewController {
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
+    }
+    
+    loginGuideLabel.snp.makeConstraints{
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(64)
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    loginGuideButton.snp.makeConstraints {
+      $0.top.equalTo(loginGuideLabel).offset(32)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
     }
     
     myPageTableView.snp.makeConstraints {
@@ -163,6 +198,21 @@ class MyPageViewController: UIViewController {
       }
       .disposed(by: disposeBag)
     
+    loginGuideButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        let loginVC = LoginViewController()
+        let navController = UINavigationController(rootViewController: loginVC)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+          let window = windowScene.windows.first
+          window?.rootViewController = navController
+          window?.makeKeyAndVisible()
+        }
+      })
+      .disposed(by: disposeBag)
+    
     myPageTableView.rx.modelSelected(MyPageModel.self)
       .flatMap { [weak self] item -> Observable<Void> in
         guard let self = self else { return .empty() }
@@ -184,6 +234,10 @@ class MyPageViewController: UIViewController {
           copyrightViewController.title = item.title
           navigationController?.pushViewController(copyrightViewController, animated: true)
           return .just(())
+        case "차단 목록":
+          muteViewController.title = item.title
+          navigationController?.pushViewController(muteViewController, animated: true)
+          return .just(())
         default:
           return .empty()
         }
@@ -192,6 +246,19 @@ class MyPageViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
+  private func hideProfileSection(isHidden: Bool) {
+    profileImage.isHidden = isHidden
+    nickNameLabel.isHidden = isHidden
+    postCountLabel.isHidden = isHidden
+    postCount.isHidden = isHidden
+    profileButton.isHidden = isHidden
+  }
+  
+  private func hideloginGuideSection(isHidden: Bool) {
+    loginGuideLabel.isHidden = isHidden
+    loginGuideButton.isHidden = isHidden
+    
+  }
   private func bindProfileButton() {
     profileButton.rx.tap
       .subscribe(onNext: { [weak self] in
@@ -213,7 +280,7 @@ class MyPageViewController: UIViewController {
         let firebaseAuth = Auth.auth()
         do {
           try firebaseAuth.signOut()
-          UserDefaults.standard.removeObject(forKey: "autoLoginEnabled")
+          UserDefaults.standard.removeObject(forKey: "autoLogin")
           
           if Auth.auth().currentUser == nil {
             print("현재 로그인 된 사용자가 없습니다")
@@ -256,16 +323,78 @@ class MyPageViewController: UIViewController {
       )
       
       let withdrawAction = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
-        let loginVC = LoginViewController()
-        let navController = UINavigationController(rootViewController: loginVC)
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-          let window = windowScene.windows.first
-          window?.rootViewController = navController
-          window?.makeKeyAndVisible()
+        guard let currentUser = Auth.auth().currentUser else {
+          observer.onCompleted()
+          return
         }
-        observer.onNext(())
-        observer.onCompleted()
+        
+        let passwordAlert = UIAlertController(
+          title: "비밀번호 입력",
+          message: "회원 탈퇴를 위해 비밀번호를 다시 입력하세요.",
+          preferredStyle: .alert
+        )
+        
+        passwordAlert.addTextField { textField in
+          textField.isSecureTextEntry = true
+          textField.placeholder = "비밀번호"
+        }
+        
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+          guard let password = passwordAlert.textFields?.first?.text else {
+            observer.onCompleted()
+            return
+          }
+          
+          let email = currentUser.email ?? ""
+          let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+          
+          currentUser.reauthenticate(with: credential) { authResult, error in
+            if let error = error {
+              print("재인증 실패: \(error.localizedDescription)")
+              observer.onCompleted()
+            } else {
+              currentUser.delete { error in
+                if let error = error {
+                  print("Firebase 계정 삭제 실패: \(error.localizedDescription)")
+                  observer.onCompleted()
+                } else {
+                  print("Firebase 계정 삭제 성공")
+                  
+                  let userUID = currentUser.uid
+                  let db = Firestore.firestore()
+                  db.collection("users").document(userUID).delete { error in
+                    if let error = error {
+                      print("Firestore 사용자 데이터 삭제 실패: \(error.localizedDescription)")
+                    } else {
+                      print("Firestore 사용자 데이터 삭제 성공")
+                    }
+                  }
+                  
+                  let loginVC = LoginViewController()
+                  let navController = UINavigationController(rootViewController: loginVC)
+                  
+                  if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    let window = windowScene.windows.first
+                    window?.rootViewController = navController
+                    window?.makeKeyAndVisible()
+                  }
+                  
+                  observer.onNext(())
+                  observer.onCompleted()
+                }
+              }
+            }
+          }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+          observer.onCompleted()
+        }
+        
+        passwordAlert.addAction(confirmAction)
+        passwordAlert.addAction(cancelAction)
+        
+        self.present(passwordAlert, animated: true, completion: nil)
       }
       
       let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
@@ -278,4 +407,5 @@ class MyPageViewController: UIViewController {
       return Disposables.create()
     }
   }
+  
 }

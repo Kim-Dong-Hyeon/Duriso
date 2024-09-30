@@ -119,8 +119,9 @@ class BoardViewController: UIViewController {
   private func fetchUserNickname() {
     guard let user = Auth.auth().currentUser else { return }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let uid = user.uid
+    firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
         guard let self = self else { return }
         if let document = document, document.exists {
             let data = document.data()
@@ -165,8 +166,9 @@ class BoardViewController: UIViewController {
   private func fetchFilteredPosts() {
     guard let user = Auth.auth().currentUser else { return }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    let userRef = firestore.collection("users").document(safeEmail)
+//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let uid = user.uid
+    let userRef = firestore.collection("users").document(uid)
     
     userRef.getDocument { [weak self] (document, error) in
       if let document = document, document.exists {
@@ -248,8 +250,9 @@ class BoardViewController: UIViewController {
   private func handleButtonTap(for model: SomeDataModel) {
     guard let user = Auth.auth().currentUser else { return }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    let userRef = firestore.collection("users").document(safeEmail)
+//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let uid = user.uid
+    let userRef = firestore.collection("users").document(uid)
     
     userRef.getDocument { [weak self] (document, error) in
       if let document = document, document.exists {

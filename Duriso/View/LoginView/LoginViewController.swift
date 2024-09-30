@@ -25,14 +25,14 @@ class LoginViewController: UIViewController {
   }
   
   private let idLabel = UILabel().then {
-    $0.text = "아이디"
+    $0.text = "이메일"
     $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
   private let idTextField = UITextField().then {
     $0.borderStyle = .roundedRect
-    $0.placeholder = "아이디를 입력하세요"
+    $0.placeholder = "이메일을 입력하세요"
     $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
@@ -88,10 +88,24 @@ class LoginViewController: UIViewController {
   }
   
   private let signUpButton = UIButton().then {
-    $0.setTitle("회원가입", for: .normal)
+    $0.setTitle("회원가입  |", for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
     $0.backgroundColor = .CWhite
     $0.setTitleColor(.CBlack, for: .normal)
+  }
+  
+  private let nonMemeberButton = UIButton().then {
+    $0.setTitle("비회원으로 둘러보기", for: .normal)
+    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.backgroundColor = .CWhite
+    $0.setTitleColor(.CBlack, for: .normal)
+  }
+  
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.alignment = .fill
+    //      $0.distribution = .fillEqually
+    $0.spacing = 8
   }
   
   override func viewDidLoad() {
@@ -106,8 +120,10 @@ class LoginViewController: UIViewController {
     super.viewWillAppear(animated)
     self.navigationController?.setNavigationBarHidden(true, animated: false)
     
-    let isautoLogin = UserDefaults.standard.bool(forKey: "autoLogin")
-    if isautoLogin {
+    let isAutoLogin = UserDefaults.standard.bool(forKey: "autoLogin")
+    checkboxButton.isSelected = isAutoLogin
+    
+    if isAutoLogin {
       let mainTabBarViewModel = MainTabBarViewModel()
       let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
       self.navigationController?.setViewControllers([mainTabBarVC], animated: false)
@@ -115,6 +131,12 @@ class LoginViewController: UIViewController {
   }
   
   private func configureUI() {
+    
+    [
+      signUpButton,
+      nonMemeberButton
+    ].forEach { buttonStackView.addArrangedSubview($0) }
+    
     
     [
       titleLabel,
@@ -127,7 +149,7 @@ class LoginViewController: UIViewController {
       idLoginButton,
       checkboxButton,
       autoLoginLabel,
-      signUpButton
+      buttonStackView
     ].forEach { view.addSubview($0) }
     
     titleLabel.snp.makeConstraints {
@@ -190,7 +212,7 @@ class LoginViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
-    signUpButton.snp.makeConstraints {
+    buttonStackView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
     }
@@ -204,7 +226,7 @@ class LoginViewController: UIViewController {
     passwordTextField.rx.text.orEmpty
       .bind(to: viewModel.password)
       .disposed(by: disposeBag)
-
+    
     idLoginButton.rx.tap
       .bind(to: viewModel.loginTap)
       .disposed(by: disposeBag)
@@ -251,6 +273,17 @@ class LoginViewController: UIViewController {
         guard let self = self else { return }
         let signUpVC = SignUpViewController()
         self.navigationController?.pushViewController(signUpVC, animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    nonMemeberButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        
+        let mainTabBarViewModel = MainTabBarViewModel()
+        let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+        
+        self.navigationController?.setViewControllers([mainTabBarVC], animated: true)
       })
       .disposed(by: disposeBag)
   }

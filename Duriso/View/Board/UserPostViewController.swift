@@ -292,9 +292,10 @@ class UserPostViewController: UIViewController {
   private func fetchUserId() {
     guard let user = Auth.auth().currentUser else { return }
     
-    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let uid = user.uid
     
-    firestore.collection("users").document(safeEmail).getDocument { [weak self] (document, error) in
+    firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
       guard let self = self else { return }
       if let document = document, document.exists {
         let data = document.data()
@@ -549,8 +550,9 @@ class UserPostViewController: UIViewController {
   private func addUserToBlockList(blockedUserUUID: String) {
     guard let currentUser = Auth.auth().currentUser else { return }
     
-    let safeEmail = currentUser.email?.replacingOccurrences(of: ".", with: "-") ?? ""
-    let userRef = firestore.collection("users").document(safeEmail)
+//    let safeEmail = currentUser.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    let uid = currentUser.uid
+    let userRef = firestore.collection("users").document(uid)
     
     userRef.getDocument { (document, error) in
       if let error = error { return }
