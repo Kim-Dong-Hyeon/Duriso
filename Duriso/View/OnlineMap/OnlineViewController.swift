@@ -301,7 +301,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   }
   
   @objc private func didTapWritingButton() {
-    if let currentUser = Auth.auth().currentUser {
+    if Auth.auth().currentUser != nil {
       // 사용자가 로그인된 상태이면 글쓰기 화면으로 이동
       let emergencyWrittingVC = EmergencyWrittingViewController()
       emergencyWrittingVC.setOnlineViewController(self)
@@ -313,7 +313,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
       print("Emergency Writing button tapped")
     } else {
       // 로그인되지 않은 상태일 때 알림창 표시
-      //          showLoginAlert()
+      showLoginAlert()
     }
   }
   
@@ -367,7 +367,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     
     // 회원가입 버튼
     let signUpAction = UIAlertAction(title: "Login", style: .default) { [weak self] _ in
-      self?.navigateToSignUp()
+      self?.navigateToLogin()
     }
     alert.addAction(signUpAction)
     
@@ -379,8 +379,14 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     present(alert, animated: true, completion: nil)
   }
   
-  private func navigateToSignUp() {
-    let loginViewController = LoginViewController()
-    self.navigationController?.pushViewController(loginViewController, animated: true)
+  private func navigateToLogin() {
+    let loginVC = LoginViewController()
+    let navController = UINavigationController(rootViewController: loginVC)
+    
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+      let window = windowScene.windows.first
+      window?.rootViewController = navController
+      window?.makeKeyAndVisible()
+    }
   }
 }
