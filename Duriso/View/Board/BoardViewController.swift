@@ -320,8 +320,14 @@ class BoardViewController: UIViewController {
   }
   
   private func navigateToLogin() {
-      let loginViewController = LoginViewController()
-      self.navigationController?.pushViewController(loginViewController, animated: true)
+    let loginVC = LoginViewController()
+    let navController = UINavigationController(rootViewController: loginVC)
+    
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+      let window = windowScene.windows.first
+      window?.rootViewController = navController
+      window?.makeKeyAndVisible()
+    }
   }
   
   private func uploadImageAndGetURL(_ image: UIImage?, completion: @escaping (String?) -> Void) {
