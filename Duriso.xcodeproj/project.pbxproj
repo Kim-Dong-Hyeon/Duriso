@@ -138,6 +138,9 @@
 		E2E4F0992C96BD00004808CC /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */; };
 		E2E4F09E2C9B26D4004808CC /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */; };
 		E2E4F0A22CA2C6D1004808CC /* SignUptableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A12CA2C6D1004808CC /* SignUptableViewCell.swift */; };
+		E2E4F0A42CA6AB1E004808CC /* MuteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */; };
+		E2E4F0A72CA6CBBB004808CC /* MuteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */; };
+		E2E4F0A92CA9081F004808CC /* MuteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -262,6 +265,9 @@
 		E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
 		E2E4F09D2C9B26D4004808CC /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		E2E4F0A12CA2C6D1004808CC /* SignUptableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUptableViewCell.swift; sourceTree = "<group>"; };
+		E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteViewController.swift; sourceTree = "<group>"; };
+		E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteTableViewCell.swift; sourceTree = "<group>"; };
+		E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -427,6 +433,8 @@
 				76DFBBE22C9DADA700C676CF /* CopyrightDetailViewController.swift */,
 				76DFBBE62C9DAE4300C676CF /* CopyrightTableViewCell.swift */,
 				76DFBBE82C9DAF7000C676CF /* CopyrightViewController.swift */,
+				E2E4F0A32CA6AB1E004808CC /* MuteViewController.swift */,
+				E2E4F0A62CA6CBBB004808CC /* MuteTableViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -477,6 +485,7 @@
 				E2DAB8612C863AE00037BCA2 /* LegalNoticeViewModel.swift */,
 				E2E4F0982C96BD00004808CC /* NoticeViewModel.swift */,
 				76DFBBEA2C9DAF8600C676CF /* CopyrightViewModel.swift */,
+				E2E4F0A82CA9081F004808CC /* MuteViewModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -857,7 +866,9 @@
 				146A28E52C9804BC00AF2C97 /* EditPostViewController.swift in Sources */,
 				E2E4F0A22CA2C6D1004808CC /* SignUptableViewCell.swift in Sources */,
 				1426761F2C99C629004C56D5 /* GuidelinePDFViewController.swift in Sources */,
+				E2E4F0A42CA6AB1E004808CC /* MuteViewController.swift in Sources */,
 				7622D0742C7C21BE00B1AEB2 /* OfflineMapModel.swift in Sources */,
+				E2E4F0A92CA9081F004808CC /* MuteViewModel.swift in Sources */,
 				E2792E262C7F4BC100AD6C0E /* LoginViewModel.swift in Sources */,
 				7622D0702C7C218E00B1AEB2 /* OfflineMapViewModel.swift in Sources */,
 				14960A292C7C84A400E706C9 /* GuidelineCollectionViewCell.swift in Sources */,
@@ -875,6 +886,7 @@
 				D61268AD2C8A82320031114E /* KakaoMapViewController.swift in Sources */,
 				14960A2D2C7DCF8F00E706C9 /* GuidelineTableViewCell.swift in Sources */,
 				76DFBBE12C9DAD4B00C676CF /* CopyrightModel.swift in Sources */,
+				E2E4F0A72CA6CBBB004808CC /* MuteTableViewCell.swift in Sources */,
 				E2DAB8622C863AE00037BCA2 /* LegalNoticeViewModel.swift in Sources */,
 				76174BD82C9AA66700909EDC /* OfflineDataModel.swift in Sources */,
 				76174BDE2C9AAB4300909EDC /* OfflineDataViewController.swift in Sources */,
