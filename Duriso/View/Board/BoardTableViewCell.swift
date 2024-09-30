@@ -131,18 +131,36 @@ class BoardTableViewCell: UITableViewCell {
     timeLabel.text = timeAgo(from: post.posttime)
     categorysLabel.text = "#\(post.category)"
     
-    // 이미지 URL이 있는 경우 비동기로 이미지 로드
     if let imageUrl = post.imageUrl, let url = URL(string: imageUrl) {
       postImageView.kf.setImage(
         with: url,
-        placeholder: UIImage(named: "AppIcon"),
         options: [
           .transition(.fade(0.2)),
           .cacheOriginalImage
         ]
       )
+      postImageView.snp.remakeConstraints {
+        $0.centerY.equalTo(contentView)
+        $0.trailing.equalTo(contentView).offset(-10)
+        $0.width.height.equalTo(80)
+      }
+      contentLabel.snp.remakeConstraints {
+        $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+        $0.leading.equalTo(contentView).offset(10)
+        $0.trailing.equalTo(postImageView.snp.leading).offset(-10)
+      }
     } else {
-      postImageView.image = UIImage(named: "AppIcon")
+      postImageView.snp.remakeConstraints {
+        $0.centerY.equalTo(contentView)
+        $0.trailing.equalTo(contentView).offset(-10)
+        $0.width.equalTo(0)
+        $0.height.equalTo(80)
+      }
+      contentLabel.snp.remakeConstraints {
+        $0.top.equalTo(titleLabel.snp.bottom).offset(8)
+        $0.leading.equalTo(contentView).offset(10)
+        $0.trailing.equalTo(contentView).offset(-10)
+      }
     }
   }
   
