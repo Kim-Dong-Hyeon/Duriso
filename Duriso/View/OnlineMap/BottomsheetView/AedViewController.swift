@@ -87,10 +87,12 @@ class AedViewController: UIViewController {
   }
   
   private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    $0.tintColor = .CLightBlue
-    $0.contentMode = .scaleAspectFit
-    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+      let largeConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)  // 심볼 크기 설정
+      let largeImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)
+      
+      $0.setImage(largeImage, for: .normal)
+      $0.tintColor = .CLightBlue
+      $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
   }
   
   // MARK: - Lifecycle
@@ -170,8 +172,9 @@ class AedViewController: UIViewController {
     }
     
     cancelButton.snp.makeConstraints {
-      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)  
+      $0.centerY.equalTo(typeLogo)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.width.height.equalTo(30)
     }
   }
   
