@@ -16,6 +16,7 @@ class MainTabBarViewController: UITabBarController {
   // MARK: - Properties
   
   private let viewModel: MainTabBarViewModel
+  private lazy var firebaseViewModel = FirebaseDataViewModel()
   private let disposeBag = DisposeBag()
   
   /// 네트워크 온라인 상태에서 사용할 뷰 컨트롤러 배열
@@ -42,6 +43,11 @@ class MainTabBarViewController: UITabBarController {
     
     setupTaps()
     bindViewModel()
+    
+    // 백그라운드에서 Firebase 데이터를 가져와 Core Data에 저장
+    DispatchQueue.global(qos: .background).async { [weak self] in
+      self?.firebaseViewModel.fetchDataFromCoreData()
+    }
   }
   
   // MARK: - UI Setup
@@ -83,9 +89,7 @@ class MainTabBarViewController: UITabBarController {
     mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: userIcon.withRenderingMode(.alwaysOriginal), tag: 3)
     
     let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
-    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 0)
-//    let offlineDataVC = UINavigationController(rootViewController: OfflineDataViewController())
-//    offlineDataVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 0)
+    offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), tag: 0)
     
     let offlineboardVC = UINavigationController(rootViewController: OfflinePageViewController(viewModel: OfflinePageViewModel(), viewName: "게시판"))
     offlineboardVC.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(systemName: "exclamationmark.triangle.fill"), tag: 1)
@@ -93,15 +97,14 @@ class MainTabBarViewController: UITabBarController {
     let offlinemypageVC = UINavigationController(rootViewController: OfflinePageViewController(viewModel: OfflinePageViewModel(), viewName: "마이페이지"))
     offlinemypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: UIImage(systemName: "exclamationmark.triangle.fill"), tag: 3)
     
-    //    let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
-    //    offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
-    let offlineDataDevVC = UINavigationController(rootViewController: OfflineDataViewController())
-    offlineDataDevVC.tabBarItem = UITabBarItem(title: "오프라인", image: UIImage(systemName: "map.fill"), tag: 4)
+    let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
+    offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
     
 //    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
-    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC]
+//    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     
-    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
+    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC]
+    offlineViewControllers = [offlineMapVC, boardVC, guidelineVC, mypageVC]
     
     setViewControllers(onlineViewControllers, animated: true)
   }

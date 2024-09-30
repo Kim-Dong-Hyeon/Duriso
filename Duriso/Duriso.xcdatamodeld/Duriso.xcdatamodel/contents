@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24A335" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AEDs" representedClassName="AEDs" syncable="YES">
+        <attribute name="buildAddress" optional="YES" attributeType="String"/>
+        <attribute name="buildPlace" optional="YES" attributeType="String"/>
+        <attribute name="clerkTel" optional="YES" attributeType="String"/>
+        <attribute name="friEndTme" optional="YES" attributeType="String"/>
+        <attribute name="friSttTme" optional="YES" attributeType="String"/>
+        <attribute name="gugun" optional="YES" attributeType="String"/>
+        <attribute name="holEndTme" optional="YES" attributeType="String"/>
+        <attribute name="holSttTme" optional="YES" attributeType="String"/>
+        <attribute name="manager" optional="YES" attributeType="String"/>
+        <attribute name="managerTel" optional="YES" attributeType="String"/>
+        <attribute name="mfg" optional="YES" attributeType="String"/>
+        <attribute name="model" optional="YES" attributeType="String"/>
+        <attribute name="monEndTme" optional="YES" attributeType="String"/>
+        <attribute name="monSttTme" optional="YES" attributeType="String"/>
+        <attribute name="org" optional="YES" attributeType="String"/>
+        <attribute name="rnum" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="satEndTme" optional="YES" attributeType="String"/>
+        <attribute name="satSttTme" optional="YES" attributeType="String"/>
+        <attribute name="sido" optional="YES" attributeType="String"/>
+        <attribute name="sunEndTme" optional="YES" attributeType="String"/>
+        <attribute name="sunFifYon" optional="YES" attributeType="String"/>
+        <attribute name="sunFrtYon" optional="YES" attributeType="String"/>
+        <attribute name="sunFurYon" optional="YES" attributeType="String"/>
+        <attribute name="sunScdYon" optional="YES" attributeType="String"/>
+        <attribute name="sunSttTme" optional="YES" attributeType="String"/>
+        <attribute name="sunThiYon" optional="YES" attributeType="String"/>
+        <attribute name="thuEndTme" optional="YES" attributeType="String"/>
+        <attribute name="thuSttTme" optional="YES" attributeType="String"/>
+        <attribute name="tueEndTme" optional="YES" attributeType="String"/>
+        <attribute name="tueSttTme" optional="YES" attributeType="String"/>
+        <attribute name="wedEndTme" optional="YES" attributeType="String"/>
+        <attribute name="wedSttTme" optional="YES" attributeType="String"/>
+        <attribute name="wgs84Lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="wgs84Lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="zipcode1" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="zipcode2" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CivilDefenseShelters" representedClassName="CivilDefenseShelters" syncable="YES">
+        <attribute name="emdCd" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="emdNm" optional="YES" attributeType="String"/>
+        <attribute name="fcltAddrLotno" optional="YES" attributeType="String"/>
+        <attribute name="fcltAddrRona" optional="YES" attributeType="String"/>
+        <attribute name="fcltCd" optional="YES" attributeType="String"/>
+        <attribute name="fcltDsgnDay" optional="YES" attributeType="String"/>
+        <attribute name="fcltNm" optional="YES" attributeType="String"/>
+        <attribute name="fcltScl" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fcltSeCd" optional="YES" attributeType="String"/>
+        <attribute name="grndUdgdSe" optional="YES" attributeType="String"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="latMin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="latProvin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="latSec" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lotMin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lotProvin" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lotSec" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mngInstNm" optional="YES" attributeType="String"/>
+        <attribute name="mngInstTelno" optional="YES" attributeType="String"/>
+        <attribute name="opnYn" optional="YES" attributeType="String"/>
+        <attribute name="ortmUtlzType" optional="YES" attributeType="String"/>
+        <attribute name="rnum" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="roadNmCd" optional="YES" attributeType="String"/>
+        <attribute name="sclUnit" optional="YES" attributeType="String"/>
+        <attribute name="seCd" optional="YES" attributeType="String"/>
+        <attribute name="sggCd" optional="YES" attributeType="String"/>
+        <attribute name="shntPsbltyNope" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="DisasterShelters" representedClassName="DisasterShelters" syncable="YES">
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lot" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="reareNm" optional="YES" attributeType="String"/>
+        <attribute name="rnum" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ronaDaddr" optional="YES" attributeType="String"/>
+        <attribute name="shltSeCd" optional="YES" attributeType="String"/>
+        <attribute name="shltSeNm" optional="YES" attributeType="String"/>
+    </entity>
+</model>

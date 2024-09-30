@@ -21,6 +21,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   private let poiViewModel = PoiViewModel.shared
   private let disposeBag = DisposeBag()
   private let onlineMapViewController = KakaoMapViewController()
+  private let offlineMapViewController = OfflineMapViewController()
   private let viewModel = OnlineViewModel()
   private let emergencyWrittingViewController = EmergencyWrittingViewController()
   private var mapBottomSheetViewController: MapBottomSheetViewController?
@@ -124,8 +125,9 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
   func setupViews() {
     addChild(onlineMapViewController)
     view.addSubview(onlineMapViewController.view)
+    view.addSubview(offlineMapViewController.view)
     onlineMapViewController.didMove(toParent: self)
-    
+    offlineMapViewController.view.isHidden = true
     [
       addressView,
       currentLocationButton,
