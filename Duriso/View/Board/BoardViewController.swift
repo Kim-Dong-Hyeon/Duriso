@@ -95,7 +95,7 @@ class BoardViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
     
-//    fetchUserData()
+    //    fetchUserData()
     notificationTableView.delegate = self
     
     fetchUserNickname()
@@ -119,31 +119,31 @@ class BoardViewController: UIViewController {
   private func fetchUserNickname() {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
-        guard let self = self else { return }
-        if let document = document, document.exists {
-            let data = document.data()
-            let nickname = data?["uuid"] as? String ?? "닉네임 없음"
-            self.currentUUID = nickname
-            
-            // displayName 업데이트
-            let changeRequest = user.createProfileChangeRequest()
-            changeRequest.displayName = nickname
-            changeRequest.commitChanges { error in
-                if let error = error {
-                    print("업데이트 실패: \(error.localizedDescription)")
-                } else {
-                    print("업데이트 성공: \(nickname)")
-                }
-            }
-            print("사용자 닉네임: \(self.currentUUID)")
-        } else {
-            print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
+      guard let self = self else { return }
+      if let document = document, document.exists {
+        let data = document.data()
+        let nickname = data?["uuid"] as? String ?? "닉네임 없음"
+        self.currentUUID = nickname
+        
+        // displayName 업데이트
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.displayName = nickname
+        changeRequest.commitChanges { error in
+          if let error = error {
+            print("업데이트 실패: \(error.localizedDescription)")
+          } else {
+            print("업데이트 성공: \(nickname)")
+          }
         }
+        print("사용자 닉네임: \(self.currentUUID)")
+      } else {
+        print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
+      }
     }
-}
+  }
   
   //글정렬
   private func fetchPosts() {
@@ -166,7 +166,7 @@ class BoardViewController: UIViewController {
   private func fetchFilteredPosts() {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     let userRef = firestore.collection("users").document(uid)
     
@@ -250,7 +250,7 @@ class BoardViewController: UIViewController {
   private func handleButtonTap(for model: SomeDataModel) {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     let userRef = firestore.collection("users").document(uid)
     
@@ -293,30 +293,30 @@ class BoardViewController: UIViewController {
   
   //MARK: - 글쓰기 버튼
   private func writingButtonTap() {
-      writingButton.rx.tap
-        .subscribe(onNext: { [weak self] in
-          if Auth.auth().currentUser == nil {
-            self?.showLoginAlert()
-          } else {
-            self?.writingNavigation()
-          }
-        })
-        .disposed(by: disposeBag)
+    writingButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        if Auth.auth().currentUser == nil {
+          self?.showLoginAlert()
+        } else {
+          self?.writingNavigation()
+        }
+      })
+      .disposed(by: disposeBag)
   }
   
   private func showLoginAlert() {
-      let alert = UIAlertController(title: "회원가입 필요", message: "게시글을 작성하려면 회원가입이 필요합니다.", preferredStyle: .alert)
-      
-      let signUpAction = UIAlertAction(title: "확인", style: .default) { _ in
-          self.navigateToLogin()
-      }
-      
-      let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-      
-      alert.addAction(signUpAction)
-      alert.addAction(cancelAction)
-      
-      self.present(alert, animated: true, completion: nil)
+    let alert = UIAlertController(title: "회원가입 필요", message: "게시글을 작성하려면 회원가입이 필요합니다.", preferredStyle: .alert)
+    
+    let signUpAction = UIAlertAction(title: "확인", style: .default) { _ in
+      self.navigateToLogin()
+    }
+    
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+    alert.addAction(signUpAction)
+    alert.addAction(cancelAction)
+    
+    self.present(alert, animated: true, completion: nil)
   }
   
   private func navigateToLogin() {
@@ -352,7 +352,7 @@ class BoardViewController: UIViewController {
       
       self.uploadImageAndGetURL(settingImage) { imageUrl in
         let newPost = Posts(
-          author: self.currentUUID,  // 작성자 이름
+          author: self.currentUUID,  // 작성자 UUID
           contents: content,
           category: categorys,
           dong: self.onlineViewController.dong,
@@ -373,16 +373,46 @@ class BoardViewController: UIViewController {
             print("Firestore에 데이터 저장 실패: \(error.localizedDescription)")
           } else {
             print("게시글 저장 성공")
+            
+            self.incrementUserPostCount(userUUID: self.currentUUID)
           }
         }
         
-        // 테이블 아이템 업데이트
         var currentItems = self.tableItems.value
         currentItems.append(newPost)
-        self.tableItems.accept(currentItems) // 테이블 아이템 업데이트
+        self.tableItems.accept(currentItems)
       }
     }
     self.navigationController?.pushViewController(postViewController, animated: true)
+  }
+  
+  private func incrementUserPostCount(userUUID: String) {
+    let userRef = firestore.collection("users").document(userUUID)
+    
+    firestore.runTransaction({ (transaction, errorPointer) -> Any? in
+      let userDocument: DocumentSnapshot
+      do {
+        try userDocument = transaction.getDocument(userRef)
+      } catch let error {
+        print("Firestore 트랜잭션 실패: \(error.localizedDescription)")
+        return nil
+      }
+      
+      guard let currentPostCount = userDocument.data()?["postcount"] as? Int else {
+        print("postcount 필드가 존재하지 않음")
+        return nil
+      }
+      
+      transaction.updateData(["postcount": currentPostCount + 1], forDocument: userRef)
+      
+      return nil
+    }) { (object, error) in
+      if let error = error {
+        print("Firestore 트랜잭션 실패: \(error.localizedDescription)")
+      } else {
+        print("postcount 증가 성공")
+      }
+    }
   }
   
   //MARK: - 테이블 뷰

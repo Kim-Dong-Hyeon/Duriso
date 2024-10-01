@@ -292,7 +292,7 @@ class UserPostViewController: UIViewController {
   private func fetchUserId() {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     
     firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in
@@ -359,14 +359,14 @@ class UserPostViewController: UIViewController {
       }
     }.resume()
   }
-
+  
   
   // MARK: - 삭제 확인 및 실행
   private func confirmDeletion() {
-    guard let postUserNickname = post?.author else { return }
+    guard let postUserUUID = post?.author else { return }
     
-    // 닉네임이 일치하지 않을 때 삭제 권한이 없다는 메시지
-    if postUserNickname != self.currentUUID {
+    // 작성자 UUID와 현재 유저 UUID가 일치하지 않을 때 삭제 권한이 없다는 메시지
+    if postUserUUID != self.currentUUID {
       let alert = UIAlertController(
         title: "삭제 권한 없음",
         message: "이 포스트를 삭제할 수 있는 권한이 없습니다.",
@@ -377,7 +377,7 @@ class UserPostViewController: UIViewController {
       return
     }
     
-    // 닉네임이 일치할 때 삭제 확인 알림 표시
+    // 작성자 UUID와 일치할 때 삭제 확인 알림 표시
     let alertController = UIAlertController(
       title: "삭제 확인",
       message: "이 포스트를 삭제하시겠습니까?",
@@ -395,13 +395,42 @@ class UserPostViewController: UIViewController {
   private func deletePost() {
     guard let documentRef = documentRef else { return }
     
-    // Firestore에서 데이터 삭제
+    // Firestore에서 포스트 삭제
     documentRef.delete { [weak self] error in
       if let error = error {
         print("포스트 삭제 실패: \(error.localizedDescription)")
       } else {
         print("포스트 삭제 성공")
+        self?.decreasePostCount() // 삭제 후 postcount 감소
         self?.navigationController?.popViewController(animated: true)
+      }
+    }
+  }
+  
+  private func decreasePostCount() {
+    guard let currentUser = Auth.auth().currentUser else { return }
+    let uid = currentUser.uid
+    let userRef = firestore.collection("users").document(uid)
+    
+    userRef.getDocument { (document, error) in
+      if let error = error {
+        print("사용자 정보 불러오기 실패: \(error.localizedDescription)")
+        return
+      }
+      
+      if let document = document, document.exists {
+        // postcount가 0보다 큰 경우에만 감소
+        if let postcount = document.data()?["postcount"] as? Int, postcount > 0 {
+          userRef.updateData([
+            "postcount": postcount - 1
+          ]) { error in
+            if let error = error {
+              print("postcount 감소 실패: \(error.localizedDescription)")
+            } else {
+              print("postcount 감소 성공")
+            }
+          }
+        }
       }
     }
   }
@@ -482,6 +511,12 @@ class UserPostViewController: UIViewController {
     guard let user = Auth.auth().currentUser else { return }
     let userId = user.uid
     
+    // 자기 자신을 신고하는지 확인
+    if userId == post?.author {
+      showCannotReportSelfAlert()
+      return
+    }
+    
     documentRef?.getDocument { [weak self] (document, error) in
       if let document = document, document.exists {
         let data = document.data()
@@ -494,6 +529,16 @@ class UserPostViewController: UIViewController {
         }
       }
     }
+  }
+  
+  private func showCannotReportSelfAlert() {
+    let alert = UIAlertController(
+      title: "신고 불가",
+      message: "자신의 게시물은 신고할 수 없습니다.",
+      preferredStyle: .alert
+    )
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    present(alert, animated: true, completion: nil)
   }
   
   private func showAlreadyReportedAlert() {
@@ -533,6 +578,13 @@ class UserPostViewController: UIViewController {
   // MARK: - 유저 차단 기능
   private func blockUser() {
     guard let postUserUUID = post?.author else { return }
+    guard let currentUser = Auth.auth().currentUser else { return }
+    
+    if postUserUUID == currentUser.uid {
+      showAlert(title: "차단 불가", message: "자기 자신은 차단할 수 없습니다.")
+      return
+    }
+    
     let alertController = UIAlertController(
       title: "차단 확인",
       message: "이 사용자를 차단하시겠습니까?",
@@ -549,8 +601,6 @@ class UserPostViewController: UIViewController {
   
   private func addUserToBlockList(blockedUserUUID: String) {
     guard let currentUser = Auth.auth().currentUser else { return }
-    
-//    let safeEmail = currentUser.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = currentUser.uid
     let userRef = firestore.collection("users").document(uid)
     
@@ -562,6 +612,7 @@ class UserPostViewController: UIViewController {
           "blockedusers": FieldValue.arrayUnion([blockedUserUUID])
         ]) { error in
           if let error = error {
+            // 차단 업데이트 실패 처리
           } else {
             self.showBlockConfirmationAlert()
           }
@@ -574,12 +625,19 @@ class UserPostViewController: UIViewController {
     let confirmationAlert = UIAlertController(
       title: "차단 완료",
       message: "차단된 사용자의 게시물은 더 이상 표시되지 않습니다.",
-      preferredStyle: .alert  
+      preferredStyle: .alert
     )
     confirmationAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak self] _ in
       self?.navigationController?.popViewController(animated: true)
     }))
     present(confirmationAlert, animated: true, completion: nil)
+  }
+  
+  // 경고 메시지를 보여주는 메서드
+  private func showAlert(title: String, message: String) {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+    present(alertController, animated: true, completion: nil)
   }
   
   // MARK: - 레이아웃

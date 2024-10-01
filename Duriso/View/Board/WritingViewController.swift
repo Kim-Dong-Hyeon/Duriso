@@ -171,18 +171,22 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         
-        // 제목이 비어 있는지 확인
         if self.titleText.text?.isEmpty ?? true {
           self.showAlert(title: "경고", message: "제목을 입력해주세요.")
           return
         }
         
-        // 내용이 비어 있는지 확인 (플레이스홀더와 비교)
         if self.userTextSet.text.isEmpty || self.userTextSet.text == "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다." {
           self.showAlert(title: "경고", message: "내용을 입력해주세요.")
           return
         }
         
+        if self.categoryTouch.text?.isEmpty ?? true {
+          self.showAlert(title: "경고", message: "카테고리를 선택해주세요.")
+          return
+        }
+        
+        // 모든 조건 통과
         if let title = self.titleText.text,
            let content = self.userTextSet.text,
            let category = self.categoryTouch.text {
@@ -206,7 +210,6 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
     present(alertController, animated: true, completion: nil)
   }
   
-  // 사진추가 알럿 (무엇을 보여줄지)
   private func pictureButtonTap() {
     pictureButton.rx.tap
       .flatMap { [weak self] in
