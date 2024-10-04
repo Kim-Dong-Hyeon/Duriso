@@ -170,10 +170,26 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
     rightBarButtonItem.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
+        
+        if self.titleText.text?.isEmpty ?? true {
+          self.showAlert(title: "경고", message: "제목을 입력해주세요.")
+          return
+        }
+        
+        if self.userTextSet.text.isEmpty || self.userTextSet.text == "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다." {
+          self.showAlert(title: "경고", message: "내용을 입력해주세요.")
+          return
+        }
+        
+        if self.categoryTouch.text?.isEmpty ?? true {
+          self.showAlert(title: "경고", message: "카테고리를 선택해주세요.")
+          return
+        }
+        
+        // 모든 조건 통과
         if let title = self.titleText.text,
            let content = self.userTextSet.text,
-           let category = self.categoryTouch.text
-        {
+           let category = self.categoryTouch.text {
           self.onPostAdded?(title, content, self.pickerImage.image ?? UIImage(), category)
         }
         self.navigationController?.popViewController(animated: true)
@@ -187,7 +203,13 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
       .disposed(by: disposeBag)
   }
   
-  // 사진추가 알럿 (무엇을 보여줄지)
+  private func showAlert(title: String, message: String) {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+    alertController.addAction(okAction)
+    present(alertController, animated: true, completion: nil)
+  }
+  
   private func pictureButtonTap() {
     pictureButton.rx.tap
       .flatMap { [weak self] in
@@ -281,21 +303,21 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
   }
   
   private func checkCameraAuthorization(completion: @escaping (Bool) -> Void) {
-      let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: .video)
-      switch cameraAuthStatus {
-      case .authorized: // 이미 권한이 있음
-          completion(true)
-      case .denied, .restricted: // 권한이 거부됨
-          completion(false)
-      case .notDetermined: // 아직 권한 요청 전
-          AVCaptureDevice.requestAccess(for: .video) { granted in
-              DispatchQueue.main.async {
-                  completion(granted)
-              }
-          }
-      @unknown default:
-          completion(false)
+    let cameraAuthStatus = AVCaptureDevice.authorizationStatus(for: .video)
+    switch cameraAuthStatus {
+    case .authorized: // 이미 권한이 있음
+      completion(true)
+    case .denied, .restricted: // 권한이 거부됨
+      completion(false)
+    case .notDetermined: // 아직 권한 요청 전
+      AVCaptureDevice.requestAccess(for: .video) { granted in
+        DispatchQueue.main.async {
+          completion(granted)
+        }
       }
+    @unknown default:
+      completion(false)
+    }
   }
   
   private func checkPhotoLibraryAuthorization(completion: @escaping (Bool) -> Void) {
@@ -317,48 +339,48 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
   }
   
   private func presentImagePickerForCameraOrLibrary(sourceType: UIImagePickerController.SourceType) {
-      switch sourceType {
-      case .camera:
-          checkCameraAuthorization { granted in
-              if granted {
-                  self.presentImagePicker(sourceType: .camera)
-              } else {
-                  self.showSettingsAlert(message: "카메라 접근 권한이 필요합니다.")
-              }
-          }
-      case .photoLibrary:
-          checkPhotoLibraryAuthorization { granted in
-              if granted {
-                  self.presentImagePicker(sourceType: .photoLibrary)
-              } else {
-                  self.showSettingsAlert(message: "사진첩 접근 권한이 필요합니다.")
-              }
-          }
-      default:
-          break
+    switch sourceType {
+    case .camera:
+      checkCameraAuthorization { granted in
+        if granted {
+          self.presentImagePicker(sourceType: .camera)
+        } else {
+          self.showSettingsAlert(message: "카메라 접근 권한이 필요합니다.")
+        }
       }
+    case .photoLibrary:
+      checkPhotoLibraryAuthorization { granted in
+        if granted {
+          self.presentImagePicker(sourceType: .photoLibrary)
+        } else {
+          self.showSettingsAlert(message: "사진첩 접근 권한이 필요합니다.")
+        }
+      }
+    default:
+      break
+    }
   }
   
   private func showSettingsAlert(message: String) {
-      let alertController = UIAlertController(
-          title: "권한 필요",
-          message: message,
-          preferredStyle: .alert
-      )
-      
-      let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-          guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
-          if UIApplication.shared.canOpenURL(settingsURL) {
-              UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-          }
+    let alertController = UIAlertController(
+      title: "권한 필요",
+      message: message,
+      preferredStyle: .alert
+    )
+    
+    let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+      guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+      if UIApplication.shared.canOpenURL(settingsURL) {
+        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
       }
-      
-      let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-      
-      alertController.addAction(settingsAction)
-      alertController.addAction(cancelAction)
-      
-      present(alertController, animated: true, completion: nil)
+    }
+    
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    
+    alertController.addAction(settingsAction)
+    alertController.addAction(cancelAction)
+    
+    present(alertController, animated: true, completion: nil)
   }
   
   private func bindCategoryTableView() {
@@ -508,18 +530,18 @@ class WritingViewController: UIViewController, UIImagePickerControllerDelegate, 
   }
 }
 
-  extension WritingViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-      guard textView.textColor == .placeholderText else { return }
-      textView.textColor = .label
-      textView.text = nil
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-      if textView.text.isEmpty {
-        textView.text = "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다."
-        textView.textColor = .placeholderText
-      }
+extension WritingViewController: UITextViewDelegate {
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    guard textView.textColor == .placeholderText else { return }
+    textView.textColor = .label
+    textView.text = nil
+  }
+  
+  func textViewDidEndEditing(_ textView: UITextView) {
+    if textView.text.isEmpty {
+      textView.text = "내용을 입력해주세요.\n\n부적절한 내용이나 불쾌감을 줄 수 있는 내용은 제제를 받을 수 있습니다."
+      textView.textColor = .placeholderText
     }
   }
+}
