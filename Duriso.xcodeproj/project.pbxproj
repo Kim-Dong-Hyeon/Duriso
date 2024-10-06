@@ -53,7 +53,6 @@
 		7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612C2C7C582800C5E69D /* NotoSansKR-Light.ttf */; };
 		7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D61B612B2C7C582800C5E69D /* NotoSansKR-Regular.ttf */; };
 		7622D08A2C7EB32900B1AEB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */; };
-		763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */; };
 		763C0A302C7B125C006BC4E7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A2F2C7B125C006BC4E7 /* Base */; };
 		763C0A382C7B17AE006BC4E7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A372C7B17AE006BC4E7 /* README.md */; };
 		763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 763C0A392C7B180A006BC4E7 /* .gitignore */; };
@@ -128,6 +127,7 @@
 		D69CF2B72C8F144400B4E546 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */; };
 		D69CF2B92C8FCD1200B4E546 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */; };
 		D69CF2BC2C8FD5C900B4E546 /* AedNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */; };
+		D6C5F2B82CB24EBD00D65E9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6C5F2B72CB24EBD00D65E9D /* Assets.xcassets */; };
 		E20C3A5D2C8725E900AD5AA4 /* LegalNoticeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */; };
 		E20C3A632C873AC500AD5AA4 /* notice3.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A602C873AC500AD5AA4 /* notice3.txt */; };
 		E20C3A642C873AC500AD5AA4 /* notice2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E20C3A612C873AC500AD5AA4 /* notice2.txt */; };
@@ -195,7 +195,6 @@
 		7622D0892C7EB32900B1AEB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Duriso/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		763C0A202C7B125B006BC4E7 /* Duriso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Duriso.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		763C0A232C7B125B006BC4E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Duriso/Assets/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		763C0A2F2C7B125C006BC4E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		763C0A312C7B125C006BC4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		763C0A372C7B17AE006BC4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -266,6 +265,7 @@
 		D69CF2B62C8F144400B4E546 /* ShelterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
 		D69CF2B82C8FCD1200B4E546 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D69CF2BB2C8FD5C900B4E546 /* AedNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AedNetworkManager.swift; sourceTree = "<group>"; };
+		D6C5F2B72CB24EBD00D65E9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E20C3A5C2C8725E900AD5AA4 /* LegalNoticeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNoticeModel.swift; sourceTree = "<group>"; };
 		E20C3A602C873AC500AD5AA4 /* notice3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = notice3.txt; path = Duriso/Data/LegalNotice/notice3.txt; sourceTree = SOURCE_ROOT; };
 		E20C3A612C873AC500AD5AA4 /* notice2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = notice2.txt; path = Duriso/Data/LegalNotice/notice2.txt; sourceTree = SOURCE_ROOT; };
@@ -582,8 +582,8 @@
 		7622D0692C7C211800B1AEB2 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				D6C5F2B72CB24EBD00D65E9D /* Assets.xcassets */,
 				D61B61212C7C396900C5E69D /* FontAssets */,
-				763C0A2C2C7B125C006BC4E7 /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -878,13 +878,13 @@
 				7622D0812C7C6C5500B1AEB2 /* HSSaemaul.ttf in Resources */,
 				7622D0822C7C6C5500B1AEB2 /* NotoSansKR-Bold.ttf in Resources */,
 				76DFBBD62C9DA3DB00C676CF /* notoSans.txt in Resources */,
+				D6C5F2B82CB24EBD00D65E9D /* Assets.xcassets in Resources */,
 				7622D0832C7C6C5500B1AEB2 /* NotoSansKR-Light.ttf in Resources */,
 				7622D0842C7C6C5500B1AEB2 /* NotoSansKR-Regular.ttf in Resources */,
 				7622D08A2C7EB32900B1AEB2 /* GoogleService-Info.plist in Resources */,
 				76DFBBDD2C9DABF300C676CF /* api.txt in Resources */,
 				763C0A3A2C7B180A006BC4E7 /* .gitignore in Resources */,
 				763C0A382C7B17AE006BC4E7 /* README.md in Resources */,
-				763C0A2D2C7B125C006BC4E7 /* Assets.xcassets in Resources */,
 				7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */,
 				7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */,
 				763C0A302C7B125C006BC4E7 /* Base in Resources */,
