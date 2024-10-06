@@ -71,14 +71,13 @@ class ShelterViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancelButton = UIButton().then {
-      let largeConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)  // 심볼 크기 설정
-      let largeImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)
-      
-      $0.setImage(largeImage, for: .normal)
-      $0.tintColor = .CLightBlue
-      $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-  }
+  // 닫기 버튼 비활성화
+//  let cancelButton = UIButton().then {
+//    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+//    $0.tintColor = .CLightBlue
+//    $0.contentMode = .scaleAspectFit
+//    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+//  }
   
   // MARK: - View Lifecycle
   
@@ -108,7 +107,7 @@ class ShelterViewController: UIViewController {
       typeStackView,
       shelterAddress,
       shelterType,
-      cancelButton
+//      cancelButton
     ].forEach { view.addSubview($0) }
   }
   
@@ -148,11 +147,10 @@ class ShelterViewController: UIViewController {
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
     }
     
-    cancelButton.snp.makeConstraints {
-      $0.centerY.equalTo(typeLogo)
-      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(30)
-    }
+//    cancelButton.snp.makeConstraints {
+//      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+//      $0.width.height.equalTo(32)  // 취소 버튼 크기 설정
+//    }
   }
   
   // MARK: - POI Data Update
@@ -173,10 +171,10 @@ class ShelterViewController: UIViewController {
   
   // MARK: - Actions
   
-  // 취소 버튼 클릭 시 호출되는 함수
-  @objc func didTapCancelButton() {
-    dismiss(animated: true)
-  }
+//  // 취소 버튼 클릭 시 호출되는 함수
+//  @objc func didTapCancelButton() {
+//    dismiss(animated: true)
+//  }
 }
 
 
