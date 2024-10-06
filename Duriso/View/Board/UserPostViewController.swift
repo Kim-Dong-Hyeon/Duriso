@@ -46,11 +46,11 @@ class UserPostViewController: UIViewController {
   }
   
   private let postingLineViews: [UIView] = (0..<4).map { _ in
-      let view = UIView()
-      view.backgroundColor = .lightGray
-      return view
+    let view = UIView()
+    view.backgroundColor = .lightGray
+    return view
   }
-
+  
   private var postingLineView1: UIView { return postingLineViews[0] }
   private var postingLineView2: UIView { return postingLineViews[1] }
   private var postingLineView3: UIView { return postingLineViews[2] }
@@ -114,18 +114,20 @@ class UserPostViewController: UIViewController {
     $0.setTitle("Edit", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.setImage(UIImage(named: "edit"), for: .normal) // 이미지 추가
-    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
+    $0.setImage(UIImage(systemName: "pencil"), for: .normal) // 시스템 심볼 이미지 추가
+    $0.tintColor = .black // 심볼 색상 블랙으로 설정
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
   private let deleteButton = UIButton().then {
     $0.setTitle("Delete", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.setImage(UIImage(named: "delete"), for: .normal) // 이미지 추가
-    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
+    $0.setImage(UIImage(systemName: "trash"), for: .normal) // 시스템 심볼 이미지 추가
+    $0.tintColor = .black // 심볼 색상 블랙으로 설정
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
   private let bottomStackView = UIStackView().then {
@@ -134,9 +136,9 @@ class UserPostViewController: UIViewController {
   }
   
   private let likeButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "face.smiling"), for: .normal)
+    $0.setTitle("🙏", for: .normal)
     $0.backgroundColor = .clear
-    $0.tintColor = .lightGray
+    $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
   }
   
   private let likeNumberLabel = UILabel().then {
@@ -208,7 +210,9 @@ class UserPostViewController: UIViewController {
       nickNameTextSymblo,
       postingUserTextLabel,
       postingLineView3,
-      contentView
+      contentView,
+      editButton,
+      deleteButton
     ].forEach { postingScrollView.addSubview($0) }
     
     [
@@ -222,8 +226,6 @@ class UserPostViewController: UIViewController {
       cutoffUser,
       ripotButton,
       spacerView,
-      editButton,
-      deleteButton
     ].forEach { bottomStackView.addArrangedSubview($0) }
     
     [
@@ -334,19 +336,22 @@ class UserPostViewController: UIViewController {
     
     bottomStackView.snp.makeConstraints {
       $0.top.equalTo(likeStackView.snp.bottom).offset(8)
-      $0.centerX.equalToSuperview()
-      $0.width.equalToSuperview().inset(30)
+//      $0.centerX.equalToSuperview()
+      $0.trailing.equalTo(deleteButton.snp.trailing)
+//      $0.width.equalToSuperview().inset(30)
       $0.height.equalTo(50)
       $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
     }
     
     deleteButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
+      $0.centerY.equalTo(likeStackView.snp.centerY)
+      $0.trailing.equalToSuperview().inset(16)
       $0.width.equalTo(80)
     }
     
     editButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
+      $0.centerY.equalTo(likeStackView.snp.centerY)
+      $0.trailing.equalTo(deleteButton.snp.leading).offset(16)
       $0.width.equalTo(80)
     }
   }
@@ -364,8 +369,18 @@ class UserPostViewController: UIViewController {
     likeButton.rx.tap
       .subscribe(onNext: { [weak self] in
         self?.toggleLike()
+        self?.likeButton.isSelected.toggle() // 버튼의 선택 상태 토글
+        self?.updateLikeButtonBackground()  // 배경색 업데이트
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func updateLikeButtonBackground() {
+      if likeButton.isSelected {
+        likeButton.backgroundColor = .CLightBlue2 // 선택된 상태의 배경색
+      } else {
+          likeButton.backgroundColor = .clear // 선택되지 않은 상태의 배경색
+      }
   }
   
   private func alertButtonTap() {
@@ -829,136 +844,4 @@ class UserPostViewController: UIViewController {
     present(alertController, animated: true, completion: nil)
   }
   
-  // MARK: - 레이아웃
-  private func setupView() {
-    [
-      postingScrollView,
-      bottomStackView,
-      likeStackView
-    ].forEach { view.addSubview($0) }
-    
-    [
-      postingTitleText,
-      postingLineView,
-      nickNameLabel,
-      postingLocationeName1,
-      postingStackView,
-      postingImage,
-      postingUserTextLabel,
-      contentView
-    ].forEach { postingScrollView.addSubview($0) }
-    
-    [
-      postingTimeText,
-      postingTimeLabel
-    ].forEach { postingStackView.addArrangedSubview($0) }
-    
-    let spacerView = UIView()
-    
-    [
-      cutoffUser,
-      ripotButton,
-      spacerView,
-      editButton,
-      deleteButton
-    ].forEach { bottomStackView.addArrangedSubview($0) }
-    
-    [
-      likeButton,
-      likeNumberLabel
-    ].forEach { likeStackView.addArrangedSubview($0) }
-    
-    setupConstraints()
-  }
-  
-  private func setupConstraints() {
-    postingScrollView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
-    
-    contentView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-      $0.width.equalTo(postingScrollView.snp.width)
-    }
-    
-    postingTitleText.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview()
-      $0.height.equalTo(30)
-    }
-    
-    postingLineView.snp.makeConstraints {
-      $0.top.equalTo(postingTitleText.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(1)
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(postingLineView.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingLocationeName1.snp.makeConstraints {
-      $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingStackView.snp.makeConstraints {
-      $0.top.equalTo(postingLocationeName1.snp.bottom)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingImage.snp.makeConstraints {
-      $0.top.equalTo(postingStackView.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(200)
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    postingUserTextLabel.snp.makeConstraints {
-      $0.top.equalTo(postingImage.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    likeStackView.snp.makeConstraints {
-      $0.top.equalTo(postingUserTextLabel.snp.bottom).offset(16)
-      $0.leading.equalToSuperview().offset(16)
-      $0.height.equalTo(30)
-      $0.width.greaterThanOrEqualTo(60)
-    }
-    
-    likeButton.snp.makeConstraints {
-      $0.leading.equalTo(likeStackView.snp.leading)
-      $0.centerY.equalTo(likeStackView.snp.centerY)
-      $0.width.height.equalTo(30)
-    }
-    
-    likeNumberLabel.snp.makeConstraints {
-      $0.leading.equalTo(likeButton.snp.trailing).offset(8)
-      $0.centerY.equalToSuperview()
-    }
-    
-    bottomStackView.snp.makeConstraints {
-      $0.top.equalTo(likeStackView.snp.bottom).offset(8)
-      $0.centerX.equalToSuperview()
-      $0.width.equalToSuperview().inset(30)
-      $0.height.equalTo(50)
-      $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
-    }
-    
-    deleteButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
-      $0.width.equalTo(80)
-    }
-    
-    editButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
-      $0.width.equalTo(80)
-    }
-  }
 }
