@@ -139,6 +139,7 @@ class UserPostViewController: UIViewController {
     $0.setTitle("🙏", for: .normal)
     $0.backgroundColor = .clear
     $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    $0.layer.cornerRadius = 17
   }
   
   private let likeNumberLabel = UILabel().then {
