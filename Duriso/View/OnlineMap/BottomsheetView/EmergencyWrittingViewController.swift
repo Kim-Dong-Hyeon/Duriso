@@ -44,11 +44,12 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     $0.contentMode = .scaleAspectFit
   }
   
-  private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    $0.tintColor = .CLightBlue
-    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-  }
+  // 닫기 버튼 비활성화
+  //  private let cancelButton = UIButton().then {
+  //    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+  //    $0.tintColor = .CLightBlue
+  //    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+  //  }
   
   private let messageInputTextView = UITextView().then {
     $0.backgroundColor = UIColor.CWhite
@@ -73,7 +74,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     $0.titleLabel?.font = CustomFont.Body3.font()
     $0.setTitleColor(.CWhite, for: .normal)
     $0.backgroundColor = .CBlue
-    $0.layer.cornerRadius = 12
+    $0.layer.cornerRadius = 17
     $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
     $0.isEnabled = false  // 처음에 비활성화
     $0.alpha = 0.5  // 비활성화 상태일 때 반투명
@@ -102,7 +103,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     [
       poiViewTitle,
       megaphoneLabel,
-      cancelButton,
+      //      cancelButton,
       messageInputTextView,
       addPostButton,
       characterLimitLabel
@@ -114,7 +115,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     megaphoneLabel.snp.makeConstraints {
@@ -123,15 +124,15 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
       $0.width.height.equalTo(32)
     }
     
-    cancelButton.snp.makeConstraints {
-      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)
-    }
+    //    cancelButton.snp.makeConstraints {
+    //      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+    //      $0.width.height.equalTo(32)
+    //    }
     
     messageInputTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(poiViewTitle.snp.bottom).offset(24)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       //      $0.width.equalTo(360)
       $0.height.equalTo(88)
     }
@@ -139,8 +140,8 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     addPostButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(messageInputTextView.snp.bottom).offset(28)
-      $0.width.equalTo(60)
-      $0.height.equalTo(24)
+      $0.width.equalTo(80)
+      $0.height.equalTo(34)
     }
     
     placeholderLabel.snp.makeConstraints {
@@ -164,9 +165,9 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   // MARK: - Actions
-  @objc private func didTapCancelButton() {
-    dismiss(animated: true)
-  }
+  //  @objc private func didTapCancelButton() {
+  //    dismiss(animated: true)
+  //  }
   
   @objc private func didTapAddPostButton() {
     guard let content = messageInputTextView.text,
@@ -233,7 +234,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private func fetchUserId() {
     guard let user = Auth.auth().currentUser else { return }
     
-//    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
+    //    let safeEmail = user.email?.replacingOccurrences(of: ".", with: "-") ?? ""
     let uid = user.uid
     
     firestore.collection("users").document(uid).getDocument { [weak self] (document, error) in

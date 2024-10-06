@@ -45,8 +45,23 @@ class UserPostViewController: UIViewController {
     $0.textColor = .black
   }
   
-  private let postingLineView = UIView().then {
-    $0.backgroundColor = .lightGray
+  private let postingLineViews: [UIView] = (0..<4).map { _ in
+    let view = UIView()
+    view.backgroundColor = .lightGray
+    return view
+  }
+  
+  private var postingLineView1: UIView { return postingLineViews[0] }
+  private var postingLineView2: UIView { return postingLineViews[1] }
+  private var postingLineView3: UIView { return postingLineViews[2] }
+  private var postingLineView4: UIView { return postingLineViews[3] }
+  
+  private let postingLocationeSymblo = UILabel().then {
+    let clockAttachment = NSTextAttachment()
+    clockAttachment.image = UIImage(systemName: "map")
+    clockAttachment.bounds = CGRect(x: 0, y: -2, width: 16, height: 16)  // 심볼 크기와 위치 조정
+    let clockString = NSAttributedString(attachment: clockAttachment)
+    $0.attributedText = clockString
   }
   
   private let postingLocationeName1 = UILabel().then {
@@ -55,8 +70,11 @@ class UserPostViewController: UIViewController {
   }
   
   private let postingTimeText = UILabel().then {
-    $0.text = "등록일시 :"
-    $0.font = CustomFont.Head3.font()
+    let clockAttachment = NSTextAttachment()
+    clockAttachment.image = UIImage(systemName: "clock")
+    clockAttachment.bounds = CGRect(x: 0, y: -2, width: 16, height: 16)  // 심볼 크기와 위치 조정
+    let clockString = NSAttributedString(attachment: clockAttachment)
+    $0.attributedText = clockString
   }
   
   private let postingTimeLabel = UILabel().then {
@@ -96,18 +114,20 @@ class UserPostViewController: UIViewController {
     $0.setTitle("Edit", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.setImage(UIImage(named: "edit"), for: .normal) // 이미지 추가
-    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
+    $0.setImage(UIImage(systemName: "pencil"), for: .normal) // 시스템 심볼 이미지 추가
+    $0.tintColor = .black // 심볼 색상 블랙으로 설정
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
   private let deleteButton = UIButton().then {
     $0.setTitle("Delete", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
     $0.titleLabel?.font = CustomFont.Body3.font()
-    $0.setImage(UIImage(named: "delete"), for: .normal) // 이미지 추가
-    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0) // 이미지 위치 조정
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) // 텍스트 위치 조정
+    $0.setImage(UIImage(systemName: "trash"), for: .normal) // 시스템 심볼 이미지 추가
+    $0.tintColor = .black // 심볼 색상 블랙으로 설정
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0) // 텍스트 위치 조정
   }
   
   private let bottomStackView = UIStackView().then {
@@ -116,9 +136,10 @@ class UserPostViewController: UIViewController {
   }
   
   private let likeButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "cloud.fill"), for: .normal)
+    $0.setTitle("🙏", for: .normal)
     $0.backgroundColor = .clear
-    $0.tintColor = .lightGray
+    $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    $0.layer.cornerRadius = 17
   }
   
   private let likeNumberLabel = UILabel().then {
@@ -131,6 +152,14 @@ class UserPostViewController: UIViewController {
     $0.alignment = .trailing
     $0.distribution = .equalSpacing
     $0.spacing = 8
+  }
+  
+  private let nickNameTextSymblo = UILabel().then {
+    let clockAttachment = NSTextAttachment()
+    clockAttachment.image = UIImage(systemName: "person")
+    clockAttachment.bounds = CGRect(x: 0, y: -2, width: 16, height: 16)
+    let clockString = NSAttributedString(attachment: clockAttachment)
+    $0.attributedText = clockString
   }
   
   private let nickNameLabel = UILabel().then {
@@ -160,6 +189,172 @@ class UserPostViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     fetchLikesStatus()
+  }
+  
+  // MARK: - 레이아웃
+  private func setupView() {
+    [
+      postingScrollView,
+      bottomStackView,
+      likeStackView
+    ].forEach { view.addSubview($0) }
+    
+    [
+      postingTitleText,
+      postingLineView1,
+      postingLineView2,
+      nickNameLabel,
+      postingLocationeSymblo,
+      postingLocationeName1,
+      postingStackView,
+      postingImage,
+      nickNameTextSymblo,
+      postingUserTextLabel,
+      postingLineView3,
+      contentView,
+      editButton,
+      deleteButton
+    ].forEach { postingScrollView.addSubview($0) }
+    
+    [
+      postingTimeText,
+      postingTimeLabel
+    ].forEach { postingStackView.addArrangedSubview($0) }
+    
+    let spacerView = UIView()
+    
+    [
+      cutoffUser,
+      ripotButton,
+      spacerView,
+    ].forEach { bottomStackView.addArrangedSubview($0) }
+    
+    [
+      likeButton,
+      likeNumberLabel
+    ].forEach { likeStackView.addArrangedSubview($0) }
+    
+    setupConstraints()
+  }
+  
+  private func setupConstraints() {
+    postingScrollView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
+    
+    contentView.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+      $0.width.equalTo(postingScrollView.snp.width)
+    }
+    
+    postingTitleText.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.height.equalTo(30)
+    }
+    
+    postingLineView1.snp.makeConstraints {
+      $0.top.equalTo(postingTitleText.snp.bottom).offset(16)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(1)
+      $0.width.equalToSuperview().inset(24)
+    }
+    
+    nickNameTextSymblo.snp.makeConstraints {
+      $0.top.equalTo(postingLineView1.snp.bottom).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(24)
+      $0.height.equalTo(30)
+    }
+    
+    nickNameLabel.snp.makeConstraints {
+      $0.top.equalTo(postingLineView1.snp.bottom).offset(16)
+      $0.leading.equalTo(nickNameTextSymblo.snp.trailing).offset(8)
+      $0.height.equalTo(30)
+    }
+    
+    postingLocationeSymblo.snp.makeConstraints {
+      $0.top.equalTo(nickNameLabel.snp.bottom)/*.offset(8)*/
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(24)
+      $0.height.equalTo(30)
+    }
+    
+    postingLocationeName1.snp.makeConstraints {
+      $0.top.equalTo(nickNameLabel.snp.bottom)/*.offset(8)*/
+      $0.leading.equalTo(postingLocationeSymblo.snp.trailing).offset(8)
+      $0.height.equalTo(30)
+    }
+    
+    postingStackView.snp.makeConstraints {
+      $0.top.equalTo(postingLocationeName1.snp.bottom)
+      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(24)
+      $0.height.equalTo(30)
+    }
+    
+    postingLineView2.snp.makeConstraints {
+      $0.top.equalTo(postingStackView.snp.bottom).offset(16)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(1)
+      $0.width.equalToSuperview().inset(24)
+    }
+    
+    postingImage.snp.makeConstraints {
+      $0.top.equalTo(postingLineView2.snp.bottom).offset(16)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(200)
+      $0.width.equalToSuperview().inset(30)
+    }
+    
+    postingUserTextLabel.snp.makeConstraints {
+      $0.top.equalTo(postingImage.snp.bottom).offset(16)
+      $0.centerX.equalToSuperview()
+      $0.width.equalToSuperview().inset(30)
+    }
+    
+    postingLineView3.snp.makeConstraints {
+      $0.top.equalTo(postingUserTextLabel.snp.bottom).offset(16)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(1)
+      $0.width.equalToSuperview().inset(24)
+    }
+    
+    likeStackView.snp.makeConstraints {
+      $0.top.equalTo(postingLineView3.snp.bottom).offset(16)
+      $0.leading.equalToSuperview().offset(24)
+      $0.height.equalTo(30)
+      $0.width.greaterThanOrEqualTo(60)
+    }
+    
+    likeButton.snp.makeConstraints {
+      $0.leading.equalTo(likeStackView.snp.leading)
+      $0.centerY.equalTo(likeStackView.snp.centerY)
+      $0.width.height.equalTo(30)
+    }
+    
+    likeNumberLabel.snp.makeConstraints {
+      $0.leading.equalTo(likeButton.snp.trailing).offset(8)
+      $0.centerY.equalToSuperview()
+    }
+    
+    bottomStackView.snp.makeConstraints {
+      $0.top.equalTo(likeStackView.snp.bottom).offset(8)
+      //      $0.centerX.equalToSuperview()
+      $0.trailing.equalTo(deleteButton.snp.trailing)
+      //      $0.width.equalToSuperview().inset(30)
+      $0.height.equalTo(50)
+      $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
+    }
+    
+    deleteButton.snp.makeConstraints {
+      $0.centerY.equalTo(likeStackView.snp.centerY)
+      $0.trailing.equalToSuperview().inset(16)
+      $0.width.equalTo(80)
+    }
+    
+    editButton.snp.makeConstraints {
+      $0.centerY.equalTo(likeStackView.snp.centerY)
+      $0.trailing.equalTo(deleteButton.snp.leading).offset(16)
+      $0.width.equalTo(80)
+    }
   }
   
   //MARK: - 버튼 텝 이벤트
@@ -239,8 +434,30 @@ class UserPostViewController: UIViewController {
   private func toggleLike() {
     guard let user = Auth.auth().currentUser else { return }
     let userId = user.uid
-    isLiked.toggle()
-    updateLikesCount(increment: isLiked)
+    
+    // Firestore에서 현재 사용자가 좋아요를 눌렀는지 확인
+    documentRef?.getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      
+      if let document = document, document.exists {
+        let data = document.data()
+        let likedUsers = data?["likedUsers"] as? [String] ?? []
+        
+        if likedUsers.contains(userId) {
+          // 이미 좋아요를 눌렀다면 좋아요 취소
+          self.isLiked = false
+          self.likeButton.isSelected = false
+          self.updateLikesCount(increment: false)
+        } else {
+          // 좋아요를 누르지 않았다면 좋아요 추가
+          self.isLiked = true
+          self.likeButton.isSelected = true
+          self.updateLikesCount(increment: true)
+        }
+        
+        self.updateLikeButtonBackground()
+      }
+    }
   }
   
   // 좋아요 수 업데이트
@@ -257,27 +474,7 @@ class UserPostViewController: UIViewController {
         print("좋아요 수 업데이트 실패: \(error.localizedDescription)")
       } else {
         print("좋아요 수 업데이트 성공")
-        self?.fetchLikesStatus()
-      }
-    }
-  }
-  
-  // MARK: - 좋아요 상태 가져오기
-  private func fetchLikesStatus() {
-    guard let user = Auth.auth().currentUser else { return }
-    let userId = user.uid
-    
-    guard let documentRef = documentRef else { return }
-    
-    documentRef.getDocument { [weak self] (document, error) in
-      if let document = document, document.exists {
-        let data = document.data()
-        let likedUsers = data?["likedUsers"] as? [String] ?? []
-        
-        self?.isLiked = likedUsers.contains(userId)
-        self?.likeCount = (data?["likescount"] as? Int) ?? 0
-        
-        self?.updateLikeButton()
+        self?.fetchLikesStatus()  // 좋아요 상태 다시 불러오기
       }
     }
   }
@@ -286,6 +483,33 @@ class UserPostViewController: UIViewController {
   private func updateLikeButton() {
     likeNumberLabel.text = "\(likeCount)"
     likeButton.tintColor = isLiked ? .red : .lightGray
+  }
+  
+  // 좋아요 버튼 배경색 업데이트
+  private func updateLikeButtonBackground() {
+    if likeButton.isSelected {
+      likeButton.backgroundColor = .CLightBlue2 // 선택된 상태의 배경색
+    } else {
+      likeButton.backgroundColor = .clear // 선택되지 않은 상태의 배경색
+    }
+  }
+  
+  // MARK: - 좋아요 상태 가져오기
+  private func fetchLikesStatus() {
+    guard let user = Auth.auth().currentUser else { return }
+    let userId = user.uid
+    
+    documentRef?.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let likedUsers = data?["likedUsers"] as? [String] ?? []
+        
+        self?.isLiked = likedUsers.contains(userId)
+        self?.likeCount = (data?["likescount"] as? Int) ?? 0
+        
+        self?.updateLikeButton()  // 좋아요 버튼 상태 업데이트
+      }
+    }
   }
   
   //MARK: - 유저확인
@@ -640,136 +864,4 @@ class UserPostViewController: UIViewController {
     present(alertController, animated: true, completion: nil)
   }
   
-  // MARK: - 레이아웃
-  private func setupView() {
-    [
-      postingScrollView,
-      bottomStackView,
-      likeStackView
-    ].forEach { view.addSubview($0) }
-    
-    [
-      postingTitleText,
-      postingLineView,
-      nickNameLabel,
-      postingLocationeName1,
-      postingStackView,
-      postingImage,
-      postingUserTextLabel,
-      contentView
-    ].forEach { postingScrollView.addSubview($0) }
-    
-    [
-      postingTimeText,
-      postingTimeLabel
-    ].forEach { postingStackView.addArrangedSubview($0) }
-    
-    let spacerView = UIView()
-    
-    [
-      cutoffUser,
-      ripotButton,
-      spacerView,
-      editButton,
-      deleteButton
-    ].forEach { bottomStackView.addArrangedSubview($0) }
-    
-    [
-      likeButton,
-      likeNumberLabel
-    ].forEach { likeStackView.addArrangedSubview($0) }
-    
-    setupConstraints()
-  }
-  
-  private func setupConstraints() {
-    postingScrollView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
-    
-    contentView.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-      $0.width.equalTo(postingScrollView.snp.width)
-    }
-    
-    postingTitleText.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.top.equalToSuperview()
-      $0.height.equalTo(30)
-    }
-    
-    postingLineView.snp.makeConstraints {
-      $0.top.equalTo(postingTitleText.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(1)
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    nickNameLabel.snp.makeConstraints {
-      $0.top.equalTo(postingLineView.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingLocationeName1.snp.makeConstraints {
-      $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingStackView.snp.makeConstraints {
-      $0.top.equalTo(postingLocationeName1.snp.bottom)
-      $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).inset(16)
-      $0.height.equalTo(30)
-    }
-    
-    postingImage.snp.makeConstraints {
-      $0.top.equalTo(postingStackView.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(200)
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    postingUserTextLabel.snp.makeConstraints {
-      $0.top.equalTo(postingImage.snp.bottom).offset(16)
-      $0.centerX.equalToSuperview()
-      $0.width.equalToSuperview().inset(30)
-    }
-    
-    likeStackView.snp.makeConstraints {
-      $0.top.equalTo(postingUserTextLabel.snp.bottom).offset(16)
-      $0.leading.equalToSuperview().offset(16)
-      $0.height.equalTo(30)
-      $0.width.greaterThanOrEqualTo(60)
-    }
-    
-    likeButton.snp.makeConstraints {
-      $0.leading.equalTo(likeStackView.snp.leading)
-      $0.centerY.equalTo(likeStackView.snp.centerY)
-      $0.width.height.equalTo(30)
-    }
-    
-    likeNumberLabel.snp.makeConstraints {
-      $0.leading.equalTo(likeButton.snp.trailing).offset(8)
-      $0.centerY.equalToSuperview()
-    }
-    
-    bottomStackView.snp.makeConstraints {
-      $0.top.equalTo(likeStackView.snp.bottom).offset(8)
-      $0.centerX.equalToSuperview()
-      $0.width.equalToSuperview().inset(30)
-      $0.height.equalTo(50)
-      $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
-    }
-    
-    deleteButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
-      $0.width.equalTo(80)
-    }
-    
-    editButton.snp.makeConstraints {
-      $0.centerY.equalTo(bottomStackView.snp.centerY)
-      $0.width.equalTo(80)
-    }
-  }
 }
