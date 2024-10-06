@@ -129,7 +129,7 @@ class AedViewController: UIViewController {
   func setupConstraints() {
     typeStackView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.width.equalTo(85)
       $0.height.equalTo(26)
     }
@@ -146,22 +146,22 @@ class AedViewController: UIViewController {
     
     aedName.snp.makeConstraints {
       $0.top.equalTo(typeStackView.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     aedAddress.snp.makeConstraints {
       $0.top.equalTo(aedName.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     adminInfoLabel.snp.makeConstraints {
       $0.top.equalTo(aedAddress.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     adminNameLabel.snp.makeConstraints {
       $0.top.equalTo(adminInfoLabel.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     adminNumberLabel.snp.makeConstraints {

@@ -74,7 +74,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     $0.titleLabel?.font = CustomFont.Body3.font()
     $0.setTitleColor(.CWhite, for: .normal)
     $0.backgroundColor = .CBlue
-    $0.layer.cornerRadius = 12
+    $0.layer.cornerRadius = 17
     $0.addTarget(self, action: #selector(didTapAddPostButton), for: .touchUpInside)
     $0.isEnabled = false  // 처음에 비활성화
     $0.alpha = 0.5  // 비활성화 상태일 때 반투명
@@ -115,7 +115,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     megaphoneLabel.snp.makeConstraints {
@@ -132,7 +132,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     messageInputTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(poiViewTitle.snp.bottom).offset(24)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       //      $0.width.equalTo(360)
       $0.height.equalTo(88)
     }
