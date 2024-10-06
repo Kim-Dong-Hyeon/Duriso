@@ -370,18 +370,8 @@ class UserPostViewController: UIViewController {
     likeButton.rx.tap
       .subscribe(onNext: { [weak self] in
         self?.toggleLike()
-        self?.likeButton.isSelected.toggle() // 버튼의 선택 상태 토글
-        self?.updateLikeButtonBackground()  // 배경색 업데이트
       })
       .disposed(by: disposeBag)
-  }
-  
-  private func updateLikeButtonBackground() {
-      if likeButton.isSelected {
-        likeButton.backgroundColor = .CLightBlue2 // 선택된 상태의 배경색
-      } else {
-          likeButton.backgroundColor = .clear // 선택되지 않은 상태의 배경색
-      }
   }
   
   private func alertButtonTap() {
@@ -444,8 +434,30 @@ class UserPostViewController: UIViewController {
   private func toggleLike() {
     guard let user = Auth.auth().currentUser else { return }
     let userId = user.uid
-    isLiked.toggle()
-    updateLikesCount(increment: isLiked)
+    
+    // Firestore에서 현재 사용자가 좋아요를 눌렀는지 확인
+    documentRef?.getDocument { [weak self] (document, error) in
+      guard let self = self else { return }
+      
+      if let document = document, document.exists {
+        let data = document.data()
+        let likedUsers = data?["likedUsers"] as? [String] ?? []
+        
+        if likedUsers.contains(userId) {
+          // 이미 좋아요를 눌렀다면 좋아요 취소
+          self.isLiked = false
+          self.likeButton.isSelected = false
+          self.updateLikesCount(increment: false)
+        } else {
+          // 좋아요를 누르지 않았다면 좋아요 추가
+          self.isLiked = true
+          self.likeButton.isSelected = true
+          self.updateLikesCount(increment: true)
+        }
+        
+        self.updateLikeButtonBackground()
+      }
+    }
   }
   
   // 좋아요 수 업데이트
@@ -462,27 +474,7 @@ class UserPostViewController: UIViewController {
         print("좋아요 수 업데이트 실패: \(error.localizedDescription)")
       } else {
         print("좋아요 수 업데이트 성공")
-        self?.fetchLikesStatus()
-      }
-    }
-  }
-  
-  // MARK: - 좋아요 상태 가져오기
-  private func fetchLikesStatus() {
-    guard let user = Auth.auth().currentUser else { return }
-    let userId = user.uid
-    
-    guard let documentRef = documentRef else { return }
-    
-    documentRef.getDocument { [weak self] (document, error) in
-      if let document = document, document.exists {
-        let data = document.data()
-        let likedUsers = data?["likedUsers"] as? [String] ?? []
-        
-        self?.isLiked = likedUsers.contains(userId)
-        self?.likeCount = (data?["likescount"] as? Int) ?? 0
-        
-        self?.updateLikeButton()
+        self?.fetchLikesStatus()  // 좋아요 상태 다시 불러오기
       }
     }
   }
@@ -491,6 +483,33 @@ class UserPostViewController: UIViewController {
   private func updateLikeButton() {
     likeNumberLabel.text = "\(likeCount)"
     likeButton.tintColor = isLiked ? .red : .lightGray
+  }
+  
+  // 좋아요 버튼 배경색 업데이트
+  private func updateLikeButtonBackground() {
+    if likeButton.isSelected {
+      likeButton.backgroundColor = .CLightBlue2 // 선택된 상태의 배경색
+    } else {
+      likeButton.backgroundColor = .clear // 선택되지 않은 상태의 배경색
+    }
+  }
+  
+  // MARK: - 좋아요 상태 가져오기
+  private func fetchLikesStatus() {
+    guard let user = Auth.auth().currentUser else { return }
+    let userId = user.uid
+    
+    documentRef?.getDocument { [weak self] (document, error) in
+      if let document = document, document.exists {
+        let data = document.data()
+        let likedUsers = data?["likedUsers"] as? [String] ?? []
+        
+        self?.isLiked = likedUsers.contains(userId)
+        self?.likeCount = (data?["likescount"] as? Int) ?? 0
+        
+        self?.updateLikeButton()  // 좋아요 버튼 상태 업데이트
+      }
+    }
   }
   
   //MARK: - 유저확인
