@@ -66,14 +66,13 @@ class EmergencyReportViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
   }
   
-  private let cancelButton = UIButton().then {
-      let largeConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)  // 심볼 크기 설정
-      let largeImage = UIImage(systemName: "xmark.circle.fill", withConfiguration: largeConfig)
-      
-      $0.setImage(largeImage, for: .normal)
-      $0.tintColor = .CLightBlue
-      $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-  }
+  // 닫기 버튼 비활성화
+//  private let cancelButton = UIButton().then {
+//    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+//    $0.tintColor = .CLightBlue
+//    $0.contentMode = .scaleAspectFit
+//    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+//  }
   
   private let postMessageTextView = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue2
@@ -105,7 +104,7 @@ class EmergencyReportViewController: UIViewController {
       authorLabel,
       poiViewAddress,
       postTimeLabel,
-      cancelButton,
+//      cancelButton,
       postMessageTextView
     ].forEach { view.addSubview($0) }
   }
@@ -145,11 +144,10 @@ class EmergencyReportViewController: UIViewController {
       $0.leading.equalTo(authorLabel.snp.trailing).offset(8)
     }
     
-    cancelButton.snp.makeConstraints {
-      $0.centerY.equalTo(poiViewTitle)
-      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(30)
-    }
+//    cancelButton.snp.makeConstraints {
+//      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+//      $0.width.height.equalTo(32)
+//    }
     
     postMessageTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
@@ -285,7 +283,7 @@ class EmergencyReportViewController: UIViewController {
   }
   
   // MARK: - Actions
-  @objc private func didTapCancelButton() {
-    dismiss(animated: true)
-  }
+//  @objc private func didTapCancelButton() {
+//    dismiss(animated: true)
+//  }
 }
