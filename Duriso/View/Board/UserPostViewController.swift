@@ -337,9 +337,9 @@ class UserPostViewController: UIViewController {
     
     bottomStackView.snp.makeConstraints {
       $0.top.equalTo(likeStackView.snp.bottom).offset(8)
-//      $0.centerX.equalToSuperview()
+      //      $0.centerX.equalToSuperview()
       $0.trailing.equalTo(deleteButton.snp.trailing)
-//      $0.width.equalToSuperview().inset(30)
+      //      $0.width.equalToSuperview().inset(30)
       $0.height.equalTo(50)
       $0.bottom.equalTo(contentView.snp.bottom).offset(-16)
     }

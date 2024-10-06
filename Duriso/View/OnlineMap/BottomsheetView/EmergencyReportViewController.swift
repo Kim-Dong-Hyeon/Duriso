@@ -42,7 +42,7 @@ class EmergencyReportViewController: UIViewController {
   
   private let categoryImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
-//    $0.contentMode = .left
+    //    $0.contentMode = .left
   }
   
   private let authorLabel = UILabel().then {
@@ -67,12 +67,12 @@ class EmergencyReportViewController: UIViewController {
   }
   
   // 닫기 버튼 비활성화
-//  private let cancelButton = UIButton().then {
-//    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-//    $0.tintColor = .CLightBlue
-//    $0.contentMode = .scaleAspectFit
-//    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-//  }
+  //  private let cancelButton = UIButton().then {
+  //    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+  //    $0.tintColor = .CLightBlue
+  //    $0.contentMode = .scaleAspectFit
+  //    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+  //  }
   
   private let postMessageTextView = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue2
@@ -88,16 +88,16 @@ class EmergencyReportViewController: UIViewController {
   
   // MARK: - Lifecycle
   override func viewDidLoad() {
-      super.viewDidLoad()
-      view.backgroundColor = .systemBackground
-      setupUI()
-      setupConstraints()
-      updatePoiData()
-      
-      // 작성자 닉네임 업데이트
-      fetchAuthorNickname { [weak self] nickname in
-          self?.updateAuthorLabel(with: nickname ?? "알 수 없는 사용자")
-      }
+    super.viewDidLoad()
+    view.backgroundColor = .systemBackground
+    setupUI()
+    setupConstraints()
+    updatePoiData()
+    
+    // 작성자 닉네임 업데이트
+    fetchAuthorNickname { [weak self] nickname in
+      self?.updateAuthorLabel(with: nickname ?? "알 수 없는 사용자")
+    }
   }
   
   // MARK: - UI Setup
@@ -109,7 +109,7 @@ class EmergencyReportViewController: UIViewController {
       authorLabel,
       poiViewAddress,
       postTimeLabel,
-//      cancelButton,
+      //      cancelButton,
       postMessageTextView
     ].forEach { view.addSubview($0) }
   }
@@ -149,10 +149,10 @@ class EmergencyReportViewController: UIViewController {
       $0.leading.equalTo(authorLabel.snp.trailing).offset(8)
     }
     
-//    cancelButton.snp.makeConstraints {
-//      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-//      $0.width.height.equalTo(32)
-//    }
+    //    cancelButton.snp.makeConstraints {
+    //      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+    //      $0.width.height.equalTo(32)
+    //    }
     
     postMessageTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
@@ -219,18 +219,18 @@ class EmergencyReportViewController: UIViewController {
   
   // SF Symbol과 작성자를 함께 표시하는 메서
   private func updateAuthorLabel(with nickname: String) {
-      let symbolAttachment = NSTextAttachment()
-      symbolAttachment.image = UIImage(systemName: "person.fill") // 사람 모양의 시스템 심볼
-      symbolAttachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14) // 심볼의 크기 조정
-      
-      let symbolString = NSAttributedString(attachment: symbolAttachment)
-      let textString = NSAttributedString(string: "  \(nickname)")
-      
-      let finalString = NSMutableAttributedString()
-      finalString.append(symbolString)
-      finalString.append(textString)
-      
-      authorLabel.attributedText = finalString
+    let symbolAttachment = NSTextAttachment()
+    symbolAttachment.image = UIImage(systemName: "person.fill") // 사람 모양의 시스템 심볼
+    symbolAttachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14) // 심볼의 크기 조정
+    
+    let symbolString = NSAttributedString(attachment: symbolAttachment)
+    let textString = NSAttributedString(string: "  \(nickname)")
+    
+    let finalString = NSMutableAttributedString()
+    finalString.append(symbolString)
+    finalString.append(textString)
+    
+    authorLabel.attributedText = finalString
   }
   
   // Firestore에서 작성자의 닉네임을 가져오는 메서드
@@ -305,7 +305,7 @@ class EmergencyReportViewController: UIViewController {
   
   
   // MARK: - Actions
-//  @objc private func didTapCancelButton() {
-//    dismiss(animated: true)
-//  }
+  //  @objc private func didTapCancelButton() {
+  //    dismiss(animated: true)
+  //  }
 }

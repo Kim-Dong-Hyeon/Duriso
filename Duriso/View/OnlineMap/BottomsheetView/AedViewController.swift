@@ -86,12 +86,12 @@ class AedViewController: UIViewController {
     $0.font = CustomFont.Body2.font()
   }
   
-//  private let cancelButton = UIButton().then {
-//    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-//    $0.tintColor = .CLightBlue
-//    $0.contentMode = .scaleAspectFit
-//    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-//  }
+  //  private let cancelButton = UIButton().then {
+  //    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+  //    $0.tintColor = .CLightBlue
+  //    $0.contentMode = .scaleAspectFit
+  //    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+  //  }
   
   // MARK: - Lifecycle
   
@@ -120,7 +120,7 @@ class AedViewController: UIViewController {
       adminInfoLabel,
       adminNameLabel,
       adminNumberLabel,
-//      cancelButton
+      //      cancelButton
     ].forEach { view.addSubview($0) }
   }
   
@@ -169,10 +169,10 @@ class AedViewController: UIViewController {
       $0.leading.equalTo(adminNameLabel.snp.trailing)
     }
     
-//    cancelButton.snp.makeConstraints {
-//      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-//      $0.width.height.equalTo(32)  
-//    }
+    //    cancelButton.snp.makeConstraints {
+    //      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+    //      $0.width.height.equalTo(32)  
+    //    }
   }
   
   // MARK: - POI Data Update
@@ -196,7 +196,7 @@ class AedViewController: UIViewController {
   // MARK: - Actions
   
   // 취소 버튼 클릭 시 호출되는 함수
-//  @objc func didTapCancelButton() {
-//    dismiss(animated: true)
-//  }
+  //  @objc func didTapCancelButton() {
+  //    dismiss(animated: true)
+  //  }
 }

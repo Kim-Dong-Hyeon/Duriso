@@ -45,11 +45,11 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   // 닫기 버튼 비활성화
-//  private let cancelButton = UIButton().then {
-//    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-//    $0.tintColor = .CLightBlue
-//    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-//  }
+  //  private let cancelButton = UIButton().then {
+  //    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+  //    $0.tintColor = .CLightBlue
+  //    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+  //  }
   
   private let messageInputTextView = UITextView().then {
     $0.backgroundColor = UIColor.CWhite
@@ -103,7 +103,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
     [
       poiViewTitle,
       megaphoneLabel,
-//      cancelButton,
+      //      cancelButton,
       messageInputTextView,
       addPostButton,
       characterLimitLabel
@@ -124,10 +124,10 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
       $0.width.height.equalTo(32)
     }
     
-//    cancelButton.snp.makeConstraints {
-//      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-//      $0.width.height.equalTo(32)
-//    }
+    //    cancelButton.snp.makeConstraints {
+    //      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+    //      $0.width.height.equalTo(32)
+    //    }
     
     messageInputTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
@@ -165,9 +165,9 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   }
   
   // MARK: - Actions
-//  @objc private func didTapCancelButton() {
-//    dismiss(animated: true)
-//  }
+  //  @objc private func didTapCancelButton() {
+  //    dismiss(animated: true)
+  //  }
   
   @objc private func didTapAddPostButton() {
     guard let content = messageInputTextView.text,
