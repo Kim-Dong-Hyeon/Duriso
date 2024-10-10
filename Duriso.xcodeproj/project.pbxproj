@@ -362,6 +362,15 @@
 			path = Duriso/Data/GuidelinePDF;
 			sourceTree = SOURCE_ROOT;
 		};
+		761E8C022CB7C90D0000C27D /* FirebaseManager */ = {
+			isa = PBXGroup;
+			children = (
+				14DE81422C9490B9002E26FD /* FirebaseFirestoreManager.swift */,
+				76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */,
+			);
+			path = FirebaseManager;
+			sourceTree = "<group>";
+		};
 		7622D0422C7C1C6000B1AEB2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -681,11 +690,10 @@
 		7676227F2C85AE500075B09E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				761E8C022CB7C90D0000C27D /* FirebaseManager */,
 				766DDA172CA78486001C100A /* CustomDecodable.swift */,
 				768F509E2C89DC0D00A92ED6 /* LocationManager.swift */,
 				767622802C85AE740075B09E /* NetworkMonitor.swift */,
-				14DE81422C9490B9002E26FD /* FirebaseFirestoreManager.swift */,
-				76174BD92C9AA7C200909EDC /* FirebaseRealtimeManager.swift */,
 				768F50962C881F9A00A92ED6 /* Environment.swift */,
 				766DD9FE2CA5EF9A001C100A /* CoreData */,
 			);
