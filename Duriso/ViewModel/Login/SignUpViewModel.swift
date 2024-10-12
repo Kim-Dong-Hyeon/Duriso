@@ -35,7 +35,10 @@ class SignUpViewModel {
       .flatMap { [weak self] isAvailable -> Observable<AuthDataResult> in
         guard let self = self else { return Observable.empty() }
         if isAvailable {
-          return self.createFirebaseUser(email: email, password: password, nickname: nickname)
+          return FirebaseAuthManager.shared.createUser(withEmail: email, password: password)
+            .do(onNext: { result in
+              self.saveUserData(uid: result.user.uid, nickname: nickname)
+            })
         } else {
           return Observable.error(NSError(domain: "", code: 1001, userInfo: nil))  // 닉네임 중복 에러
         }
@@ -90,8 +93,8 @@ class SignUpViewModel {
   }
   
   private func saveUserData(uid: String, nickname: String) {
-//    let email = emailText.value
-//    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
+    //    let email = emailText.value
+    //    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
     let userData: [String: Any] = [
       "nickname": nickname,
       "email": emailText.value,

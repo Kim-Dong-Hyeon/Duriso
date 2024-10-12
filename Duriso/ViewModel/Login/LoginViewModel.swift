@@ -28,7 +28,7 @@ class LoginViewModel {
       .withLatestFrom(credentials)
       .flatMapLatest { [weak self] email, password -> Observable<AuthDataResult> in
         guard let self = self else { return .empty() }
-        return Auth.auth().rx.signIn(withEmail: email, password: password)
+        return FirebaseAuthManager.shared.signIn(withEmail: email, password: password)
           .do(onNext: { result in
             print("Firebase Sign In Result: \(result)")
             self.loginSuccess.onNext(())
@@ -63,18 +63,18 @@ class LoginViewModel {
   }
 }
 
-extension Reactive where Base: Auth {
-  func signIn(withEmail email: String, password: String) -> Observable<AuthDataResult> {
-    return Observable.create { observer in
-      Auth.auth().signIn(withEmail: email, password: password) { result, error in
-        if let error = error {
-          observer.onError(error)
-        } else if let result = result {
-          observer.onNext(result)
-          observer.onCompleted()
-        }
-      }
-      return Disposables.create()
-    }
-  }
-}
+//extension Reactive where Base: Auth {
+//  func signIn(withEmail email: String, password: String) -> Observable<AuthDataResult> {
+//    return Observable.create { observer in
+//      Auth.auth().signIn(withEmail: email, password: password) { result, error in
+//        if let error = error {
+//          observer.onError(error)
+//        } else if let result = result {
+//          observer.onNext(result)
+//          observer.onCompleted()
+//        }
+//      }
+//      return Disposables.create()
+//    }
+//  }
+//}

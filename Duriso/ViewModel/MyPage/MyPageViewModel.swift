@@ -5,8 +5,8 @@
 //  Created by 김동현 on 8/26/24.
 //
 
-import FirebaseFirestore
 import FirebaseAuth
+import FirebaseFirestore
 import RxSwift
 
 class MyPageViewModel {
@@ -38,7 +38,7 @@ class MyPageViewModel {
   
   private func fetchUserData() {
     
-    guard let user = Auth.auth().currentUser else { return }
+    guard let user = FirebaseAuthManager.shared.currentUser() else { return }
     
     let uid = user.uid
     
@@ -57,5 +57,10 @@ class MyPageViewModel {
         print("사용자 데이터를 불러오는 데 실패했습니다: \(error?.localizedDescription ?? "")")
       }
     }
+  }
+  
+  // 로그아웃 메서드
+  func logout() -> Observable<Void> {
+    return FirebaseAuthManager.shared.signOut()
   }
 }
