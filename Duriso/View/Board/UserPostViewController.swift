@@ -1,5 +1,5 @@
 //
-//  PostingViewController.swift
+//  UserPostViewController.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/10/24.

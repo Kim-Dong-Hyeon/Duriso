@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 class LegalNoticeViewModel {
-  var items: Observable<[LegalNotice]>
+  var items: Observable<[LegalNoticeModel]>
   
   init() {
     self.items = Observable.just([])
@@ -19,11 +19,11 @@ class LegalNoticeViewModel {
   
   private func loadInitialData() {
     let notices = [
-      LegalNotice(title: "서비스 이용약관",
+      LegalNoticeModel(title: "서비스 이용약관",
                   content: loadContent(for: "notice1") ?? " "),
-      LegalNotice(title: "개인정보 처리방침",
+      LegalNoticeModel(title: "개인정보 처리방침",
                   content: loadContent(for: "notice2") ?? " "),
-      LegalNotice(title: "위치기반 서비스 이용약관",
+      LegalNoticeModel(title: "위치기반 서비스 이용약관",
                   content: loadContent(for: "notice3") ?? " ")
     ]
     self.items = Observable.just(notices)

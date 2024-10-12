@@ -1,5 +1,5 @@
 //
-//  PostViewController.swift
+//  WritingViewController.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/2/24.

@@ -238,7 +238,7 @@ class SignUpViewController: UIViewController {
       }
       .disposed(by: disposeBag)
     
-    legalNoticeTableView.rx.modelSelected(LegalNotice.self)
+    legalNoticeTableView.rx.modelSelected(LegalNoticeModel.self)
       .subscribe(onNext: { [weak self] item in
         let detailVC = LegalNoticeDetailViewController(notice: item)
         self?.navigationController?.pushViewController(detailVC, animated: true)

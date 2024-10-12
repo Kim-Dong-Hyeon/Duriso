@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 
 class LegalNoticeDetailViewController: UIViewController {
-  private let notice: LegalNotice
+  private let notice: LegalNoticeModel
   
   private let textView = UITextView().then {
     $0.font = CustomFont.Body3.font()
     $0.isEditable = false
   }
   
-  init(notice: LegalNotice) {
+  init(notice: LegalNoticeModel) {
     self.notice = notice
     super.init(nibName: nil, bundle: nil)
   }

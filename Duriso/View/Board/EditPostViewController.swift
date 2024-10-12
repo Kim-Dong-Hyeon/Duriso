@@ -1,5 +1,5 @@
 //
-//  PostChangeViewController.swift
+//  EditPostViewController.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/16/24.

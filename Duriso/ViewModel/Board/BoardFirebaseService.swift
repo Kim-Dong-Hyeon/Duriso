@@ -1,5 +1,5 @@
 //
-//  BoardFirebaseStorage.swift
+//  BoardFirebaseService.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/12/24.
