@@ -91,6 +91,39 @@ class FirebaseFirestoreManager {
     }
   }
   
+  func fetchUserData(uid: String) -> Observable<[String: Any]> {
+    return Observable.create { observer in
+      self.db.collection("users").document(uid).getDocument { document, error in
+        if let error = error {
+          observer.onError(error)
+        } else if let document = document, document.exists {
+          observer.onNext(document.data() ?? [:])
+          observer.onCompleted()
+        } else {
+          observer.onError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"]))
+        }
+      }
+      return Disposables.create()
+    }
+  }
+  
+  func saveUserData(uid: String, nickname: String, email: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    let userData: [String: Any] = [
+      "nickname": nickname,
+      "email": email,
+      "uuid": uid,
+      "postcount": 0,
+      "reportedpostcount": 0
+    ]
+    
+    db.collection("users").document(uid).setData(userData) { error in
+      if let error = error {
+        print("계정 생성 실패: \(error.localizedDescription)")
+      } else {
+        print("계정 생성 완료")
+      }
+    }
+  }
   
   // MARK: - 이미지 업로드
   
