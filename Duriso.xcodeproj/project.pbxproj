@@ -33,6 +33,7 @@
 		76174C002C9C33B700909EDC /* HeatWave.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF12C9C33B700909EDC /* HeatWave.pdf */; };
 		76174C012C9C33B700909EDC /* NuclearAttack.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 76174BF42C9C33B700909EDC /* NuclearAttack.pdf */; };
 		761E8C062CB7CA520000C27D /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8C052CB7CA520000C27D /* FirebaseAuthManager.swift */; };
+		761E8C0A2CC159210000C27D /* SetNickNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E8C092CC159210000C27D /* SetNickNameViewModel.swift */; };
 		7622D0342C7C045300B1AEB2 /* CodeConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0332C7C045300B1AEB2 /* CodeConvention.md */; };
 		7622D0362C7C049A00B1AEB2 /* CommitConvention.md in Resources */ = {isa = PBXBuildFile; fileRef = 7622D0352C7C049A00B1AEB2 /* CommitConvention.md */; };
 		7622D03B2C7C178400B1AEB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7622D03A2C7C178400B1AEB2 /* FirebaseAuth */; };
@@ -180,6 +181,7 @@
 		76174BF52C9C33B700909EDC /* TorrentialRain.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = TorrentialRain.pdf; path = Duriso/Data/GuidelinePDF/TorrentialRain.pdf; sourceTree = SOURCE_ROOT; };
 		76174BF62C9C33B700909EDC /* Typhoon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = Typhoon.pdf; path = Duriso/Data/GuidelinePDF/Typhoon.pdf; sourceTree = SOURCE_ROOT; };
 		761E8C052CB7CA520000C27D /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
+		761E8C092CC159210000C27D /* SetNickNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNickNameViewModel.swift; sourceTree = "<group>"; };
 		7622D0332C7C045300B1AEB2 /* CodeConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CodeConvention.md; sourceTree = "<group>"; };
 		7622D0352C7C049A00B1AEB2 /* CommitConvention.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CommitConvention.md; sourceTree = "<group>"; };
 		7622D0452C7C1CDC00B1AEB2 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -782,6 +784,7 @@
 			children = (
 				E2792E252C7F4BC100AD6C0E /* LoginViewModel.swift */,
 				76EFE8B92C8F20BC0077D75B /* SignUpViewModel.swift */,
+				761E8C092CC159210000C27D /* SetNickNameViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -960,6 +963,7 @@
 				E2792E232C7F4BAB00AD6C0E /* SignUpViewController.swift in Sources */,
 				E2DAB8602C863A520037BCA2 /* LegalNoticeTableViewCell.swift in Sources */,
 				D62E9CCA2C944B2E00829FB8 /* EmergencyReportViewController.swift in Sources */,
+				761E8C0A2CC159210000C27D /* SetNickNameViewModel.swift in Sources */,
 				76DFBBEB2C9DAF8600C676CF /* CopyrightViewModel.swift in Sources */,
 				7622D06B2C7C215E00B1AEB2 /* UIColor+Extensions.swift in Sources */,
 				E2334CF92C947300003D9612 /* NoticeModel.swift in Sources */,
