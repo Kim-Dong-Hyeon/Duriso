@@ -15,7 +15,7 @@ class FirebaseFirestoreManager {
   static let shared = FirebaseFirestoreManager()
   
   // Firestore 인스턴스
-  private let db = Firestore.firestore()
+  private let firestore = Firestore.firestore()
   
   // 초기화 방지
   private init() {}
@@ -25,7 +25,7 @@ class FirebaseFirestoreManager {
   func createDocument(collection: String, data: [String: Any]) -> Observable<Void> {
     return Observable.create { observer in
       // 지정된 컬렉션에 문서를 추가
-      self.db.collection(collection).addDocument(data: data) { error in
+      self.firestore.collection(collection).addDocument(data: data) { error in
         if let error = error {
           observer.onError(error) // 에러가 발생하면 observer에 에러 전달
         } else {
@@ -41,7 +41,7 @@ class FirebaseFirestoreManager {
   
   func getDocument(collection: String, documentID: String) -> Observable<[String: Any]> {
     return Observable.create { observer in
-      let docRef = self.db.collection(collection).document(documentID)
+      let docRef = self.firestore.collection(collection).document(documentID)
       
       docRef.getDocument { (document, error) in
         if let document = document, document.exists {
@@ -59,7 +59,7 @@ class FirebaseFirestoreManager {
   
   func updateDocument(collection: String, documentID: String, data: [String: Any]) -> Observable<Void> {
     return Observable.create { observer in
-      let docRef = self.db.collection(collection).document(documentID)
+      let docRef = self.firestore.collection(collection).document(documentID)
       
       docRef.updateData(data) { error in
         if let error = error {
@@ -77,7 +77,7 @@ class FirebaseFirestoreManager {
   
   func deleteDocument(collection: String, documentID: String) -> Observable<Void> {
     return Observable.create { observer in
-      let docRef = self.db.collection(collection).document(documentID)
+      let docRef = self.firestore.collection(collection).document(documentID)
       
       docRef.delete { error in
         if let error = error {
@@ -93,7 +93,7 @@ class FirebaseFirestoreManager {
   
   func fetchUserData(uid: String) -> Observable<[String: Any]> {
     return Observable.create { observer in
-      self.db.collection("users").document(uid).getDocument { document, error in
+      self.firestore.collection("users").document(uid).getDocument { document, error in
         if let error = error {
           observer.onError(error)
         } else if let document = document, document.exists {
@@ -116,7 +116,7 @@ class FirebaseFirestoreManager {
       "reportedpostcount": 0
     ]
     
-    db.collection("users").document(uid).setData(userData) { error in
+    firestore.collection("users").document(uid).setData(userData) { error in
       if let error = error {
         print("계정 생성 실패: \(error.localizedDescription)")
       } else {
