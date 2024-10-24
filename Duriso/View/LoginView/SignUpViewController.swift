@@ -219,6 +219,7 @@ class SignUpViewController: UIViewController {
       .bind(to: viewModel.checkPasswordText)
       .disposed(by: disposeBag)
     
+    // 약관 동의 체크박스 관련 처리
     viewModel2.items
       .bind(to: legalNoticeTableView.rx.items(
         cellIdentifier: "LegalNoticeCell",
@@ -238,6 +239,7 @@ class SignUpViewController: UIViewController {
       }
       .disposed(by: disposeBag)
     
+    // 약관 세부 내용 보기
     legalNoticeTableView.rx.modelSelected(LegalNoticeModel.self)
       .subscribe(onNext: { [weak self] item in
         let detailVC = LegalNoticeDetailViewController(notice: item)
@@ -245,6 +247,7 @@ class SignUpViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
+    // 저장 버튼 클릭 처리
     saveButton.rx.tap
       .flatMapLatest { [weak self] _ -> Observable<Result<AuthDataResult, Error>> in
         guard let self = self else { return Observable.empty() }
@@ -254,7 +257,7 @@ class SignUpViewController: UIViewController {
       }
       .subscribe(onNext: { [weak self] result in
         switch result {
-        case .success(_):
+        case .success:
           self?.showSuccessAlert()
         case .failure(let error):
           self?.showErrorAlert(error: error)
