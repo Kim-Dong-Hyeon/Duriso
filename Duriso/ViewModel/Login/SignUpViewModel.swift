@@ -35,10 +35,7 @@ class SignUpViewModel {
       .flatMap { [weak self] isAvailable -> Observable<AuthDataResult> in
         guard let self = self else { return Observable.empty() }
         if isAvailable {
-          return FirebaseAuthManager.shared.createUser(withEmail: email, password: password)
-            .do(onNext: { result in
-              self.saveUserData(uid: result.user.uid, nickname: nickname)
-            })
+          return self.createFirebaseUser(email: email, password: password, nickname: nickname)
         } else {
           return Observable.error(NSError(domain: "", code: 1001, userInfo: nil))  // 닉네임 중복 에러
         }
@@ -83,54 +80,45 @@ class SignUpViewModel {
         if let error = error {
           observer.onError(error)
         } else if let result = result {
-          self.saveUserData(uid: result.user.uid, nickname: nickname)
-          observer.onNext(result)
-          observer.onCompleted()
+          let userData: [String: Any] = [
+            "uuid": result.user.uid,
+            "nickname": nickname,
+            "email": email,
+            "postcount": 0,
+            "reportedpostcount": 0,
+            "createdAt": Timestamp(date: Date())
+          ]
+          
+          FirebaseFirestoreManager.shared.saveUserData(uid: result.user.uid, data: userData)
+            .subscribe(onNext: {
+              observer.onNext(result)
+              observer.onCompleted()
+            }, onError: { saveError in
+              observer.onError(saveError)
+            })
+            .disposed(by: self.disposeBag)
         }
       }
       return Disposables.create()
     }
   }
   
-  private func saveUserData(uid: String, nickname: String) {
-    //    let email = emailText.value
-    //    let safeEmail = email.replacingOccurrences(of: ".", with: "-")
-    let userData: [String: Any] = [
-      "nickname": nickname,
-      "email": emailText.value,
-      "uuid": uid,
-      "postcount": 0,
-      "reportedpostcount": 0
-    ]
-    
-    firestore.collection("users").document(uid).setData(userData) { error in
-      if let error = error {
-        print("계정 생성 실패: \(error.localizedDescription)")
-      } else {
-        print("계정 생성 완료")
-      }
-    }
-  }
-  
   private func isValidEmail(_ email: String) -> Bool {
     let emailPattern = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$"
     let pred = NSPredicate(format: "SELF MATCHES %@", emailPattern)
-    let result = pred.evaluate(with: email)
-    return result
+    return pred.evaluate(with: email)
   }
   
   private func isValidPassword(_ password: String) -> Bool {
     let passwordPattern = "^.*(?=^.{8,16}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$"
     let pred = NSPredicate(format: "SELF MATCHES %@", passwordPattern)
-    let result = pred.evaluate(with: password)
-    return result
+    return pred.evaluate(with: password)
   }
   
   private func isValidNickname(_ nickname: String) -> Bool {
     let nicknamePattern = "^[a-zA-Z0-9가-힣]{3,10}$"
     let pred = NSPredicate(format: "SELF MATCHES %@", nicknamePattern)
-    let result = pred.evaluate(with: nickname)
-    return result
+    return pred.evaluate(with: nickname)
   }
   
   func isValidEmailObservable() -> Observable<Bool> {
