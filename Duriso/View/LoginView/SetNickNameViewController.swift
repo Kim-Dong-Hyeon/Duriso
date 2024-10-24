@@ -7,9 +7,14 @@
 
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 class SetNickNameViewController: UIViewController {
+  
+  private let disposeBag = DisposeBag()
+  private let viewModel = SetNickNameViewModel() // ViewModel 추가
   
   private let titleLabel = UILabel().then {
     $0.text = "환영합니다! \n닉네임 등록"
@@ -31,6 +36,7 @@ class SetNickNameViewController: UIViewController {
     $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
+    $0.autocapitalizationType = .none
   }
   
   private let saveButton = UIButton().then {
@@ -38,16 +44,18 @@ class SetNickNameViewController: UIViewController {
     $0.backgroundColor = .CLightBlue
     $0.titleLabel?.font = CustomFont.Body3.font()
     $0.layer.cornerRadius = 10
+    $0.isEnabled = false
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .CWhite
     
-    ConfigureUI()
+    configureUI()
+    bindUI()
   }
   
-  private func ConfigureUI() {
+  private func configureUI() {
     [
       titleLabel,
       nickNameLabel,
@@ -78,7 +86,60 @@ class SetNickNameViewController: UIViewController {
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
-    
   }
   
+  private func bindUI() {
+    // TextField 입력 값이 변경될 때마다 ViewModel에 전달
+    nickNameTextField.rx.text.orEmpty
+      .bind(to: viewModel.nicknameText)
+      .disposed(by: disposeBag)
+    
+    // 닉네임이 유효할 때만 저장 버튼 활성화
+    viewModel.isNicknameValid
+      .bind(to: saveButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    viewModel.isNicknameValid
+      .map { $0 ? UIColor.CBlue : UIColor.CLightBlue }
+      .bind(to: saveButton.rx.backgroundColor)
+      .disposed(by: disposeBag)
+    
+    // 저장 버튼 눌렀을 때 ViewModel 호출
+    saveButton.rx.tap
+      .bind(to: viewModel.saveButtonTapped)
+      .disposed(by: disposeBag)
+    
+    // 저장 완료 후 다음 동작
+    viewModel.saveResult
+      .subscribe(onNext: { [weak self] result in
+        switch result {
+        case .success:
+          print("닉네임 저장 성공 후 화면 전환.")
+          self?.goToMainScreen() // 저장 후 메인 화면으로 이동
+        case .failure(let error):
+          print("닉네임 저장 실패: \(error.localizedDescription)")
+          self?.showErrorAlert(message: error.localizedDescription) // 닉네임 저장 실패 시 에러 메시지 표시
+        }
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func showErrorAlert(message: String) {
+    let alert = UIAlertController(title: "에러", message: message, preferredStyle: .alert)
+    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+    alert.addAction(action)
+    present(alert, animated: true, completion: nil)
+  }
+  
+  private func goToMainScreen() {
+    let mainTabBarViewModel = MainTabBarViewModel()
+    let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+    
+    // rootViewController 변경
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+       let window = windowScene.windows.first {
+      window.rootViewController = mainTabBarVC
+      window.makeKeyAndVisible()
+    }
+  }
 }
