@@ -107,21 +107,36 @@ class FirebaseFirestoreManager {
     }
   }
   
-  func saveUserData(uid: String, nickname: String, email: String, completion: @escaping (Result<Void, Error>) -> Void) {
-    let userData: [String: Any] = [
-      "nickname": nickname,
-      "email": email,
-      "uuid": uid,
-      "postcount": 0,
-      "reportedpostcount": 0
-    ]
-    
-    firestore.collection("users").document(uid).setData(userData) { error in
-      if let error = error {
-        print("계정 생성 실패: \(error.localizedDescription)")
-      } else {
-        print("계정 생성 완료")
+  // Firestore에 사용자 정보 저장
+  func saveUserData(uid: String, data: [String: Any]) -> Observable<Void> {
+    return Observable.create { observer in
+      self.firestore.collection("users").document(uid).setData(data) { error in
+        if let error = error {
+          observer.onError(error)
+        } else {
+          observer.onNext(())
+          observer.onCompleted()
+        }
       }
+      return Disposables.create()
+    }
+  }
+  
+  // Firestore에서 사용자 데이터 삭제
+  func deleteUserData(uid: String) -> Observable<Void> {
+    return Observable.create { observer in
+      print("FirebaseFirestoreManager: 사용자 데이터 삭제 시작")
+      self.firestore.collection("users").document(uid).delete { error in
+        if let error = error {
+          print("FirebaseFirestoreManager: 사용자 데이터 삭제 실패 - \(error.localizedDescription)")
+          observer.onError(error)
+        } else {
+          print("FirebaseFirestoreManager: 사용자 데이터 삭제 성공")
+          observer.onNext(())
+          observer.onCompleted()
+        }
+      }
+      return Disposables.create()
     }
   }
   
