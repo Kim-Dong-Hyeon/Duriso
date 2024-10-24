@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAuth
 import FirebaseFirestore
 import RxSwift
 import SnapKit
@@ -72,6 +73,7 @@ class ModifyInformationViewController: UIViewController {
     self.tabBarController?.tabBar.isHidden = true
     
     configureUI()
+    updateUIBasedOnAuthProvider() // 인증 제공자에 따라 UI 업데이트
     bindUi()
   }
   
@@ -151,5 +153,16 @@ class ModifyInformationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
       })
       .disposed(by: disposeBag)
+  }
+  
+  // 인증 제공자에 따라 비밀번호 변경 버튼 숨기기
+  private func updateUIBasedOnAuthProvider() {
+    guard let currentUser = Auth.auth().currentUser else { return }
+    
+    // Apple ID로 로그인한 경우 비밀번호 변경 버튼을 숨김
+    let providerData = currentUser.providerData
+    let isAppleSignIn = providerData.contains { $0.providerID == "apple.com" }
+    
+    changePasswordButton.isHidden = isAppleSignIn
   }
 }
