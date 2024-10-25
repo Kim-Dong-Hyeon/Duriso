@@ -28,6 +28,15 @@ class SetNickNameViewModel {
       .bind(to: isNicknameValid)
       .disposed(by: disposeBag)
     
+    // 닉네임 입력 값이 변경될 때마다 중복 확인
+    nicknameText
+      .flatMapLatest { [weak self] nickname -> Observable<Bool> in
+        guard let self = self else { return Observable.just(false) }
+        return self.nicknameCheckObservable(nickname)
+      }
+      .bind(to: isNicknameValid)  // 중복 확인 결과에 따라 닉네임 유효성 업데이트
+      .disposed(by: disposeBag)
+    
     // 저장 버튼이 눌렸을 때 Firestore에 닉네임 저장
     saveButtonTapped
       .withLatestFrom(nicknameText)
@@ -85,7 +94,7 @@ class SetNickNameViewModel {
     }
   }
   
-  // Firestore에 닉네임 저장
+  // Firestore에 닉네임과 추가 사용자 정보 저장
   private func saveNicknameToFirestore(nickname: String) -> Observable<Void> {
     return Observable.create { observer in
       guard let uid = FirebaseAuthManager.shared.getCurrentUser()?.uid else {
@@ -94,15 +103,26 @@ class SetNickNameViewModel {
         return Disposables.create()
       }
       
-      let data = ["nickname": nickname]
-      print("Firestore에 닉네임 저장 시작: \(nickname)")
+      // 애플 로그인 사용자의 이메일 정보 가져오기
+      let email = FirebaseAuthManager.shared.getCurrentUser()?.email ?? "apple_user@unknown.com"
       
-      self.firestore.collection("users").document(uid).setData(data/*, merge: true*/) { error in
+      let data: [String: Any] = [
+        "nickname": nickname,
+        "email": email,                    // 애플 로그인 사용자 이메일 저장
+        "postcount": 0,
+        "reportedpostcount": 0,
+        "uuid": uid,
+        "createdAt": Timestamp(date: Date())
+      ]
+      
+      print("Firestore에 사용자 정보 저장 시작: \(nickname)")
+      
+      self.firestore.collection("users").document(uid).setData(data, merge: true) { error in
         if let error = error {
-          print("Firestore에 닉네임 저장 실패: \(error.localizedDescription)")
+          print("Firestore에 사용자 정보 저장 실패: \(error.localizedDescription)")
           observer.onError(error)
         } else {
-          print("Firestore에 닉네임 저장 성공")
+          print("Firestore에 사용자 정보 저장 성공")
           observer.onNext(())
           observer.onCompleted()
         }
