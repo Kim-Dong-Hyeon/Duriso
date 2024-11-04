@@ -17,6 +17,7 @@ class SetNickNameViewModel {
   let isNicknameValid = BehaviorRelay<Bool>(value: false)
   let saveButtonTapped = PublishSubject<Void>()
   let saveResult = PublishSubject<Result<Void, Error>>()
+  let nicknameStatusMessage = PublishSubject<NicknameStatus>()  // 닉네임 상태 메시지
   
   private let disposeBag = DisposeBag()
   private let firestore = Firestore.firestore()
@@ -28,13 +29,21 @@ class SetNickNameViewModel {
       .bind(to: isNicknameValid)
       .disposed(by: disposeBag)
     
-    // 닉네임 입력 값이 변경될 때마다 중복 확인
+    // 닉네임 입력 값이 변경될 때마다 중복 체크
     nicknameText
+      .distinctUntilChanged()
       .flatMapLatest { [weak self] nickname -> Observable<Bool> in
         guard let self = self else { return Observable.just(false) }
         return self.nicknameCheckObservable(nickname)
       }
-      .bind(to: isNicknameValid)  // 중복 확인 결과에 따라 닉네임 유효성 업데이트
+      .subscribe(onNext: { [weak self] isAvailable in
+        guard let self = self else { return }
+        if isAvailable {
+          self.nicknameStatusMessage.onNext(.available)  // 사용 가능 메시지
+        } else {
+          self.nicknameStatusMessage.onNext(.unavailable)  // 중복 메시지
+        }
+      })
       .disposed(by: disposeBag)
     
     // 저장 버튼이 눌렸을 때 Firestore에 닉네임 저장
@@ -108,7 +117,7 @@ class SetNickNameViewModel {
       
       let data: [String: Any] = [
         "nickname": nickname,
-        "email": email,                    // 애플 로그인 사용자 이메일 저장
+        "email": email,           // 애플 로그인 사용자 이메일 저장
         "postcount": 0,
         "reportedpostcount": 0,
         "uuid": uid,

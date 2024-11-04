@@ -39,6 +39,12 @@ class SetNickNameViewController: UIViewController {
     $0.autocapitalizationType = .none
   }
   
+  // 닉네임 중복 여부를 표시할 메시지 레이블
+  private let nicknameStatusLabel = UILabel().then {
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .clear  // 초기에는 숨겨진 상태로 시작
+  }
+  
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
     $0.backgroundColor = .CLightBlue
@@ -60,6 +66,7 @@ class SetNickNameViewController: UIViewController {
       titleLabel,
       nickNameLabel,
       nickNameTextField,
+      nicknameStatusLabel,
       saveButton
     ].forEach { view.addSubview($0) }
     
@@ -80,6 +87,12 @@ class SetNickNameViewController: UIViewController {
       $0.height.equalTo(48)
     }
     
+    nicknameStatusLabel.snp.makeConstraints {
+      $0.top.equalTo(nickNameTextField.snp.bottom).offset(8)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
+    }
+    
     saveButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
@@ -92,6 +105,24 @@ class SetNickNameViewController: UIViewController {
     // TextField 입력 값이 변경될 때마다 ViewModel에 전달
     nickNameTextField.rx.text.orEmpty
       .bind(to: viewModel.nicknameText)
+      .disposed(by: disposeBag)
+    
+    // 닉네임 중복 여부에 따른 상태 메시지 업데이트
+    viewModel.nicknameStatusMessage
+      .subscribe(onNext: { [weak self] status in
+        guard let self = self else { return }
+        switch status {
+        case .available:
+          self.nicknameStatusLabel.text = "사용 가능한 닉네임입니다."
+          self.nicknameStatusLabel.textColor = .CBlue
+        case .unavailable:
+          self.nicknameStatusLabel.text = "이미 사용 중인 닉네임입니다."
+          self.nicknameStatusLabel.textColor = .CRed
+        case .empty:
+          self.nicknameStatusLabel.text = ""
+          self.nicknameStatusLabel.textColor = .clear
+        }
+      })
       .disposed(by: disposeBag)
     
     // 닉네임이 유효할 때만 저장 버튼 활성화
