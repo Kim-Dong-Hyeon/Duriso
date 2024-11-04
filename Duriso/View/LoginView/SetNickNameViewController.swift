@@ -45,6 +45,20 @@ class SetNickNameViewController: UIViewController {
     $0.textColor = .clear  // 초기에는 숨겨진 상태로 시작
   }
   
+  private let checkboxButton = UIButton().then {
+    $0.setImage(UIImage(systemName: "square"), for: .normal)
+    $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+    $0.translatesAutoresizingMaskIntoConstraints = false
+//    $0.isHidden = true
+  }
+  
+  private let autoLoginLabel = UILabel().then {
+    $0.text = "자동 로그인"
+    $0.font = CustomFont.Body3.font()
+    $0.textColor = .CBlack
+//    $0.isHidden = true
+  }
+  
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
     $0.backgroundColor = .CLightBlue
@@ -67,6 +81,8 @@ class SetNickNameViewController: UIViewController {
       nickNameLabel,
       nickNameTextField,
       nicknameStatusLabel,
+      checkboxButton,
+      autoLoginLabel,
       saveButton
     ].forEach { view.addSubview($0) }
     
@@ -81,16 +97,25 @@ class SetNickNameViewController: UIViewController {
     }
     
     nickNameTextField.snp.makeConstraints {
-      $0.bottom.equalTo(saveButton.snp.top).offset(-32)
+      $0.bottom.equalTo(saveButton.snp.top).offset(-96)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
     }
     
     nicknameStatusLabel.snp.makeConstraints {
-      $0.top.equalTo(nickNameTextField.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+      $0.bottom.equalTo(nickNameTextField.snp.top).offset(-8)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
+    }
+    
+    checkboxButton.snp.makeConstraints {
+      $0.top.equalTo(nickNameTextField.snp.bottom).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
+    }
+    
+    autoLoginLabel.snp.makeConstraints {
+      $0.top.equalTo(nickNameTextField.snp.bottom).offset(16)
+      $0.leading.equalTo(checkboxButton.snp.trailing).offset(16)
     }
     
     saveButton.snp.makeConstraints {
@@ -135,6 +160,15 @@ class SetNickNameViewController: UIViewController {
       .bind(to: saveButton.rx.backgroundColor)
       .disposed(by: disposeBag)
     
+    // 체크박스 버튼 탭 이벤트 처리
+    checkboxButton.rx.tap
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.checkboxButton.isSelected.toggle()
+        UserDefaults.standard.set(self.checkboxButton.isSelected, forKey: "autoLogin")
+      })
+      .disposed(by: disposeBag)
+    
     // 저장 버튼 눌렀을 때 ViewModel 호출
     saveButton.rx.tap
       .bind(to: viewModel.saveButtonTapped)
@@ -173,4 +207,9 @@ class SetNickNameViewController: UIViewController {
       window.makeKeyAndVisible()
     }
   }
+}
+
+@available(iOS 17.0, *)
+#Preview {
+  SetNickNameViewController()
 }
