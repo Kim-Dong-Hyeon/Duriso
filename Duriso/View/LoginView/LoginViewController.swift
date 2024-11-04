@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
   }
   
   // Apple 로그인 버튼을 기본 Apple 스타일로 변경
-  private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+  private let appleLoginButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
   
   private let signUpButton = UIButton().then {
     $0.setTitle("회원가입  |", for: .normal)
