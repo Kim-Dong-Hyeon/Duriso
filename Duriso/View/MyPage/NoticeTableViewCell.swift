@@ -12,11 +12,11 @@ import SnapKit
 class NoticeTableViewCell: UITableViewCell {
   
   private let titleLabel = UILabel().then {
-    $0.font = CustomFont.Head4.font()
+    $0.font = CustomFont.Head6.font()
   }
   
   private let dateLabel = UILabel().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

@@ -26,7 +26,7 @@ class ModifyInformationViewController: UIViewController {
   
   //  private let changeImageButton = UIButton().then {
   //    $0.setTitle("사진 변경", for: .normal)
-  //    $0.titleLabel?.font = CustomFont.Body3.font()
+  //    $0.titleLabel?.font = CustomFont.Body4.font()
   //    $0.titleLabel?.textColor = .CWhite
   //    $0.backgroundColor = .CBlue
   //    $0.layer.cornerRadius = 10
@@ -34,13 +34,13 @@ class ModifyInformationViewController: UIViewController {
   
   private let changenicknameLabel = UILabel().then {
     $0.text = "닉네임 변경"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.textColor = .CBlack
   }
   
   private let nicknameTextField = UITextField().then {
     $0.placeholder = "변경할 닉네임을 입력해주세요"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.borderStyle = .roundedRect
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
@@ -48,7 +48,7 @@ class ModifyInformationViewController: UIViewController {
   
   private let checkNicknameDuplicationButton = UIButton().then {
     $0.setTitle("중복 확인", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 10
   }
@@ -56,13 +56,13 @@ class ModifyInformationViewController: UIViewController {
   private let changePasswordButton = UIButton().then {
     $0.setTitle("비밀번호 변경", for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.layer.cornerRadius = 10
   }
   
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 10
   }

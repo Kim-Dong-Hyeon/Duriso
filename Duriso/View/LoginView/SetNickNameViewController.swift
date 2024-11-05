@@ -26,14 +26,14 @@ class SetNickNameViewController: UIViewController {
   
   private let nickNameLabel = UILabel().then {
     $0.text = "닉네임"
-    $0.font = CustomFont.Head5.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
   private let nickNameTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "닉네임을 입력하세요"
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
     $0.autocapitalizationType = .none
@@ -41,7 +41,7 @@ class SetNickNameViewController: UIViewController {
   
   // 닉네임 중복 여부를 표시할 메시지 레이블
   private let nicknameStatusLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .clear  // 초기에는 숨겨진 상태로 시작
   }
   
@@ -54,7 +54,7 @@ class SetNickNameViewController: UIViewController {
   
   private let autoLoginLabel = UILabel().then {
     $0.text = "자동 로그인"
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
     $0.textColor = .CBlack
   }
   
@@ -208,7 +208,7 @@ class SetNickNameViewController: UIViewController {
   }
 }
 
-@available(iOS 17.0, *)
-#Preview {
-  SetNickNameViewController()
-}
+//@available(iOS 17.0, *)
+//#Preview {
+//  SetNickNameViewController()
+//}

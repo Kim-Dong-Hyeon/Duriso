@@ -37,7 +37,7 @@ class GuidelineViewController: UIViewController {
   
   private let urgentMessageContainerLabel = UILabel().then {
     $0.text = ""
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.numberOfLines = 3
   }
   

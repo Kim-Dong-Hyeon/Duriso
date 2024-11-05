@@ -61,7 +61,7 @@ class AedViewController: UIViewController {
     $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 0
   }
   
@@ -69,21 +69,21 @@ class AedViewController: UIViewController {
     $0.text = "관리자 정보"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
   }
   
   private let adminNameLabel = UILabel().then {
     $0.text = "관리자 이름"
     $0.textColor = .CBlack
     $0.textAlignment = .center
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
   }
   
   private let adminNumberLabel = UILabel().then {
     $0.text = "관리자 전화번호"
     $0.textColor = .CBlack
     $0.textAlignment = .center
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
   }
   
   //  private let cancelButton = UIButton().then {

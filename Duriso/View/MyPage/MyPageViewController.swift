@@ -40,33 +40,33 @@ class MyPageViewController: UIViewController {
   
   private let postCountLabel = UILabel().then {
     $0.text = "게시글 수"
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
   private let postCount = UILabel().then {
     $0.text = "0"
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
   private let profileButton = UIButton().then {
     $0.setTitle("내 정보", for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Head5.font()
+    $0.titleLabel?.font = CustomFont.Head3.font()
     $0.layer.cornerRadius = 10
   }
   
   private let loginGuideLabel = UILabel().then {
     $0.text = "로그인 후 사용 가능합니다."
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
   private let loginGuideButton = UIButton().then {
     $0.setTitle("로그인 및 회원가입 페이지로 이동하기", for: .normal)
     $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Head5.font()
+    $0.titleLabel?.font = CustomFont.Head3.font()
     $0.layer.cornerRadius = 10
   }
   
@@ -77,7 +77,7 @@ class MyPageViewController: UIViewController {
   
   private let contactLabel = UILabel().then {
     $0.text = "문의: durisoapp@gmail.com \n개발자: 김동현, 신상규, 이주희, 조수환"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.numberOfLines = 0
     $0.textAlignment = .left
     $0.textColor = .lightGray

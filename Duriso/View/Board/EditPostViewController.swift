@@ -27,7 +27,7 @@ class EditPostViewController: UIViewController, UIImagePickerControllerDelegate,
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 20
-    $0.titleLabel?.font = CustomFont.Head4.font()
+    $0.titleLabel?.font = CustomFont.Head6.font()
   }
   
   private let categoryTouch = UILabel().then {
@@ -38,7 +38,7 @@ class EditPostViewController: UIViewController, UIImagePickerControllerDelegate,
   
   private let titleName = UILabel().then {
     $0.text = "제목:"
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .black
   }
   
@@ -62,7 +62,7 @@ class EditPostViewController: UIViewController, UIImagePickerControllerDelegate,
     $0.setTitleColor(.black, for: .normal)
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 20
-    $0.titleLabel?.font = CustomFont.Head4.font()
+    $0.titleLabel?.font = CustomFont.Head6.font()
   }
   
   private let deleteButton = UIButton().then {

@@ -14,7 +14,7 @@ class MyPageTableViewCell: UITableViewCell {
   private let versionLabel: UILabel = {
     let label = UILabel()
     label.textColor = .lightGray
-    label.font = CustomFont.Body2.font()
+    label.font = CustomFont.Body3.font()
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()

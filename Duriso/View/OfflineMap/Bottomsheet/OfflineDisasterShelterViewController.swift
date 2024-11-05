@@ -19,7 +19,7 @@ class OfflineDisasterShelterViewController: ShelterViewController {
     $0.text = "위도 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -27,7 +27,7 @@ class OfflineDisasterShelterViewController: ShelterViewController {
     $0.text = "경도 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   

@@ -24,7 +24,7 @@ class SignUpViewController: UIViewController {
   
   private let emailLabel = UILabel().then {
     $0.text = "이메일"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
   
   private let nicknameLabel = UILabel().then {
     $0.text = "닉네임"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -54,7 +54,7 @@ class SignUpViewController: UIViewController {
   
   private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -70,7 +70,7 @@ class SignUpViewController: UIViewController {
   
   private let checkpasswordLabel = UILabel().then {
     $0.text = "비밀번호 확인"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -94,7 +94,7 @@ class SignUpViewController: UIViewController {
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
     $0.backgroundColor = .lightGray
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.layer.cornerRadius = 10
     $0.isEnabled = false
   }
@@ -195,7 +195,7 @@ class SignUpViewController: UIViewController {
     }
     
     saveButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -311,3 +311,8 @@ class SignUpViewController: UIViewController {
     }
   }
 }
+
+//@available(iOS 17.0, *)
+//#Preview {
+//  SignUpViewController()
+//}

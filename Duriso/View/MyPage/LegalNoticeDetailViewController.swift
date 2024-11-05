@@ -13,7 +13,7 @@ class LegalNoticeDetailViewController: UIViewController {
   private let notice: LegalNoticeModel
   
   private let textView = UITextView().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.isEditable = false
   }
   

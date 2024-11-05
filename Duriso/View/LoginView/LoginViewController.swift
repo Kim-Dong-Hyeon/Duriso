@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
   
   private let idLabel = UILabel().then {
     $0.text = "이메일"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
   
   private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -59,13 +59,14 @@ class LoginViewController: UIViewController {
   
   private let checkboxButton = UIButton().then {
     $0.setImage(UIImage(systemName: "square"), for: .normal)
-    $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+    $0.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+    $0.tintColor = .CBlue
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
   private let autoLoginLabel = UILabel().then {
     $0.text = "자동 로그인"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head4.font()
     $0.textColor = .CBlack
   }
   
@@ -87,14 +88,14 @@ class LoginViewController: UIViewController {
   
   private let signUpButton = UIButton().then {
     $0.setTitle("회원가입  |", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.backgroundColor = .CWhite
     $0.setTitleColor(.CBlack, for: .normal)
   }
   
   private let nonMemeberButton = UIButton().then {
     $0.setTitle("비회원으로 둘러보기", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.backgroundColor = .CWhite
     $0.setTitleColor(.CBlack, for: .normal)
   }
@@ -134,7 +135,6 @@ class LoginViewController: UIViewController {
       signUpButton,
       nonMemeberButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
-    
     
     [
       titleLabel,

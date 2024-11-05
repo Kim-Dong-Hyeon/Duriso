@@ -49,21 +49,21 @@ class EmergencyReportViewController: UIViewController {
     $0.text = "작성자 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
   }
   
   private let poiViewAddress = UILabel().then {
     $0.text = "작성 위치 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head4.font()
+    $0.font = CustomFont.Head6.font()
   }
   
   private let postTimeLabel = UILabel().then {
     $0.text = "작성 시간 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   // 닫기 버튼 비활성화
@@ -76,7 +76,7 @@ class EmergencyReportViewController: UIViewController {
   
   private let postMessageTextView = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue2
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.text = "제보 내용 불러오는 중"
     $0.textColor = .CBlack
     

@@ -29,15 +29,15 @@ class BoardTableViewCell: UITableViewCell {
   }
   
   private let contentLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
   }
   
   private let addressLabel = UILabel().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   private let timeLabel = UILabel().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   private let categorysLabel = UILabel().then {
