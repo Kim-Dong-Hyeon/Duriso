@@ -68,7 +68,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 0
     $0.adjustsFontSizeToFitWidth = true
   }
@@ -77,7 +77,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "000 대피소"
     $0.textColor = .CBlack
     $0.textAlignment = .center
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   let cancelButton = UIButton().then {
@@ -91,7 +91,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "위도 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -99,7 +99,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "경도 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -107,7 +107,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "규모 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -115,7 +115,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "인원수 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -123,7 +123,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "관리기관 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   
@@ -131,7 +131,7 @@ class OfflineCivilDefenseShelterViewController: UIViewController {
     $0.text = "관리기관 정보 받아오는 중.."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 1
   }
   

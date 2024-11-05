@@ -51,7 +51,7 @@ class BoardViewController: UIViewController {
     $0.setTitle("글쓰기", for: .normal)
     $0.setTitleColor(.white, for: .normal)
     $0.backgroundColor = .CBlue
-    $0.titleLabel?.font = CustomFont.Head4.font()
+    $0.titleLabel?.font = CustomFont.Head6.font()
     // 코너 둥글게
     $0.layer.cornerRadius = 30
     $0.clipsToBounds = true

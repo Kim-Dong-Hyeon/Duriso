@@ -51,7 +51,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     $0.textColor = .CBlack
     $0.textAlignment = .center
     $0.adjustsFontSizeToFitWidth = true
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
   }
   
   let addressRefreshButton = UIButton().then {
@@ -211,7 +211,7 @@ class OnlineViewController: UIViewController, PoiViewModelDelegate {
     button.setImage(UIImage(systemName: symbolName), for: .normal)
     button.tintColor = .CWhite
     button.setTitle(title, for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
+    button.titleLabel?.font = CustomFont.Body4.font()
     button.setTitleColor(.CWhite, for: .normal)
     button.backgroundColor = selectedColor
     button.layer.cornerRadius = 17

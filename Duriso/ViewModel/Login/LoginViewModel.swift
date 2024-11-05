@@ -6,7 +6,6 @@
 //
 
 import FirebaseAuth
-
 import RxCocoa
 import RxSwift
 
@@ -15,9 +14,11 @@ class LoginViewModel {
   let email = PublishSubject<String>()
   let password = PublishSubject<String>()
   let loginTap = PublishSubject<Void>()
+  let appleLoginTap = PublishSubject<Void>()
   
   let loginSuccess = PublishSubject<Void>()
   let loginError = PublishSubject<String>()
+  let appleLoginSuccess = PublishSubject<Void>() // Apple 로그인 성공 시 사용
   
   private let disposeBag = DisposeBag()
   
@@ -28,20 +29,42 @@ class LoginViewModel {
       .withLatestFrom(credentials)
       .flatMapLatest { [weak self] email, password -> Observable<AuthDataResult> in
         guard let self = self else { return .empty() }
-        return Auth.auth().rx.signIn(withEmail: email, password: password)
-          .do(onNext: { result in
-            print("Firebase Sign In Result: \(result)")
-            self.loginSuccess.onNext(())
-          }, onError: { error in
-            print("Firebase Sign In Error: \(error.localizedDescription)")
-            self.loginError.onNext(self.translateFirebaseError(error))
-          })
-          .catch { [weak self] error -> Observable<AuthDataResult> in
-            self?.loginError.onNext(self?.translateFirebaseError(error) ?? "로그인 실패")
-            return .empty()
-          }
+        return FirebaseAuthManager.shared.signIn(withEmail: email, password: password)
       }
-      .subscribe()
+      .subscribe(onNext: { [weak self] _ in
+        self?.loginSuccess.onNext(())
+      }, onError: { [weak self] error in
+        self?.loginError.onNext(error.localizedDescription)
+      })
+      .disposed(by: disposeBag)
+    
+    appleLoginTap
+      .flatMapLatest {
+        FirebaseAuthManager.shared.signInWithApple()
+      }
+      .flatMap { result -> Observable<(AuthDataResult, [String: Any]?)> in
+        let uid = result.user.uid
+        return FirebaseFirestoreManager.shared.fetchUserData(uid: uid)
+          .map { userData in (result, userData) }
+          .catchAndReturn((result, nil))
+      }
+      .flatMap { result, existingUserData -> Observable<Void> in
+        let uid = result.user.uid
+        let email = result.user.email ?? ""
+        
+        if let existingUserData = existingUserData, existingUserData["nickname"] as? String != nil {
+          // 기존 사용자: 데이터 업데이트 없이 로그인 성공
+          return Observable.just(())
+        } else {
+          // 새로운 사용자 또는 닉네임이 없는 사용자: 기본 데이터 저장
+          return FirebaseFirestoreManager.shared.saveUserData(uid: uid, data: ["email": email, "nickname": "", "postcount": 0, "reportedpostcount": 0, "uuid": uid])
+        }
+      }
+      .subscribe(onNext: { [weak self] in
+        self?.appleLoginSuccess.onNext(())
+      }, onError: { [weak self] error in
+        self?.loginError.onNext(error.localizedDescription)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -59,22 +82,6 @@ class LoginViewModel {
       return "네트워크 오류가 발생했습니다. 다시 시도해주세요."
     default:
       return error.localizedDescription
-    }
-  }
-}
-
-extension Reactive where Base: Auth {
-  func signIn(withEmail email: String, password: String) -> Observable<AuthDataResult> {
-    return Observable.create { observer in
-      Auth.auth().signIn(withEmail: email, password: password) { result, error in
-        if let error = error {
-          observer.onError(error)
-        } else if let result = result {
-          observer.onNext(result)
-          observer.onCompleted()
-        }
-      }
-      return Disposables.create()
     }
   }
 }

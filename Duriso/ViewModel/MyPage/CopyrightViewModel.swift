@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 class CopyrightViewModel {
-  var items: Observable<[Copyright]>
+  var items: Observable<[CopyrightModel]>
   
   init() {
     self.items = Observable.just([])
@@ -19,13 +19,13 @@ class CopyrightViewModel {
   
   private func loadInitialData() {
     let copyrights = [
-      Copyright(title: "notoSans",
+      CopyrightModel(title: "notoSans",
                   content: loadContent(for: "notoSans") ?? " "),
-      Copyright(title: "maplibre",
+      CopyrightModel(title: "maplibre",
                   content: loadContent(for: "maplibre") ?? " "),
-      Copyright(title: "API",
+      CopyrightModel(title: "API",
                   content: loadContent(for: "api") ?? " "),
-      Copyright(title: "이미지, 영상, 문서",
+      CopyrightModel(title: "이미지, 영상, 문서",
                   content: loadContent(for: "imagedocument") ?? " ")
     ]
     self.items = Observable.just(copyrights)

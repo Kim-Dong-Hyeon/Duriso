@@ -15,12 +15,13 @@ class SignUptableViewCell: UITableViewCell {
   
   private let checkboxButton = UIButton().then {
     $0.setImage(UIImage(systemName: "square"), for: .normal)
-    $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+    $0.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+    $0.tintColor = .CBlue
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head5.font()
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -53,7 +54,7 @@ class SignUptableViewCell: UITableViewCell {
     ].forEach { contentView.addSubview($0) }
     
     checkboxButton.snp.makeConstraints {
-      $0.centerY.equalTo(contentView.safeAreaLayoutGuide)
+      $0.centerY.equalTo(contentView.safeAreaLayoutGuide).offset(2)
       $0.leading.equalTo(contentView.safeAreaLayoutGuide).offset(16)
       $0.width.height.equalTo(24)
     }

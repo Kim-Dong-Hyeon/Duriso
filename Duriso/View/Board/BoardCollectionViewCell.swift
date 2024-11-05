@@ -23,7 +23,7 @@ class BoardCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 20
     $0.layer.borderColor = UIColor.systemGray4.cgColor
     $0.layer.borderWidth = 1.0
-    $0.titleLabel?.font = CustomFont.Head3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.titleLabel?.numberOfLines = 1
     $0.titleLabel?.adjustsFontSizeToFitWidth = true
     $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)

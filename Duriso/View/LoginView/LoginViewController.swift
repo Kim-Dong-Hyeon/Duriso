@@ -5,6 +5,7 @@
 //  Created by t2023-m0102 on 8/26/24.
 //
 
+import AuthenticationServices
 import UIKit
 
 import FirebaseAuth
@@ -27,7 +28,7 @@ class LoginViewController: UIViewController {
   
   private let idLabel = UILabel().then {
     $0.text = "이메일"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -42,7 +43,7 @@ class LoginViewController: UIViewController {
   
   private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -58,46 +59,64 @@ class LoginViewController: UIViewController {
   
   private let checkboxButton = UIButton().then {
     $0.setImage(UIImage(systemName: "square"), for: .normal)
-    $0.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
+    $0.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+    $0.tintColor = .CBlue
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
   private let autoLoginLabel = UILabel().then {
     $0.text = "자동 로그인"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head4.font()
     $0.textColor = .CBlack
   }
   
   private let idLoginButton = UIButton().then {
-    $0.setImage(UIImage(named: "idLogin"), for: .normal)
-    $0.layer.cornerRadius = 10
+//    $0.backgroundColor = .CBlack
+    $0.backgroundColor = .white
+//    $0.backgroundColor = .CBlue
+//    $0.backgroundColor = .CLightBlue2
+    $0.setImage(UIImage(systemName: "envelope.fill"), for: .normal)
+//    $0.tintColor = .CWhite
+    $0.tintColor = .CBlack
+    $0.setTitle("이메일로 로그인", for: .normal)
+    $0.titleLabel?.font = CustomFont.Head4.font()
+//    $0.setTitleColor(.CWhite, for: .normal)
+    $0.setTitleColor(.CBlack, for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+    $0.contentVerticalAlignment = .center
+    $0.contentHorizontalAlignment = .center
+    $0.layer.borderWidth = 1
+    $0.layer.cornerRadius = 5
     $0.clipsToBounds = true
   }
   
   private let kakaoLoginButton = UIButton().then {
-    $0.setImage(UIImage(named: "kakaoLogin"), for: .normal)
-    $0.layer.cornerRadius = 10
+    $0.backgroundColor = UIColor(hexCode: "#FEE500")
+    $0.setImage(UIImage(named: "kakaoLogo")?.resized(to: CGSize(width: 20, height: 20)), for: .normal)
+    $0.setTitle("카카오 로그인", for: .normal)
+    $0.titleLabel?.font = CustomFont.Head4.font()
+    $0.setTitleColor(UIColor(hexCode: "#000000", alpha: 0.85), for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+    $0.layer.cornerRadius = 5
     $0.clipsToBounds = true
     $0.isHidden = true // 기능 구현 후 제거
   }
   
-  private let appleLoginButton = UIButton().then {
-    $0.setImage(UIImage(named: "appleLogin"), for: .normal)
-    $0.layer.cornerRadius = 10
-    $0.clipsToBounds = true
-    $0.isHidden = true // 기능 구현 후 제거
-  }
+  // Apple 로그인 버튼을 기본 Apple 스타일로 변경
+  private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
   
   private let signUpButton = UIButton().then {
     $0.setTitle("회원가입  |", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.backgroundColor = .CWhite
     $0.setTitleColor(.CBlack, for: .normal)
   }
   
   private let nonMemeberButton = UIButton().then {
     $0.setTitle("비회원으로 둘러보기", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.backgroundColor = .CWhite
     $0.setTitleColor(.CBlack, for: .normal)
   }
@@ -105,7 +124,7 @@ class LoginViewController: UIViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.alignment = .fill
-    //      $0.distribution = .fillEqually
+//    $0.distribution = .fillEqually
     $0.spacing = 8
   }
   
@@ -137,7 +156,6 @@ class LoginViewController: UIViewController {
       signUpButton,
       nonMemeberButton
     ].forEach { buttonStackView.addArrangedSubview($0) }
-    
     
     [
       titleLabel,
@@ -183,7 +201,7 @@ class LoginViewController: UIViewController {
     }
     
     checkboxButton.snp.makeConstraints {
-      $0.top.equalTo(passwordTextField.snp.bottom).offset(16)
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(18)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(64)
     }
     
@@ -194,22 +212,22 @@ class LoginViewController: UIViewController {
     
     idLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(checkboxButton.snp.bottom).offset(32)
-      $0.width.equalTo(320)
-      $0.height.equalTo(48)
-    }
-    
-    kakaoLoginButton.snp.makeConstraints {
-      $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(idLoginButton.snp.bottom).offset(24)
-      $0.width.equalTo(320)
+      $0.top.equalTo(checkboxButton.snp.bottom).offset(48)
+      $0.width.equalTo(280)
       $0.height.equalTo(48)
     }
     
     appleLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(kakaoLoginButton.snp.bottom).offset(24)
-      $0.width.equalTo(320)
+      $0.top.equalTo(idLoginButton.snp.bottom).offset(24)
+      $0.width.equalTo(280)
+      $0.height.equalTo(48)
+    }
+    
+    kakaoLoginButton.snp.makeConstraints {
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(appleLoginButton.snp.bottom).offset(24)
+      $0.width.equalTo(280)
       $0.height.equalTo(48)
     }
     
@@ -220,18 +238,22 @@ class LoginViewController: UIViewController {
   }
   
   private func bindUI() {
+    // 이메일 텍스트 필드 입력을 ViewModel의 email 변수에 바인딩
     idTextField.rx.text.orEmpty
       .bind(to: viewModel.email)
       .disposed(by: disposeBag)
     
+    // 비밀번호 텍스트 필드 입력을 ViewModel의 password 변수에 바인딩
     passwordTextField.rx.text.orEmpty
       .bind(to: viewModel.password)
       .disposed(by: disposeBag)
     
+    // 이메일 로그인 버튼 탭 이벤트를 ViewModel의 loginTap에 바인딩
     idLoginButton.rx.tap
       .bind(to: viewModel.loginTap)
       .disposed(by: disposeBag)
     
+    // 체크박스 버튼 탭 이벤트 처리
     checkboxButton.rx.tap
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
@@ -240,20 +262,15 @@ class LoginViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
+    // 뷰가 로드될 때 저장된 자동 로그인 상태 복원
+    let isAutoLogin = UserDefaults.standard.bool(forKey: "autoLogin")
+    checkboxButton.isSelected = isAutoLogin
+    
+    // 로그인 성공/실패에 대한 처리
     viewModel.loginSuccess
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        
-        if self.checkboxButton.isSelected {
-          UserDefaults.standard.set(true, forKey: "autoLogin")
-        } else {
-          UserDefaults.standard.set(false, forKey: "autoLogin")
-        }
-        
-        let mainTabBarViewModel = MainTabBarViewModel()
-        let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
-        
-        self.navigationController?.setViewControllers([mainTabBarVC], animated: true)
+        self.handleLoginSuccess()
       })
       .disposed(by: disposeBag)
     
@@ -265,6 +282,31 @@ class LoginViewController: UIViewController {
         )
         let action = UIAlertAction(title: "확인", style: .default, handler: nil)
         alert.addAction(action)
+        self?.present(alert, animated: true, completion: nil)
+      })
+      .disposed(by: disposeBag)
+    
+    // Apple 로그인 버튼 동작
+    appleLoginButton.addTarget(self, action: #selector(handleAppleLogin), for: .touchUpInside)
+    
+    viewModel.appleLoginSuccess
+      .flatMap { _ -> Observable<[String: Any]> in
+        guard let uid = FirebaseAuthManager.shared.getCurrentUserUid() else {
+          return Observable.error(NSError(domain: "LoginError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get current user UID"]))
+        }
+        return FirebaseFirestoreManager.shared.fetchUserData(uid: uid)
+      }
+      .subscribe(onNext: { [weak self] userData in
+        guard let self = self else { return }
+        if let nickname = userData["nickname"] as? String, !nickname.isEmpty {
+          self.goToMainScreen()  // 닉네임이 있으면 메인 화면으로 이동
+        } else {
+          self.goToSetNickNameScreen()  // 닉네임이 없으면 닉네임 설정 화면으로 이동
+        }
+      }, onError: { [weak self] error in
+        print("Error fetching user data: \(error.localizedDescription)")
+        let alert = UIAlertController(title: "로그인 오류", message: "사용자 데이터를 가져오는 데 실패했습니다.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
         self?.present(alert, animated: true, completion: nil)
       })
       .disposed(by: disposeBag)
@@ -296,4 +338,41 @@ class LoginViewController: UIViewController {
       })
       .disposed(by: disposeBag)
   }
+  
+  @objc private func handleAppleLogin() {
+    viewModel.appleLoginTap.onNext(())
+  }
+  
+  private func handleLoginSuccess() {
+    let mainTabBarViewModel = MainTabBarViewModel()
+    let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+    
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+       let window = windowScene.windows.first {
+      window.rootViewController = mainTabBarVC
+      window.makeKeyAndVisible()
+    }
+  }
+  
+  private func goToMainScreen() {
+    let mainTabBarViewModel = MainTabBarViewModel()
+    let mainTabBarVC = MainTabBarViewController(viewModel: mainTabBarViewModel)
+    
+    // Root ViewController를 메인 탭으로 교체
+    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+       let window = windowScene.windows.first {
+      window.rootViewController = mainTabBarVC
+      window.makeKeyAndVisible()
+    }
+  }
+  
+  private func goToSetNickNameScreen() {
+    let setNickNameVC = SetNickNameViewController()
+    self.navigationController?.pushViewController(setNickNameVC, animated: true)
+  }
 }
+
+//@available(iOS 17.0, *)
+//#Preview {
+//  LoginViewController()
+//}

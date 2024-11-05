@@ -124,7 +124,7 @@ class OfflineViewController: UIViewController {
     button.setImage(UIImage(systemName: symbolName), for: .normal)
     button.tintColor = .CWhite
     button.setTitle(title, for: .normal)
-    button.titleLabel?.font = CustomFont.Body3.font()
+    button.titleLabel?.font = CustomFont.Body4.font()
     button.setTitleColor(.CWhite, for: .normal)
     button.backgroundColor = selectedColor
     

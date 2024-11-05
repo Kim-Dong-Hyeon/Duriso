@@ -59,7 +59,7 @@ class ShelterViewController: UIViewController {
     $0.text = "위치 정보 받아오는 중..."
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 0
     $0.adjustsFontSizeToFitWidth = true
   }
@@ -68,7 +68,7 @@ class ShelterViewController: UIViewController {
     $0.text = "000 대피소"
     $0.textColor = .CBlack
     $0.textAlignment = .center
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   // 닫기 버튼 비활성화

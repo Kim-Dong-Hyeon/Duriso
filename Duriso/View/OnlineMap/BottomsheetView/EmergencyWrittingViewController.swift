@@ -53,7 +53,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   private let messageInputTextView = UITextView().then {
     $0.backgroundColor = UIColor.CWhite
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.layer.borderWidth = 1
@@ -64,14 +64,14 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   
   private let placeholderLabel = UILabel().then {
     $0.text = "꼭 필요한 정보만 50자 이내로 남겨주세요.\n발생 지역을 상세히 적어주시면 큰 도움이 됩니다!"
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .gray
     $0.numberOfLines = 0
   }
   
   private let addPostButton = UIButton().then {
     $0.setTitle("완료", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.setTitleColor(.CWhite, for: .normal)
     $0.backgroundColor = .CBlue
     $0.layer.cornerRadius = 17
@@ -83,7 +83,7 @@ class EmergencyWrittingViewController: UIViewController, UITextViewDelegate {
   private let characterLimitLabel = UILabel().then {
     $0.text = "50자 이내로 작성해주세요."
     $0.textColor = .CRed
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.isHidden = true // 처음에는 숨김 상태
   }
   

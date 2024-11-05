@@ -10,14 +10,14 @@ import UIKit
 import SnapKit
 
 class CopyrightDetailViewController: UIViewController {
-  private let copyright: Copyright
+  private let copyright: CopyrightModel
   
   private let textView = UITextView().then {
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.isEditable = false
   }
   
-  init(copyright: Copyright) {
+  init(copyright: CopyrightModel) {
     self.copyright = copyright
     super.init(nibName: nil, bundle: nil)
   }

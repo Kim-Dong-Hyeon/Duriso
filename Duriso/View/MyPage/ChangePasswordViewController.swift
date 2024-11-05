@@ -18,14 +18,14 @@ class ChangePasswordViewController: UIViewController {
   
   private let nowPasswordLabel = UILabel().then {
     $0.text = "현재 비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.textColor = .CBlack
   }
   
   private let nowPasswordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "현재 비밀번호를 입력하세요"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
     $0.isSecureTextEntry = true
@@ -34,14 +34,14 @@ class ChangePasswordViewController: UIViewController {
   
   private let newPasswordLabel = UILabel().then {
     $0.text = "새 비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.textColor = .CBlack
   }
   
   private let newPasswordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "새 비밀번호를 입력하세요"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
     $0.isSecureTextEntry = true
@@ -50,14 +50,14 @@ class ChangePasswordViewController: UIViewController {
   
   private let checkPasswordLabel = UILabel().then {
     $0.text = "새 비밀번호 확인"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.textColor = .CBlack
   }
   
   private let checkPasswordTextField = UITextField().then {
     $0.borderStyle = .roundedRect
     $0.placeholder = "새 비밀번호를 입력하세요"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
     $0.backgroundColor = .lightGray
     $0.autocorrectionType = .no
     $0.isSecureTextEntry = true
@@ -66,7 +66,7 @@ class ChangePasswordViewController: UIViewController {
   
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.backgroundColor = .CLightBlue
     $0.layer.cornerRadius = 10
   }

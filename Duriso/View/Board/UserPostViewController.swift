@@ -1,5 +1,5 @@
 //
-//  PostingViewController.swift
+//  UserPostViewController.swift
 //  Duriso
 //
 //  Created by 신상규 on 9/10/24.
@@ -65,7 +65,7 @@ class UserPostViewController: UIViewController {
   }
   
   private let postingLocationeName1 = UILabel().then {
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
     $0.textColor = .black
   }
   
@@ -79,7 +79,7 @@ class UserPostViewController: UIViewController {
   
   private let postingTimeLabel = UILabel().then {
     $0.text = "00시 00분 00초"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   private let postingStackView = UIStackView().then {
@@ -88,7 +88,7 @@ class UserPostViewController: UIViewController {
   }
   
   private let postingUserTextLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.numberOfLines = 100
     $0.textColor = .black
   }
@@ -101,19 +101,19 @@ class UserPostViewController: UIViewController {
   private let ripotButton = UIButton().then {
     $0.setTitle("신고하기", for: .normal)
     $0.setTitleColor(.red, for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
   }
   
   private let cutoffUser = UIButton().then {
     $0.setTitle("차단하기", for: .normal)
     $0.setTitleColor(.red, for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
   }
   
   private let editButton = UIButton().then {
     $0.setTitle("Edit", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.setImage(UIImage(systemName: "pencil"), for: .normal) // 시스템 심볼 이미지 추가
     $0.tintColor = .black // 심볼 색상 블랙으로 설정
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
@@ -123,7 +123,7 @@ class UserPostViewController: UIViewController {
   private let deleteButton = UIButton().then {
     $0.setTitle("Delete", for: .normal)
     $0.setTitleColor(.gray, for: .normal)
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Body4.font()
     $0.setImage(UIImage(systemName: "trash"), for: .normal) // 시스템 심볼 이미지 추가
     $0.tintColor = .black // 심볼 색상 블랙으로 설정
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이미지 위치 조정
@@ -144,7 +144,7 @@ class UserPostViewController: UIViewController {
   
   private let likeNumberLabel = UILabel().then {
     $0.text = "0"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
   private let likeStackView = UIStackView().then {
@@ -164,7 +164,7 @@ class UserPostViewController: UIViewController {
   
   private let nickNameLabel = UILabel().then {
     $0.text = "닉네임"
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
   }
   
   override func viewDidLoad() {
