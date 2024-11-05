@@ -22,14 +22,15 @@ struct CustomFont {
   
   static let Head: Font = Font(name: "NotoSansKR-Bold", size: 24.0)
   static let Head2: Font = Font(name: "NotoSansKR-Bold", size: 20.0)
-  static let Head3: Font = Font(name: "NotoSansKR-Bold", size: 16.0)
-  static let Head4: Font = Font(name: "NotoSansKR-Bold", size: 12.0)
-  static let Head5: Font = Font(name: "NotoSansKR-Bold", size: 18.0)
+  static let Head3: Font = Font(name: "NotoSansKR-Bold", size: 18.0)
+  static let Head4: Font = Font(name: "NotoSansKR-Bold", size: 16.0)
+  static let Head5: Font = Font(name: "NotoSansKR-Bold", size: 14.0)
+  static let Head6: Font = Font(name: "NotoSansKR-Bold", size: 12.0)
   
   static let Body: Font = Font(name: "NotoSansKR-Regular", size: 20.0)
-  static let Body2: Font = Font(name: "NotoSansKR-Regular", size: 16.0)
-  static let Body3: Font = Font(name: "NotoSansKR-Regular", size: 14.0)
-  static let Body4: Font = Font(name: "NotoSansKR-Regular", size: 18.0)
+  static let Body2: Font = Font(name: "NotoSansKR-Regular", size: 18.0)
+  static let Body3: Font = Font(name: "NotoSansKR-Regular", size: 16.0)
+  static let Body4: Font = Font(name: "NotoSansKR-Regular", size: 14.0)
   
   static let sub: Font = Font(name: "NotoSansKR-Light", size: 16.0)
   static let sub2: Font = Font(name: "NotoSansKR-Light", size: 12.0)
