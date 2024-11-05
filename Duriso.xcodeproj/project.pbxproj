@@ -87,6 +87,8 @@
 		767622872C85CC9D0075B09E /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622862C85CC9D0075B09E /* MainTabBarViewModel.swift */; };
 		7676228A2C85CDB50075B09E /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 767622892C85CDB50075B09E /* Then */; };
 		7676228E2C85F2190075B09E /* OfflinePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767622822C85C8610075B09E /* OfflinePageViewController.swift */; };
+		768507472CDA10DE00E64B77 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 768507462CDA10DE00E64B77 /* GoogleSignIn */; };
+		768507492CDA10DE00E64B77 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 768507482CDA10DE00E64B77 /* GoogleSignInSwift */; };
 		768F50972C881F9A00A92ED6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F50962C881F9A00A92ED6 /* Environment.swift */; };
 		768F509F2C89DC0D00A92ED6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768F509E2C89DC0D00A92ED6 /* LocationManager.swift */; };
 		768F50A22C8B524000A92ED6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763C0A232C7B125B006BC4E7 /* AppDelegate.swift */; };
@@ -304,8 +306,10 @@
 				763C0A422C7B1AA7006BC4E7 /* RxSwift in Frameworks */,
 				763C0A452C7B1AFB006BC4E7 /* Alamofire in Frameworks */,
 				14334FCA2CA7B1420092E9C8 /* Kingfisher in Frameworks */,
+				768507492CDA10DE00E64B77 /* GoogleSignInSwift in Frameworks */,
 				7622D03F2C7C178400B1AEB2 /* FirebaseStorage in Frameworks */,
 				763C0A402C7B1AA7006BC4E7 /* RxCocoa in Frameworks */,
+				768507472CDA10DE00E64B77 /* GoogleSignIn in Frameworks */,
 				14DE81372C91BC9B002E26FD /* FirebaseFirestore in Frameworks */,
 				763C0A3D2C7B1A2F006BC4E7 /* SnapKit in Frameworks */,
 				76E3706B2C947676005724E9 /* FirebaseFirestore in Frameworks */,
@@ -820,6 +824,8 @@
 				76E3706A2C947676005724E9 /* FirebaseFirestore */,
 				14DE81362C91BC9B002E26FD /* FirebaseFirestore */,
 				14334FC92CA7B1420092E9C8 /* Kingfisher */,
+				768507462CDA10DE00E64B77 /* GoogleSignIn */,
+				768507482CDA10DE00E64B77 /* GoogleSignInSwift */,
 			);
 			productName = Duriso;
 			productReference = 763C0A202C7B125B006BC4E7 /* Duriso.app */;
@@ -859,6 +865,7 @@
 				76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				7663B7E92C92D0250066FE91 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 				14334FC82CA7B1420092E9C8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				768507452CDA10DE00E64B77 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 763C0A212C7B125B006BC4E7 /* Products */;
 			projectDirPath = "";
@@ -1321,6 +1328,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		768507452CDA10DE00E64B77 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		76EFE8BB2C8F3CBB0077D75B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1391,6 +1406,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 767622882C85CDB50075B09E /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		768507462CDA10DE00E64B77 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 768507452CDA10DE00E64B77 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		768507482CDA10DE00E64B77 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 768507452CDA10DE00E64B77 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		76E3706A2C947676005724E9 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
