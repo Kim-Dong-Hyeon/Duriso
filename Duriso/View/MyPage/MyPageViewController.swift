@@ -161,7 +161,7 @@ class MyPageViewController: UIViewController {
     }
     
     contactLabel.snp.makeConstraints{
-      $0.top.equalTo(myPageTableView.snp.bottom)
+//      $0.top.equalTo(myPageTableView.snp.bottom)      // 삭제 예정: 중복되는 제약조건 (디버깅 Warning)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
       $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-30)
     }

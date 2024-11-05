@@ -178,7 +178,7 @@ class GuidelineViewController: UIViewController {
     urgentMessageContainerLabel.snp.makeConstraints {
       $0.centerY.equalTo(urgentMessageContainer.snp.centerY)
       $0.edges.equalTo(urgentMessageContainer.snp.edges).inset(8)
-      $0.width.equalTo(340)
+//      $0.width.equalTo(340)         // 삭제 예정: 중복되는 제약조건 (디버깅 Warning)
     }
     
     atrickcollectionLabel.snp.makeConstraints {
@@ -190,7 +190,7 @@ class GuidelineViewController: UIViewController {
       $0.top.equalTo(atrickcollectionLabel.snp.bottom).offset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
-      $0.width.equalTo(400)
+//      $0.width.equalTo(400)         // 삭제 예정: 중복되는 제약조건 (디버깅 Warning)
       $0.height.equalTo(160)
     }
     
@@ -204,7 +204,7 @@ class GuidelineViewController: UIViewController {
       $0.top.equalTo(atrickTableLabel.snp.bottom).offset(8)
       $0.centerX.equalToSuperview()
       $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-//      $0.height.equalTo(250)
+//      $0.height.equalTo(250)         // 삭제 예정: 중복되는 제약조건 (디버깅 Warning)
     }
   }
 }
