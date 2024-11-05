@@ -71,20 +71,41 @@ class LoginViewController: UIViewController {
   }
   
   private let idLoginButton = UIButton().then {
-    $0.setImage(UIImage(named: "idLogin"), for: .normal)
-    $0.layer.cornerRadius = 10
+//    $0.backgroundColor = .CBlack
+    $0.backgroundColor = .white
+//    $0.backgroundColor = .CBlue
+//    $0.backgroundColor = .CLightBlue2
+    $0.setImage(UIImage(systemName: "envelope.fill"), for: .normal)
+//    $0.tintColor = .CWhite
+    $0.tintColor = .CBlack
+    $0.setTitle("이메일로 로그인", for: .normal)
+    $0.titleLabel?.font = CustomFont.Head4.font()
+//    $0.setTitleColor(.CWhite, for: .normal)
+    $0.setTitleColor(.CBlack, for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+    $0.contentVerticalAlignment = .center
+    $0.contentHorizontalAlignment = .center
+    $0.layer.borderWidth = 1
+    $0.layer.cornerRadius = 5
     $0.clipsToBounds = true
   }
   
   private let kakaoLoginButton = UIButton().then {
-    $0.setImage(UIImage(named: "kakaoLogin"), for: .normal)
-    $0.layer.cornerRadius = 10
+    $0.backgroundColor = UIColor(hexCode: "#FEE500")
+    $0.setImage(UIImage(named: "kakaoLogo")?.resized(to: CGSize(width: 20, height: 20)), for: .normal)
+    $0.setTitle("카카오 로그인", for: .normal)
+    $0.titleLabel?.font = CustomFont.Head4.font()
+    $0.setTitleColor(UIColor(hexCode: "#000000", alpha: 0.85), for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0)
+    $0.layer.cornerRadius = 5
     $0.clipsToBounds = true
     $0.isHidden = true // 기능 구현 후 제거
   }
   
   // Apple 로그인 버튼을 기본 Apple 스타일로 변경
-  private let appleLoginButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
+  private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
   
   private let signUpButton = UIButton().then {
     $0.setTitle("회원가입  |", for: .normal)
@@ -350,3 +371,8 @@ class LoginViewController: UIViewController {
     self.navigationController?.pushViewController(setNickNameVC, animated: true)
   }
 }
+
+//@available(iOS 17.0, *)
+//#Preview {
+//  LoginViewController()
+//}
