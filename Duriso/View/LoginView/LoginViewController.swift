@@ -201,7 +201,7 @@ class LoginViewController: UIViewController {
     }
     
     checkboxButton.snp.makeConstraints {
-      $0.top.equalTo(passwordTextField.snp.bottom).offset(16)
+      $0.top.equalTo(passwordTextField.snp.bottom).offset(18)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(64)
     }
     
@@ -212,21 +212,21 @@ class LoginViewController: UIViewController {
     
     idLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(checkboxButton.snp.bottom).offset(32)
-      $0.width.equalTo(320)
-      $0.height.equalTo(48)
-    }
-    
-    kakaoLoginButton.snp.makeConstraints {
-      $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(idLoginButton.snp.bottom).offset(24)
-      $0.width.equalTo(320)
+      $0.top.equalTo(checkboxButton.snp.bottom).offset(48)
+      $0.width.equalTo(280)
       $0.height.equalTo(48)
     }
     
     appleLoginButton.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
-      $0.top.equalTo(kakaoLoginButton.snp.bottom).offset(24)
+      $0.top.equalTo(idLoginButton.snp.bottom).offset(24)
+      $0.width.equalTo(280)
+      $0.height.equalTo(48)
+    }
+    
+    kakaoLoginButton.snp.makeConstraints {
+      $0.centerX.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(appleLoginButton.snp.bottom).offset(24)
       $0.width.equalTo(280)
       $0.height.equalTo(48)
     }
