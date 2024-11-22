@@ -5,7 +5,7 @@
 //  Created by t2023-m0102 on 9/3/24.
 //
 
-struct LegalNotice {
+struct LegalNoticeModel {
   let title: String
   let content: String
 }

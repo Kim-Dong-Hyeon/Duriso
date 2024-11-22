@@ -49,11 +49,11 @@ class BoardViewController: UIViewController {
   
   private let writingButton = UIButton().then {
     $0.setTitle("글쓰기", for: .normal)
-    $0.setTitleColor(.black, for: .normal)
-    $0.backgroundColor = .CLightBlue
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.setTitleColor(.white, for: .normal)
+    $0.backgroundColor = .CBlue
+    $0.titleLabel?.font = CustomFont.Head6.font()
     // 코너 둥글게
-    $0.layer.cornerRadius = 17
+    $0.layer.cornerRadius = 30
     $0.clipsToBounds = true
     // 패딩 설정
     $0.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
@@ -63,12 +63,12 @@ class BoardViewController: UIViewController {
     $0.layer.shadowOpacity = 0.2
     $0.layer.shadowRadius = 4
     // 버튼에 아이콘 추가
-    let plusIcon = UIImage(systemName: "plus.circle.fill")?.withRenderingMode(.alwaysTemplate)
-    $0.setImage(plusIcon, for: .normal)
-    $0.tintColor = .CWhite
-    $0.imageView?.contentMode = .scaleAspectFit
-    
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
+    //    let plusIcon = UIImage(systemName: "plus.circle.fill")?.withRenderingMode(.alwaysTemplate)
+    //    $0.setImage(plusIcon, for: .normal)
+    //    $0.tintColor = .CWhite
+    //    $0.imageView?.contentMode = .scaleAspectFit
+    //
+    //    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0)
   }
   
   private let notificationCollectionView: UICollectionView = {
@@ -87,7 +87,7 @@ class BoardViewController: UIViewController {
   
   private let notificationTableView = UITableView().then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.boardTableCell)
-    $0.estimatedRowHeight = 100 // 예상 높이 설정
+    $0.estimatedRowHeight = 300 // 예상 높이 설정
     $0.rowHeight = UITableView.automaticDimension // 자동 높이 계산
   }
   
@@ -467,9 +467,10 @@ class BoardViewController: UIViewController {
       notificationLineView,
       notificationCollectionView,
       notificationLineView1,
-      notificationTableView,
-      writingButton
+      notificationTableView
     ].forEach { view.addSubview($0) }
+    
+    view.addSubview(writingButton)
     
     notificationHeadLabel.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -504,16 +505,15 @@ class BoardViewController: UIViewController {
     
     notificationTableView.snp.makeConstraints {
       $0.top.equalTo(notificationLineView1.snp.bottom).offset(8)
-      $0.leading.trailing.equalToSuperview().inset(10)
-      $0.bottom.equalToSuperview().inset(150)
-      $0.height.greaterThanOrEqualTo(100)
+      $0.leading.equalToSuperview().inset(10)
+      $0.trailing.equalToSuperview().inset(14)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)  // Safe Area에 맞춤
     }
     
     writingButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
       $0.trailing.equalToSuperview().inset(20)
-      $0.height.equalTo(34)
-      $0.width.greaterThanOrEqualTo(100)
+      $0.width.height.equalTo(60)
     }
   }
 }

@@ -18,12 +18,12 @@ class NoticeDetailViewController: UIViewController {
   }
   
   private let dateLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
   }
   
   private let noticeDetailTextView = UITextView().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .CBlack
     $0.isEditable = false
     $0.isScrollEnabled = true

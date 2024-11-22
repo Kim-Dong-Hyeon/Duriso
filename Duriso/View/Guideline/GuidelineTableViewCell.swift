@@ -14,7 +14,7 @@ class GuidelineTableViewCell: UITableViewCell {
   static let guidelineTableId = "GuidelineTableViewCell"
   
   private let tableLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

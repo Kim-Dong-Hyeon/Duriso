@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum NicknameStatus {
+  case available
+  case unavailable
+  case empty
+}
+
 struct User {
   let email: String
   let nickname: String

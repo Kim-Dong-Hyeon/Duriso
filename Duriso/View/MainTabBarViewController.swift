@@ -41,6 +41,12 @@ class MainTabBarViewController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // 선택된 아이템의 색상
+    tabBar.tintColor = UIColor.CBlue  // 예: 파란색
+    
+    // 선택되지 않은 아이템의 색상
+    tabBar.unselectedItemTintColor = UIColor.gray  // 예: 회색
+    
     setupTaps()
     bindViewModel()
     
@@ -72,21 +78,32 @@ class MainTabBarViewController: UITabBarController {
   /// 탭바 아이템 설정
   private func setupTaps() {
     let mapIcon = resizeImage(image: UIImage(named: "MapIcon")!, targetSize: CGSize(width: 24, height: 24))
+    let selectedMapIcon = resizeImage(image: UIImage(named: "MapIconSelected")!, targetSize: CGSize(width: 24, height: 24))
+    
     let communityIcon = resizeImage(image: UIImage(named: "communityIcon")!, targetSize: CGSize(width: 24, height: 24))
+    let selectedCommunityIcon = resizeImage(image: UIImage(named: "communityIconSelected")!, targetSize: CGSize(width: 24, height: 24))
+    
     let docsIcon = resizeImage(image: UIImage(named: "DocsIcon")!, targetSize: CGSize(width: 20, height: 24))
+    let selectedDocsIcon = resizeImage(image: UIImage(named: "DocsIconSelected")!, targetSize: CGSize(width: 20, height: 24))
+    
     let userIcon = resizeImage(image: UIImage(named: "UserIcon")!, targetSize: CGSize(width: 24, height: 24))
+    let selectedUserIcon = resizeImage(image: UIImage(named: "UserIconSelected")!, targetSize: CGSize(width: 24, height: 24))
     
     let mapVC = UINavigationController(rootViewController: OnlineViewController())
-    mapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), tag: 0)
+    mapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), selectedImage: selectedMapIcon.withRenderingMode(.alwaysOriginal))
+    mapVC.tabBarItem.tag = 0
     
     let boardVC = UINavigationController(rootViewController: BoardViewController())
-    boardVC.tabBarItem = UITabBarItem(title: "게시판", image: communityIcon.withRenderingMode(.alwaysOriginal), tag: 1)
+    boardVC.tabBarItem = UITabBarItem(title: "게시판", image: communityIcon.withRenderingMode(.alwaysOriginal), selectedImage: selectedCommunityIcon.withRenderingMode(.alwaysOriginal))
+    boardVC.tabBarItem.tag = 1
     
     let guidelineVC = UINavigationController(rootViewController: GuidelineViewController())
-    guidelineVC.tabBarItem = UITabBarItem(title: "행동요령", image: docsIcon.withRenderingMode(.alwaysOriginal), tag: 2)
+    guidelineVC.tabBarItem = UITabBarItem(title: "행동요령", image: docsIcon.withRenderingMode(.alwaysOriginal), selectedImage: selectedDocsIcon.withRenderingMode(.alwaysOriginal))
+    guidelineVC.tabBarItem.tag = 2
     
     let mypageVC = UINavigationController(rootViewController: MyPageViewController())
-    mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: userIcon.withRenderingMode(.alwaysOriginal), tag: 3)
+    mypageVC.tabBarItem = UITabBarItem(title: "마이페이지", image: userIcon.withRenderingMode(.alwaysOriginal), selectedImage: selectedUserIcon.withRenderingMode(.alwaysOriginal))
+    mypageVC.tabBarItem.tag = 3
     
     let offlineMapVC = UINavigationController(rootViewController: OfflineViewController())
     offlineMapVC.tabBarItem = UITabBarItem(title: "지도", image: mapIcon.withRenderingMode(.alwaysOriginal), tag: 0)
@@ -100,8 +117,8 @@ class MainTabBarViewController: UITabBarController {
     let offlineMapDevVC = UINavigationController(rootViewController: OfflineViewController())
     offlineMapDevVC.tabBarItem = UITabBarItem(title: "지도", image: UIImage(systemName: "map.fill"), tag: 4)
     
-//    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
-//    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
+    //    onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC, offlineMapDevVC]
+    //    offlineViewControllers = [offlineMapVC, offlineboardVC, guidelineVC, offlinemypageVC]
     
     onlineViewControllers = [mapVC, boardVC, guidelineVC, mypageVC]
     offlineViewControllers = [offlineMapVC, boardVC, guidelineVC, mypageVC]

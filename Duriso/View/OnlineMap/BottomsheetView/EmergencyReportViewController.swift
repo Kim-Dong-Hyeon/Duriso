@@ -42,40 +42,41 @@ class EmergencyReportViewController: UIViewController {
   
   private let categoryImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
-    //    $0.tintColor = .CBlue
+    //    $0.contentMode = .left
   }
   
   private let authorLabel = UILabel().then {
     $0.text = "작성자 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head3.font()
+    $0.font = CustomFont.Head4.font()
   }
   
   private let poiViewAddress = UILabel().then {
     $0.text = "작성 위치 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Head4.font()
+    $0.font = CustomFont.Head6.font()
   }
   
   private let postTimeLabel = UILabel().then {
     $0.text = "작성 시간 정보 불러오는 중"
     $0.textColor = .CBlack
     $0.textAlignment = .left
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Body4.font()
   }
   
-  private let cancelButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    $0.tintColor = .CLightBlue
-    $0.contentMode = .scaleAspectFit
-    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
-  }
+  // 닫기 버튼 비활성화
+  //  private let cancelButton = UIButton().then {
+  //    $0.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+  //    $0.tintColor = .CLightBlue
+  //    $0.contentMode = .scaleAspectFit
+  //    $0.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+  //  }
   
   private let postMessageTextView = UITextView().then {
     $0.backgroundColor = UIColor.CLightBlue2
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.text = "제보 내용 불러오는 중"
     $0.textColor = .CBlack
     
@@ -92,6 +93,11 @@ class EmergencyReportViewController: UIViewController {
     setupUI()
     setupConstraints()
     updatePoiData()
+    
+    // 작성자 닉네임 업데이트
+    fetchAuthorNickname { [weak self] nickname in
+      self?.updateAuthorLabel(with: nickname ?? "알 수 없는 사용자")
+    }
   }
   
   // MARK: - UI Setup
@@ -103,7 +109,7 @@ class EmergencyReportViewController: UIViewController {
       authorLabel,
       poiViewAddress,
       postTimeLabel,
-      cancelButton,
+      //      cancelButton,
       postMessageTextView
     ].forEach { view.addSubview($0) }
   }
@@ -111,7 +117,7 @@ class EmergencyReportViewController: UIViewController {
   private func setupConstraints() {
     poiViewTitle.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(32)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     megaphoneLabel.snp.makeConstraints {
@@ -123,19 +129,19 @@ class EmergencyReportViewController: UIViewController {
     categoryImageView.snp.makeConstraints {
       
       $0.centerY.equalTo(poiViewTitle.snp.centerY)
-      $0.leading.equalTo(megaphoneLabel.snp.trailing)
-      $0.width.equalTo(80)
-      $0.height.equalTo(26)// 원하는 크기로 설정
+      $0.leading.equalTo(megaphoneLabel.snp.trailing).offset(4)
+      $0.width.equalTo(70)
+      $0.height.equalTo(20)// 원하는 크기로 설정
     }
     
     authorLabel.snp.makeConstraints {
       $0.top.equalTo(poiViewTitle.snp.bottom).offset(16)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     poiViewAddress.snp.makeConstraints {
       $0.top.equalTo(authorLabel.snp.bottom).offset(8)
-      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+      $0.leading.equalTo(view.safeAreaLayoutGuide).offset(24)
     }
     
     postTimeLabel.snp.makeConstraints {
@@ -143,15 +149,15 @@ class EmergencyReportViewController: UIViewController {
       $0.leading.equalTo(authorLabel.snp.trailing).offset(8)
     }
     
-    cancelButton.snp.makeConstraints {
-      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.width.height.equalTo(32)
-    }
+    //    cancelButton.snp.makeConstraints {
+    //      $0.top.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+    //      $0.width.height.equalTo(32)
+    //    }
     
     postMessageTextView.snp.makeConstraints {
       $0.centerX.equalTo(view.safeAreaLayoutGuide)
       $0.top.equalTo(poiViewAddress.snp.bottom).offset(16)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(24)
       $0.height.equalTo(100)
     }
   }
@@ -163,7 +169,6 @@ class EmergencyReportViewController: UIViewController {
     }
     
     if let category = postCategory {
-      print("카테고리 확인: \(category)")
       updateCategoryImageView(with: category)
     } else {
       categoryImageView.image = UIImage(systemName: "tag")
@@ -192,7 +197,7 @@ class EmergencyReportViewController: UIViewController {
     symbolAttachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14)
     let symbolString = NSAttributedString(attachment: symbolAttachment)
     
-    let textString = NSAttributedString(string: " \(text)")
+    let textString = NSAttributedString(string: "  \(text)")
     
     let finalString = NSMutableAttributedString()
     finalString.append(symbolString)
@@ -210,6 +215,22 @@ class EmergencyReportViewController: UIViewController {
   // SF Symbol과 주소를 함께 표시하는 메서드
   private func updateAddressLabel(with address: String) {
     updateLabelWithSymbol(label: poiViewAddress, symbolName: "map.fill", text: address)
+  }
+  
+  // SF Symbol과 작성자를 함께 표시하는 메서
+  private func updateAuthorLabel(with nickname: String) {
+    let symbolAttachment = NSTextAttachment()
+    symbolAttachment.image = UIImage(systemName: "person.fill") // 사람 모양의 시스템 심볼
+    symbolAttachment.bounds = CGRect(x: 0, y: -2, width: 14, height: 14) // 심볼의 크기 조정
+    
+    let symbolString = NSAttributedString(attachment: symbolAttachment)
+    let textString = NSAttributedString(string: "  \(nickname)")
+    
+    let finalString = NSMutableAttributedString()
+    finalString.append(symbolString)
+    finalString.append(textString)
+    
+    authorLabel.attributedText = finalString
   }
   
   // Firestore에서 작성자의 닉네임을 가져오는 메서드
@@ -281,8 +302,10 @@ class EmergencyReportViewController: UIViewController {
     }
   }
   
+  
+  
   // MARK: - Actions
-  @objc private func didTapCancelButton() {
-    dismiss(animated: true)
-  }
+  //  @objc private func didTapCancelButton() {
+  //    dismiss(animated: true)
+  //  }
 }

@@ -24,7 +24,7 @@ class SignUpViewController: UIViewController {
   
   private let emailLabel = UILabel().then {
     $0.text = "이메일"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
   
   private let nicknameLabel = UILabel().then {
     $0.text = "닉네임"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -54,7 +54,7 @@ class SignUpViewController: UIViewController {
   
   private let passwordLabel = UILabel().then {
     $0.text = "비밀번호"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -70,7 +70,7 @@ class SignUpViewController: UIViewController {
   
   private let checkpasswordLabel = UILabel().then {
     $0.text = "비밀번호 확인"
-    $0.font = CustomFont.Body3.font()
+    $0.font = CustomFont.Head3.font()
     $0.textColor = .CBlack
   }
   
@@ -94,7 +94,7 @@ class SignUpViewController: UIViewController {
   private let saveButton = UIButton().then {
     $0.setTitle("저장", for: .normal)
     $0.backgroundColor = .lightGray
-    $0.titleLabel?.font = CustomFont.Body3.font()
+    $0.titleLabel?.font = CustomFont.Head4.font()
     $0.layer.cornerRadius = 10
     $0.isEnabled = false
   }
@@ -195,7 +195,7 @@ class SignUpViewController: UIViewController {
     }
     
     saveButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
       $0.leading.equalTo(view.safeAreaLayoutGuide).offset(32)
       $0.trailing.equalTo(view.safeAreaLayoutGuide).inset(32)
       $0.height.equalTo(48)
@@ -219,6 +219,7 @@ class SignUpViewController: UIViewController {
       .bind(to: viewModel.checkPasswordText)
       .disposed(by: disposeBag)
     
+    // 약관 동의 체크박스 관련 처리
     viewModel2.items
       .bind(to: legalNoticeTableView.rx.items(
         cellIdentifier: "LegalNoticeCell",
@@ -238,13 +239,15 @@ class SignUpViewController: UIViewController {
       }
       .disposed(by: disposeBag)
     
-    legalNoticeTableView.rx.modelSelected(LegalNotice.self)
+    // 약관 세부 내용 보기
+    legalNoticeTableView.rx.modelSelected(LegalNoticeModel.self)
       .subscribe(onNext: { [weak self] item in
         let detailVC = LegalNoticeDetailViewController(notice: item)
         self?.navigationController?.pushViewController(detailVC, animated: true)
       })
       .disposed(by: disposeBag)
     
+    // 저장 버튼 클릭 처리
     saveButton.rx.tap
       .flatMapLatest { [weak self] _ -> Observable<Result<AuthDataResult, Error>> in
         guard let self = self else { return Observable.empty() }
@@ -254,7 +257,7 @@ class SignUpViewController: UIViewController {
       }
       .subscribe(onNext: { [weak self] result in
         switch result {
-        case .success(_):
+        case .success:
           self?.showSuccessAlert()
         case .failure(let error):
           self?.showErrorAlert(error: error)
@@ -308,3 +311,8 @@ class SignUpViewController: UIViewController {
     }
   }
 }
+
+//@available(iOS 17.0, *)
+//#Preview {
+//  SignUpViewController()
+//}

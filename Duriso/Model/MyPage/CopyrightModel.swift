@@ -5,7 +5,7 @@
 //  Created by 김동현 on 9/20/24.
 //
 
-struct Copyright {
+struct CopyrightModel {
   let title: String
   let content: String
 }

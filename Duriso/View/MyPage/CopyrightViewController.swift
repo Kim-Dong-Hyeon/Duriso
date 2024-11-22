@@ -49,7 +49,7 @@ class CopyrightViewController: UIViewController {
       }
       .disposed(by: disposeBag)
     
-    copyrightTableView.rx.modelSelected(Copyright.self)
+    copyrightTableView.rx.modelSelected(CopyrightModel.self)
       .subscribe(onNext: { [weak self] item in
         let detailVC = CopyrightDetailViewController(copyright: item)
         self?.navigationController?.pushViewController(detailVC, animated: true)

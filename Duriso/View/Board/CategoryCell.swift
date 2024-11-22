@@ -19,7 +19,7 @@ class CategoryCell: UITableViewCell {
   
   // MARK: - UI 컴포넌트
   private let categoryLabel = UILabel().then {
-    $0.font = CustomFont.Body2.font()
+    $0.font = CustomFont.Body3.font()
     $0.textColor = .black
   }
   
